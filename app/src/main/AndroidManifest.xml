@@ -17,6 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MedicalOnlineActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HospitalDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

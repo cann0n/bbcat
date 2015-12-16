@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:background="@color/theme_orange_color"
+        android:layout_height="50dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/theme_margin"
+            android:paddingRight="@dimen/theme_margin"
+            android:src="@drawable/icon_back_w" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@+id/iv_search"
+            android:layout_toRightOf="@+id/iv_back"
+            android:background="@drawable/bg_search_title"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="30dp"
+            android:hint="输入关键词"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:textColorHint="@color/color_hint"
+            android:textSize="14sp"
+            />
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_search"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/theme_padding"
+            android:paddingLeft="@dimen/theme_padding"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_divide" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="热门搜索"
+            android:paddingLeft="@dimen/theme_padding"
+            android:paddingRight="@dimen/theme_padding"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:textColor="#898989"
+            android:textSize="@dimen/textview_normal"/>
+        <com.sdkj.bbcat.widget.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/theme_padding">
+
+            <include layout="@layout/item_top_search_words"/>
+            <include layout="@layout/item_top_search_words"/>
+
+        </com.sdkj.bbcat.widget.FlowLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_divide"/>
+        <!-- 这个要用RecyclerView的话直接打开注释就行-->
+        <!--<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView-->
+            <!--android:id="@+id/ultimate_recycler_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:divider="@android:color/transparent"-->
+            <!--android:dividerHeight="0dp">-->
+            <!-- -->
+        <!--</com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>-->
+        <include layout="@layout/item_search_words"/>
+        <include layout="@layout/item_search_words"/>
+
+    </LinearLayout>
+</LinearLayout>

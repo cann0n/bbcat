@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="theme_orange_color">#ea5413</color>
+    <color name="color_white">@android:color/white</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="color333">#333333</color>
+    <color name="color999">#999999</color>
+    <color name="colorccc">#cccccc</color>
+    <color name="color666">#666666</color>
+
+    <color name="color_divide">#e4e4e4</color>
+    <color name="color_hint">#d0d0d0</color>
+
+
+
+</resources>
