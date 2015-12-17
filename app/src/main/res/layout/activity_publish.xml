@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@color/theme_orange_color"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="@dimen/theme_margin"
+            android:src="@drawable/icon_back_w" />
+
+        <TextView
+            android:id="@+id/tv_publish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/theme_margin"
+            android:background="@drawable/bg_btn_white"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="8dp"
+            android:text="发布"
+            android:textColor="@color/theme_orange_color"
+            android:textSize="@dimen/textview_min" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_divide" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:hint="添加一个标题"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/theme_padding"
+        android:paddingRight="@dimen/theme_padding"
+        android:paddingTop="10dp"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/color_gray"
+        android:textColorHint="@color/color_gray"
+        android:textSize="@dimen/textview_min" />
+
+    <com.sdkj.bbcat.widget.FlowLayout
+        android:id="@+id/fl_pics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/theme_padding">
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_addzhaopian" />
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_addzhaopian" />
+    </com.sdkj.bbcat.widget.FlowLayout>
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="90dp"
+        android:background="@color/transparent"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:hint="输入你想说的内容..."
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/theme_padding"
+        android:paddingRight="@dimen/theme_padding"
+        android:paddingTop="10dp"
+        android:text=""
+        android:textColor="@color/color_gray"
+        android:textColorHint="@color/color_gray"
+        android:textSize="@dimen/textview_min" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <ImageView
+            android:id="@+id/iv_biaoqing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/theme_padding"
+            android:paddingRight="@dimen/theme_padding"
+            android:src="@drawable/icon_biaoqing"/>
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_alignBottom="@+id/iv_biaoqing"
+            android:layout_alignTop="@+id/iv_biaoqing"
+            android:background="@drawable/bg_hot_search_words"
+            android:textSize="9sp"
+            android:textColor="@color/color_gray"
+            android:drawablePadding="5dp"
+            android:text="北京市 海淀区"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginRight="@dimen/theme_margin"
+            android:drawableLeft="@drawable/icon_didian"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divide" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f6f6f6"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_label"
+            android:layout_width="match_parent"
+            android:background="@color/color_white"
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/color_gray"
+                android:textSize="@dimen/textview_min"
+                android:paddingLeft="@dimen/theme_padding"
+                android:paddingRight="@dimen/theme_padding"
+                android:text="选择标签 (必选)"/>
+            <TextView
+                android:id="@+id/tv_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/theme_orange_color"
+                android:textSize="@dimen/textview_min"
+                android:paddingLeft="@dimen/theme_padding"
+                android:paddingRight="@dimen/theme_padding"
+                android:layout_toLeftOf="@+id/iv_next"
+                android:text="孕前检查"/>
+            <ImageView
+                android:id="@+id/iv_next"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingRight="@dimen/theme_margin"
+                android:src="@drawable/icon_arrow_right"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/color_divide" />
+        </RelativeLayout>
+    </LinearLayout>>
+</LinearLayout>
