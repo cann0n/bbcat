@@ -11,7 +11,8 @@
             android:layout_width="85dp"
             android:layout_height="65dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/theme_margin" />
+            android:layout_marginLeft="@dimen/theme_margin"
+            android:src="@drawable/icon_default_image"/>
 
         <TextView
             android:id="@+id/tv_hospital_name"

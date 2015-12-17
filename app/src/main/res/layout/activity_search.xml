@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/theme_margin"
+            android:paddingLeft="10dp"
             android:paddingRight="@dimen/theme_margin"
             android:src="@drawable/icon_back_w" />
 
@@ -46,8 +46,8 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/icon_search"
             android:layout_centerVertical="true"
-            android:paddingRight="@dimen/theme_padding"
-            android:paddingLeft="@dimen/theme_padding"/>
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"/>
         <View
             android:layout_width="fill_parent"
             android:layout_height="1px"

@@ -22,9 +22,10 @@
                 android:visibility="visible">
                 <!-- 图片高度代码自行设置-->
                 <com.android.volley.ui.NetworkImageView
-                    android:id="@id/iv_thumb"
+                    android:id="@+id/iv_thumb"
                     android:layout_width="match_parent"
-                    android:layout_height="135dp" />
+                    android:layout_height="135dp"
+                    android:background="@drawable/icon_hos_bg"/>
 
                 <TextView
                     android:id="@+id/tv_hospital_name"
@@ -34,7 +35,7 @@
                     android:layout_marginBottom="6dp"
                     android:layout_marginLeft="@dimen/theme_margin"
                     android:text="北京协和医院"
-                    android:textColor="@color/color_white"
+                    android:textColor="@color/color333"
                     android:textSize="@dimen/textview_middle" />
                 <!-- 这个控件不是太好用 星星间距不能调 要想调只有把背景里面的星星切图切大点-->
                 <RatingBar
@@ -200,7 +201,8 @@
                             android:id="@+id/iv_avatar1"
                             android:layout_width="75dp"
                             android:layout_height="105dp"
-                            android:layout_gravity="center_horizontal"/>
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/icon_avator"/>
                         <TextView
                             android:id="@+id/tv_doctor_name1"
                             android:layout_width="match_parent"
@@ -252,7 +254,8 @@
                             android:id="@+id/iv_avatar2"
                             android:layout_width="75dp"
                             android:layout_height="105dp"
-                            android:layout_gravity="center_horizontal"/>
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/icon_avator"/>
                         <TextView
                             android:id="@+id/tv_doctor_name2"
                             android:layout_width="match_parent"
@@ -304,7 +307,8 @@
                             android:id="@+id/iv_avatar3"
                             android:layout_width="75dp"
                             android:layout_height="105dp"
-                            android:layout_gravity="center_horizontal"/>
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/icon_avator"/>
                         <TextView
                             android:id="@+id/tv_doctor_name3"
                             android:layout_width="match_parent"

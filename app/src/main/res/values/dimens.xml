@@ -12,4 +12,11 @@
     <dimen name="textview_min">12sp</dimen>
     <dimen name="textview_middle">14sp</dimen>
     <dimen name="app_title_bar_height">45dp</dimen>
+
+    <dimen name="font20">20sp</dimen>
+    <dimen name="font18">18sp</dimen>
+    <dimen name="font16">16sp</dimen>
+    <dimen name="font12">12sp</dimen>
+    <dimen name="font14">14sp</dimen>
+    
 </resources>

@@ -18,9 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/theme_margin"
+            android:paddingLeft="10dp"
             android:paddingRight="@dimen/theme_margin"
-            android:src="@drawable/icon_bracelet" />
+            android:src="@drawable/icon_onlie_msg" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -38,8 +38,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/theme_padding"
-            android:paddingRight="@dimen/theme_padding"
+            android:paddingRight="10dp"
             android:src="@drawable/icon_search" />
 
         <View

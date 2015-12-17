@@ -11,16 +11,13 @@ import com.sdkj.bbcat.R;
  */
 public class BraceletPage extends BaseFragment {
     
-    @ViewInject(R.id.tv_text)
-    private TextView tv_text;
 
     @Override
     protected void setListener() {
-        tv_text.setText("页面三");
     }
 
     @Override
     protected int setLayoutResID() {
-        return R.layout.fragment_page;
+        return R.layout.fragment_bracelet;
     }
 }
