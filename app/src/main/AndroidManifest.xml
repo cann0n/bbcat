@@ -26,6 +26,15 @@
         <activity
             android:name=".activity.HospitalDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DoctorListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CatDortorActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

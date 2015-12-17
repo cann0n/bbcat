@@ -20,6 +20,10 @@ public class MedicalOnlineActivity extends BaseActivity{
     void search(View view){
         skip(SearchActivity.class);
     }
+    @OnClick(R.id.iv_catdoctor)
+    void catdoctor(View view){
+        skip(CatDortorActivity.class);
+    }
     
     @Override
     public int setLayoutResID() {
