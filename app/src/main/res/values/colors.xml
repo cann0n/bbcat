@@ -16,4 +16,10 @@
 
 
 
+    <color name="defaultbg_gray">#FFF0F0F0</color>
+    <color name="defaultbg_white">#FFFFFFFF</color>
+    <color name="default_black">#FF000000</color>
+    <color name="defaultline">#FFEEEEEE</color>
+    <color name="font_red">#ffEA5413</color>
+
 </resources>
