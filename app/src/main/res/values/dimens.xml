@@ -10,6 +10,8 @@
     <dimen name="textview_large">18sp</dimen>
     <dimen name="textview_normal">16sp</dimen>
     <dimen name="textview_min">12sp</dimen>
+    <dimen name="textview_xmin">10sp</dimen>
+    <dimen name="textview_xxmin">9sp</dimen>
     <dimen name="textview_middle">14sp</dimen>
     <dimen name="app_title_bar_height">45dp</dimen>
 

@@ -86,12 +86,12 @@
                 android:background="@color/color_divide" />
         </RelativeLayout>
         <!--到时候写的时候打开-->
-        <!--<android.support.v4.view.ViewPager-->
-            <!--android:id="@+id/vp_label"-->
+        <!--<com.sdkj.bbcat.widget.GridViewPage-->
+            <!--android:id="@+id/viewpage_label"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content">-->
-
-        <!--</android.support.v4.view.ViewPager>-->
+            <!-- -->
+        <!--</com.sdkj.bbcat.widget.GridViewPage>-->
 
 
         <!-- 这个自取item 到时候采用哪种方式 自行添加 -->
