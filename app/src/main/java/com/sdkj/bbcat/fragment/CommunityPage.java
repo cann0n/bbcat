@@ -17,6 +17,7 @@ import com.huaxi100.networkapp.utils.AppUtils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.activity.PublishActivity;
 
 import java.util.ArrayList;
 
@@ -155,8 +156,13 @@ public class CommunityPage extends BaseFragment {
         if (popupWindowClub.isShowing()) {
             popupWindowClub.dismiss();
         } else {
-            popupWindowClub.showAsDropDown(iv_edit,-220,20);
+            popupWindowClub.showAsDropDown(iv_edit, -220, 20);
         }
+    }
+    
+    @OnClick(R.id.iv_left)
+    void publish(View ivew){
+            activity.skip(PublishActivity.class);    
     }
 
     @Override

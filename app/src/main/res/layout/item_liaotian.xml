@@ -17,7 +17,8 @@
             android:id="@+id/iv_left_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_avator"/>
 
         <TextView
             android:id="@+id/tv_left_name"
@@ -59,7 +60,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_avator"/>
 
         <TextView
             android:id="@+id/tv_right_name"

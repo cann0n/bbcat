@@ -10,7 +10,7 @@ import com.sdkj.bbcat.widget.TitleBar;
 public class HospitalDetailActivity extends BaseActivity{
     @Override
     public void initBusiness() {
-        new TitleBar(activity).setTitle("Ò½ÔºÏêÇé").back();
+        new TitleBar(activity).setTitle("åŒ»é™¢è¯¦æƒ…").back();
     }
 
 
