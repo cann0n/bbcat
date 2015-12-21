@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_huihua"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/color333"
+            android:textSize="@dimen/textview_min"
+            android:layout_marginRight="@dimen/theme_margin"
+            android:layout_marginLeft="@dimen/theme_margin"
+            android:text="会话"/>
+        <TextView
+            android:id="@+id/tv_qunzu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/theme_orange_color"
+            android:textSize="@dimen/textview_min"
+            android:layout_marginRight="@dimen/theme_margin"
+            android:layout_marginLeft="@dimen/theme_margin"
+            android:text="群组"
+            android:background="@drawable/bg_bottom_line_orange"/>
+        <TextView
+            android:id="@+id/tv_liaotianshi"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/color333"
+            android:textSize="@dimen/textview_min"
+            android:layout_marginRight="@dimen/theme_margin"
+            android:layout_marginLeft="@dimen/theme_margin"
+            android:text="聊天室"/>
+        <TextView
+            android:id="@+id/tv_heimingdan"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/color333"
+            android:textSize="@dimen/textview_min"
+            android:layout_marginRight="@dimen/theme_margin"
+            android:layout_marginLeft="@dimen/theme_margin"
+            android:text="黑名单"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divide" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#f0f0f0" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divide" />
+    <!-- 这个要用RecyclerView的话直接打开注释就行-->
+    <!--<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView-->
+    <!--android:id="@+id/ultimate_recycler_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:divider="@android:color/transparent"-->
+    <!--android:dividerHeight="0dp">-->
+    <!-- -->
+    <!--</com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>-->
+
+    <!-- 群组item 会话item 聊天室item 黑名单item 全都集合在这里面了 自行设置visiable-->
+    <include layout="@layout/item_qunzu"/>
+    <include layout="@layout/item_qunzu"/>
 </LinearLayout>
