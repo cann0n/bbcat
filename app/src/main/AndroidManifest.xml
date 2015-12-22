@@ -50,6 +50,24 @@
         <activity
             android:name=".activity.DetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.QunzuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LiaotianshiActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddFriendsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AroundActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CreateQunzuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DelQunzuActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

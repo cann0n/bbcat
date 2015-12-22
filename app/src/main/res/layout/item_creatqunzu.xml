@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <LinearLayout
+        android:id="@+id/ll_index"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_weight="0"
+            android:layout_height="1dp"
+            android:background="@color/color_divide"/>
+        <TextView
+            android:id="@+id/tv_index"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="@color/color333"
+            android:textSize="@dimen/textview_min"
+            android:background="#f6f6f6"
+            android:paddingLeft="10dp"
+            android:text="A"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="0"
+            android:background="@color/color_divide"/>
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <!-- 自行换为圆形imageview-->
+       <ImageView
+           android:id="@+id/iv_avatar"
+           android:layout_width="55dp"
+           android:layout_height="55dp"
+           android:layout_centerVertical="true"
+           android:layout_marginLeft="10dp"
+           android:layout_marginRight="10dp"
+           android:src="@drawable/icon_default_image"
+           />
+        <!-- 已加入background @drawable/bg_btn_yiguanzhu-->
+        <ImageView
+            android:id="@+id/iv_select"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/icon_xuan1"
+            />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle"
+            android:textColor="@color/color333"
+            android:layout_marginRight="10dp"
+            android:text="梦想爱情"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:layout_centerVertical="true"
+            android:visibility="visible"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_divide"/>
+    </RelativeLayout>
+</LinearLayout>

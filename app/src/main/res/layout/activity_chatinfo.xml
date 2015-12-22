@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f6f6f6"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar" />
+
+    <com.sdkj.bbcat.widget.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:paddingLeft="@dimen/theme_padding"
+        android:paddingTop="15dp">
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_default_image" />
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_default_image" />
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_default_image" />
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_chat_add" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_chat_del" />
+    </com.sdkj.bbcat.widget.FlowLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divide" />
+
+    <TextView
+        android:id="@+id/tv_all"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/theme_padding"
+        android:text="全部成员(3)"
+        android:textColor="@color/color333"
+        android:textSize="@dimen/textview_middle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divide" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_divide" />
+
+    <RelativeLayout
+        android:id="@+id/rl_qunzu_name"
+        android:layout_width="match_parent"
+        android:background="@color/color_white"
+        android:layout_height="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/theme_padding"
+            android:text="群组名称"
+            android:textColor="@color/color333"
+            android:textSize="@dimen/textview_middle" />
+
+        <TextView
+            android:id="@+id/tv_qunzu_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/color_white"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/theme_padding"
+            android:paddingRight="@dimen/theme_padding"
+            android:singleLine="true"
+            android:text="明天更好"
+            android:textColor="@color/color_gray"
+            android:textSize="@dimen/textview_middle" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divide" />
+</LinearLayout>
