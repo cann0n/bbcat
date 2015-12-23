@@ -76,7 +76,6 @@
                             android:textColor="@color/color_green"
                             android:textSize="@dimen/textview_xxmin"
                             android:text="关注"
-                            android:layout_marginRight="@dimen/theme_margin"
                             />
                     </RelativeLayout>
                     <ImageView
