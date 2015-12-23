@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
+import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.widget.TitleBar;
 
@@ -49,7 +50,7 @@ public class LoginActivity extends BaseActivity
         {
             public void onClick(View v)
             {
-                toast("点击注册按钮");
+                skip(MainActivity.class);
             }
         });
     }

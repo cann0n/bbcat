@@ -68,17 +68,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/color_divide" />
-    <!-- 这个要用RecyclerView的话直接打开注释就行-->
-    <!--<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView-->
-    <!--android:id="@+id/ultimate_recycler_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:divider="@android:color/transparent"-->
-    <!--android:dividerHeight="0dp">-->
-    <!-- -->
-    <!--</com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>-->
-
-    <!-- 群组item 会话item 聊天室item 黑名单item 全都集合在这里面了 自行设置visiable-->
-    <include layout="@layout/item_qunzu"/>
-    <include layout="@layout/item_qunzu"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
 </LinearLayout>
