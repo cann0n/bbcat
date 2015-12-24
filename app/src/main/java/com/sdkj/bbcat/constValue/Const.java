@@ -13,7 +13,11 @@ public class Const
     public static final String SPNAME_ALREADYLOGIN = "alreadylogin";
 
     //网络请求信息配置
-    public static final String Schema = "http://121.42.142.233:8080/mockjs/1";
+    public static final String Schema = "http://120.55.185.75:8080/bubumao";
 
     public static final String GetVerifyCode = Schema + "/app/sms/sendVerifyCode";
+
+    public static final String PostVerifyCode = Schema + "/app/user/registerFirstStep";
+
+    public static final String PostVerifyCodeEnd = Schema + "/app/user/registerSecondStep";
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffF8F8F8">
+
+        <ImageView
+            android:id="@+id/registerdialog_img"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/registercomplete_icon"/>
+
+        <TextView
+            android:id="@+id/registerdialog_tv"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/registerdialog_img"
+            android:paddingBottom="20dp"
+            android:gravity="center"
+            android:text="注册成功"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

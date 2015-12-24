@@ -7,10 +7,19 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.huaxi100.networkapp.activity.BaseActivity;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.bean.GetVerifyCodeBean;
+import com.sdkj.bbcat.bean.baseBean;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.widget.TitleBar;
+
+import org.json.JSONObject;
 
 /**
  * Created by Mr.Yuan on 2015/12/24 0024.
@@ -21,6 +30,8 @@ public class RegisterInputVerifyCodeActivity extends BaseActivity
     private EditText verifyCodeEt;
     @ViewInject(R.id.registerinputverifycode_btn)
     private Button   verifyCodeBtn;
+    private GetVerifyCodeBean data;
+    private String phoneNum;
 
     @Override
     public int setLayoutResID()
@@ -32,6 +43,8 @@ public class RegisterInputVerifyCodeActivity extends BaseActivity
     public void initBusiness()
     {
         new TitleBar(activity).setTitle("注册").back();
+        data = (GetVerifyCodeBean)getVo("0");
+        phoneNum = (String)getVo("1");
         verifyCodeEt.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -66,7 +79,33 @@ public class RegisterInputVerifyCodeActivity extends BaseActivity
         {
             public void onClick(View v)
             {
-                skip(RegisterInputScreteActivity.class);
+                PostParams params = new PostParams();
+                params.put("username",phoneNum);
+                params.put("verifyCode",verifyCodeEt.getText().toString());
+                params.put("sessionId", data.getSessionId());
+
+                HttpUtils.postJSONObject(RegisterInputVerifyCodeActivity.this,Const.PostVerifyCode,params, new RespJSONObjectListener(RegisterInputVerifyCodeActivity.this)
+                {
+                    @Override
+                    public void getResp(JSONObject jsonObject)
+                    {
+                        baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
+                        if (bean.getReturnCode().equals("SUCCESS"))
+                        {
+                            skip(RegisterInputScreteActivity.class,phoneNum);
+                        }
+                        else
+                        {
+                            toast("服务器返回内容错误");
+                        }
+                    }
+
+                    @Override
+                    public void doFailed()
+                    {
+                        toast("链接服务器失败");
+                    }
+                });
             }
         });
     }

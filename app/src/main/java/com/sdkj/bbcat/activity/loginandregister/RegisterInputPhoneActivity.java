@@ -8,10 +8,20 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.huaxi100.networkapp.activity.BaseActivity;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.bean.GetVerifyCodeBean;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.widget.TitleBar;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Mr.Yuan on 2015/12/23 0023.
@@ -24,6 +34,7 @@ public class RegisterInputPhoneActivity extends BaseActivity
     private Button loginBtn;
     @ViewInject(R.id.registerinputphone_cb)
     private CheckBox agreeCb;
+    private GetVerifyCodeBean data;
 
     @Override
     public int setLayoutResID()
@@ -71,8 +82,34 @@ public class RegisterInputPhoneActivity extends BaseActivity
             {
                 if(agreeCb.isChecked())
                 {
-                    /**获取验证码的请求*/
-                    skip(RegisterInputVerifyCodeActivity.class);
+                    HashMap<String,String> map = new HashMap<String, String>();
+                    map.put("from","register");
+                    map.put("type","sms");
+                    map.put("phone", phoneEt.getText().toString().trim());
+
+                    HttpUtils.getJSONObject(RegisterInputPhoneActivity.this, getCompleteUrl(Const.GetVerifyCode, map), new RespJSONObjectListener(RegisterInputPhoneActivity.this)
+                    {
+                        @Override
+                        public void getResp(JSONObject jsonObject)
+                        {
+                            GetVerifyCodeBean bean = GsonTools.getVo(jsonObject.toString(), GetVerifyCodeBean.class);
+                            data = bean;
+                            if (data.getReturnCode().equals("SUCCESS"))
+                            {
+                                skip(RegisterInputVerifyCodeActivity.class,data,phoneEt.getText().toString().trim());
+                            }
+                            else
+                            {
+                                toast("服务器返回内容错误");
+                            }
+                        }
+
+                        @Override
+                        public void doFailed()
+                        {
+                            toast("链接服务器失败");
+                        }
+                    });
                 }
                 else
                 {
@@ -80,5 +117,20 @@ public class RegisterInputPhoneActivity extends BaseActivity
                 }
             }
         });
+    }
+
+    private final static String getCompleteUrl(String url, HashMap<String, String> params)
+    {
+        if (null != params && params.size() != 0)
+        {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(url + "?");
+            for (Map.Entry<String, String> entry : params.entrySet())
+            {
+                stringBuffer.append(entry.getKey() + "=" + entry.getValue() + "&");
+            }
+            return stringBuffer.substring(0, stringBuffer.length() - 1);
+        } else
+            return url;
     }
 }
