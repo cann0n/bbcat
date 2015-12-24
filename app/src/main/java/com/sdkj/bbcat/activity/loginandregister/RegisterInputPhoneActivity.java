@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
@@ -84,9 +85,10 @@ public class RegisterInputPhoneActivity extends BaseActivity
                 {
                     HashMap<String,String> map = new HashMap<String, String>();
                     map.put("from","register");
-                    map.put("type","sms");
+                    map.put("type", "sms");
                     map.put("phone", phoneEt.getText().toString().trim());
 
+                    
                     HttpUtils.getJSONObject(RegisterInputPhoneActivity.this, getCompleteUrl(Const.GetVerifyCode, map), new RespJSONObjectListener(RegisterInputPhoneActivity.this)
                     {
                         @Override

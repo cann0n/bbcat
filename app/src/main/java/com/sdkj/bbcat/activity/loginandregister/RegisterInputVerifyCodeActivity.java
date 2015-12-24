@@ -81,32 +81,77 @@ public class RegisterInputVerifyCodeActivity extends BaseActivity
             {
                 PostParams params = new PostParams();
                 params.put("username",phoneNum);
-                params.put("verifyCode",verifyCodeEt.getText().toString());
+                params.put("verifyCode", verifyCodeEt.getText().toString());
                 params.put("sessionId", data.getSessionId());
+                params.bindUrl();
+                String url=Const.PostVerifyCode+"?"+params.bindUrl();
 
-                HttpUtils.postJSONObject(RegisterInputVerifyCodeActivity.this,Const.PostVerifyCode,params, new RespJSONObjectListener(RegisterInputVerifyCodeActivity.this)
-                {
+//
+                HttpUtils.getJSONObject(activity, url, new RespJSONObjectListener(activity) {
                     @Override
-                    public void getResp(JSONObject jsonObject)
-                    {
+                    public void getResp(JSONObject jsonObject) {
                         baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
-                        if (bean.getReturnCode().equals("SUCCESS"))
-                        {
-                            skip(RegisterInputScreteActivity.class,phoneNum);
-                        }
-                        else
-                        {
-                            toast("服务器返回内容错误");
+                        if (bean.getReturnCode().equals("SUCCESS")) {
+                            skip(RegisterInputScreteActivity.class, phoneNum);
+                        } else {
+                            toast(bean.getMessage());
                         }
                     }
 
                     @Override
-                    public void doFailed()
-                    {
+                    public void doFailed() {
                         toast("链接服务器失败");
                     }
                 });
+//
+//                Test req = new Test(activity, params, Const.PostVerifyCode, new RespJSONObjectListener(activity)
+//                {
+//                    @Override
+//                    public void getResp(JSONObject jsonObject)
+//                    {
+//                        baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
+//                        if (bean.getReturnCode().equals("SUCCESS"))
+//                        {
+//                            skip(RegisterInputScreteActivity.class,phoneNum);
+//                        }
+//                        else
+//                        {
+//                            toast("服务器返回内容错误");
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void doFailed()
+//                    {
+//                        toast("链接服务器失败");
+//                    }
+//                });
+//                RequestQueue queue = SingleRequestQueue.getRequestQueue(activity);
+//                queue.add(req);
+//                HttpUtils.postJSONObject(activity,Const.PostVerifyCode,params, new RespJSONObjectListener(activity)
+//                {
+//                    @Override
+//                    public void getResp(JSONObject jsonObject)
+//                    {
+//                        baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
+//                        if (bean.getReturnCode().equals("SUCCESS"))
+//                        {
+//                            skip(RegisterInputScreteActivity.class,phoneNum);
+//                        }
+//                        else
+//                        {
+//                            toast("服务器返回内容错误");
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void doFailed()
+//                    {
+//                        toast("链接服务器失败");
+//                    }
+//                });
             }
         });
     }
+    
 }
