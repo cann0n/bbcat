@@ -14,16 +14,16 @@ import com.sdkj.bbcat.widget.TitleBar;
 /**
  * Created by Mr.Yuan on 2015/12/18 0018.
  */
-public class LoginActivity extends BaseActivity
+public class LoginActivity extends BaseActivity implements View.OnClickListener
 {
     @ViewInject(R.id.login_aacount)
     private EditText mAccountEt;
     @ViewInject(R.id.login_password)
     private EditText mPasswordEt;
-    @ViewInject(R.id.login_verification)
+   /* @ViewInject(R.id.login_verification)
     private EditText mVerificationEt;
     @ViewInject(R.id.login_verificationbtn)
-    private Button mVerificationBtn;
+    private Button mVerificationBtn;*/
     @ViewInject(R.id.login_btn)
     private Button mLoginBtn;
     @ViewInject(R.id.login_forgetpassword)
@@ -49,8 +49,41 @@ public class LoginActivity extends BaseActivity
         {
             public void onClick(View v)
             {
-                toast("点击注册按钮");
+               skip(RegisterInputPhoneActivity.class);
             }
         });
+
+        mLoginBtn.setOnClickListener(this);
+        mFindPasswordsTv.setOnClickListener(this);
+        mWeiXinBtn.setOnClickListener(this);
+        mQQBtn.setOnClickListener(this);
+        mWeiBoBtn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        if (v == mLoginBtn)
+        {
+            /*skip(MainActivity.class);*/
+        }
+        else if(v == mFindPasswordsTv)
+        {
+            skip(FindScreteFirstStepActivity.class);
+        }
+        else if(v == mWeiXinBtn)
+        {
+            toast("点击微信登陆");
+        }
+        else if(v == mQQBtn)
+        {
+            toast("点击QQ登陆");
+        }
+        else if(v == mWeiBoBtn)
+        {
+            toast("点击微博登陆");
+        }
     }
 }
+
+

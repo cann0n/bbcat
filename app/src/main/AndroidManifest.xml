@@ -47,7 +47,18 @@
         <activity
             android:name=".activity.loginandregister.LoginActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.loginandregister.RegisterInputPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.RegisterInputVerifyCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.FindScreteFirstStepActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.RegisterInputScreteActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

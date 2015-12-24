@@ -11,4 +11,9 @@ public class Const
     public static final String SPNAME_FIRSTINSTALL = "firstinstall";
 
     public static final String SPNAME_ALREADYLOGIN = "alreadylogin";
+
+    //网络请求信息配置
+    public static final String Schema = "http://121.42.142.233:8080/mockjs/1";
+
+    public static final String GetVerifyCode = Schema + "/app/sms/sendVerifyCode";
 }
