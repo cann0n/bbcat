@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
+import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.widget.TitleBar;
 
@@ -65,7 +66,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     {
         if (v == mLoginBtn)
         {
-            /*skip(MainActivity.class);*/
+            skip(MainActivity.class);
         }
         else if(v == mFindPasswordsTv)
         {

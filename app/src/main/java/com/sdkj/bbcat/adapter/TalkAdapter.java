@@ -1,6 +1,7 @@
 package com.sdkj.bbcat.adapter;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.adapter.ListViewCommonAdapter;
@@ -22,6 +23,6 @@ public class TalkAdapter extends ListViewCommonAdapter<String> {
     }
     
     public static class ViewHolder{
-        
+        TextView tv_num;
     }
 }
