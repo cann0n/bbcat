@@ -22,6 +22,11 @@ public class Const
     public static final String DOMAIN = "http://120.26.212.241/api/index/";
 
     /**
+     * 图片基地址
+     */
+    public static final String IMAGE_DOMAIN = "http://120.26.212.241/";
+
+    /**
      * 文档地址
      */
     public static final String WIKI = "http://120.26.212.241:81/doku.php?id=wiki:oss";
@@ -42,7 +47,7 @@ public class Const
     /**
      * 详情页
      */
-    public static final String NEWS_DETAIL=DOMAIN+"api/index/detail";
-    
+    public static final String NEWS_DETAIL=DOMAIN+"/detail";
+   
     
 }

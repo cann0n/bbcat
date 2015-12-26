@@ -1,9 +1,9 @@
-package com.sdkj.bbcat.activity;
+package com.sdkj.bbcat.activity.news;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.TextView;
 
-import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -13,10 +13,12 @@ import com.huaxi100.networkapp.widget.CustomRecyclerView;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.CatDortorActivity;
+import com.sdkj.bbcat.activity.SearchActivity;
 import com.sdkj.bbcat.adapter.HospitalAdapter;
+import com.sdkj.bbcat.adapter.NewsAdapter;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
@@ -29,23 +31,28 @@ import java.util.List;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
- * 医疗在线
+ * 咨询列表
  */
 
-public class MedicalOnlineActivity extends SimpleActivity {
+public class NewsListActivity extends SimpleActivity {
 
     private int pageNum = 1;
 
     @ViewInject(R.id.hospital_list)
     private CustomRecyclerView hospital_list;
 
-    private HospitalAdapter adapter;
+    private NewsAdapter adapter;
+    
+    @ViewInject(R.id.tv_title)
+    private TextView tv_title;
 
     @Override
     public void initBusiness() {
         
         final String id= (String) getVo("0");
-        adapter = new HospitalAdapter(activity, new ArrayList<NewsVo>());
+        tv_title.setText((String)getVo("1"));
+        
+        adapter = new NewsAdapter(activity, new ArrayList<NewsVo>());
         hospital_list.addFooter(adapter);
         hospital_list.setAdapter(adapter);
         
@@ -105,8 +112,8 @@ public class MedicalOnlineActivity extends SimpleActivity {
             @Override
             public void doFailed() {
                 dismissDialog();
-                toast("查询失败");
                 hospital_list.setRefreshing(false);
+                toast("查询失败");
             }
         });
     }
@@ -118,11 +125,11 @@ public class MedicalOnlineActivity extends SimpleActivity {
 
     @OnClick(R.id.iv_catdoctor)
     void catdoctor(View view) {
-        skip(CatDortorActivity.class);
+        finish();
     }
 
     @Override
     public int setLayoutResID() {
-        return R.layout.activity_medicalonline;
+        return R.layout.activity_news_list;
     }
 }

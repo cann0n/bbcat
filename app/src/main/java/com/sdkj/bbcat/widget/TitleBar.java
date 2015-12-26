@@ -28,7 +28,7 @@ public class TitleBar {
         this.activity = activity;
         iv_back = (ImageView) activity.findViewById(R.id.iv_back);
         iv_right = (ImageView) activity.findViewById(R.id.iv_right);
-        tv_title = (TextView) activity.findViewById(R.id.tv_title);
+        tv_title = (TextView) activity.findViewById(R.id.tv_bar_title);
         tv_right = (TextView) activity.findViewById(R.id.tv_right);
     }
     public TitleBar setTitle(String title) {
