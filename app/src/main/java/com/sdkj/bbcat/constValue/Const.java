@@ -53,10 +53,10 @@ public class Const
      * 分类列表页
      */
     public static final String CATEGORY_LIST=DOMAIN+"/lists";
-    
-    
-   
-    
+
+
+
+
     public static final String FindScretePostPhoneAndVerifyCode = Schema + "/app/user/findPwdFirstStep";
 
     public static final String FindScreteEnd = Schema + "/app/user/findPwdSecondStep";
