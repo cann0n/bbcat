@@ -19,7 +19,14 @@ public class Const
     
 
     //网络请求信息配置
-    public static final String DOMAIN = "http://120.55.185.75:8080/bubumao/";
+    public static final String DOMAIN = "http://120.26.212.241/api/index/";
+
+    /**
+     * 文档地址
+     */
+    public static final String WIKI = "http://120.26.212.241:81/doku.php?id=wiki:oss";
+    
+    
 
     public static final String GetVerifyCode = DOMAIN + "app/sms/sendVerifyCode";
 
@@ -30,7 +37,7 @@ public class Const
     /**
      * 获取首页信息
      */
-    public static final String HOME_PAGE = DOMAIN + "api/index/index";
+    public static final String HOME_PAGE = DOMAIN + "index";
 
     /**
      * 详情页
