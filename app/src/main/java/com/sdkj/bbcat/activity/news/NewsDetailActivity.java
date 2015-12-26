@@ -44,16 +44,12 @@ public class NewsDetailActivity extends SimpleActivity {
 
     @ViewInject(R.id.tv_title)
     private TextView tv_title;
-
-    @ViewInject(R.id.iv_image)
-    private ImageView iv_image;
     
     public static String tempContent = null;
     
     @Override
     public void initBusiness() {
         new TitleBar(activity).back().setTitle("详情");
-        iv_image.setVisibility(View.GONE);
         web_view.getSettings().setJavaScriptEnabled(true);
         web_view.setScrollContainer(true);
         web_view.setWebChromeClient(new WebChromeClient());
@@ -72,7 +68,7 @@ public class NewsDetailActivity extends SimpleActivity {
         tv_come_form.setText(vo.getCategory_name());
         tv_title.setText(vo.getTitle());
         PostParams params = new PostParams();
-        params.put("news_id", "2");
+        params.put("news_id", vo.getId());
         showDialog();
         HttpUtils.postJSONObject(activity, Const.NEWS_DETAIL, SimpleUtils.buildUrl(params), new RespJSONObjectListener(activity) {
             @Override
