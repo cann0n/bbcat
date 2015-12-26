@@ -39,7 +39,7 @@ public class NewsAdapter extends UltimatCommonAdapter<NewsVo, NewsAdapter.ViewHo
             holder.tv_title.setText(newsVo.getTitle());
             holder. tv_come_form.setText(newsVo.getCategory_name());
             holder.tv_count.setText(newsVo.getView());
-            holder. ll_item.setOnClickListener(new View.OnClickListener() {
+            holder. rl_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activity.skip(NewsDetailActivity.class, newsVo);
@@ -55,7 +55,7 @@ public class NewsAdapter extends UltimatCommonAdapter<NewsVo, NewsAdapter.ViewHo
         TextView tv_come_form;
         TextView tv_count;
 
-        RelativeLayout ll_item;
+        RelativeLayout rl_item;
         
         public ViewHolder(View itemView) {
             super(itemView);

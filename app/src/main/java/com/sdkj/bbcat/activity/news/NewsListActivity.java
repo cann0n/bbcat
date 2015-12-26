@@ -81,14 +81,15 @@ public class NewsListActivity extends SimpleActivity {
         final PostParams params = new PostParams();
         params.put("category_id", id);
         params.put("page", pageNum + "");
-        HttpUtils.postJSONObject(activity, Const.HOME_PAGE, params, new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.CATEGORY_LIST, params, new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject jsonObject) {
                 dismissDialog();
                 hospital_list.setRefreshing(false);
                 RespVo<NewsVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
-                    List<NewsVo> data = respVo.getListData(jsonObject, NewsVo.class);
+                    
+                    List<NewsVo> data = GsonTools.getList(jsonObject.optJSONObject("data").optJSONArray("list"), NewsVo.class);
                     if (pageNum == 1) {
                         adapter.removeAll();
                         hospital_list.setCanLoadMore();

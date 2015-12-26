@@ -35,9 +35,13 @@ public class DiaryAdapter extends UltimatCommonAdapter<NewsVo, DiaryAdapter.View
 
             Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getCover())).into(holder.iv_image);
             holder.tv_title.setText(newsVo.getTitle());
-            holder.tv_come_form.setText(Utils.formatTime(newsVo.getCreate_time() + "000", "yyyy-MM-dd"));
+            if(Utils.isEmpty(newsVo.getCreate_time())){
+                holder.tv_come_form.setText(Utils.formatTime(System.currentTimeMillis()+"", "yyyy-MM-dd"));
+            }else {
+                holder.tv_come_form.setText(Utils.formatTime(newsVo.getCreate_time() + "000", "yyyy-MM-dd"));
+            }
             holder.tv_count.setText(newsVo.getView());
-            holder. ll_item.setOnClickListener(new View.OnClickListener() {
+            holder. rl_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activity.skip(NewsDetailActivity.class, newsVo);
@@ -53,7 +57,7 @@ public class DiaryAdapter extends UltimatCommonAdapter<NewsVo, DiaryAdapter.View
         TextView tv_come_form;
         TextView tv_count;
 
-        RelativeLayout ll_item;
+        RelativeLayout rl_item;
         
         public ViewHolder(View itemView) {
             super(itemView);

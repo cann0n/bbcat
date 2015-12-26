@@ -48,6 +48,13 @@ public class Const
      * 详情页
      */
     public static final String NEWS_DETAIL=DOMAIN+"/detail";
+    
+    /**
+     * 分类列表页
+     */
+    public static final String CATEGORY_LIST=DOMAIN+"/lists";
+    
+    
    
     
 }
