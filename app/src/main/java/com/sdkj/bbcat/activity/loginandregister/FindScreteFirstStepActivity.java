@@ -3,12 +3,12 @@ package com.sdkj.bbcat.activity.loginandregister;
 import android.view.View;
 import android.widget.TextView;
 
-import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.widget.TitleBar;
 
-public class FindScreteFirstStepActivity extends BaseActivity implements View.OnClickListener
+public class FindScreteFirstStepActivity extends SimpleActivity implements View.OnClickListener
 {
     @ViewInject(R.id.findscrete_first)
     private TextView verifyFirstTv;

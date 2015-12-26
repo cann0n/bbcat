@@ -6,17 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
+import com.sdkj.bbcat.BbcatApp;
 import com.sdkj.bbcat.R;
-import com.sdkj.bbcat.bean.baseBean;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.bean.RegisterBean;
+import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.widget.TitleBar;
 
@@ -25,7 +27,7 @@ import org.json.JSONObject;
 /**
  * Created by Mr.Yuan on 2015/12/24 0024.
  */
-public class RegisterInputScreteActivity extends BaseActivity
+public class RegisterInputScreteActivity extends SimpleActivity
 {
     @ViewInject(R.id.registerinputscrete_etone)
     private EditText screteEtOne;
@@ -61,32 +63,43 @@ public class RegisterInputScreteActivity extends BaseActivity
               {
                   if(screteEtOne.getText().toString().trim().equals(screteEtTwo.getText().toString().trim()))
                   {
-                      PostParams params = new PostParams();
-                      params.put("confirmPwd", screteEtTwo.getText().toString().trim());
-                      params.put("newPwd", screteEtOne.getText().toString().trim());
-                      params.put("userName", phoneNum);
-
-                      HttpUtils.getJSONObject(RegisterInputScreteActivity.this, Const.PostVerifyCodeEnd +"?"+ params.bindUrl(),new RespJSONObjectListener(RegisterInputScreteActivity.this)
+                      if(screteEtOne.getText().toString().trim().length()>=6 && screteEtOne.getText().toString().trim().length()<=11)
                       {
-                          @Override
-                          public void getResp(JSONObject jsonObject)
-                          {
-                              baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
-                              if (bean.getReturnCode().equals("SUCCESS"))
-                              {
-                                  showCompleteDialog();
-                              } else
-                              {
-                                  toast("服务器返回内容错误");
-                              }
-                          }
+                          PostParams params = new PostParams();
+                          params.put("mobile",(String)getVo("0"));
+                          params.put("vid",(String)getVo("1"));
+                          params.put("password", screteEtOne.getText().toString().trim());
+                          params.put("verifyCode", "123456");
 
-                          @Override
-                          public void doFailed()
+                          HttpUtils.postJSONObject(RegisterInputScreteActivity.this, Const.Register, params, new RespJSONObjectListener(RegisterInputScreteActivity.this)
                           {
-                              toast("链接服务器失败");
-                          }
-                      });
+                              @Override
+                              public void getResp(JSONObject jsonObject)
+                              {
+                                  dismissDialog();
+                                  RespVo<RegisterBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                                  if (respVo.isSuccess())
+                                  {
+                                      showCompleteDialog();
+                                  }
+                                  else
+                                  {
+                                      toast(respVo.getMessage());
+                                  }
+                              }
+
+                              @Override
+                              public void doFailed()
+                              {
+                                  dismissDialog();
+                                  toast("链接服务器失败");
+                              }
+                          });
+                      }
+                      else
+                      {
+                          toast("请输入6-11位字母数字符号组合");
+                      }
                   }
                   else
                   {
@@ -109,8 +122,8 @@ public class RegisterInputScreteActivity extends BaseActivity
 
         View view = LayoutInflater.from(this).inflate(R.layout.inflater_registerdialog,null);
         alertDialog.setContentView(view);
-        ImageView imageView = (ImageView)view.findViewById(R.id.registerdialog_img);
-        imageView.setOnClickListener(new View.OnClickListener()
+        TextView skipTv = (TextView)view.findViewById(R.id.registerdialog_skip);
+        skipTv.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
@@ -118,6 +131,20 @@ public class RegisterInputScreteActivity extends BaseActivity
                 Intent intent = new Intent(RegisterInputScreteActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+            }
+        });
+
+        TextView goOnTv = (TextView)view.findViewById(R.id.registerdialog_goon);
+        goOnTv.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                alertDialog.dismiss();
+                Intent intent = new Intent(RegisterInputScreteActivity.this, FillInfosFirstActivity.class);
+                startActivity(intent);
+                ((BbcatApp)getApplication()).finishAct("RegisterInputPhoneActivity");
+                ((BbcatApp)getApplication()).finishAct("RegisterInputVerifyCodeActivity");
+                finish();
             }
         });
     }

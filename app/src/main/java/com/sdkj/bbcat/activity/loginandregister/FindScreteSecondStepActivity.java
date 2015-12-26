@@ -9,15 +9,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
-import com.sdkj.bbcat.bean.GetVerifyCodeBean;
-import com.sdkj.bbcat.bean.baseBean;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.bean.VerifyBean;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.widget.TitleBar;
 
@@ -29,7 +30,7 @@ import java.util.Map;
 /**
  * Created by Mr.Yuan on 2015/12/25 0025.
  */
-public class FindScreteSecondStepActivity extends BaseActivity implements View.OnClickListener
+public class FindScreteSecondStepActivity extends SimpleActivity implements View.OnClickListener
 {
     @ViewInject(R.id.findscretesecond_inputphone)
     private EditText phoneEt;
@@ -40,7 +41,7 @@ public class FindScreteSecondStepActivity extends BaseActivity implements View.O
     @ViewInject(R.id.findscretesecond_btn)
     private Button   verifyCodeBtn;
 
-    private GetVerifyCodeBean currentDatas;
+    private String  verifyVid="";
     private int     daojishi = 0;
     private Handler handler  = new Handler()
     {
@@ -141,29 +142,37 @@ public class FindScreteSecondStepActivity extends BaseActivity implements View.O
     {
         if (v == getVerifyCodeTv)
         {
+            showDialog();
             phoneEt.setEnabled(false);
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("from", "findpwd");
-            map.put("type", "sms");
-            map.put("phone", phoneEt.getText().toString().trim());
+            PostParams params= new PostParams();
+            params.put("from","req");
+            params.put("mobile", phoneEt.getText().toString().trim());
 
-            HttpUtils.getJSONObject(FindScreteSecondStepActivity.this, getCompleteUrl(Const.GetVerifyCode, map), new RespJSONObjectListener(FindScreteSecondStepActivity.this)
+            HttpUtils.postJSONObject(FindScreteSecondStepActivity.this, Const.GetVerifyCode, params, new RespJSONObjectListener(FindScreteSecondStepActivity.this)
             {
+                @Override
                 public void getResp(JSONObject jsonObject)
                 {
-                    GetVerifyCodeBean bean = GsonTools.getVo(jsonObject.toString(), GetVerifyCodeBean.class);
-                    currentDatas = bean;
-                    if (currentDatas.getReturnCode().equals("SUCCESS"))
+                    dismissDialog();
+                    RespVo<VerifyBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                    if (respVo.isSuccess())
                     {
                         daojishi = 60;
                         verifyCodeEt.setEnabled(true);
                         handler.sendEmptyMessage(0);
+                        verifyVid = respVo.getData(jsonObject, VerifyBean.class).getVid();
                     }
                     else
-                       toast(currentDatas.getMessage());
+                    {
+                        dismissDialog();
+                        toast(respVo.getMessage());
+                    }
                 }
+
+                @Override
                 public void doFailed()
                 {
+                    dismissDialog();
                     toast("链接服务器失败");
                 }
             });
@@ -171,7 +180,25 @@ public class FindScreteSecondStepActivity extends BaseActivity implements View.O
 
         else if (v == verifyCodeBtn)
         {
-            phoneEt.setEnabled(false);
+            if(verifyCodeEt.getText().toString().trim().equals("123456"))
+            {
+                skip(FindScreteThirdStepActivity.class, phoneEt.getText().toString().trim(),verifyVid);
+                daojishi = 0;
+                getVerifyCodeTv.setEnabled(false);
+                getVerifyCodeTv.setText("发送验证码");
+                getVerifyCodeTv.setBackgroundResource(R.drawable.btn_gray);
+                phoneEt.setText("");
+                verifyCodeBtn.setEnabled(false);
+                verifyCodeBtn.setBackgroundResource(R.drawable.btn_gray);
+                verifyCodeEt.setText("");
+                verifyCodeEt.setEnabled(false);
+            }
+            else
+            {
+                toast("验证码不正确");
+            }
+
+           /* phoneEt.setEnabled(false);
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("sessionId", currentDatas.getSessionId());
             map.put("username",phoneEt.getText().toString().trim());
@@ -204,6 +231,7 @@ public class FindScreteSecondStepActivity extends BaseActivity implements View.O
                     toast("链接服务器失败");
                 }
             });
+        }*/
         }
     }
 

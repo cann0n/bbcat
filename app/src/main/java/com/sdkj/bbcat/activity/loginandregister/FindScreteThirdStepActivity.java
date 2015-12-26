@@ -2,13 +2,10 @@ package com.sdkj.bbcat.activity.loginandregister;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -16,7 +13,8 @@ import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
-import com.sdkj.bbcat.bean.baseBean;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.widget.TitleBar;
 
@@ -25,7 +23,7 @@ import org.json.JSONObject;
 /**
  * Created by Mr.Yuan on 2015/12/25 0025.
  */
-public class FindScreteThirdStepActivity extends BaseActivity
+public class FindScreteThirdStepActivity extends SimpleActivity
 {
     @ViewInject(R.id.findscretethird_scone)
     private EditText screteOne;
@@ -33,8 +31,6 @@ public class FindScreteThirdStepActivity extends BaseActivity
     private EditText screteTwo;
     @ViewInject(R.id.findscretethird_btn)
     private Button   screteBtn;
-    private String phoneNum;
-
     private AlertDialog alertDialog;
 
     @Override
@@ -49,7 +45,6 @@ public class FindScreteThirdStepActivity extends BaseActivity
         alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setCanceledOnTouchOutside(false);
         new TitleBar(activity).setTitle("找回密码").back();
-        phoneNum = (String) getVo("0");
 
         screteBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -59,32 +54,46 @@ public class FindScreteThirdStepActivity extends BaseActivity
                 {
                     if (screteOne.getText().toString().trim().equals(screteTwo.getText().toString().trim()))
                     {
-                        PostParams params = new PostParams();
-                        params.put("confirmPwd", screteTwo.getText().toString().trim());
-                        params.put("newPwd", screteOne.getText().toString().trim());
-                        params.put("phone", phoneNum);
-
-                        HttpUtils.getJSONObject(FindScreteThirdStepActivity.this, Const.FindScreteEnd + "?" + params.bindUrl(), new RespJSONObjectListener(FindScreteThirdStepActivity.this)
+                        if(screteOne.getText().toString().trim().length() >= 6 && screteOne.getText().toString().trim().length() <= 11)
                         {
-                            @Override
-                            public void getResp(JSONObject jsonObject)
-                            {
-                                baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
-                                if (bean.getReturnCode().equals("SUCCESS"))
-                                {
-                                    showCompleteDialog();
-                                } else
-                                {
-                                  toast(bean.getMessage());
-                                }
-                            }
+                            showDialog();
+                            PostParams params = new PostParams();
+                            params.put("mobile",(String)getVo("0"));
+                            params.put("vid",(String)getVo("1"));
+                            params.put("password", screteOne.getText().toString().trim());
+                            params.put("repassword", screteTwo.getText().toString().trim());
+                            params.put("verifyCode","123456");
 
-                            @Override
-                            public void doFailed()
+                            HttpUtils.getJSONObject(FindScreteThirdStepActivity.this, Const.FindScrete+"?"+params.bindUrl(), new RespJSONObjectListener(FindScreteThirdStepActivity.this)
                             {
-                                toast("链接服务器失败");
-                            }
-                        });
+                                @Override
+                                public void getResp(JSONObject jsonObject)
+                                {
+                                    dismissDialog();
+                                    RespVo<?> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                                    if (respVo.isSuccess())
+                                    {
+                                        toast("修改密码成功");
+                                        Intent intent = new Intent(FindScreteThirdStepActivity.this, LoginActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                    } else
+                                    {
+                                        toast(respVo.getMessage());
+                                    }
+                                }
+
+                                @Override
+                                public void doFailed()
+                                {
+                                    dismissDialog();
+                                    toast("链接服务器失败");
+                                }
+                            });
+                        }
+                        else {
+                            toast("请输入6-11位字母数字符号组合作为密码");
+                        }
                     } else
                     {
                         toast("两次输入的密码不一致");
@@ -97,7 +106,7 @@ public class FindScreteThirdStepActivity extends BaseActivity
         });
     }
 
-    public void showCompleteDialog()
+   /* public void showCompleteDialog()
     {
         alertDialog.show();
         View view = LayoutInflater.from(this).inflate(R.layout.inflater_registerdialog, null);
@@ -113,14 +122,14 @@ public class FindScreteThirdStepActivity extends BaseActivity
                 startActivity(intent);
             }
         });
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void onBackPressed()
     {
         if(!alertDialog.isShowing())
         {
             finish();
         }
-    }
+    }*/
 }

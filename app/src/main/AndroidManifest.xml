@@ -68,6 +68,16 @@
             android:name=".activity.loginandregister.FindScreteThirdStepActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.loginandregister.FillInfosFirstActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.FillInfosTwoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.FillInfosEndActivity"
+            android:screenOrientation="portrait" />
+
 
         <activity
             android:name=".activity.DetailActivity"

@@ -1,7 +1,5 @@
 package com.sdkj.bbcat.activity.loginandregister;
 
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -10,16 +8,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
-import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
-import com.sdkj.bbcat.bean.GetVerifyCodeBean;
-import com.sdkj.bbcat.bean.baseBean;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.bean.LoginBean;
+import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.bean.VerifyBean;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.widget.TitleBar;
 
@@ -31,7 +29,7 @@ import java.util.Map;
 /**
  * Created by Mr.Yuan on 2015/12/18 0018.
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener
+public class LoginActivity extends SimpleActivity implements View.OnClickListener
 {
     @ViewInject(R.id.login_aacount)
     private EditText     mAccountEt;
@@ -39,8 +37,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     private EditText     mPasswordEt;
     @ViewInject(R.id.login_verification)
     private EditText     mVerificationEt;
-    @ViewInject(R.id.login_verificationbtn)
-    private Button       mVerificationBtn;
+    /* @ViewInject(R.id.login_verificationbtn)
+     private Button       mVerificationBtn;*/
     @ViewInject(R.id.login_btn)
     private Button       mLoginBtn;
     @ViewInject(R.id.login_forgetpassword)
@@ -52,34 +50,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     @ViewInject(R.id.login_weibo)
     private LinearLayout mWeiBoBtn;
 
-    private GetVerifyCodeBean datas;
-    private int               daojishi;
-    private boolean etState[] = {false, false, false};
-    private Handler handler   = new Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            if (daojishi == 0)
-            {
-                mVerificationBtn.setBackgroundResource(R.drawable.yanzhengkuangorange);
-                mVerificationBtn.setTextColor(getResources().getColor(R.color.font_red));
-                mVerificationBtn.setText("发送验证码");
-                mVerificationEt.setText("");
-                mVerificationEt.setEnabled(false);
-                mAccountEt.setEnabled(true);
-                mAccountEt.setText(mAccountEt.getText().toString());
-            } else
-            {
-                mVerificationBtn.setBackgroundResource(R.drawable.btn_gray);
-                mVerificationBtn.setTextColor(getResources().getColor(R.color.color_white));
-                mVerificationBtn.setText(daojishi + "秒后重发");
-                mVerificationBtn.setEnabled(false);
-                daojishi--;
-                handler.sendEmptyMessageDelayed(0, 1000);
-            }
-        }
-    };
-
+    private VerifyBean datas;
+    private boolean etState[] = {false, false};
 
     @Override
     public int setLayoutResID()
@@ -115,7 +87,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                 else
                     etState[0] = false;
 
-                if (etState[0] == true && etState[1] == true && etState[2] == true)
+                if (etState[0] == true && etState[1] == true)
                 {
                     mLoginBtn.setEnabled(true);
                     mLoginBtn.setBackgroundResource(R.drawable.btn_orange);
@@ -123,19 +95,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                 {
                     mLoginBtn.setEnabled(false);
                     mLoginBtn.setBackgroundResource(R.drawable.btn_gray);
-                }
-
-                if (Utils.isPhoneNum(s.toString().trim()))
-                {
-                    mVerificationBtn.setEnabled(true);
-                    mVerificationBtn.setTextColor(getResources().getColor(R.color.font_red));
-                    mVerificationBtn.setBackgroundResource(R.drawable.yanzhengkuangorange);
-
-                } else
-                {
-                    mVerificationBtn.setEnabled(false);
-                    mVerificationBtn.setTextColor(getResources().getColor(R.color.color_white));
-                    mVerificationBtn.setBackgroundResource(R.drawable.btn_gray);
                 }
             }
 
@@ -163,7 +122,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                 else
                     etState[1] = false;
 
-                if (etState[0] == true && etState[1] == true && etState[2] == true)
+                if (etState[0] == true && etState[1] == true)
                 {
                     mLoginBtn.setEnabled(true);
                     mLoginBtn.setBackgroundResource(R.drawable.btn_orange);
@@ -181,41 +140,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
-        mVerificationEt.addTextChangedListener(new TextWatcher()
-        {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if (s.toString().trim().length() != 0)
-                    etState[2] = true;
-                else
-                    etState[2] = false;
-
-                if (etState[0] == true && etState[1] == true && etState[2] == true)
-                {
-                    mLoginBtn.setEnabled(true);
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_orange);
-                } else
-                {
-                    mLoginBtn.setEnabled(false);
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_gray);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)
-            {
-
-            }
-        });
-
-        mVerificationBtn.setOnClickListener(this);
         mLoginBtn.setOnClickListener(this);
         mFindPasswordsTv.setOnClickListener(this);
         mWeiXinBtn.setOnClickListener(this);
@@ -228,40 +152,34 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     {
         if (v == mLoginBtn)
         {
+            showDialog();
             PostParams params = new PostParams();
-            params.put("username", mAccountEt.getText().toString().trim());
+            params.put("mobile", mAccountEt.getText().toString().trim());
             params.put("password", mPasswordEt.getText().toString().trim());
-            params.put("verifyCode", mVerificationEt.getText().toString().trim());
-            if(datas != null)
+            HttpUtils.postJSONObject(LoginActivity.this, Const.Login,params, new RespJSONObjectListener(LoginActivity.this)
             {
-                params.put("sessionId", datas.getSessionId());
-                HttpUtils.getJSONObject(LoginActivity.this, Const.Login + "?" + params.bindUrl(), new RespJSONObjectListener(LoginActivity.this)
+                @Override
+                public void getResp(JSONObject jsonObject)
                 {
-                    @Override
-                    public void getResp(JSONObject jsonObject)
+                    RespVo<LoginBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                    if (respVo.isSuccess())
                     {
-                        baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
-                        if (bean.getReturnCode().equals("SUCCESS"))
-                        {
-                            //登陆成功，在此做缓存数据的处理。
-                            //并返回到刚刚的界面。。。。。。。
-                            toast("登陆成功");
-                            finish();
-                        }
-                        else
-                        {
-                            toast(bean.getMessage());
-                        }
+                        toast("登陆成功");
+                        LoginBean bean =  respVo.getData(jsonObject, LoginBean.class);
+                        finish();
                     }
+                    else
+                    {
+                        toast(respVo.getMessage());
+                    }
+                }
 
-                    public void doFailed()
-                    {
-                        toast("链接服务器失败");
-                    }
-                });
-            }
-            else
-                toast("请使用正确的验证码进行登录");
+                @Override
+                public void doFailed()
+                {
+                    toast("链接服务器失败");
+                }
+            });
         }
 
         else if (v == mFindPasswordsTv)
@@ -269,7 +187,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             skip(FindScreteFirstStepActivity.class);
         }
 
-        else if (v == mVerificationBtn)
+     /*   else if (v == mVerificationBtn)
         {
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("from", "login");
@@ -280,7 +198,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             {
                 public void getResp(JSONObject jsonObject)
                 {
-                    GetVerifyCodeBean bean = GsonTools.getVo(jsonObject.toString(), GetVerifyCodeBean.class);
+                    VerifyBean bean = GsonTools.getVo(jsonObject.toString(), VerifyBean.class);
                     datas = bean;
                     if (datas.getReturnCode().equals("SUCCESS"))
                     {
@@ -297,19 +215,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                     toast("链接服务器失败");
                 }
             });
-        }
+        }*/
 
         else if (v == mWeiXinBtn)
         {
             toast("点击微信登陆");
-        }
-
-        else if (v == mQQBtn)
+        } else if (v == mQQBtn)
         {
             toast("点击QQ登陆");
-        }
-
-        else if (v == mWeiBoBtn)
+        } else if (v == mWeiBoBtn)
         {
             toast("点击微博登陆");
         }
