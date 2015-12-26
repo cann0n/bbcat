@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="90dp">
 
-        <com.android.volley.ui.NetworkImageView
+        <ImageView
             android:id="@+id/iv_thumb"
             android:layout_width="85dp"
             android:layout_height="65dp"

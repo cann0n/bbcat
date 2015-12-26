@@ -16,7 +16,7 @@ import com.huaxi100.networkapp.utils.Utils;
 import java.util.List;
 
 
-public abstract class TabUiActivity extends BaseActivity {
+public abstract class TabUiActivity extends SimpleActivity {
 
     private TextView tv_tab1;
 

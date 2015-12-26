@@ -1,5 +1,7 @@
 package com.sdkj.bbcat;
 
+import android.os.Bundle;
+
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.sdkj.bbcat.fragment.BraceletPage;
 import com.sdkj.bbcat.fragment.CommunityPage;
@@ -80,5 +82,10 @@ public class MainActivity extends TabUiActivity {
     @Override
     public void initBusiness() {
         super.initBusiness();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
     }
 }
