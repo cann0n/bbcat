@@ -83,7 +83,7 @@ public class RegisterInputPhoneActivity extends BaseActivity
             {
                 if(agreeCb.isChecked())
                 {
-                    HashMap<String,String> map = new HashMap<String, String>();
+                    HashMap<String,String> map = new HashMap<String, String>();zz
                     map.put("from","register");
                     map.put("type", "sms");
                     map.put("phone", phoneEt.getText().toString().trim());
