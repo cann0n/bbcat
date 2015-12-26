@@ -1,6 +1,5 @@
 package com.sdkj.bbcat.widget;
 
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,7 +50,7 @@ public class TitleBar {
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.finish();
+                backDoing();
             }
         });
         return this;
@@ -65,5 +64,10 @@ public class TitleBar {
     public TitleBar hideRight() {
         tv_right.setVisibility(View.GONE);
         return this;
+    }
+
+    protected void backDoing()
+    {
+        activity.finish();
     }
 }

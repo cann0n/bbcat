@@ -20,4 +20,10 @@ public class Const
     public static final String PostVerifyCode = Schema + "/app/user/registerFirstStep";
 
     public static final String PostVerifyCodeEnd = Schema + "/app/user/registerSecondStep";
+
+    public static final String FindScretePostPhoneAndVerifyCode = Schema + "/app/user/findPwdFirstStep";
+
+    public static final String FindScreteEnd = Schema + "/app/user/findPwdSecondStep";
+
+    public static final String Login = Schema + "/app/user/login";
 }

@@ -16,7 +16,7 @@ public class MainActivity extends TabUiActivity {
     public List<String> initTabNames() {
         List<String> names = new ArrayList<>();
         names.add("首页");
-        names.add("资讯");
+        names.add("育儿知识");
         names.add("手环");
         names.add("社区");
         return names;

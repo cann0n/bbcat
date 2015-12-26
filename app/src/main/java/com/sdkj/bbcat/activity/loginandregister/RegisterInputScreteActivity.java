@@ -42,7 +42,15 @@ public class RegisterInputScreteActivity extends BaseActivity
 
     public void initBusiness()
     {
-        new TitleBar(activity).setTitle("注册").back();
+        new TitleBar(activity)
+        {
+            protected void backDoing()
+            {
+                Intent intent = new Intent(RegisterInputScreteActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        }.setTitle("注册").back();
         phoneNum = (String)getVo("0");
 
         screteBtn.setOnClickListener(new View.OnClickListener()
@@ -58,7 +66,7 @@ public class RegisterInputScreteActivity extends BaseActivity
                       params.put("newPwd", screteEtOne.getText().toString().trim());
                       params.put("userName", phoneNum);
 
-                      HttpUtils.postJSONObject(RegisterInputScreteActivity.this, Const.PostVerifyCodeEnd, params, new RespJSONObjectListener(RegisterInputScreteActivity.this)
+                      HttpUtils.getJSONObject(RegisterInputScreteActivity.this, Const.PostVerifyCodeEnd +"?"+ params.bindUrl(),new RespJSONObjectListener(RegisterInputScreteActivity.this)
                       {
                           @Override
                           public void getResp(JSONObject jsonObject)
@@ -67,9 +75,7 @@ public class RegisterInputScreteActivity extends BaseActivity
                               if (bean.getReturnCode().equals("SUCCESS"))
                               {
                                   showCompleteDialog();
-                              }
-
-                              else
+                              } else
                               {
                                   toast("服务器返回内容错误");
                               }
@@ -116,4 +122,11 @@ public class RegisterInputScreteActivity extends BaseActivity
         });
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(RegisterInputScreteActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }

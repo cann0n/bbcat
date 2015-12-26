@@ -40,7 +40,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="2 安全验证"
-            android:textColor="@color/color_gray"
+            android:textColor="@color/theme_orange_color"
             android:textSize="12sp"/>
 
         <TextView
@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="3 重置登录密码"
-            android:textColor="@color/color_gray"
+            android:textColor="@color/theme_orange_color"
             android:textSize="12sp"/>
     </LinearLayout>
 
@@ -92,28 +92,19 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/shoujiicon"/>
+                    android:background="@drawable/lockicon"/>
 
-                <TextView
+                <EditText
+                    android:id="@+id/findscretethird_scone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="设置新的账户密码(6-11位字母数字符号组合)"
+                    android:inputType="textPassword"
                     android:singleLine="true"
-                    android:text="短信验证"
-                    android:textColor="@color/color_gray"
-                    android:textSize="15sp"/>
-
-                <TextView
-                    android:id="@+id/findscrete_first"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="6dp"
-                    android:background="@drawable/btn_orange"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="立即验证"
-                    android:textColor="#ffffffff"
+                    android:textColor="@color/default_black"
                     android:textSize="15sp"/>
             </LinearLayout>
         </LinearLayout>
@@ -124,13 +115,70 @@
             android:background="#ffE8E8E8"/>
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:text="客服电话：400-400-4000"
-        android:textColor="@android:color/darker_gray"/>
+        android:background="@color/defaultbg_white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ffE8E8E8"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@color/defaultbg_white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/defaultbg_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/lockicon"/>
+
+                <EditText
+                    android:id="@+id/findscretethird_sctwo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="再次确认密码"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/default_black"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ffE8E8E8"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/findscretethird_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_orange"
+        android:text="重置登录密码"
+        android:textColor="@color/defaultbg_white"
+        android:textSize="18sp"/>
 
 </LinearLayout>
