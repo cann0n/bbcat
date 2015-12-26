@@ -24,10 +24,10 @@ public class TalkListFragment extends BaseFragment {
     protected void setListener() {
         adapter=new TalkAdapter(new ArrayList<String>(),activity);
         talk_list.setAdapter(adapter);
-        adapter.addItem(new String());
-        adapter.addItem(new String());
-        adapter.addItem(new String());
-        adapter.addItem(new String());
+        adapter.addItem(new String("1"));
+        adapter.addItem(new String("1"));
+        adapter.addItem(new String("1"));
+        adapter.addItem(new String("1"));
     }
 
     @Override

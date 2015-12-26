@@ -187,15 +187,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/color_divide" />
-    <!-- 这个要用RecyclerView的话直接打开注释就行-->
-    <!--<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView-->
-    <!--android:id="@+id/ultimate_recycler_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:divider="@android:color/transparent"-->
-    <!--android:dividerHeight="0dp">-->
-    <!-- -->
-    <!--</com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>-->
-    <include layout="@layout/item_dedical_online"/>
-    <include layout="@layout/item_dedical_online"/>
+    <com.huaxi100.networkapp.widget.CustomRecyclerView
+        android:id="@+id/hospital_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
 </LinearLayout>
