@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.adapter.FirstInstallViewPagerAdapter;
 
@@ -43,7 +44,7 @@ public class FirstInstallActivity extends Activity
 				{
 					public void onClick(View v)
 					{
-						Intent intent = new Intent(FirstInstallActivity.this, LoginActivity.class);
+						Intent intent = new Intent(FirstInstallActivity.this, MainActivity.class);
 						startActivity(intent);
 						finish();
 					}

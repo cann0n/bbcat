@@ -57,4 +57,9 @@ public class Const
     
    
     
+    public static final String FindScretePostPhoneAndVerifyCode = DOMAIN + "/app/user/findPwdFirstStep";
+
+    public static final String FindScreteEnd = DOMAIN + "/app/user/findPwdSecondStep";
+
+    public static final String Login = DOMAIN + "/app/user/login";
 }

@@ -40,7 +40,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="2 安全验证"
-            android:textColor="@color/color_gray"
+            android:textColor="@color/theme_orange_color"
             android:textSize="12sp"/>
 
         <TextView
@@ -94,26 +94,83 @@
                     android:layout_height="30dp"
                     android:background="@drawable/shoujiicon"/>
 
-                <TextView
+                <EditText
+                    android:id="@+id/findscretesecond_inputphone"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="6dp"
                     android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入您的手机号"
+                    android:inputType="phone"
                     android:singleLine="true"
-                    android:text="短信验证"
-                    android:textColor="@color/color_gray"
+                    android:textColor="@color/default_black"
                     android:textSize="15sp"/>
 
                 <TextView
-                    android:id="@+id/findscrete_first"
-                    android:layout_width="80dp"
+                    android:id="@+id/findscretesecond_getverifycode"
+                    android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="6dp"
-                    android:background="@drawable/btn_orange"
+                    android:background="@drawable/btn_gray"
                     android:gravity="center"
+                    android:enabled="false"
                     android:singleLine="true"
-                    android:text="立即验证"
+                    android:text="发送验证码"
                     android:textColor="#ffffffff"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffE8E8E8"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/defaultbg_white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@color/defaultbg_white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/defaultbg_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/verificationicon"/>
+
+                <EditText
+                    android:id="@+id/findscretesecond_inputverifycode"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="left|center_vertical"
+                    android:hint="请输入收到的验证码"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="@color/default_black"
                     android:textSize="15sp"/>
             </LinearLayout>
         </LinearLayout>
@@ -124,13 +181,17 @@
             android:background="#ffE8E8E8"/>
     </LinearLayout>
 
-    <TextView
+    <Button
+        android:id="@+id/findscretesecond_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:text="客服电话：400-400-4000"
-        android:textColor="@android:color/darker_gray"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_gray"
+        android:enabled="false"
+        android:text="验证"
+        android:textColor="@color/defaultbg_white"
+        android:textSize="18sp"/>
 
 </LinearLayout>

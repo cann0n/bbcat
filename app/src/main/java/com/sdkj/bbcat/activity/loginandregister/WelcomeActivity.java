@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.constValue.Const;
 
@@ -34,7 +35,7 @@ public class WelcomeActivity extends Activity
 
 				else//已经安装过
 				{
-					Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+					Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
 					startActivity(intent);
 					finish();
 				}
