@@ -19,6 +19,7 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.HospitalDetailActivity;
 import com.sdkj.bbcat.activity.MedicalOnlineActivity;
 import com.sdkj.bbcat.activity.SearchActivity;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.activity.news.DiaryListActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.activity.news.NewsListActivity;
@@ -287,6 +288,10 @@ public class HomePage extends BaseFragment {
         activity.skip(NewsListActivity.class, "4", "我的圈圈");
     }
 
+    @OnClick(R.id.iv_info)
+    void showInfo(View view){
+        activity.skip(LoginActivity.class);
+    }
     @Override
     protected int setLayoutResID() {
         return R.layout.fragment_page;

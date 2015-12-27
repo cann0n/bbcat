@@ -70,7 +70,7 @@ public class RegisterInputScreteActivity extends SimpleActivity
                           params.put("vid",(String)getVo("1"));
                           params.put("password", screteEtOne.getText().toString().trim());
                           params.put("verifyCode", "123456");
-
+                          showDialog();
                           HttpUtils.postJSONObject(RegisterInputScreteActivity.this, Const.Register, params, new RespJSONObjectListener(RegisterInputScreteActivity.this)
                           {
                               @Override

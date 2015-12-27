@@ -29,20 +29,19 @@ import java.util.Map;
 /**
  * Created by Mr.Yuan on 2015/12/18 0018.
  */
-public class LoginActivity extends SimpleActivity implements View.OnClickListener
-{
+public class LoginActivity extends SimpleActivity implements View.OnClickListener {
     @ViewInject(R.id.login_aacount)
-    private EditText     mAccountEt;
+    private EditText mAccountEt;
     @ViewInject(R.id.login_password)
-    private EditText     mPasswordEt;
+    private EditText mPasswordEt;
     @ViewInject(R.id.login_verification)
-    private EditText     mVerificationEt;
+    private EditText mVerificationEt;
     /* @ViewInject(R.id.login_verificationbtn)
      private Button       mVerificationBtn;*/
     @ViewInject(R.id.login_btn)
-    private Button       mLoginBtn;
+    private Button mLoginBtn;
     @ViewInject(R.id.login_forgetpassword)
-    private TextView     mFindPasswordsTv;
+    private TextView mFindPasswordsTv;
     @ViewInject(R.id.login_weixin)
     private LinearLayout mWeiXinBtn;
     @ViewInject(R.id.login_qq)
@@ -54,88 +53,68 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
     private boolean etState[] = {false, false};
 
     @Override
-    public int setLayoutResID()
-    {
+    public int setLayoutResID() {
         return R.layout.activity_login;
     }
 
     @Override
-    public void initBusiness()
-    {
+    public void initBusiness() {
         TitleBar titleBar = new TitleBar(activity).setTitle("登陆").back();
-        titleBar.showRight("注册", new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
+        titleBar.showRight("注册", new View.OnClickListener() {
+            public void onClick(View v) {
                 skip(RegisterInputPhoneActivity.class);
             }
         });
 
-        mAccountEt.addTextChangedListener(new TextWatcher()
-        {
+        mAccountEt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if (s.toString().trim().length() != 0)
-                    etState[0] = true;
-                else
-                    etState[0] = false;
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() != 0) etState[0] = true;
+                else etState[0] = false;
 
-                if (etState[0] == true && etState[1] == true)
-                {
+                if (etState[0] == true && etState[1] == true) {
                     mLoginBtn.setEnabled(true);
                     mLoginBtn.setBackgroundResource(R.drawable.btn_orange);
-                } else
-                {
+                } else {
                     mLoginBtn.setEnabled(false);
                     mLoginBtn.setBackgroundResource(R.drawable.btn_gray);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
 
             }
         });
         mAccountEt.setText("");
 
-        mPasswordEt.addTextChangedListener(new TextWatcher()
-        {
+        mPasswordEt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if (s.toString().trim().length() != 0)
-                    etState[1] = true;
-                else
-                    etState[1] = false;
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() != 0) etState[1] = true;
+                else etState[1] = false;
 
-                if (etState[0] == true && etState[1] == true)
-                {
+                if (etState[0] == true && etState[1] == true) {
                     mLoginBtn.setEnabled(true);
                     mLoginBtn.setBackgroundResource(R.drawable.btn_orange);
-                } else
-                {
+                } else {
                     mLoginBtn.setEnabled(false);
                     mLoginBtn.setBackgroundResource(R.drawable.btn_gray);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -148,42 +127,33 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
     }
 
     @Override
-    public void onClick(View v)
-    {
-        if (v == mLoginBtn)
-        {
+    public void onClick(View v) {
+        if (v == mLoginBtn) {
             showDialog();
             PostParams params = new PostParams();
             params.put("mobile", mAccountEt.getText().toString().trim());
             params.put("password", mPasswordEt.getText().toString().trim());
-            HttpUtils.postJSONObject(LoginActivity.this, Const.Login,params, new RespJSONObjectListener(LoginActivity.this)
-            {
+            HttpUtils.postJSONObject(LoginActivity.this, Const.Login, params, new RespJSONObjectListener(LoginActivity.this) {
                 @Override
-                public void getResp(JSONObject jsonObject)
-                {
+                public void getResp(JSONObject jsonObject) {
+                    dismissDialog();
                     RespVo<LoginBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                    if (respVo.isSuccess())
-                    {
+                    if (respVo.isSuccess()) {
                         toast("登陆成功");
-                        LoginBean bean =  respVo.getData(jsonObject, LoginBean.class);
+                        LoginBean bean = respVo.getData(jsonObject, LoginBean.class);
                         finish();
-                    }
-                    else
-                    {
+                    } else {
                         toast(respVo.getMessage());
                     }
                 }
 
                 @Override
-                public void doFailed()
-                {
+                public void doFailed() {
+                    dismissDialog();
                     toast("链接服务器失败");
                 }
             });
-        }
-
-        else if (v == mFindPasswordsTv)
-        {
+        } else if (v == mFindPasswordsTv) {
             skip(FindScreteFirstStepActivity.class);
         }
 
@@ -217,30 +187,23 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
             });
         }*/
 
-        else if (v == mWeiXinBtn)
-        {
+        else if (v == mWeiXinBtn) {
             toast("点击微信登陆");
-        } else if (v == mQQBtn)
-        {
+        } else if (v == mQQBtn) {
             toast("点击QQ登陆");
-        } else if (v == mWeiBoBtn)
-        {
+        } else if (v == mWeiBoBtn) {
             toast("点击微博登陆");
         }
     }
 
-    private final static String getCompleteUrl(String url, HashMap<String, String> params)
-    {
-        if (null != params && params.size() != 0)
-        {
+    private final static String getCompleteUrl(String url, HashMap<String, String> params) {
+        if (null != params && params.size() != 0) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(url + "?");
-            for (Map.Entry<String, String> entry : params.entrySet())
-            {
+            for (Map.Entry<String, String> entry : params.entrySet()) {
                 stringBuffer.append(entry.getKey() + "=" + entry.getValue() + "&");
             }
             return stringBuffer.substring(0, stringBuffer.length() - 1);
-        } else
-            return url;
+        } else return url;
     }
 }
