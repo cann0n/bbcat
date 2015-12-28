@@ -30,6 +30,14 @@ public class TitleBar {
         tv_title = (TextView) activity.findViewById(R.id.tv_bar_title);
         tv_right = (TextView) activity.findViewById(R.id.tv_right);
     }
+
+    public TitleBar(BaseActivity activity,View rootView) {
+        this.activity = activity;
+        iv_back = (ImageView) rootView.findViewById(R.id.iv_back);
+        iv_right = (ImageView) rootView.findViewById(R.id.iv_right);
+        tv_title = (TextView) rootView.findViewById(R.id.tv_bar_title);
+        tv_right = (TextView) rootView.findViewById(R.id.tv_right);
+    }
     public TitleBar setTitle(String title) {
         tv_title.setText(title);
         return this;
@@ -47,6 +55,7 @@ public class TitleBar {
     }
 
     public TitleBar back() {
+        iv_back.setVisibility(View.VISIBLE);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

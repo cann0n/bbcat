@@ -6,32 +6,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.huaxi100.networkapp.activity.BaseActivity;
-import com.huaxi100.networkapp.network.HttpUtils;
-import com.huaxi100.networkapp.network.PostParams;
-import com.huaxi100.networkapp.network.RespJSONObjectListener;
-import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
-import com.sdkj.bbcat.bean.GetVerifyCodeBean;
-import com.sdkj.bbcat.bean.baseBean;
-import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.widget.TitleBar;
-
-import org.json.JSONObject;
 
 /**
  * Created by Mr.Yuan on 2015/12/24 0024.
  */
-public class RegisterInputVerifyCodeActivity extends BaseActivity
+public class RegisterInputVerifyCodeActivity extends SimpleActivity
 {
     @ViewInject(R.id.registerinputverifycode_et)
     private EditText verifyCodeEt;
     @ViewInject(R.id.registerinputverifycode_btn)
     private Button   verifyCodeBtn;
-    private GetVerifyCodeBean data;
-    private String phoneNum;
 
     @Override
     public int setLayoutResID()
@@ -43,8 +32,6 @@ public class RegisterInputVerifyCodeActivity extends BaseActivity
     public void initBusiness()
     {
         new TitleBar(activity).setTitle("注册").back();
-        data = (GetVerifyCodeBean)getVo("0");
-        phoneNum = (String)getVo("1");
         verifyCodeEt.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -79,15 +66,23 @@ public class RegisterInputVerifyCodeActivity extends BaseActivity
         {
             public void onClick(View v)
             {
-                PostParams params = new PostParams();
+                if (verifyCodeEt.getText().toString().trim().equals("123456"))
+                {
+                    skip(RegisterInputScreteActivity.class, getVo("0"),getVo("1"));
+                } else
+                {
+                    toast("验证码不正确");
+                }
+
+               /* PostParams params = new PostParams();
                 params.put("username",phoneNum);
                 params.put("verifyCode", verifyCodeEt.getText().toString());
                 params.put("sessionId", data.getSessionId());
                 params.bindUrl();
                 String url=Const.PostVerifyCode+"?"+params.bindUrl();
 
-//
-                HttpUtils.getJSONObject(activity, url, new RespJSONObjectListener(activity) {
+                HttpUtils.getJSONObject(activity, url, new RespJSONObjectListener(activity)
+                {
                     @Override
                     public void getResp(JSONObject jsonObject) {
                         baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
@@ -102,56 +97,8 @@ public class RegisterInputVerifyCodeActivity extends BaseActivity
                     public void doFailed() {
                         toast("链接服务器失败");
                     }
-                });
-//
-//                Test req = new Test(activity, params, Const.PostVerifyCode, new RespJSONObjectListener(activity)
-//                {
-//                    @Override
-//                    public void getResp(JSONObject jsonObject)
-//                    {
-//                        baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
-//                        if (bean.getReturnCode().equals("SUCCESS"))
-//                        {
-//                            skip(RegisterInputScreteActivity.class,phoneNum);
-//                        }
-//                        else
-//                        {
-//                            toast("服务器返回内容错误");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void doFailed()
-//                    {
-//                        toast("链接服务器失败");
-//                    }
-//                });
-//                RequestQueue queue = SingleRequestQueue.getRequestQueue(activity);
-//                queue.add(req);
-//                HttpUtils.postJSONObject(activity,Const.PostVerifyCode,params, new RespJSONObjectListener(activity)
-//                {
-//                    @Override
-//                    public void getResp(JSONObject jsonObject)
-//                    {
-//                        baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
-//                        if (bean.getReturnCode().equals("SUCCESS"))
-//                        {
-//                            skip(RegisterInputScreteActivity.class,phoneNum);
-//                        }
-//                        else
-//                        {
-//                            toast("服务器返回内容错误");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void doFailed()
-//                    {
-//                        toast("链接服务器失败");
-//                    }
-//                });
+                });*/
             }
         });
     }
-    
 }

@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -15,7 +14,9 @@ import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
-import com.sdkj.bbcat.bean.GetVerifyCodeBean;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.bean.VerifyBean;
+import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.widget.TitleBar;
 
@@ -27,7 +28,7 @@ import java.util.Map;
 /**
  * Created by Mr.Yuan on 2015/12/23 0023.
  */
-public class RegisterInputPhoneActivity extends BaseActivity
+public class RegisterInputPhoneActivity extends SimpleActivity
 {
     @ViewInject(R.id.registerinputphone_et)
     private EditText phoneEt;
@@ -35,7 +36,6 @@ public class RegisterInputPhoneActivity extends BaseActivity
     private Button loginBtn;
     @ViewInject(R.id.registerinputphone_cb)
     private CheckBox agreeCb;
-    private GetVerifyCodeBean data;
 
     @Override
     public int setLayoutResID()
@@ -83,32 +83,31 @@ public class RegisterInputPhoneActivity extends BaseActivity
             {
                 if(agreeCb.isChecked())
                 {
-                    HashMap<String,String> map = new HashMap<String, String>();
-                    map.put("from","register");
-                    map.put("type", "sms");
-                    map.put("phone", phoneEt.getText().toString().trim());
+                    showDialog();
+                    PostParams params= new PostParams();
+                    params.put("from","reg");
+                    params.put("mobile", phoneEt.getText().toString().trim());
 
-                    
-                    HttpUtils.getJSONObject(RegisterInputPhoneActivity.this, getCompleteUrl(Const.GetVerifyCode, map), new RespJSONObjectListener(RegisterInputPhoneActivity.this)
+                    HttpUtils.postJSONObject(RegisterInputPhoneActivity.this, Const.GetVerifyCode, params, new RespJSONObjectListener(RegisterInputPhoneActivity.this)
                     {
                         @Override
                         public void getResp(JSONObject jsonObject)
                         {
-                            GetVerifyCodeBean bean = GsonTools.getVo(jsonObject.toString(), GetVerifyCodeBean.class);
-                            data = bean;
-                            if (data.getReturnCode().equals("SUCCESS"))
+                            dismissDialog();
+                            RespVo<VerifyBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                            if (respVo.isSuccess())
                             {
-                                skip(RegisterInputVerifyCodeActivity.class,data,phoneEt.getText().toString().trim());
-                            }
-                            else
+                                skip(RegisterInputVerifyCodeActivity.class, phoneEt.getText().toString().trim(), respVo.getData(jsonObject, VerifyBean.class).getVid());
+                            } else
                             {
-                                toast("服务器返回内容错误");
+                                toast(respVo.getMessage());
                             }
                         }
 
                         @Override
                         public void doFailed()
                         {
+                            dismissDialog();
                             toast("链接服务器失败");
                         }
                     });

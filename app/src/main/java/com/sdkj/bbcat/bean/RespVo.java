@@ -1,6 +1,5 @@
 package com.sdkj.bbcat.bean;
 
-import com.google.gson.annotations.SerializedName;
 import com.huaxi100.networkapp.utils.GsonTools;
 
 import org.json.JSONArray;

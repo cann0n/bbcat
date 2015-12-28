@@ -24,10 +24,10 @@ public class WelcomeActivity extends Activity
         {
             public void run()
             {
-				SharedPreferences sharedPreferences = getSharedPreferences(Const.SPNAME, Context.MODE_PRIVATE);
-				if(sharedPreferences.getBoolean(Const.SPNAME_FIRSTINSTALL, true))//第一次安装
+				SharedPreferences sharedPreferences = getSharedPreferences(Const.SP_NAME, Context.MODE_PRIVATE);
+				if(sharedPreferences.getBoolean(Const.FIR_INSTALL, true))//第一次安装
 				{
-					sharedPreferences.edit().putBoolean(Const.SPNAME_FIRSTINSTALL, false).commit();
+					sharedPreferences.edit().putBoolean(Const.FIR_INSTALL, false).commit();
 					Intent intent = new Intent(WelcomeActivity.this,FirstInstallActivity.class);
 					startActivity(intent);
 					finish();
