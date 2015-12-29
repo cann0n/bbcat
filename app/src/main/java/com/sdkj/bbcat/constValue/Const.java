@@ -19,7 +19,7 @@ public class Const
     
 
     //网络请求信息配置
-    public static final String DOMAIN = "http://120.26.212.241/api/index/";
+    public static final String DOMAIN = "http://120.26.212.241/api/";
 
     /**
      * 图片基地址
@@ -34,17 +34,27 @@ public class Const
     /**
      * 获取首页信息
      */
-    public static final String HOME_PAGE = DOMAIN + "index";
+    public static final String HOME_PAGE = DOMAIN + "index/index";
 
     /**
      * 详情页
      */
-    public static final String NEWS_DETAIL=DOMAIN+"/detail";
+    public static final String NEWS_DETAIL=DOMAIN+"index/detail";
     
     /**
      * 分类列表页
      */
-    public static final String CATEGORY_LIST=DOMAIN+"/lists";
+    public static final String CATEGORY_LIST=DOMAIN+"index/lists";
+
+    /**
+     * 医院列表
+     */
+    public static final String HOSPITAL_LIST=DOMAIN+"/Hospital/index";
+
+    /**
+     * 医院详情
+     */
+    public static final String HOSPITAL_detail=DOMAIN+"/Hospital/detail";
 
 
     public static final String Schema = "http://120.26.212.241/";

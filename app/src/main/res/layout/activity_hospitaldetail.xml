@@ -21,11 +21,12 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible">
                 <!-- 图片高度代码自行设置-->
-                <com.android.volley.ui.NetworkImageView
+                <ImageView
                     android:id="@+id/iv_thumb"
                     android:layout_width="match_parent"
                     android:layout_height="135dp"
-                    android:background="@drawable/icon_hos_bg" />
+                    android:background="@drawable/icon_hos_bg" 
+                    android:scaleType="fitXY"/>
 
                 <TextView
                     android:id="@+id/tv_hospital_name"
@@ -48,7 +49,8 @@
                     android:isIndicator="false"
                     android:numStars="5"
                     android:progressDrawable="@drawable/bg_rating_yellow"
-                    android:rating="1" />
+                    android:rating="1"
+                    android:clickable="false"/>
             </FrameLayout>
 
             <TextView

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_window"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#50333333"
+    android:gravity="top"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#CCCCCC" />
+
+        <TextView
+            android:id="@+id/tv_all"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="全部"
+            android:textColor="#373737"
+            android:textSize="14sp"
+            android:textStyle="bold"
+             />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#CCCCCC" />
+
+        <TextView
+            android:id="@+id/tv_day1"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="选择题"
+            android:textColor="#373737"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#CCCCCC" />
+    </LinearLayout>
+
+</LinearLayout>
