@@ -127,6 +127,11 @@
         <activity
             android:name=".activity.news.DiaryListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.doctor.DoctorActActivity"
+            android:screenOrientation="portrait" />
+        
+        
 
 
         <!-- 环信相关配置-->

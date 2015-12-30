@@ -61,6 +61,21 @@ public class Const
      */
     public static final String EXPERT_LIST=DOMAIN+"/Hospital/expert";
 
+    /**
+     * 我的圈首页
+     */
+    public static final String MY_CIRCLE=DOMAIN+"/circle/index";
+
+    /**
+     * 医院最新活动
+     */
+    public static final String HOSPITAL_ACTIVITY=DOMAIN+"/Hospital/activity";
+   
+    /**
+     * 圈圈详情
+     */
+    public static final String CIRCLE_DETAIL=DOMAIN+"/circle/detail";
+
 
     public static final String Schema = "http://120.26.212.241/";
 

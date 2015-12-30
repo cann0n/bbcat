@@ -171,6 +171,7 @@
                 android:background="@color/color_divide"/>
 
             <LinearLayout
+                android:id="@+id/ll_doctor_more"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

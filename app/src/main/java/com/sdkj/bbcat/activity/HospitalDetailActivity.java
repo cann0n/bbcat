@@ -22,6 +22,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.doctor.DoctorActActivity;
 import com.sdkj.bbcat.bean.HospitalDetailVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
@@ -143,7 +144,7 @@ public class HospitalDetailActivity extends SimpleActivity{
     }
 
 
-    @OnClick(R.id.iv_doctor_more)
+    @OnClick(R.id.ll_doctor_more)
     void doctor_more(View view){
         skip(DoctorListActivity.class,id);
     }
@@ -160,7 +161,7 @@ public class HospitalDetailActivity extends SimpleActivity{
     
     @OnClick(R.id.rl_huodong)
     void newAct(View view){
-        toast("最新活动");
+        skip(DoctorActActivity.class,id);
     }
     @Override
     public int setLayoutResID() {
