@@ -151,7 +151,7 @@ public class HomePage extends BaseFragment {
                                 activity.skip(MedicalOnlineActivity.class, "6");
                             }
                         });
-                        for (NewsVo newsVo : category2.getCategory_list()) {
+                        for (final NewsVo newsVo : category2.getCategory_list()) {
                             View view = activity.makeView(R.layout.item_dedical_online);
                             ImageView iv_thumb = (ImageView) view.findViewById(R.id.iv_thumb);
                             TextView tv_hospital_name = (TextView) view.findViewById(R.id.tv_hospital_name);
@@ -168,7 +168,7 @@ public class HomePage extends BaseFragment {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    activity.skip(HospitalDetailActivity.class);
+                                    activity.skip(HospitalDetailActivity.class,newsVo.getId());
                                 }
                             });
                             ll_doctor.addView(view);

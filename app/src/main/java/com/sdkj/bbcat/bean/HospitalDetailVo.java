@@ -32,7 +32,7 @@ public class HospitalDetailVo {
         private String title;
         private String cover;
         private String address;
-        private String level;
+        private int level;
         private String contact_phone;
         private String detail;
         private String category_name;
@@ -69,11 +69,11 @@ public class HospitalDetailVo {
             this.address = address;
         }
 
-        public String getLevel() {
+        public int getLevel() {
             return level;
         }
 
-        public void setLevel(String level) {
+        public void setLevel(int level) {
             this.level = level;
         }
 
@@ -110,6 +110,15 @@ public class HospitalDetailVo {
         private String export_position;
         private String export_desc;
         private String export_time;
+        private String export_signature;
+
+        public String getExport_signature() {
+            return export_signature;
+        }
+
+        public void setExport_signature(String export_signature) {
+            this.export_signature = export_signature;
+        }
 
         public String getUid() {
             return uid;

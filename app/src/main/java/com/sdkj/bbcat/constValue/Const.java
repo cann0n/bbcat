@@ -56,6 +56,11 @@ public class Const
      */
     public static final String HOSPITAL_detail=DOMAIN+"/Hospital/detail";
 
+    /**
+     * 医院医生列表
+     */
+    public static final String EXPERT_LIST=DOMAIN+"/Hospital/expert";
+
 
     public static final String Schema = "http://120.26.212.241/";
 

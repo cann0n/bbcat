@@ -44,7 +44,7 @@ public class HospitalAdapter extends UltimatCommonAdapter<NewsVo, HospitalAdapte
             holder. ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.skip(HospitalDetailActivity.class);
+                    activity.skip(HospitalDetailActivity.class,newsVo.getId());
                 }
             });
         }
