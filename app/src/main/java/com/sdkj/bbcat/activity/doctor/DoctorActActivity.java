@@ -58,7 +58,7 @@ public class DoctorActActivity extends SimpleActivity {
         PostParams params = new PostParams();
         params.put("hospital_id", (String)getVo("0"));
         showDialog();
-        HttpUtils.postJSONObject(activity, Const.HOSPITAL_ACTIVITY, SimpleUtils.buildUrl(params), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.HOSPITAL_ACTIVITY, SimpleUtils.buildUrl(activity,params), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject obj) {
                 dismissDialog();

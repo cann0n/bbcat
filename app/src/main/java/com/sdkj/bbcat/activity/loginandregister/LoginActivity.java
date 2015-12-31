@@ -12,6 +12,7 @@ import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
@@ -141,6 +142,8 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                     if (respVo.isSuccess()) {
                         toast("登陆成功");
                         LoginBean bean = respVo.getData(jsonObject, LoginBean.class);
+                        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+                        sp.setValue(Const.TOKEN,bean.getToken());
                         finish();
                     } else {
                         toast(respVo.getMessage());
