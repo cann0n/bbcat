@@ -1,5 +1,7 @@
 package com.sdkj.bbcat;
 
+import android.os.Bundle;
+
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.sdkj.bbcat.fragment.BraceletPage;
 import com.sdkj.bbcat.fragment.CommunityPage;
@@ -16,7 +18,7 @@ public class MainActivity extends TabUiActivity {
     public List<String> initTabNames() {
         List<String> names = new ArrayList<>();
         names.add("首页");
-        names.add("资讯");
+        names.add("育儿知识");
         names.add("手环");
         names.add("社区");
         return names;
@@ -80,5 +82,10 @@ public class MainActivity extends TabUiActivity {
     @Override
     public void initBusiness() {
         super.initBusiness();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
     }
 }

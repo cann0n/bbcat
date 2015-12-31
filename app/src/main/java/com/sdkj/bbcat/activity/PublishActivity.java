@@ -7,24 +7,61 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.huaxi100.networkapp.activity.BaseActivity;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONArrayListener;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.AppUtils;
+import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
+import com.sdkj.bbcat.bean.CircleTagVo;
+import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.widget.GridViewPage;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PublishActivity extends BaseActivity {
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONArrayListener;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.Utils;
+import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
+import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
+import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
+import com.sdkj.bbcat.bean.CircleTagVo;
+import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.util.List;
+
+public class PublishActivity extends SimpleActivity {
     @ViewInject(R.id.rl_label)
     private RelativeLayout rl_label;
 
-    @ViewInject(R.id.tv_label)
-    private TextView tv_label;
 
     @ViewInject(R.id.ll_publish)
     private LinearLayout ll_publish;
@@ -34,23 +71,25 @@ public class PublishActivity extends BaseActivity {
 
     private int selectLabelIndex;
 
-    //标签数据
-    private List<String> labellist;
+    @ViewInject(R.id.et_title)
+    private EditText et_title;
+
+    @ViewInject(R.id.et_content)
+    private EditText et_content;
+
+    @ViewInject(R.id.tv_address)
+    private TextView tv_address;
+
+    @ViewInject(R.id.tv_label)
+    private TextView tv_label;
+
+    private List<CircleTagVo> tags;
 
     @Override
     public void initBusiness() {
-        labellist=new ArrayList<>();
-        //模拟数据
-        for (int i=0;i<20;i++){
 
-            labellist.add("孕前检查"+i);
-        }
     }
 
-    @OnClick(R.id.rl_label)
-    void clickLabel(View view) {
-        showLabel();
-    }
 
     /**
      * 显示label的popupwindow
@@ -70,7 +109,7 @@ public class PublishActivity extends BaseActivity {
             GridViewPage gridViewPage= (GridViewPage) popupView.findViewById(R.id.viewpage_label);
 
             //载入数据到gridViewPage中
-            loadDataToGridViewPage(gridViewPage,labellist);
+            loadDataToGridViewPage(gridViewPage,tags);
 
 
             tv_cancel.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +123,7 @@ public class PublishActivity extends BaseActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    tv_label.setText(labellist.get(selectLabelIndex));
+                    tv_label.setText(tags.get(selectLabelIndex).getTitle());
                     popupWindow.dismiss();
                 }
             });
@@ -110,9 +149,9 @@ public class PublishActivity extends BaseActivity {
     }
 
     //载入数据到gridViewPage中
-    private void loadDataToGridViewPage(GridViewPage gridViewPage, final List<String> list) {
+    private void loadDataToGridViewPage(GridViewPage gridViewPage, final List<CircleTagVo> list) {
         gridViewPage.setModuleMenuRowCol(3,3);
-        GridViewPage.GirdViewPageAdapter adapter = new GridViewPage.GirdViewPageAdapter(activity, labellist) {
+        GridViewPage.GirdViewPageAdapter adapter = new GridViewPage.GirdViewPageAdapter(activity, list) {
             private int selectindex = selectLabelIndex;
 
             @Override
@@ -126,7 +165,7 @@ public class PublishActivity extends BaseActivity {
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
-                holder.tv.setText(list.get(position));
+                holder.tv.setText(list.get(position).getTitle());
                 if (selectindex == position) {
                     holder.tv.setBackgroundResource(R.drawable.bg_tv_orange);
                     holder.tv.setTextColor(getColorRes(R.color.color_white));
@@ -154,12 +193,84 @@ public class PublishActivity extends BaseActivity {
         gridViewPage.setAdapter(adapter);
     }
 
+    @OnClick(R.id.tv_publish)
+    void publish(View view) {
+        if (Utils.isEmpty(et_title.getText().toString())) {
+            toast("请输入标题");
+            return;
+        }
+        if (Utils.isEmpty(et_content.getText().toString())) {
+            toast("请输入内容");
+            return;
+        }
+        
+        if(!SimpleUtils.isLogin(activity)){
+            skip(LoginActivity.class);
+            return;
+        }
+        PostParams params = new PostParams();
+        showDialog();
+        params.put("title", et_title.getText().toString());
+        params.put("content", et_content.getText().toString());
+        params.put("address", tv_address.getText().toString());
+        params.put("category_id", "19");//标签id
+        params.put("pictures", "1357");
+        HttpUtils.postJSONOArray(activity, Const.PUBLIC_CIRCLE, SimpleUtils.buildUrl(activity, params), new RespJSONArrayListener(activity) {
+            @Override
+            public void getResp(JSONArray obj) {
+                dismissDialog();
+                RespVo respVo = GsonTools.getVo(obj.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    toast("动态已发布");
+                    finish();
+                } else {
+                    toast(respVo.getMessage());
+                }
+            }
+
+            @Override
+            public void doFailed() {
+                dismissDialog();
+            }
+        });
+
+    }
+
+    @OnClick(R.id.rl_label)
+    void selectLabel(View view) {
+        //判断tags是否为空
+
+        queryLabel();
+    }
 
     @OnClick(R.id.iv_back)
     void back(View view) {
         finish();
     }
 
+
+    private void queryLabel() {
+        showDialog();
+        HttpUtils.getJSONObject(activity, Const.GET_TAGS, new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject obj) {
+                dismissDialog();
+                RespVo<CircleTagVo> respVo = GsonTools.getVo(obj.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    tags = respVo.getListData(obj, CircleTagVo.class);
+                    //显示label的popupwindow
+                    showLabel();
+                } else {
+                    toast(respVo.getMessage());
+                }
+            }
+
+            @Override
+            public void doFailed() {
+
+            }
+        });
+    }
 
     @Override
     public int setLayoutResID() {

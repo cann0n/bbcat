@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.constValue.Const;
 
@@ -23,10 +24,10 @@ public class WelcomeActivity extends Activity
         {
             public void run()
             {
-				SharedPreferences sharedPreferences = getSharedPreferences(Const.SPNAME, Context.MODE_PRIVATE);
-				if(sharedPreferences.getBoolean(Const.SPNAME_FIRSTINSTALL, true))//第一次安装
+				SharedPreferences sharedPreferences = getSharedPreferences(Const.SP_NAME, Context.MODE_PRIVATE);
+				if(sharedPreferences.getBoolean(Const.FIR_INSTALL, true))//第一次安装
 				{
-					sharedPreferences.edit().putBoolean(Const.SPNAME_FIRSTINSTALL, false).commit();
+					sharedPreferences.edit().putBoolean(Const.FIR_INSTALL, false).commit();
 					Intent intent = new Intent(WelcomeActivity.this,FirstInstallActivity.class);
 					startActivity(intent);
 					finish();
@@ -34,7 +35,7 @@ public class WelcomeActivity extends Activity
 
 				else//已经安装过
 				{
-					Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+					Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
 					startActivity(intent);
 					finish();
 				}

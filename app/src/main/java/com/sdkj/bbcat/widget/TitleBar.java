@@ -1,6 +1,5 @@
 package com.sdkj.bbcat.widget;
 
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,8 +27,16 @@ public class TitleBar {
         this.activity = activity;
         iv_back = (ImageView) activity.findViewById(R.id.iv_back);
         iv_right = (ImageView) activity.findViewById(R.id.iv_right);
-        tv_title = (TextView) activity.findViewById(R.id.tv_title);
+        tv_title = (TextView) activity.findViewById(R.id.tv_bar_title);
         tv_right = (TextView) activity.findViewById(R.id.tv_right);
+    }
+
+    public TitleBar(BaseActivity activity,View rootView) {
+        this.activity = activity;
+        iv_back = (ImageView) rootView.findViewById(R.id.iv_back);
+        iv_right = (ImageView) rootView.findViewById(R.id.iv_right);
+        tv_title = (TextView) rootView.findViewById(R.id.tv_bar_title);
+        tv_right = (TextView) rootView.findViewById(R.id.tv_right);
     }
     public TitleBar setTitle(String title) {
         tv_title.setText(title);
@@ -48,10 +55,11 @@ public class TitleBar {
     }
 
     public TitleBar back() {
+        iv_back.setVisibility(View.VISIBLE);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.finish();
+                backDoing();
             }
         });
         return this;
@@ -65,5 +73,10 @@ public class TitleBar {
     public TitleBar hideRight() {
         tv_right.setVisibility(View.GONE);
         return this;
+    }
+
+    protected void backDoing()
+    {
+        activity.finish();
     }
 }

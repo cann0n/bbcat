@@ -54,13 +54,14 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:hint="添加一个标题"
+        android:minHeight="50dp"
         android:paddingBottom="10dp"
         android:paddingLeft="@dimen/theme_padding"
         android:paddingRight="@dimen/theme_padding"
         android:paddingTop="10dp"
         android:singleLine="true"
         android:text=""
-        android:textColor="@color/color_gray"
+        android:textColor="@color/color333"
         android:textColorHint="@color/color_gray"
         android:textSize="@dimen/textview_min" />
 
@@ -78,12 +79,6 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/icon_addzhaopian" />
 
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/icon_addzhaopian" />
     </com.sdkj.bbcat.widget.FlowLayout>
 
     <EditText
@@ -100,7 +95,7 @@
         android:paddingRight="@dimen/theme_padding"
         android:paddingTop="10dp"
         android:text=""
-        android:textColor="@color/color_gray"
+        android:textColor="@color/color333"
         android:textColorHint="@color/color_gray"
         android:textSize="@dimen/textview_min" />
 
@@ -190,5 +185,4 @@
                 android:background="@color/color_divide" />
         </RelativeLayout>
     </LinearLayout>
-    >
 </LinearLayout>

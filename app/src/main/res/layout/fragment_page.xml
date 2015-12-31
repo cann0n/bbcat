@@ -11,7 +11,7 @@
         android:background="@color/theme_orange_color">
 
         <ImageView
-            android:id="@+id/iv_left"
+            android:id="@+id/iv_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -53,6 +53,7 @@
 
 
             <ImageView
+                android:id="@+id/iv_banner"
                 android:layout_width="fill_parent"
                 android:layout_height="150dp"
                 android:scaleType="fitXY"
@@ -120,6 +121,7 @@
                 android:background="#F6F6F6"/>
 
             <TextView
+                android:id="@+id/tv_recommend_more"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/icon_home_logo"
@@ -148,6 +150,7 @@
                 android:background="#F6F6F6"/>
 
             <TextView
+                android:id="@+id/tv_diary_more"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
@@ -175,6 +178,7 @@
                 android:background="#F6F6F6"/>
 
             <TextView
+                android:id="@+id/tv_doctor_more"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
@@ -202,6 +206,7 @@
                 android:background="#F6F6F6"/>
 
             <TextView
+                android:id="@+id/tv_knowledge_more"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
@@ -229,6 +234,7 @@
                 android:background="#F6F6F6"/>
 
             <TextView
+                android:id="@+id/tv_my_circle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
@@ -256,6 +262,7 @@
                 android:background="#F6F6F6"/>
 
             <TextView
+                android:id="@+id/tv_guess"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"

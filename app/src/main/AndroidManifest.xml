@@ -2,6 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sdkj.bbcat">
 
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    
     <application
         android:name=".BbcatApp"
         android:allowBackup="true"
@@ -59,6 +76,38 @@
             android:name=".activity.loginandregister.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.loginandregister.RegisterInputPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.RegisterInputVerifyCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.FindScreteFirstStepActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.RegisterInputScreteActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.loginandregister.FindScreteSecondStepActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.loginandregister.FindScreteThirdStepActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.loginandregister.FillInfosFirstActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.FillInfosTwoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.FillInfosEndActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
             android:name=".activity.DetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -79,7 +128,27 @@
         <activity
             android:name=".activity.DelQunzuActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.news.NewsDetailActivity"
+            android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.news.NewsListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.news.DiaryListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.doctor.DoctorActActivity"
+            android:screenOrientation="portrait" />
+        
+        
+
+
+        <!-- 环信相关配置-->
+        <meta-data android:name="EASEMOB_APPKEY"  android:value="shidiansoftware#yeah" />
+        <!-- 声明sdk所需的service SDK核心功能-->
+        <service android:name="com.easemob.chat.EMChatService" />
     </application>
-
+    
 </manifest>
