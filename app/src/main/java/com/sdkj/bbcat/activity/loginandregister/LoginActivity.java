@@ -144,6 +144,7 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                         LoginBean bean = respVo.getData(jsonObject, LoginBean.class);
                         SpUtil sp=new SpUtil(activity,Const.SP_NAME);
                         sp.setValue(Const.TOKEN,bean.getToken());
+                        sp.setValue(Const.UID,bean.getUid());
                         finish();
                     } else {
                         toast(respVo.getMessage());

@@ -96,6 +96,10 @@ public class PublishActivity extends SimpleActivity {
      *
      */
     private void showLabel() {
+        if(Utils.isEmpty(tags)){
+            queryLabel();
+            return;
+        }
         if (popupView == null) {
             popupView = makeView(R.layout.pupopwindow_selectlabel);
             Rect rect = new Rect();
@@ -124,6 +128,7 @@ public class PublishActivity extends SimpleActivity {
                 @Override
                 public void onClick(View arg0) {
                     tv_label.setText(tags.get(selectLabelIndex).getTitle());
+                    tv_label.setTag(tags.get(selectLabelIndex).getId());
                     popupWindow.dismiss();
                 }
             });
@@ -203,7 +208,10 @@ public class PublishActivity extends SimpleActivity {
             toast("请输入内容");
             return;
         }
-        
+        if (tv_label.getTag()==null){
+            toast("请选择标签");
+            return;
+        }
         if(!SimpleUtils.isLogin(activity)){
             skip(LoginActivity.class);
             return;
@@ -213,11 +221,12 @@ public class PublishActivity extends SimpleActivity {
         params.put("title", et_title.getText().toString());
         params.put("content", et_content.getText().toString());
         params.put("address", tv_address.getText().toString());
-        params.put("category_id", "19");//标签id
+        params.put("category_id", tv_label.getTag().toString());//标签id
         params.put("pictures", "1357");
-        HttpUtils.postJSONOArray(activity, Const.PUBLIC_CIRCLE, SimpleUtils.buildUrl(activity, params), new RespJSONArrayListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.PUBLIC_CIRCLE, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+            
             @Override
-            public void getResp(JSONArray obj) {
+            public void getResp(JSONObject obj) {
                 dismissDialog();
                 RespVo respVo = GsonTools.getVo(obj.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
@@ -239,8 +248,7 @@ public class PublishActivity extends SimpleActivity {
     @OnClick(R.id.rl_label)
     void selectLabel(View view) {
         //判断tags是否为空
-
-        queryLabel();
+        showLabel();
     }
 
     @OnClick(R.id.iv_back)

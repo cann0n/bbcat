@@ -9,6 +9,15 @@ public class LoginBean implements Serializable
 {
     private UserInfosBean userInfo;
     private String token;
+    private String uid;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public UserInfosBean getUserInfo()
     {

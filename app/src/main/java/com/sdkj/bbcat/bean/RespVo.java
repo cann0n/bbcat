@@ -62,4 +62,10 @@ public class RespVo<T> implements Serializable {
         }
         return  "0".equals(code);
     }
+    public boolean isNeedLogin(){
+        if(code==null){
+            return  false;
+        }
+        return  "10401".equals(code);
+    }
 }

@@ -88,6 +88,11 @@ public class Const
      */
     public static final String GET_TAGS=DOMAIN+"/circle/getTags";
 
+    /**
+     * 点赞
+     */
+    public static final String DO_LIKE=DOMAIN+"/circle/doCollection";
+
 
     public static final String Schema = "http://120.26.212.241/";
 
