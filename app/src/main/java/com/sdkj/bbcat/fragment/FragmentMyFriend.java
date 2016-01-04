@@ -37,7 +37,7 @@ public class FragmentMyFriend extends BaseFragment {
     @Override
     protected void setListener() {
         ArrayList<FragmentVo> pageVo = new ArrayList<FragmentVo>();
-        pageVo.add(new FragmentVo(new TalkListFragment(), "会话"));
+        pageVo.add(new FragmentVo(new HuiHuaFragment(), "会话"));
         pageVo.add(new FragmentVo(new TalkListFragment(), "群组"));
         pageVo.add(new FragmentVo(new TalkListFragment(), "聊天室"));
         pageVo.add(new FragmentVo(new TalkListFragment(), "黑名单"));
