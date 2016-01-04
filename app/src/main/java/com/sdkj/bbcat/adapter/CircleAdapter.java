@@ -93,18 +93,22 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
             holder.tv_zan_add.setVisibility(View.INVISIBLE);
             //已关注
             if("1".equals(newsVo.getUser_info().getIs_following())) {
-                holder.iv_zan.setImageResource(R.drawable.icon_zan1);
                 holder.tv_guanzhu.setText("已关注");
             } else {
-                holder.iv_zan.setImageResource(R.drawable.icon_zan);
                 holder.tv_guanzhu.setText("关注");
             }
+            if("1".equals(newsVo.getNews_info().getIs_collected())) {
+                holder.iv_zan.setImageResource(R.drawable.icon_zan1);
+            } else {
+                holder.iv_zan.setImageResource(R.drawable.icon_zan);
+            }
+            
             holder.ll_zan.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     if(SimpleUtils.isLogin(activity)){
-                        doLike(newsVo,holder.iv_zan,holder.tv_zan,holder.tv_zan_add,holder.tv_guanzhu);
+                        doLike(newsVo,holder.iv_zan,holder.tv_zan,holder.tv_zan_add);
                     }else{
                         activity.skip(LoginActivity.class);
                     }
@@ -142,7 +146,7 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         }
     }
     
-    private void doLike(final CircleVo.ItemCircle newsVo, final ImageView iv_like, final TextView like_num, final TextView anim, final TextView follow) {
+    private void doLike(final CircleVo.ItemCircle newsVo, final ImageView iv_like, final TextView like_num, final TextView anim) {
         PostParams param = new PostParams();
         param.put("id", newsVo.getNews_info().getId());
         SpUtil sp=new SpUtil(activity,Const.SP_NAME);
@@ -152,13 +156,12 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
             public void getResp(JSONObject jsonObject) {
                 RespVo<String> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
-                    if("0".equals(newsVo.getUser_info().getIs_following())){
-                        newsVo.getUser_info().setIs_following("1");
+                    if("0".equals(newsVo.getNews_info().getIs_collected())){
+                        newsVo.getNews_info().setIs_collected("1");
                         iv_like.setImageResource(R.drawable.icon_zan1);
                         like_num.setText((Integer.parseInt(like_num.getText().toString()) + 1) + "");
                         newsVo.getNews_info().setCollection(like_num.getText().toString());
                         anim.setVisibility(View.VISIBLE);
-                        follow.setText("已关注");
                         anim.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.applaud_animation));
                         new Handler().postDelayed(new Runnable() {
                             public void run() {
@@ -166,11 +169,10 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                             }
                         }, 1000);   
                     }else{
-                        newsVo.getUser_info().setIs_following("0");
+                        newsVo.getNews_info().setIs_collected("0");
                         iv_like.setImageResource(R.drawable.icon_zan);
                         like_num.setText((Integer.parseInt(like_num.getText().toString()) - 1) + "");
                         newsVo.getNews_info().setCollection(like_num.getText().toString());
-                        follow.setText("关注");
                     }
                    
                 } else if(respVo.isNeedLogin()){
