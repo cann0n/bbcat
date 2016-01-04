@@ -33,7 +33,7 @@ public class SimpleUtils {
         if(isLogin(activity)){
             SpUtil sp=new SpUtil(activity,Const.SP_NAME);
             params.put("token",sp.getStringValue(Const.TOKEN));
-            params.put("uid ",sp.getStringValue(Const.UID));
+            params.put("uid",sp.getStringValue(Const.UID));
         }
         return  params;
     }

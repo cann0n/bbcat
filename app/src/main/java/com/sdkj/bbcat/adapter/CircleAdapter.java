@@ -1,6 +1,9 @@
 package com.sdkj.bbcat.adapter;
 
+import android.graphics.Color;
+import android.os.Handler;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -9,14 +12,24 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.adapter.UltimatCommonAdapter;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.DetailActivity;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.CircleVo;
 import com.sdkj.bbcat.bean.NewsVo;
+import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -67,13 +80,38 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
             holder. ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.skip(DetailActivity.class,newsVo);
+                    activity.skip(DetailActivity.class, newsVo);
                 }
             });
             holder. ll_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activity.toast("分享");
+                }
+            });
+
+            holder.tv_zan_add.setVisibility(View.INVISIBLE);
+            //已关注
+            if("1".equals(newsVo.getUser_info().getIs_following())) {
+                holder.tv_guanzhu.setText("已关注");
+            } else {
+                holder.tv_guanzhu.setText("关注");
+            }
+            if("1".equals(newsVo.getNews_info().getIs_collected())) {
+                holder.iv_zan.setImageResource(R.drawable.icon_zan1);
+            } else {
+                holder.iv_zan.setImageResource(R.drawable.icon_zan);
+            }
+            
+            holder.ll_zan.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if(SimpleUtils.isLogin(activity)){
+                        doLike(newsVo,holder.iv_zan,holder.tv_zan,holder.tv_zan_add);
+                    }else{
+                        activity.skip(LoginActivity.class);
+                    }
                 }
             });
         }
@@ -94,12 +132,59 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         TextView tv_title;
         TextView tv_comment;
         TextView tv_zan;
+        TextView tv_zan_add;
 
+        ImageView iv_zan;
+        
+        
         LinearLayout ll_item;
         LinearLayout ll_share;
+        LinearLayout ll_zan;
         
         public ViewHolder(View itemView) {
             super(itemView);
         }
+    }
+    
+    private void doLike(final CircleVo.ItemCircle newsVo, final ImageView iv_like, final TextView like_num, final TextView anim) {
+        PostParams param = new PostParams();
+        param.put("id", newsVo.getNews_info().getId());
+        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+        param.put("uid", sp.getStringValue(Const.UID));
+        HttpUtils.postJSONObject(activity, Const.DO_LIKE, SimpleUtils.buildUrl(activity,param), new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject jsonObject) {
+                RespVo<String> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    if("0".equals(newsVo.getNews_info().getIs_collected())){
+                        newsVo.getNews_info().setIs_collected("1");
+                        iv_like.setImageResource(R.drawable.icon_zan1);
+                        like_num.setText((Integer.parseInt(like_num.getText().toString()) + 1) + "");
+                        newsVo.getNews_info().setCollection(like_num.getText().toString());
+                        anim.setVisibility(View.VISIBLE);
+                        anim.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.applaud_animation));
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                anim.setVisibility(View.GONE);
+                            }
+                        }, 1000);   
+                    }else{
+                        newsVo.getNews_info().setIs_collected("0");
+                        iv_like.setImageResource(R.drawable.icon_zan);
+                        like_num.setText((Integer.parseInt(like_num.getText().toString()) - 1) + "");
+                        newsVo.getNews_info().setCollection(like_num.getText().toString());
+                    }
+                   
+                } else if(respVo.isNeedLogin()){
+                    activity.skip(LoginActivity.class);
+                } 
+            }
+
+            @Override
+            public void doFailed() {
+
+            }
+        });
+
     }
 }
