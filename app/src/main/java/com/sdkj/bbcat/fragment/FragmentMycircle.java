@@ -96,7 +96,7 @@ public class FragmentMycircle extends BaseFragment {
 
         final PostParams params = new PostParams();
         params.put("page", pageNum + "");
-        HttpUtils.postJSONObject(activity, Const.MY_CIRCLE, SimpleUtils.buildUrl(params), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.MY_CIRCLE, SimpleUtils.buildUrl(activity,params), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject jsonObject) {
                 list_circle.setRefreshing(false);

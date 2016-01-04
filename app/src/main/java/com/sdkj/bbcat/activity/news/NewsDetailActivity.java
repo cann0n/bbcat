@@ -69,7 +69,7 @@ public class NewsDetailActivity extends SimpleActivity {
         PostParams params = new PostParams();
         params.put("news_id", vo.getId());
         showDialog();
-        HttpUtils.postJSONObject(activity, Const.NEWS_DETAIL, SimpleUtils.buildUrl(params), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.NEWS_DETAIL, SimpleUtils.buildUrl(activity,params), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject obj) {
                 dismissDialog();

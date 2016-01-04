@@ -2,7 +2,11 @@ package com.sdkj.bbcat.constValue;
 
 import android.content.Context;
 
+import com.bumptech.glide.util.Util;
+import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.utils.SpUtil;
+import com.huaxi100.networkapp.utils.Utils;
 
 import java.io.InputStream;
 
@@ -11,19 +15,37 @@ import java.io.InputStream;
  */
 public class SimpleUtils {
     
-    public  static String buildUrl(String url){
+    public  static String buildUrl(BaseActivity activity,String url){
         if(url.endsWith("?")){
             url=url+"version="+Const.APK_VERSION+"&client="+Const.CLIENT;
         }else{
             url=url+"&version="+Const.APK_VERSION+"&client="+Const.CLIENT;
         }
+        if(isLogin(activity)){
+            SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+            url=url+"&token="+sp.getStringValue(Const.TOKEN)+"&uid="+sp.getStringValue(Const.UID);
+        }
         return  url;
     }
-    public  static PostParams buildUrl(PostParams params){
+    public  static PostParams buildUrl(BaseActivity activity,PostParams params){
         params.put("version",Const.APK_VERSION);
         params.put("client",Const.CLIENT);
+        if(isLogin(activity)){
+            SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+            params.put("token",sp.getStringValue(Const.TOKEN));
+            params.put("uid ",sp.getStringValue(Const.UID));
+        }
         return  params;
     }
+    
+    public  static boolean isLogin(BaseActivity activity){
+        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+        if(Utils.isEmpty(sp.getStringValue(Const.TOKEN))){
+            return  false;
+        }
+        return  true;
+    }
+    
     public static String getImageUrl(String url) {
         if (url.startsWith("http") || url.startsWith("https")) {
             return url;

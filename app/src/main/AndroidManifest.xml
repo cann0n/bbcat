@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sdkj.bbcat" >
+    package="com.sdkj.bbcat">
 
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -20,19 +20,19 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     
     <application
+        android:name=".BbcatApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".BbcatApp">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.loginandregister.WelcomeActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="@string/app_name">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".activity.SearchActivity"
@@ -52,9 +52,20 @@
         <activity
             android:name=".activity.CatDortorActivity"
             android:screenOrientation="portrait" />
+
+
         <activity
             android:name=".activity.PublishActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />

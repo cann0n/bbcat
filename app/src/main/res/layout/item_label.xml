@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_item_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_tv_white"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/theme_padding"
+        android:paddingRight="@dimen/theme_padding"
+        android:paddingTop="10dp"
+        android:text="孕前检查"
+        android:textColor="@color/color333"
+        android:textSize="10sp" />
+</LinearLayout>

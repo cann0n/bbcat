@@ -14,8 +14,10 @@ public class Const
     
     public static  final String APK_VERSION="0.1";
    
+   
     public static  final String CLIENT="android";
-    
+    public static  final String UID="bbcat_uid";
+    public static  final String TOKEN="bbcat_token";
     
 
     //网络请求信息配置
@@ -75,6 +77,16 @@ public class Const
      * 圈圈详情
      */
     public static final String CIRCLE_DETAIL=DOMAIN+"/circle/detail";
+
+    /**
+     * 发布动态
+     */
+    public static final String PUBLIC_CIRCLE=DOMAIN+"/circle/push";
+
+    /**
+     * 发布动态获取tag
+     */
+    public static final String GET_TAGS=DOMAIN+"/circle/getTags";
 
 
     public static final String Schema = "http://120.26.212.241/";
