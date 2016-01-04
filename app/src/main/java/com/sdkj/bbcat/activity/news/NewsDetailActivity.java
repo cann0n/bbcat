@@ -5,7 +5,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huaxi100.networkapp.network.HttpUtils;
@@ -77,7 +76,7 @@ public class NewsDetailActivity extends SimpleActivity {
                 RespVo<NewsDetailVo> respVo = GsonTools.getVo(obj.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
                     NewsDetailVo vo = respVo.getData(obj, NewsDetailVo.class);
-                    web_view.loadDataWithBaseURL(null, String.format(tempContent, vo.getDetail().getContent()), "text/html", "utf-8", null);
+                    web_view.loadDataWithBaseURL(null, String.format(tempContent, vo.getDetail()), "text/html", "utf-8", null);
                 } else {
                     toast(respVo.getMessage());
                 }

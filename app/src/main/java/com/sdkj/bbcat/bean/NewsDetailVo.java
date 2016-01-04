@@ -11,7 +11,7 @@ public class NewsDetailVo {
     private String cover;
     private String view;
     private String create_time;
-    private Detail detail;
+    private String detail;
     private String category_name;
 
     public String getId() {
@@ -62,11 +62,21 @@ public class NewsDetailVo {
         this.create_time = create_time;
     }
 
-    public Detail getDetail() {
+   /* public Detail getDetail() {
         return detail;
     }
 
     public void setDetail(Detail detail) {
+        this.detail = detail;
+    }*/
+
+    public String getDetail()
+    {
+        return detail;
+    }
+
+    public void setDetail(String detail)
+    {
         this.detail = detail;
     }
 

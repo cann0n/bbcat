@@ -12,7 +12,9 @@ import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
+import com.sdkj.bbcat.BbcatApp;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.bean.LoginBean;
@@ -60,13 +62,16 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
     @Override
     public void initBusiness() {
         TitleBar titleBar = new TitleBar(activity).setTitle("登陆").back();
-        titleBar.showRight("注册", new View.OnClickListener() {
-            public void onClick(View v) {
+        titleBar.showRight("注册", new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
                 skip(RegisterInputPhoneActivity.class);
             }
         });
 
-        mAccountEt.addTextChangedListener(new TextWatcher() {
+        mAccountEt.addTextChangedListener(new TextWatcher()
+        {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -135,25 +140,42 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
             params.put("password", mPasswordEt.getText().toString().trim());
             HttpUtils.postJSONObject(LoginActivity.this, Const.Login, params, new RespJSONObjectListener(LoginActivity.this) {
                 @Override
-                public void getResp(JSONObject jsonObject) {
+                public void getResp(JSONObject jsonObject)
+                {
                     dismissDialog();
                     RespVo<LoginBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                    if (respVo.isSuccess()) {
-                        toast("登陆成功");
+
+                    if (respVo.isSuccess())
+                    {
                         LoginBean bean = respVo.getData(jsonObject, LoginBean.class);
+                        ((BbcatApp)getApplication()).setmUser(bean);
+                        SpUtil sp_login =  new SpUtil(activity,Const.AL_LOGIN);
+                        sp_login.setValue("isLogin", true);
+                        sp_login.setValue("sex", bean.getUserInfo().getSex());
+                        sp_login.setValue("birthday", bean.getUserInfo().getBirthday());
+                        sp_login.setValue("nickname", bean.getUserInfo().getNickname());
+                        sp_login.setValue("token", bean.getToken());
+                        toast("登陆成功");
                         finish();
-                    } else {
+                    }
+
+                    else
+                    {
                         toast(respVo.getMessage());
                     }
                 }
 
                 @Override
-                public void doFailed() {
+                public void doFailed()
+                {
                     dismissDialog();
                     toast("链接服务器失败");
                 }
             });
-        } else if (v == mFindPasswordsTv) {
+        }
+
+        else if (v == mFindPasswordsTv)
+        {
             skip(FindScreteFirstStepActivity.class);
         }
 

@@ -3,6 +3,10 @@ package com.sdkj.bbcat;
 import android.os.Bundle;
 
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.utils.SpUtil;
+import com.sdkj.bbcat.bean.LoginBean;
+import com.sdkj.bbcat.bean.UserInfosBean;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.fragment.BraceletPage;
 import com.sdkj.bbcat.fragment.CommunityPage;
 import com.sdkj.bbcat.fragment.HomePage;
@@ -80,12 +84,26 @@ public class MainActivity extends TabUiActivity {
     }
 
     @Override
-    public void initBusiness() {
+    public void initBusiness()
+    {
         super.initBusiness();
+        SpUtil sp_login =  new SpUtil(activity,Const.AL_LOGIN);
+        if(sp_login.getBoolValueFalse("isLogin"))
+        {
+            UserInfosBean infosBean = new UserInfosBean();
+            infosBean.setBirthday(sp_login.getStringValue("birthday"));
+            infosBean.setNickname(sp_login.getStringValue("nickname"));
+            infosBean.setSex(sp_login.getStringValue("sex"));
+            LoginBean bean = new LoginBean();
+            bean.setUserInfo(infosBean);
+            bean.setToken(sp_login.getStringValue("token"));
+            ((BbcatApp)getApplication()).setmUser(bean);
+        }
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState)
+    {
 
     }
 }

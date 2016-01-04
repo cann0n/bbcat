@@ -38,11 +38,8 @@ public class NewsPage extends BaseFragment {
 
     @ViewInject(R.id.list_view)
     private CustomRecyclerView list_view;
-
     private NewsAdapter adapter;
-
     private int pageNum = 1;
-
     private static final String ID = "3";
 
     TextView tv_1;
@@ -92,7 +89,6 @@ public class NewsPage extends BaseFragment {
         UltimateRecyclerView.CustomRelativeWrapper wrapper = new UltimateRecyclerView.CustomRelativeWrapper(activity);
         wrapper.addView(header);
         adapter.setCustomHeaderView(wrapper);
-
         query(ID);
     }
 

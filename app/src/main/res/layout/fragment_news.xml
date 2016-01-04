@@ -6,9 +6,9 @@
               tools:context=".MainActivity">
 
     <include layout="@layout/layout_title_bar"/>
+
     <com.huaxi100.networkapp.widget.CustomRecyclerView
         android:id="@+id/list_view"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
+        android:layout_height="fill_parent"/>
 </LinearLayout>

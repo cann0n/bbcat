@@ -3,6 +3,8 @@ package com.sdkj.bbcat;
 import android.app.ProgressDialog;
 
 import com.huaxi100.networkapp.activity.BaseActivity;
+import com.huaxi100.networkapp.utils.SpUtil;
+import com.sdkj.bbcat.constValue.Const;
 
 /**
  * Created by ${Rhino} on 2015/12/10 15:32
@@ -43,5 +45,11 @@ public abstract class SimpleActivity extends BaseActivity {
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
+    }
+
+    public boolean isLogin()
+    {
+        SpUtil sp =  new SpUtil(this, Const.AL_LOGIN);
+        return sp.getBoolValueFalse("isLogin");
     }
 }
