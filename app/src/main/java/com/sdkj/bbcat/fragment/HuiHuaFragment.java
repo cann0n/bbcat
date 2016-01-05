@@ -42,8 +42,6 @@ import java.util.List;
  */
 public class HuiHuaFragment extends BaseFragment{
 
-    protected EditText query;
-    protected ImageButton clearSearch;
     protected boolean hidden;
     protected List<EMConversation> conversationList = new ArrayList<EMConversation>();
     protected EaseConversationList conversationListView;
@@ -54,17 +52,9 @@ public class HuiHuaFragment extends BaseFragment{
     private TextView errorText;
     @Override
     protected void setListener() {
-        //会话列表控件
-        conversationListView = (EaseConversationList) getView().findViewById(com.easemob.easeui.R.id.list);
-        // 搜索框
-        query = (EditText) getView().findViewById(com.easemob.easeui.R.id.query);
-        // 搜索框中清除button
-        clearSearch = (ImageButton) getView().findViewById(com.easemob.easeui.R.id.search_clear);
-        errorItemContainer = (FrameLayout) getView().findViewById(com.easemob.easeui.R.id.fl_error_item);
-
-
+        conversationListView = (EaseConversationList) rootView.findViewById(com.easemob.easeui.R.id.list);
+        errorItemContainer = (FrameLayout) rootView.findViewById(com.easemob.easeui.R.id.fl_error_item);
         conversationListView.init(conversationList);
-
         if(listItemClickListener != null){
             conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -78,30 +68,6 @@ public class HuiHuaFragment extends BaseFragment{
 
         EMChatManager.getInstance().addConnectionListener(connectionListener);
 
-        query.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                conversationListView.filter(s);
-                if (s.length() > 0) {
-                    clearSearch.setVisibility(View.VISIBLE);
-                } else {
-                    clearSearch.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        clearSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                query.getText().clear();
-                Utils.hideKeyboard(activity);
-            }
-        });
-
         conversationListView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -114,7 +80,6 @@ public class HuiHuaFragment extends BaseFragment{
         View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.em_chat_neterror_item, null);
         errorItemContainer.addView(errorView);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
-
 
         conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -197,7 +162,6 @@ public class HuiHuaFragment extends BaseFragment{
             errorText.setText(R.string.the_current_network);
         }
     }
-
 
     /**
      * 刷新页面

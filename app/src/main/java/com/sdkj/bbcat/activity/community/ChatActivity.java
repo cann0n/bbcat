@@ -27,7 +27,6 @@ public class ChatActivity extends SimpleActivity{
         //传入参数
         chatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
-
     }
 
     @Override

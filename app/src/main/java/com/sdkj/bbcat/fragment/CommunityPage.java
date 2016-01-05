@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,8 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.PublishActivity;
+import com.sdkj.bbcat.hx.activity.AddContactActivity;
+import com.sdkj.bbcat.hx.activity.NewGroupActivity;
 
 import java.util.ArrayList;
 
@@ -25,23 +28,23 @@ import java.util.ArrayList;
  * Created by ${Rhino} on 2015/11/12 09:58
  */
 public class CommunityPage extends BaseFragment {
-    
+
     @ViewInject(R.id.vp_pager)
     private ViewPager vp_pager;
-    
+
     @ViewInject(R.id.tv_guys)
     private TextView tv_guys;
-    
-    
+
+
     @ViewInject(R.id.tv_club)
     private TextView tv_club;
-    
+
     @ViewInject(R.id.v_line1)
     private View v_line1;
 
     @ViewInject(R.id.v_line2)
     private View v_line2;
-    
+
     @ViewInject(R.id.iv_edit)
     private ImageView iv_edit;
 
@@ -49,8 +52,8 @@ public class CommunityPage extends BaseFragment {
     private View popupClub;
 
     private PopupWindow popupWindowClub;
-    
-    
+
+
     @Override
     protected void setListener() {
         ArrayList<FragmentVo> pageVo = new ArrayList<FragmentVo>();
@@ -88,10 +91,8 @@ public class CommunityPage extends BaseFragment {
     }
 
     @OnClick(R.id.iv_edit)
-    void select(View view){
-        
-            showClubWindow();
-        
+    void select(View view) {
+        showClubWindow();
     }
 
     private void changeBtn(int position) {
@@ -112,7 +113,7 @@ public class CommunityPage extends BaseFragment {
 
     private void showClubWindow() {
         if (popupClub == null) {
-            int w= AppUtils.getWidth(activity)*2/5;
+            int w = AppUtils.getWidth(activity) * 2 / 5;
             popupClub = activity.makeView(R.layout.club_popup_dialog);
             popupWindowClub = new PopupWindow(popupClub, w, WindowManager.LayoutParams.WRAP_CONTENT);
             popupWindowClub.setFocusable(true);
@@ -130,6 +131,7 @@ public class CommunityPage extends BaseFragment {
                 @Override
                 public void onClick(View view) {
                     popupWindowClub.dismiss();
+                    activity.skip(AddContactActivity.class);
                 }
             });
             tv_rock_bar.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +144,7 @@ public class CommunityPage extends BaseFragment {
                 @Override
                 public void onClick(View view) {
                     popupWindowClub.dismiss();
+                    activity.skip(NewGroupActivity.class);
                 }
             });
 
@@ -159,10 +162,10 @@ public class CommunityPage extends BaseFragment {
             popupWindowClub.showAsDropDown(iv_edit, -220, 20);
         }
     }
-    
+
     @OnClick(R.id.iv_left)
-    void publish(View ivew){
-            activity.skip(PublishActivity.class);    
+    void publish(View ivew) {
+        activity.skip(PublishActivity.class);
     }
 
     @Override

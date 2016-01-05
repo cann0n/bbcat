@@ -1,4 +1,4 @@
-package com.sdkj.bbcat.hx;
+package com.sdkj.bbcat.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

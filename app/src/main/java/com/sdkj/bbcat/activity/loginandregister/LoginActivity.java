@@ -149,12 +149,12 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                     {
                         LoginBean bean = respVo.getData(jsonObject, LoginBean.class);
                         ((BbcatApp)getApplication()).setmUser(bean);
-                        SpUtil sp_login =  new SpUtil(activity,Const.AL_LOGIN);
-                        sp_login.setValue("isLogin", true);
+                        SpUtil sp_login =  new SpUtil(activity,Const.SP_NAME);
                         sp_login.setValue("sex", bean.getUserInfo().getSex());
                         sp_login.setValue("birthday", bean.getUserInfo().getBirthday());
                         sp_login.setValue("nickname", bean.getUserInfo().getNickname());
-                        sp_login.setValue("token", bean.getToken());
+                        sp_login.setValue(Const.TOKEN, bean.getToken());
+                        sp_login.setValue(Const.UID, bean.getUid());
                         toast("登陆成功");
                         finish();
                     }
