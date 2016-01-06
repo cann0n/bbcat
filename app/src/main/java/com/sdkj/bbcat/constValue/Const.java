@@ -18,6 +18,7 @@ public class Const
     public static  final String CLIENT="android";
     public static  final String UID="bbcat_uid";
     public static  final String TOKEN="bbcat_token";
+    public static  final String PHONE="bbcat_phone";
     
 
     //网络请求信息配置

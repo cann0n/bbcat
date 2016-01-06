@@ -21,6 +21,7 @@ import com.sdkj.bbcat.bean.LoginBean;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.bean.VerifyBean;
 import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
@@ -155,7 +156,9 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                         sp_login.setValue("nickname", bean.getUserInfo().getNickname());
                         sp_login.setValue(Const.TOKEN, bean.getToken());
                         sp_login.setValue(Const.UID, bean.getUid());
+                        sp_login.setValue(Const.PHONE, mAccountEt.getText().toString().trim());
                         toast("登陆成功");
+                        SimpleUtils.loginHx(activity.getApplicationContext());
                         finish();
                     }
 

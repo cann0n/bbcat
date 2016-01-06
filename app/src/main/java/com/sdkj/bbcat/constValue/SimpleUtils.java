@@ -88,11 +88,11 @@ public class SimpleUtils {
         }
     }
     
-    public static void loginHx(Context context){
+    public static void loginHx(final Context context){
         final SpUtil sp=new SpUtil(context, Const.SP_NAME);
-//        if(!Utils.isEmpty(sp.getStringValue(Const.UID))){
-//            EMChatManager.getInstance().login(sp.getStringValue(Const.UID),sp.getStringValue(Const.UID),new EMCallBack() {//回调
-            EMChatManager.getInstance().login("15114023665","123456",new EMCallBack() {//回调
+        if(!Utils.isEmpty(sp.getStringValue(Const.PHONE))){
+            EMChatManager.getInstance().login(sp.getStringValue(Const.PHONE),sp.getStringValue(Const.PHONE),new EMCallBack() {//回调
+//            EMChatManager.getInstance().login("15114023665","123456",new EMCallBack() {//回调
                 @Override
                 public void onSuccess() {
                     System.out.println("sp = 登录环信成功" );
@@ -105,11 +105,12 @@ public class SimpleUtils {
 
                 @Override
                 public void onError(int code, String message) {
+                    System.out.println("code = " + code);
                     new Thread(new Runnable() {
                         public void run() {
                             try {
                                 // 调用sdk注册方法
-                                EMChatManager.getInstance().createAccountOnServer(sp.getStringValue(Const.UID), sp.getStringValue(Const.UID));
+                                EMChatManager.getInstance().createAccountOnServer(sp.getStringValue(Const.PHONE), sp.getStringValue(Const.PHONE));
                             } catch (final EaseMobException e) {
                                 //注册失败
                             }
@@ -118,5 +119,5 @@ public class SimpleUtils {
             });
         }
 
-//    }
+    }
 }

@@ -144,7 +144,8 @@
         
 
         <!-- 环信相关配置-->
-        <meta-data android:name="EASEMOB_APPKEY"  android:value="easemob-demo#chatdemoui" />
+        <meta-data android:name="EASEMOB_APPKEY"  android:value="maodu#bubumaochat" />
+        <!--<meta-data android:name="EASEMOB_APPKEY"  android:value="easemob-demo#chatdemoui" />-->
         <!-- 声明sdk所需的service SDK核心功能-->
         <service android:name="com.easemob.chat.EMChatService" />
         <receiver android:name="com.easemob.chat.EMMonitorReceiver">
@@ -202,6 +203,12 @@
         
         <activity
             android:name=".hx.activity.NewFriendsMsgActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name=".hx.activity.ExitGroupDialog"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustResize" >

@@ -33,7 +33,9 @@ public class BbcatApp extends BaseApplication {
         applicationContext = this;
         instance=this;
         DemoHelper.getInstance().init(applicationContext);
+        EMChatManager.getInstance().getChatOptions().setUseRoster(true);
         SimpleUtils.loginHx(this);
+        
     }
 
     public LoginBean getmUser() {

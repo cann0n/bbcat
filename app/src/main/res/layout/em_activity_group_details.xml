@@ -220,7 +220,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:layout_marginTop="6dp"
-                android:background="@drawable/em_btn_bottom_selector">
+                android:background="@drawable/em_btn_bottom_selector"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -247,7 +248,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:layout_marginTop="6dp"
-                android:background="@drawable/em_btn_bottom_selector">
+                android:background="@drawable/em_btn_bottom_selector"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"

@@ -11,7 +11,11 @@ import android.widget.TextView;
 
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 
 import java.util.List;
 
@@ -149,6 +153,12 @@ public abstract class TabUiActivity extends SimpleActivity {
 
 
     private void switchFragment(int viewId) {
+        if (viewId == R.id.tv_tab4) {
+            if (!SimpleUtils.isLogin(activity)) {
+                skip(LoginActivity.class);
+                return;
+            }
+        }
         changeTextStatus(viewId);
         Fragment fragment = null;
         if (viewId == R.id.tv_tab1) {
@@ -266,7 +276,6 @@ public abstract class TabUiActivity extends SimpleActivity {
             tv_tab5.setCompoundDrawablesWithIntrinsicBounds(null, getDrawableRes(tabIconResids.get(4)), null, null);
         }
     }
-
 
     public abstract BaseFragment initPage1();
 

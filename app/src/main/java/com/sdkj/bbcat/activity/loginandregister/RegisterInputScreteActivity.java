@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChatManager;
+import com.easemob.exceptions.EaseMobException;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -81,6 +83,15 @@ public class RegisterInputScreteActivity extends SimpleActivity
                                   if (respVo.isSuccess())
                                   {
                                       showCompleteDialog();
+                                      new Thread(new Runnable() {
+                                          public void run() {
+                                              try {
+                                                  // 调用sdk注册方法
+                                                  EMChatManager.getInstance().createAccountOnServer((String)getVo("0"), (String)getVo("0"));
+                                              } catch (final EaseMobException e) {
+                                                  //注册失败
+                                              }
+                                          }}).start();
                                   }
                                   else
                                   {
