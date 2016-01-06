@@ -38,7 +38,7 @@ import java.util.List;
  * 我的圈列表
  */
 public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, CircleAdapter.ViewHolder> {
-    
+
     public CircleAdapter(BaseActivity activity, List<CircleVo.ItemCircle> data) {
         super(activity, ViewHolder.class, R.id.class, data, R.layout.item_circle);
     }
@@ -50,7 +50,7 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
             final CircleVo.ItemCircle newsVo = getItem(position);
 
             Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getUser_info().getAvatar())).into(holder.iv_avatar);
-            
+
             holder.tv_name.setText(newsVo.getUser_info().getNickname());
             holder.tv_desc.setText(newsVo.getUser_info().getBirthday());
             holder.tv_guanzhu.setOnClickListener(new View.OnClickListener() {
@@ -59,31 +59,31 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                     activity.toast("关注");
                 }
             });
-            if(Utils.isEmpty(newsVo.getNews_info().getCover())){
+            if (Utils.isEmpty(newsVo.getNews_info().getCover())) {
                 holder.iv_thumb.setVisibility(View.GONE);
-            }else{
+            } else {
                 holder.iv_thumb.setVisibility(View.VISIBLE);
                 Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getCover())).into(holder.iv_thumb);
             }
-            if(Utils.isEmpty(newsVo.getNews_info().getAddress())){
+            if (Utils.isEmpty(newsVo.getNews_info().getAddress())) {
                 holder.tv_address.setVisibility(View.GONE);
-            }else{
+            } else {
                 holder.tv_address.setVisibility(View.VISIBLE);
                 holder.tv_address.setText(newsVo.getNews_info().getAddress());
             }
-            holder.tv_liulan.setText(newsVo.getNews_info().getView()+"");
-            holder.tv_time.setText(newsVo.getNews_info().getCreate_time()+"");
+            holder.tv_liulan.setText(newsVo.getNews_info().getView() + "");
+            holder.tv_time.setText(newsVo.getNews_info().getCreate_time() + "");
             holder.tv_title.setText(newsVo.getNews_info().getTitle());
             holder.tv_comment.setText(newsVo.getNews_info().getComment());
             holder.tv_zan.setText(newsVo.getNews_info().getCollection());
-            
-            holder. ll_item.setOnClickListener(new View.OnClickListener() {
+
+            holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activity.skip(DetailActivity.class, newsVo);
                 }
             });
-            holder. ll_share.setOnClickListener(new View.OnClickListener() {
+            holder.ll_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activity.toast("分享");
@@ -92,24 +92,35 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
             holder.tv_zan_add.setVisibility(View.INVISIBLE);
             //已关注
-            if("1".equals(newsVo.getUser_info().getIs_following())) {
+            if ("1".equals(newsVo.getUser_info().getIs_following())) {
                 holder.tv_guanzhu.setText("已关注");
             } else {
                 holder.tv_guanzhu.setText("关注");
             }
-            if("1".equals(newsVo.getNews_info().getIs_collected())) {
+
+            holder.tv_guanzhu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (SimpleUtils.isLogin(activity)) {
+                        doLike(newsVo, holder.tv_guanzhu);
+                    } else {
+                        activity.skip(LoginActivity.class);
+                    }
+                }
+            });
+            if ("1".equals(newsVo.getNews_info().getIs_collected())) {
                 holder.iv_zan.setImageResource(R.drawable.icon_zan1);
             } else {
                 holder.iv_zan.setImageResource(R.drawable.icon_zan);
             }
-            
+
             holder.ll_zan.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    if(SimpleUtils.isLogin(activity)){
-                        doLike(newsVo,holder.iv_zan,holder.tv_zan,holder.tv_zan_add);
-                    }else{
+                    if (SimpleUtils.isLogin(activity)) {
+                        doLike(newsVo, holder.iv_zan, holder.tv_zan, holder.tv_zan_add);
+                    } else {
                         activity.skip(LoginActivity.class);
                     }
                 }
@@ -123,7 +134,7 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         ImageView iv_thumb;
         TextView tv_name;
         TextView tv_desc;
-        
+
         TextView tv_guanzhu;
         TextView tv_address;
         TextView tv_liulan;
@@ -135,28 +146,28 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         TextView tv_zan_add;
 
         ImageView iv_zan;
-        
-        
+
+
         LinearLayout ll_item;
         LinearLayout ll_share;
         LinearLayout ll_zan;
-        
+
         public ViewHolder(View itemView) {
             super(itemView);
         }
     }
-    
+
     private void doLike(final CircleVo.ItemCircle newsVo, final ImageView iv_like, final TextView like_num, final TextView anim) {
         PostParams param = new PostParams();
         param.put("id", newsVo.getNews_info().getId());
-        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+        SpUtil sp = new SpUtil(activity, Const.SP_NAME);
         param.put("uid", sp.getStringValue(Const.UID));
-        HttpUtils.postJSONObject(activity, Const.DO_LIKE, SimpleUtils.buildUrl(activity,param), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.DO_LIKE, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject jsonObject) {
                 RespVo<String> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
-                    if("0".equals(newsVo.getNews_info().getIs_collected())){
+                    if ("0".equals(newsVo.getNews_info().getIs_collected())) {
                         newsVo.getNews_info().setIs_collected("1");
                         iv_like.setImageResource(R.drawable.icon_zan1);
                         like_num.setText((Integer.parseInt(like_num.getText().toString()) + 1) + "");
@@ -167,17 +178,17 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                             public void run() {
                                 anim.setVisibility(View.GONE);
                             }
-                        }, 1000);   
-                    }else{
+                        }, 1000);
+                    } else {
                         newsVo.getNews_info().setIs_collected("0");
                         iv_like.setImageResource(R.drawable.icon_zan);
                         like_num.setText((Integer.parseInt(like_num.getText().toString()) - 1) + "");
                         newsVo.getNews_info().setCollection(like_num.getText().toString());
                     }
-                   
-                } else if(respVo.isNeedLogin()){
+
+                } else if (respVo.isNeedLogin()) {
                     activity.skip(LoginActivity.class);
-                } 
+                }
             }
 
             @Override
@@ -185,6 +196,36 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
             }
         });
+    }
 
+    private void doLike(final CircleVo.ItemCircle newsVo, final TextView follow) {
+        PostParams param = new PostParams();
+        param.put("id", newsVo.getNews_info().getId());
+        SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+        param.put("uid", sp.getStringValue(Const.UID));
+        HttpUtils.postJSONObject(activity, Const.DO_LIKE, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject jsonObject) {
+                RespVo<String> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    if ("0".equals(newsVo.getUser_info().getIs_following())) {
+                        newsVo.getUser_info().setIs_following("1");
+                        follow.setText("已关注");
+                    } else {
+                        newsVo.getUser_info().setIs_following("1");
+                        follow.setText("关注");
+                    }
+
+
+                } else if (respVo.isNeedLogin()) {
+                    activity.skip(LoginActivity.class);
+                }
+            }
+
+            @Override
+            public void doFailed() {
+
+            }
+        });
     }
 }

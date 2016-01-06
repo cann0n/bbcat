@@ -68,15 +68,6 @@ public class HuiHuaFragment extends BaseFragment{
 
         EMChatManager.getInstance().addConnectionListener(connectionListener);
 
-        conversationListView.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Utils.hideKeyboard(activity);
-                return false;
-            }
-        });
-
         View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.em_chat_neterror_item, null);
         errorItemContainer.addView(errorView);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);

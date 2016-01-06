@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.sdkj.bbcat.hx;
+package com.sdkj.bbcat.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.sdkj.bbcat.hx.RecyclingBitmapDrawable;
+
 
 /**
  * Sub-class of ImageView which automatically notifies the drawable when it is
