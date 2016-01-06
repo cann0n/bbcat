@@ -200,6 +200,13 @@
             android:windowSoftInputMode="adjustResize" >
         </activity>
         
+        <activity
+            android:name=".hx.activity.NewFriendsMsgActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        
     </application>
     
 </manifest>

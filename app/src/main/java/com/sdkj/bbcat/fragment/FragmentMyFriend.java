@@ -40,7 +40,7 @@ public class FragmentMyFriend extends BaseFragment {
         pageVo.add(new FragmentVo(new HuiHuaFragment(), "会话"));
         pageVo.add(new FragmentVo(new GroupFragment(), "群组"));
         pageVo.add(new FragmentVo(new FragmentChatRoom(), "聊天室"));
-        pageVo.add(new FragmentVo(new ContactFragment(), "黑名单"));
+        pageVo.add(new FragmentVo(new ContactFragment(), "通讯录"));
         FragPagerAdapter adapter = new FragPagerAdapter(getChildFragmentManager(), pageVo);
         vp_pager.setAdapter(adapter);
         vp_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -48,7 +48,7 @@ import com.easemob.easeui.domain.EaseUser;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.easeui.widget.EaseContactList;
 import com.easemob.exceptions.EaseMobException;
-
+import com.easemob.easeui.R;
 /**
  * 联系人列表页
  * 
