@@ -53,7 +53,7 @@
             android:textSize="@dimen/textview_min"
             android:layout_marginRight="@dimen/theme_margin"
             android:layout_marginLeft="@dimen/theme_margin"
-            android:text="黑名单"/>
+            android:text="通讯录"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

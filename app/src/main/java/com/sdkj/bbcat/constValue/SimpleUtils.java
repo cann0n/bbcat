@@ -3,6 +3,9 @@ package com.sdkj.bbcat.constValue;
 import android.content.Context;
 
 import com.bumptech.glide.util.Util;
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
+import com.easemob.exceptions.EaseMobException;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.utils.SpUtil;
@@ -85,4 +88,35 @@ public class SimpleUtils {
         }
     }
     
+    public static void loginHx(Context context){
+        final SpUtil sp=new SpUtil(context, Const.SP_NAME);
+//        if(!Utils.isEmpty(sp.getStringValue(Const.UID))){
+//            EMChatManager.getInstance().login(sp.getStringValue(Const.UID),sp.getStringValue(Const.UID),new EMCallBack() {//回调
+            EMChatManager.getInstance().login("15114023665","123456",new EMCallBack() {//回调
+                @Override
+                public void onSuccess() {
+                    System.out.println("sp = 登录环信成功" );
+                }
+
+                @Override
+                public void onProgress(int progress, String status) {
+
+                }
+
+                @Override
+                public void onError(int code, String message) {
+                    new Thread(new Runnable() {
+                        public void run() {
+                            try {
+                                // 调用sdk注册方法
+                                EMChatManager.getInstance().createAccountOnServer(sp.getStringValue(Const.UID), sp.getStringValue(Const.UID));
+                            } catch (final EaseMobException e) {
+                                //注册失败
+                            }
+                        }}).start();
+                }
+            });
+        }
+
+//    }
 }

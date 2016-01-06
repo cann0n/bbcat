@@ -37,10 +37,10 @@ public class FragmentMyFriend extends BaseFragment {
     @Override
     protected void setListener() {
         ArrayList<FragmentVo> pageVo = new ArrayList<FragmentVo>();
-        pageVo.add(new FragmentVo(new TalkListFragment(), "会话"));
-        pageVo.add(new FragmentVo(new TalkListFragment(), "群组"));
-        pageVo.add(new FragmentVo(new TalkListFragment(), "聊天室"));
-        pageVo.add(new FragmentVo(new TalkListFragment(), "黑名单"));
+        pageVo.add(new FragmentVo(new HuiHuaFragment(), "会话"));
+        pageVo.add(new FragmentVo(new GroupFragment(), "群组"));
+        pageVo.add(new FragmentVo(new FragmentChatRoom(), "聊天室"));
+        pageVo.add(new FragmentVo(new ContactFragment(), "通讯录"));
         FragPagerAdapter adapter = new FragPagerAdapter(getChildFragmentManager(), pageVo);
         vp_pager.setAdapter(adapter);
         vp_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -43,7 +43,7 @@ public class FragmentSpoor  extends BaseFragment
 
     private void queryData()
     {
-        HttpUtils.getJSONObject(activity, SimpleUtils.buildUrl(Const.HOME_PAGE), new RespJSONObjectListener(activity)
+        HttpUtils.getJSONObject(activity, SimpleUtils.buildUrl(activity,Const.HOME_PAGE), new RespJSONObjectListener(activity)
         {
             @Override
             public void getResp(JSONObject obj)
