@@ -95,7 +95,7 @@ public class Const
     public static final String DO_LIKE=DOMAIN+"/circle/doCollection";
 
     /**
-     * 关注
+     * 上传图片
      */
     public static final String UPLOAD_IMAGE=DOMAIN+"/index/uploadPicture";
 
@@ -103,6 +103,8 @@ public class Const
      * 关注
      */
     public static final String DO_FOLLOW=DOMAIN+"/circle/follow";
+    
+    public static  final String FIND_USER=DOMAIN+"/user/search";
 
 
     public static final String Schema = "http://120.26.212.241/";

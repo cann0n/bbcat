@@ -30,10 +30,19 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
 import com.easemob.easeui.widget.EaseAlertDialog;
 import com.huaxi100.networkapp.activity.BaseActivity;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONArrayListener;
+import com.huaxi100.networkapp.utils.GsonTools;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.hx.DemoHelper;
 
-public class AddContactActivity extends BaseActivity {
+import org.json.JSONArray;
+
+public class AddContactActivity extends SimpleActivity {
 	private EditText editText;
 	private LinearLayout searchedUserLayout;
 	private TextView nameText,mTextView;
@@ -81,13 +90,35 @@ public class AddContactActivity extends BaseActivity {
 			}
 			
 			// TODO 从服务器获取此contact,如果不存在提示不存在此用户
-			
+
+			findUser(toAddUsername);
 			//服务器存在此用户，显示此用户和添加按钮
-			searchedUserLayout.setVisibility(View.VISIBLE);
-			nameText.setText(toAddUsername);
-			
 		} 
 	}	
+	
+	private void findUser(String name){
+		showDialog();
+		PostParams params=new PostParams();
+		params.put("username",name);
+		HttpUtils.postJSONOArray(activity, Const.FIND_USER, params, new RespJSONArrayListener(activity) {
+			@Override
+			public void getResp(JSONArray obj) {
+				dismissDialog();
+				RespVo respVo= GsonTools.getVo(obj.toString(),RespVo.class);
+				if(respVo.isSuccess()){
+					searchedUserLayout.setVisibility(View.VISIBLE);
+					nameText.setText(toAddUsername);	
+				}else{
+					toast("未找到此用户");
+				}
+			}
+
+			@Override
+			public void doFailed() {
+				dismissDialog();
+			}
+		});
+	}
 	
 	/**
 	 *  添加contact
