@@ -53,12 +53,6 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
             holder.tv_name.setText(newsVo.getUser_info().getNickname());
             holder.tv_desc.setText(newsVo.getUser_info().getBirthday());
-            holder.tv_guanzhu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    activity.toast("关注");
-                }
-            });
             if (Utils.isEmpty(newsVo.getNews_info().getCover())) {
                 holder.iv_thumb.setVisibility(View.GONE);
             } else {
@@ -199,11 +193,15 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
     }
 
     private void doLike(final CircleVo.ItemCircle newsVo, final TextView follow) {
-        PostParams param = new PostParams();
-        param.put("id", newsVo.getNews_info().getId());
         SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+        if(sp.getStringValue(Const.UID).equals(newsVo.getUser_info().getUid())){
+            activity.toast("不能对自己进行操作");
+            return;
+        }
+        PostParams param = new PostParams();
+        param.put("to_uid", newsVo.getUser_info().getUid());
         param.put("uid", sp.getStringValue(Const.UID));
-        HttpUtils.postJSONObject(activity, Const.DO_LIKE, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.DO_FOLLOW, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject jsonObject) {
                 RespVo<String> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);

@@ -96,6 +96,16 @@ public class CircleVo {
              * 0:未关注，1：已关注
              */
             private String is_following;
+            
+            private String uid;
+
+            public String getUid() {
+                return uid;
+            }
+
+            public void setUid(String uid) {
+                this.uid = uid;
+            }
 
             public String getAvatar() {
                 return avatar;

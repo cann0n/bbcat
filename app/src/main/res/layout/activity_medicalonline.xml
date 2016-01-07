@@ -74,7 +74,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="南京"
+                android:text="默认"
                 android:textColor="@color/color333"
                 android:textSize="@dimen/textview_min" />
         </LinearLayout>

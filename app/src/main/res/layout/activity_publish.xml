@@ -37,7 +37,7 @@
             android:paddingTop="8dp"
             android:text="发布"
             android:textColor="@color/theme_orange_color"
-            android:textSize="@dimen/textview_min" />
+            android:textSize="@dimen/font16" />
 
         <View
             android:layout_width="fill_parent"
@@ -63,21 +63,13 @@
         android:text=""
         android:textColor="@color/color333"
         android:textColorHint="@color/color_gray"
-        android:textSize="@dimen/textview_min" />
+        android:textSize="@dimen/font16" />
 
     <com.sdkj.bbcat.widget.FlowLayout
         android:id="@+id/fl_pics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/theme_padding">
-
-        <ImageView
-            android:id="@+id/iv_add"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/icon_addzhaopian" />
+        >
 
     </com.sdkj.bbcat.widget.FlowLayout>
 
@@ -97,7 +89,7 @@
         android:text=""
         android:textColor="@color/color333"
         android:textColorHint="@color/color_gray"
-        android:textSize="@dimen/textview_min" />
+        android:textSize="@dimen/font14" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -128,7 +120,7 @@
             android:paddingRight="10dp"
             android:text="北京市 海淀区"
             android:textColor="@color/color_gray"
-            android:textSize="9sp" />
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <View
@@ -166,9 +158,9 @@
                 android:gravity="center"
                 android:paddingLeft="@dimen/theme_padding"
                 android:paddingRight="@dimen/theme_padding"
-                android:text="孕前检查"
                 android:textColor="@color/theme_orange_color"
-                android:textSize="@dimen/textview_min" />
+                android:textSize="@dimen/textview_min"
+                android:tag=""/>
 
             <ImageView
                 android:id="@+id/iv_next"

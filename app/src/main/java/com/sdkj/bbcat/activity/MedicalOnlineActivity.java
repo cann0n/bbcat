@@ -8,6 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -53,6 +57,9 @@ public class MedicalOnlineActivity extends SimpleActivity {
     @ViewInject(R.id.tv_local)
     private TextView tv_local;
 
+    @ViewInject(R.id.tv_city_name)
+    private TextView tv_city_name;
+
     @ViewInject(R.id.ll_sort)
     private LinearLayout ll_sort;
 
@@ -81,7 +88,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
-
+        
         final String id = (String) getVo("0");
         adapter = new HospitalAdapter(activity, new ArrayList<NewsVo>());
         hospital_list.addFooter(adapter);
@@ -106,6 +113,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
         });
         showDialog();
         query(true);
+        startBaiduLocation();
     }
 
     private void query(boolean isFirst) {
@@ -408,7 +416,35 @@ public class MedicalOnlineActivity extends SimpleActivity {
             popupWindowStatus.showAsDropDown(ll_container);
         }
     }
+   
+    private void startBaiduLocation() {
+        LocationClient mLocationClient = new LocationClient(activity.getApplicationContext());     //声明LocationClient类
+        mLocationClient.registerLocationListener(new MyLocationListener(mLocationClient));    //注册监听函数
+        LocationClientOption option = new LocationClientOption();
+        option.setCoorType("bd09ll");
+        option.setScanSpan(0);
+        option.setIsNeedAddress(true);
+        mLocationClient.setLocOption(option);
+        mLocationClient.start();
+    }
 
+    private class MyLocationListener implements BDLocationListener {
+
+        LocationClient mLocationClient;
+
+        public MyLocationListener(LocationClient mLocationClient) {
+            this.mLocationClient = mLocationClient;
+        }
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (!Utils.isEmpty(location.getLatitude() + "") && !Utils.isEmpty(location.getLongitude() + "")) {
+                mLocationClient.stop();
+                tv_city_name.setText(location.getCity());
+            }
+        }
+    }
+    
     @Override
     public int setLayoutResID() {
         return R.layout.activity_medicalonline;

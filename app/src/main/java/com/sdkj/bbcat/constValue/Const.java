@@ -97,6 +97,11 @@ public class Const
     /**
      * 关注
      */
+    public static final String UPLOAD_IMAGE=DOMAIN+"/index/uploadPicture";
+
+    /**
+     * 关注
+     */
     public static final String DO_FOLLOW=DOMAIN+"/circle/follow";
 
 
