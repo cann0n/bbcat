@@ -109,9 +109,6 @@ public class Const
      */
     public static final String DO_FOLLOW=DOMAIN+"/circle/follow";
     
-    public static  final String FIND_USER=DOMAIN+"/user/search";
-
-
     public static final String Schema = "http://120.26.212.241/";
 
     public static final String GetVerifyCode = Schema + "api/sms/GetVerifyCode";

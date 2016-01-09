@@ -58,7 +58,6 @@ import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.hx.DemoHelper;
 
 import org.json.JSONArray;
->>>>>>> 025f4dd1653605ed9630c3857df209aaee02faa0
 
 public class AddContactActivity extends SimpleActivity {
 	private EditText editText;
@@ -112,30 +111,6 @@ public class AddContactActivity extends SimpleActivity {
 			//服务器存在此用户，显示此用户和添加按钮
 		} 
 	}	
-	
-	private void findUser(String name){
-		showDialog();
-		PostParams params=new PostParams();
-		params.put("username",name);
-		HttpUtils.postJSONOArray(activity, Const.FIND_USER, params, new RespJSONArrayListener(activity) {
-			@Override
-			public void getResp(JSONArray obj) {
-				dismissDialog();
-				RespVo respVo= GsonTools.getVo(obj.toString(),RespVo.class);
-				if(respVo.isSuccess()){
-					searchedUserLayout.setVisibility(View.VISIBLE);
-					nameText.setText(toAddUsername);	
-				}else{
-					toast("未找到此用户");
-				}
-			}
-
-			@Override
-			public void doFailed() {
-				dismissDialog();
-			}
-		});
-	}
 	
 	/**
 	 *  添加contact
