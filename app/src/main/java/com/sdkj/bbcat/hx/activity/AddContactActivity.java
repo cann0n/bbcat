@@ -30,10 +30,18 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
 import com.easemob.easeui.widget.EaseAlertDialog;
 import com.huaxi100.networkapp.activity.BaseActivity;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.hx.DemoHelper;
 
-public class AddContactActivity extends BaseActivity {
+import org.json.JSONObject;
+
+public class AddContactActivity extends SimpleActivity {
 	private EditText editText;
 	private LinearLayout searchedUserLayout;
 	private TextView nameText,mTextView;
@@ -81,11 +89,8 @@ public class AddContactActivity extends BaseActivity {
 			}
 			
 			// TODO 从服务器获取此contact,如果不存在提示不存在此用户
-			
+			findUser(toAddUsername);
 			//服务器存在此用户，显示此用户和添加按钮
-			searchedUserLayout.setVisibility(View.VISIBLE);
-			nameText.setText(toAddUsername);
-			
 		} 
 	}	
 	
@@ -140,6 +145,25 @@ public class AddContactActivity extends BaseActivity {
 				}
 			}
 		}).start();
+	}
+	
+	private void findUser(final String phone){
+		showDialog();
+		PostParams params=new PostParams();
+		params.put("username",phone);
+		HttpUtils.postJSONObject(activity, Const.FIND_FRIENDS, params, new RespJSONObjectListener(activity) {
+			@Override
+			public void getResp(JSONObject jsonObject) {
+				searchedUserLayout.setVisibility(View.VISIBLE);
+				nameText.setText(phone);
+			}
+
+			@Override
+			public void doFailed() {
+				dismissDialog();
+				toast("未查到此用户");
+			}
+		});
 	}
 	
 	public void back(View v) {

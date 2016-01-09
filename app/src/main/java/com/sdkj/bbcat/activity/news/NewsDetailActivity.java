@@ -56,6 +56,10 @@ public class NewsDetailActivity extends SimpleActivity {
     public void initBusiness() {
         new TitleBar(activity).back().setTitle("详情");
         web_view.getSettings().setJavaScriptEnabled(true);
+//        web_view.getSettings().setUseWideViewPort(true);
+//        web_view.getSettings().setLoadWithOverviewMode(true);
+        
+        web_view.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         web_view.setScrollContainer(true);
         web_view.setWebChromeClient(new WebChromeClient());
         tempContent = SimpleUtils.readTemplate(activity, "template.html");
@@ -65,6 +69,8 @@ public class NewsDetailActivity extends SimpleActivity {
         } else {
             web_view.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
+   
+
         web_view.setWebViewClient(new WebViewClient() {
         });
 
@@ -75,6 +81,7 @@ public class NewsDetailActivity extends SimpleActivity {
         tv_title.setText(vo.getTitle());
         PostParams params = new PostParams();
         params.put("news_id", vo.getId());
+        params.put("w", (AppUtils.getWidth(activity)-30)+"");
         showDialog();
         HttpUtils.postJSONObject(activity, Const.NEWS_DETAIL, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
             @Override
@@ -120,7 +127,7 @@ public class NewsDetailActivity extends SimpleActivity {
         showDialog();
         PostParams param = new PostParams();
         param.put("id", id);
-        HttpUtils.postJSONObject(activity, Const.DO_FOLLOW, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.DO_LIKE, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject jsonObject) {
                 dismissDialog();

@@ -2,6 +2,7 @@ package com.sdkj.bbcat.adapter;
 
 import android.graphics.Color;
 import android.os.Handler;
+import android.text.Html;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -67,7 +68,14 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
             }
             holder.tv_liulan.setText(newsVo.getNews_info().getView() + "");
             holder.tv_time.setText(newsVo.getNews_info().getCreate_time() + "");
-            holder.tv_title.setText(newsVo.getNews_info().getTitle());
+            if (Utils.isEmpty(newsVo.getNews_info().getColor())) {
+                holder.tv_title.setText(newsVo.getNews_info().getTitle());
+            } else {
+                String text = "<html><font color=\""+newsVo.getNews_info().getColor()+"\">" + "[" + newsVo.getNews_info().getCategory_name() + "]" + "</font></html>";
+                holder.tv_title.setText(Html.fromHtml(text + newsVo.getNews_info().getTitle()));
+            }
+            
+            
             holder.tv_comment.setText(newsVo.getNews_info().getComment());
             holder.tv_zan.setText(newsVo.getNews_info().getCollection());
 
@@ -133,7 +141,6 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         TextView tv_address;
         TextView tv_liulan;
         TextView tv_time;
-        TextView tv_title_label;
         TextView tv_title;
         TextView tv_comment;
         TextView tv_zan;

@@ -16,6 +16,15 @@ public class NewsVo implements Serializable{
     private String level;
     private String create_time;
     private String category_name;
+    private String color;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public String getId() {
         return id;

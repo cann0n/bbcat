@@ -56,11 +56,14 @@ public class DetailActivity extends SimpleActivity {
     @ViewInject(R.id.tv_zan_bottom)
     TextView tv_zan_bottom;
 
+    @ViewInject(R.id.tv_comment_num)
+    TextView tv_comment_num;
+
+    @ViewInject(R.id.tv_zan_num)
+    TextView tv_zan_num;
+
     @ViewInject(R.id.tv_time)
     TextView tv_time;
-
-    @ViewInject(R.id.tv_title_label)
-    TextView tv_title_label;
 
     @ViewInject(R.id.tv_title)
     TextView tv_title;
@@ -95,6 +98,8 @@ public class DetailActivity extends SimpleActivity {
             iv_zan_bottom.setImageResource(R.drawable.icon_zan);
         }
         tv_zan_bottom.setText(newsVo.getNews_info().getCollection());
+        
+        
         Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getUser_info().getAvatar())).into(iv_avatar);
 
         tv_name.setText(newsVo.getUser_info().getNickname());
@@ -129,7 +134,7 @@ public class DetailActivity extends SimpleActivity {
         tv_title.setText(newsVo.getNews_info().getTitle());
         tv_comment.setText(newsVo.getNews_info().getComment());
         tv_zan.setText(newsVo.getNews_info().getCollection());
-
+        tv_zan_num.setText("赞"+newsVo.getNews_info().getCollection());
         showDialog();
         PostParams params = new PostParams();
         params.put("id", newsVo.getNews_info().getId());
@@ -141,6 +146,7 @@ public class DetailActivity extends SimpleActivity {
                 RespVo respVo = GsonTools.getVo(obj.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
                     List<CommentVo> data = GsonTools.getList( obj.optJSONObject("data").optJSONObject("comment_list").optJSONArray("list"),CommentVo.class);
+                    tv_comment_num.setText("评论"+obj.optJSONObject("data").optJSONObject("comment_list").optString("total_count"));
                     if (Utils.isEmpty(data)) {
                         return;
                     }
@@ -231,6 +237,7 @@ public class DetailActivity extends SimpleActivity {
                         like_num.setText((Integer.parseInt(like_num.getText().toString()) - 1) + "");
                         newsVo.getNews_info().setCollection(like_num.getText().toString());
                     }
+                    tv_zan_num.setText("赞" +like_num.getText().toString());
 
                 } else if (respVo.isNeedLogin()) {
                     activity.skip(LoginActivity.class);

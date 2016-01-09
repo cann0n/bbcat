@@ -149,7 +149,25 @@ public class CircleVo {
             private  String comment;
             private  String collection;
             private  String uid;
-            
+            private String color;
+            private String category_name;
+
+            public String getColor() {
+                return color;
+            }
+
+            public void setColor(String color) {
+                this.color = color;
+            }
+
+            public String getCategory_name() {
+                return category_name;
+            }
+
+            public void setCategory_name(String category_name) {
+                this.category_name = category_name;
+            }
+
             private String is_collected;
 
             public String getIs_collected() {

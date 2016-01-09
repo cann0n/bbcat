@@ -100,6 +100,11 @@ public class Const
     public static final String UPLOAD_IMAGE=DOMAIN+"/index/uploadPicture";
 
     /**
+     * 搜索用户
+     */
+    public static final String FIND_FRIENDS=DOMAIN+"/user/search";
+
+    /**
      * 关注
      */
     public static final String DO_FOLLOW=DOMAIN+"/circle/follow";
