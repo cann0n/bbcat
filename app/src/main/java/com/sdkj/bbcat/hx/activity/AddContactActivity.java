@@ -32,7 +32,6 @@ import com.easemob.easeui.widget.EaseAlertDialog;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
-<<<<<<< HEAD
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
@@ -41,7 +40,15 @@ import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.hx.DemoHelper;
 
 import org.json.JSONObject;
-=======
+import com.huaxi100.networkapp.network.RespJSONArrayListener;
+import com.huaxi100.networkapp.utils.GsonTools;
+import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.hx.DemoHelper;
+
+import org.json.JSONArray;
 import com.huaxi100.networkapp.network.RespJSONArrayListener;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.sdkj.bbcat.R;
@@ -101,10 +108,6 @@ public class AddContactActivity extends SimpleActivity {
 			}
 			
 			// TODO 从服务器获取此contact,如果不存在提示不存在此用户
-<<<<<<< HEAD
-=======
-
->>>>>>> 025f4dd1653605ed9630c3857df209aaee02faa0
 			findUser(toAddUsername);
 			//服务器存在此用户，显示此用户和添加按钮
 		} 
