@@ -12,6 +12,7 @@ import com.sdkj.bbcat.constValue.Constant;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,26 @@ public class DemoDBManager {
         }
     }
 
+    /**
+     * 更新用户好友头像key:name,value:avatar
+     * @param names
+     */
+    synchronized public void saveAvatars(Map<String,EaseUser> names) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Iterator<String> it=names.keySet().iterator();
+        while (it.hasNext()){
+            String name=it.next();
+            String avatar=names.get(name).getAvatar();
+            ContentValues values = new ContentValues();
+            values.put(UserDao.COLUMN_NAME_AVATAR, avatar);//key为字段名，value为值
+            values.put(UserDao.COLUMN_NAME_NICK, names.get(name).getNick());//key为字段名，value为值
+            db.update(UserDao.TABLE_NAME, values, UserDao.COLUMN_NAME_ID+"=?", new String[]{name});
+        }
+        if(db.isOpen()){
+            db.close();
+        }
+    }
+    
     /**
      * 获取好友list
      * 

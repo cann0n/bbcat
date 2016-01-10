@@ -42,8 +42,10 @@ import com.easemob.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
 import com.sdkj.bbcat.hx.activity.VideoCallActivity;
 import com.sdkj.bbcat.hx.activity.VoiceCallActivity;
@@ -314,6 +316,9 @@ public class DemoHelper {
                         
                     }
                 }
+                SpUtil sp=new SpUtil(appContext,Const.SP_NAME);
+                intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+                intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
                 return intent;
             }
         });
@@ -1008,7 +1013,6 @@ public class DemoHelper {
                    UserDao dao = new UserDao(appContext);
                    List<EaseUser> users = new ArrayList<EaseUser>(userlist.values());
                    dao.saveContactList(users);
-
                    demoModel.setContactSynced(true);
                    EMLog.d(TAG, "set contact syn status to true");
                    

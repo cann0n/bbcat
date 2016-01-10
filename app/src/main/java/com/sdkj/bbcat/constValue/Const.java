@@ -19,6 +19,8 @@ public class Const
     public static  final String UID="bbcat_uid";
     public static  final String TOKEN="bbcat_token";
     public static  final String PHONE="bbcat_phone";
+    public static  final String AVATAR="bbcat_avatar";
+    public static  final String NICKNAME="bbcat_nickname";
     
 
     //网络请求信息配置

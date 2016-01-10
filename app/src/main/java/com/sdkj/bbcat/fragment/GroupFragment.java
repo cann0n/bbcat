@@ -15,8 +15,10 @@ import com.easemob.EMValueCallBack;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
 import com.sdkj.bbcat.hx.GroupAdapter;
 import com.sdkj.bbcat.hx.activity.GroupsActivity;
@@ -104,7 +106,11 @@ public class GroupFragment extends BaseFragment{
                     // it is group chat
                     intent.putExtra("chatType", Constant.CHATTYPE_GROUP);
                     intent.putExtra("userId", groupAdapter.getItem(position).getGroupId());
-                    startActivityForResult(intent, 0);
+                SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+                intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+                intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));    
+                
+                startActivityForResult(intent, 0);
 //                }
             }
         });

@@ -66,6 +66,8 @@ public class UserDao {
 	    DemoDBManager.getInstance().deleteContact(username);
 	}
 	
+	
+	
 	/**
 	 * 保存一个联系人
 	 * @param user

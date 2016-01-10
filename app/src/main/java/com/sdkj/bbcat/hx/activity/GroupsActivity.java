@@ -33,8 +33,10 @@ import com.easemob.EMValueCallBack;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.huaxi100.networkapp.activity.BaseActivity;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
 import com.sdkj.bbcat.hx.GroupAdapter;
 
@@ -119,6 +121,10 @@ public class GroupsActivity extends BaseActivity {
 					// it is group chat
 					intent.putExtra("chatType", Constant.CHATTYPE_GROUP);
 					intent.putExtra("userId", groupAdapter.getItem(position - 3).getGroupId());
+					SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+
+					intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
+					intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
 					startActivityForResult(intent, 0);
 				}
 			}

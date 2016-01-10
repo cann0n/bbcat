@@ -172,6 +172,7 @@ public class AddContactActivity extends SimpleActivity {
 		HttpUtils.postJSONObject(activity, Const.FIND_FRIENDS, params, new RespJSONObjectListener(activity) {
 			@Override
 			public void getResp(JSONObject jsonObject) {
+				dismissDialog();
 				searchedUserLayout.setVisibility(View.VISIBLE);
 				nameText.setText(phone);
 			}

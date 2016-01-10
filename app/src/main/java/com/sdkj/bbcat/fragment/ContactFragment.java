@@ -25,8 +25,11 @@ import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.easeui.widget.EaseContactList;
 import com.easemob.util.EMLog;
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.Constant;
 import com.sdkj.bbcat.hx.DemoHelper;
 import com.sdkj.bbcat.hx.InviteMessgeDao;
 import com.sdkj.bbcat.hx.UserDao;
@@ -117,7 +120,13 @@ public class ContactFragment extends BaseFragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String username = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
                 // demo中直接进入聊天页面，实际一般是进入用户详情页
-                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+                Intent intent=new Intent(activity,ChatActivity.class);
+                SpUtil sp=new SpUtil(activity, Const.SP_NAME);
+
+                intent.putExtra(Constant.EXTRA_USER_ID, username);
+                intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+                intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
+                startActivity(intent);
             }
         });
 
