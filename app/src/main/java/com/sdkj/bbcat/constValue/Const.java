@@ -106,6 +106,12 @@ public class Const
      */
     public static final String FIND_FRIENDS=DOMAIN+"/user/search";
 
+
+    /**
+     * 获取好友头像
+     */
+    public static final String GET_AVATARS=DOMAIN+"/user/getUsersInfo";
+
     /**
      * 关注
      */

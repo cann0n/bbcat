@@ -14,15 +14,26 @@ import com.easemob.easeui.domain.EaseUser;
 import com.huaxi100.networkapp.adapter.FragPagerAdapter;
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.fragment.FragmentVo;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.AppUtils;
+import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.PublishActivity;
+import com.sdkj.bbcat.bean.FriendVo;
+import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.hx.DemoDBManager;
 import com.sdkj.bbcat.hx.UserDao;
 import com.sdkj.bbcat.hx.activity.AddContactActivity;
 import com.sdkj.bbcat.hx.activity.NewGroupActivity;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,8 +93,10 @@ public class CommunityPage extends BaseFragment {
             }
         });
         changeBtn(0);
-        updateAvatar();
+//        updateAvatar();
+        queryFriends();
     }
+    
 
     @OnClick(R.id.tv_guys)
     void left(View view) {
@@ -181,13 +194,50 @@ public class CommunityPage extends BaseFragment {
     private void updateAvatar() {
         UserDao dao = new UserDao(activity);
         List<EaseUser> data = new ArrayList<EaseUser>(dao.getContactList().values());
-        Map<String, EaseUser> names = new HashMap<>();
-        for (EaseUser user : data) {
-            user.setAvatar("http://f.hiphotos.baidu.com/image/h%3D200/sign=67ab903616dfa9ece22e511752d1f754/c75c10385343fbf227695409b77eca8065388f57.jpg");
-            user.setNick("9527");
-            names.put(user.getUsername(),user);
-        }
-        DemoDBManager.getInstance().saveAvatars(names);
+        System.out.println("data1 = " + data);
     }
+//    
+    
+    private void queryFriends(){
+        updateAvatar();
+        final UserDao dao = new UserDao(activity);
+        List<EaseUser> data = new ArrayList<EaseUser>(dao.getContactList().values());
+        if(Utils.isEmpty(data)){
+            return;
+        }
 
+        StringBuilder builder=new StringBuilder();
+        for (EaseUser user : data) {
+            builder.append(user.getUsername()+",");
+        }
+        PostParams params=new PostParams();
+        params.put("phones",builder.toString());
+        HttpUtils.postJSONObject(activity, Const.GET_AVATARS, SimpleUtils.buildUrl(activity,params), new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject obj) {
+                RespVo<FriendVo> respVo = GsonTools.getVo(obj.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    List<FriendVo> data = respVo.getListData(obj, FriendVo.class);
+                    if (!Utils.isEmpty(data)) {
+                        for (FriendVo vo : data) {
+                            if(Utils.isEmpty(vo.getMobile())){
+                                return;
+                            }
+                            EaseUser friend = dao.getFriend(vo.getMobile());
+                            friend.setAvatar(SimpleUtils.getImageUrl(vo.getAvatar()));
+                            friend.setNick(vo.getNickname());
+                            dao.saveContact(friend);
+                        }
+                    }
+                }
+                List<EaseUser> data = new ArrayList<EaseUser>(dao.getContactList().values());
+                System.out.println("data2 = " + data);
+            }
+
+            @Override
+            public void doFailed() {
+
+            }
+        });
+    }
 }

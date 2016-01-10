@@ -313,7 +313,49 @@ public class DemoDBManager {
         }
          return count;
     }
-    
+    /**
+     * 获取单个用户
+     * @return
+     */
+    synchronized public EaseUser getFriend(String userName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        EaseUser user = new EaseUser(userName);
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from " + UserDao.TABLE_NAME +" where "+UserDao.COLUMN_NAME_ID+"="+userName, null);
+            while (cursor.moveToNext()) {
+                String username = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_ID));
+                String nick = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK));
+                String avatar = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_AVATAR));
+                user.setNick(nick);
+                user.setAvatar(avatar);
+                String headerName = null;
+                if (!TextUtils.isEmpty(user.getNick())) {
+                    headerName = user.getNick();
+                } else {
+                    headerName = user.getUsername();
+                }
+
+                if (username.equals(Constant.NEW_FRIENDS_USERNAME) || username.equals(Constant.GROUP_USERNAME)
+                        || username.equals(Constant.CHAT_ROOM)|| username.equals(Constant.CHAT_ROBOT)) {
+                    user.setInitialLetter("");
+                } else if (Character.isDigit(headerName.charAt(0))) {
+                    user.setInitialLetter("#");
+                } else {
+                    user.setInitialLetter(HanziToPinyin.getInstance().get(headerName.substring(0, 1))
+                            .get(0).target.substring(0, 1).toUpperCase());
+                    char header = user.getInitialLetter().toLowerCase().charAt(0);
+                    if (header < 'a' || header > 'z') {
+                        user.setInitialLetter("#");
+                    }
+                }
+            }
+            cursor.close();
+        }
+        if(db.isOpen()){
+            db.close();
+        }
+        return user;
+    }
     synchronized void setUnreadNotifyCount(int count){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if(db.isOpen()){

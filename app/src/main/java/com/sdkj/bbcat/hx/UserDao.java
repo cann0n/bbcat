@@ -65,8 +65,15 @@ public class UserDao {
 	public void deleteContact(String username){
 	    DemoDBManager.getInstance().deleteContact(username);
 	}
-	
-	
+
+	/**
+	 * 获取一个好友
+	 * @param username
+	 * @return
+	 */
+	public EaseUser getFriend(String username){
+		return DemoDBManager.getInstance().getFriend(username);
+	}
 	
 	/**
 	 * 保存一个联系人
