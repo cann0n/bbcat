@@ -607,20 +607,20 @@ public class DemoHelper {
      * 账号在别的设备登录
      */
     protected void onConnectionConflict(){
-        Intent intent = new Intent(appContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
-        appContext.startActivity(intent);
+//        Intent intent = new Intent(appContext, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
+//        appContext.startActivity(intent);
     }
     
     /**
      * 账号被移除
      */
     protected void onCurrentAccountRemoved(){
-        Intent intent = new Intent(appContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constant.ACCOUNT_REMOVED, true);
-        appContext.startActivity(intent);
+//        Intent intent = new Intent(appContext, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(Constant.ACCOUNT_REMOVED, true);
+//        appContext.startActivity(intent);
     }
 	
 	private EaseUser getUserInfo(String username){
@@ -844,7 +844,7 @@ public class DemoHelper {
 	 /**
      * update user list to cach And db
      *
-     * @param contactList
+     * @param 
      */
     public void updateContactList(List<EaseUser> contactInfoList) {
          for (EaseUser u : contactInfoList) {

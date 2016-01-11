@@ -13,8 +13,10 @@ import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.SpUtil;
+import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.BbcatApp;
+import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.bean.LoginBean;
@@ -22,6 +24,7 @@ import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.bean.VerifyBean;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.hx.PreferenceManager;
 import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
@@ -158,7 +161,8 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                         sp_login.setValue(Const.UID, bean.getUid());
                         sp_login.setValue(Const.NICKNAME, bean.getUserInfo().getNickname());
                         sp_login.setValue(Const.AVATAR, bean.getUserInfo().getAvatar());
-                        
+                        PreferenceManager.getInstance().setCurrentUserAvatar(SimpleUtils.getImageUrl(bean.getUserInfo().getAvatar()));
+                        PreferenceManager.getInstance().setCurrentUserNick(bean.getUserInfo().getNickname());
                         sp_login.setValue(Const.PHONE, mAccountEt.getText().toString().trim());
                         toast("登陆成功");
                         SimpleUtils.loginHx(activity.getApplicationContext());
@@ -233,5 +237,13 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
             }
             return stringBuffer.substring(0, stringBuffer.length() - 1);
         } else return url;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(!Utils.isEmpty(getVo("0").toString())){
+            skip(MainActivity.class);
+        }
     }
 }

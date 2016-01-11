@@ -47,6 +47,7 @@ import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
+import com.sdkj.bbcat.fragment.CommunityPage;
 import com.sdkj.bbcat.hx.activity.VideoCallActivity;
 import com.sdkj.bbcat.hx.activity.VoiceCallActivity;
 
@@ -55,6 +56,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import de.greenrobot.event.EventBus;
 
 public class DemoHelper {
     /**
@@ -560,6 +563,7 @@ public class DemoHelper {
             msg.setStatus(InviteMessage.InviteMesageStatus.BEINVITEED);
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+            EventBus.getDefault().post(new CommunityPage.ConnectEvent(4));
         }
 
         @Override
@@ -607,10 +611,10 @@ public class DemoHelper {
      * 账号在别的设备登录
      */
     protected void onConnectionConflict(){
-        Intent intent = new Intent(appContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
-        appContext.startActivity(intent);
+//        Intent intent = new Intent(appContext, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
+//        appContext.startActivity(intent);
     }
     
     /**
@@ -618,10 +622,10 @@ public class DemoHelper {
      */
     //TODO
     protected void onCurrentAccountRemoved(){
-        Intent intent = new Intent(appContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constant.ACCOUNT_REMOVED, true);
-        appContext.startActivity(intent);
+//        Intent intent = new Intent(appContext, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(Constant.ACCOUNT_REMOVED, true);
+//        appContext.startActivity(intent);
     }
 	
 	private EaseUser getUserInfo(String username){

@@ -10,6 +10,7 @@ import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 
 import java.io.InputStream;
 
@@ -86,6 +87,18 @@ public class SimpleUtils {
                 is = null;
             }
         }
+    }
+    
+    public static void loginOut(BaseActivity activity){
+        final SpUtil sp=new SpUtil(activity, Const.SP_NAME);
+        sp.remove(Const.PHONE);
+        sp.remove(Const.AVATAR);
+        sp.remove(Const.UID);
+        sp.remove(Const.NICKNAME);
+        sp.remove(Const.TOKEN);
+        
+        activity.skip(LoginActivity.class, "fromReconnect");
+        activity.finish();
     }
     
     public static void loginHx(final Context context){
