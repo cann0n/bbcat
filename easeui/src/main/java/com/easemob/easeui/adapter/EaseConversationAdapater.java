@@ -30,6 +30,7 @@ import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.easeui.utils.EaseSmileUtils;
 import com.easemob.easeui.utils.EaseUserUtils;
 import com.easemob.util.DateUtils;
+import com.huaxi100.networkapp.utils.Utils;
 
 /**
  * 会话列表adapter
@@ -110,6 +111,7 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
         }else {
             EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
+            
             EaseUserUtils.setUserNick(username, holder.name);
         }
 

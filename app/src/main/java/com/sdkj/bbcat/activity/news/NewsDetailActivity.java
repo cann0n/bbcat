@@ -16,6 +16,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.bean.NewsDetailVo;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
@@ -43,33 +44,46 @@ public class NewsDetailActivity extends SimpleActivity {
 
     @ViewInject(R.id.tv_title)
     private TextView tv_title;
-    
+
+    @ViewInject(R.id.tv_collect)
+    private TextView tv_collect;
+
     public static String tempContent = null;
-    
+
+    private NewsVo vo;
+
     @Override
     public void initBusiness() {
         new TitleBar(activity).back().setTitle("详情");
         web_view.getSettings().setJavaScriptEnabled(true);
+//        web_view.getSettings().setUseWideViewPort(true);
+//        web_view.getSettings().setLoadWithOverviewMode(true);
+        
+        web_view.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         web_view.setScrollContainer(true);
         web_view.setWebChromeClient(new WebChromeClient());
         tempContent = SimpleUtils.readTemplate(activity, "template.html");
-        
+
         if (AppUtils.checkNet(activity)) {
             web_view.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         } else {
             web_view.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
-        web_view.setWebViewClient(new WebViewClient() { });
+   
 
-        NewsVo vo = (NewsVo) getVo("0");
+        web_view.setWebViewClient(new WebViewClient() {
+        });
+
+        vo = (NewsVo) getVo("0");
 
         tv_count.setText(vo.getView());
         tv_come_form.setText(vo.getCategory_name());
         tv_title.setText(vo.getTitle());
         PostParams params = new PostParams();
         params.put("news_id", vo.getId());
+        params.put("w", (AppUtils.getWidth(activity)-30)+"");
         showDialog();
-        HttpUtils.postJSONObject(activity, Const.NEWS_DETAIL, SimpleUtils.buildUrl(activity,params), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.NEWS_DETAIL, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject obj) {
                 dismissDialog();
@@ -77,6 +91,11 @@ public class NewsDetailActivity extends SimpleActivity {
                 if (respVo.isSuccess()) {
                     NewsDetailVo vo = respVo.getData(obj, NewsDetailVo.class);
                     web_view.loadDataWithBaseURL(null, String.format(tempContent, vo.getDetail()), "text/html", "utf-8", null);
+                    if ("0".equals(vo.getIs_collected())) {
+                        tv_collect.setText("收藏");
+                    } else {
+                        tv_collect.setText("已收藏");
+                    }
                 } else {
                     toast(respVo.getMessage());
                 }
@@ -97,7 +116,39 @@ public class NewsDetailActivity extends SimpleActivity {
 
     @OnClick(R.id.ll_collect)
     void collect(View view) {
-        toast("收藏");
+        if (SimpleUtils.isLogin(activity)) {
+            doLike(vo.getId());
+        } else {
+            activity.skip(LoginActivity.class);
+        }
+    }
+
+    private void doLike(String id) {
+        showDialog();
+        PostParams param = new PostParams();
+        param.put("id", id);
+        HttpUtils.postJSONObject(activity, Const.DO_LIKE, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject jsonObject) {
+                dismissDialog();
+                RespVo<String> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    if ("收藏".equals(tv_collect.getText().toString())) {
+                        tv_collect.setText("已收藏");
+                    } else {
+                        tv_collect.setText("收藏");
+                    }
+
+                } else if (respVo.isNeedLogin()) {
+                    activity.skip(LoginActivity.class);
+                }
+            }
+
+            @Override
+            public void doFailed() {
+                dismissDialog();
+            }
+        });
     }
 
     @Override

@@ -1,8 +1,12 @@
 package com.sdkj.bbcat.fragment;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,9 +28,13 @@ import com.easemob.easeui.domain.EaseUser;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.easeui.widget.EaseContactList;
 import com.easemob.util.EMLog;
+import com.easemob.util.NetUtils;
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.Constant;
 import com.sdkj.bbcat.hx.DemoHelper;
 import com.sdkj.bbcat.hx.InviteMessgeDao;
 import com.sdkj.bbcat.hx.UserDao;
@@ -41,41 +49,43 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by ${Rhino} on 2016/1/5 18:06
  * 通讯录
  */
-public class ContactFragment extends BaseFragment{
+public class ContactFragment extends BaseFragment {
 
     private ContactSyncListener contactSyncListener;
     private BlackListSyncListener blackListSyncListener;
     private ContactInfoSyncListener contactInfoSyncListener;
     private View loadingView;
     private ContactItemView applicationItem;
-    private InviteMessgeDao inviteMessgeDao;
 
+    private InviteMessgeDao inviteMessgeDao;
     protected List<EaseUser> contactList;
     protected ListView listView;
-    protected boolean hidden;
     protected List<String> blackList;
     protected Handler handler = new Handler();
     protected EaseUser toBeProcessUser;
     protected String toBeProcessUsername;
     protected EaseContactList contactListLayout;
-    protected boolean isConflict;
+
     protected FrameLayout contentContainer;
+
 
     private Map<String, EaseUser> contactsMap;
 
-
     @Override
     protected void setListener() {
+        EventBus.getDefault().register(this);
         contentContainer = (FrameLayout) rootView.findViewById(R.id.content_container);
 
         contactListLayout = (EaseContactList) rootView.findViewById(R.id.contact_list);
         listView = contactListLayout.getListView();
 
-        
+
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.em_contacts_header, null);
         HeaderItemClickListener clickListener = new HeaderItemClickListener();
         applicationItem = (ContactItemView) headerView.findViewById(R.id.application_item);
@@ -90,7 +100,6 @@ public class ContactFragment extends BaseFragment{
 
         //设置联系人数据
         setContactsMap(DemoHelper.getInstance().getContactList());
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
 
         //黑名单列表
         blackList = EMContactManager.getInstance().getBlackListUsernames();
@@ -100,12 +109,12 @@ public class ContactFragment extends BaseFragment{
         //init list
         contactListLayout.init(contactList);
 
-        if(listItemClickListener != null){
+        if (listItemClickListener != null) {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    EaseUser user = (EaseUser)listView.getItemAtPosition(position);
+                    EaseUser user = (EaseUser) listView.getItemAtPosition(position);
                     listItemClickListener.onListItemClicked(user);
                 }
             });
@@ -117,7 +126,13 @@ public class ContactFragment extends BaseFragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String username = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
                 // demo中直接进入聊天页面，实际一般是进入用户详情页
-                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+                Intent intent = new Intent(activity, ChatActivity.class);
+                SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+
+                intent.putExtra(Constant.EXTRA_USER_ID, username);
+                intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+                intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
+                startActivity(intent);
             }
         });
 
@@ -136,6 +151,8 @@ public class ContactFragment extends BaseFragment{
             loadingView.setVisibility(View.GONE);
         }
     }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -144,15 +161,15 @@ public class ContactFragment extends BaseFragment{
             contactSyncListener = null;
         }
 
-        if(blackListSyncListener != null){
+        if (blackListSyncListener != null) {
             DemoHelper.getInstance().removeSyncBlackListListener(blackListSyncListener);
         }
 
-        if(contactInfoSyncListener != null){
+        if (contactInfoSyncListener != null) {
             DemoHelper.getInstance().getUserProfileManager().removeSyncContactInfoListener(contactInfoSyncListener);
         }
+        EventBus.getDefault().unregister(this);
     }
-
 
     protected class HeaderItemClickListener implements View.OnClickListener {
 
@@ -161,6 +178,10 @@ public class ContactFragment extends BaseFragment{
             switch (v.getId()) {
                 case R.id.application_item:
                     // 进入申请与通知页面
+                    if(inviteMessgeDao==null){
+                        inviteMessgeDao = new InviteMessgeDao(getActivity());
+                    }
+                    inviteMessgeDao.saveUnreadMessageCount(0);
                     startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
                     break;
                 default:
@@ -207,20 +228,19 @@ public class ContactFragment extends BaseFragment{
         }).start();
 
     }
-
     class ContactSyncListener implements DemoHelper.DataSyncListener {
         @Override
         public void onSyncComplete(final boolean success) {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    getActivity().runOnUiThread(new Runnable(){
+                    getActivity().runOnUiThread(new Runnable() {
 
                         @Override
                         public void run() {
-                            if(success){
+                            if (success) {
                                 loadingView.setVisibility(View.GONE);
                                 refresh();
-                            }else{
+                            } else {
                                 String s1 = getResources().getString(R.string.get_failed_please_check);
                                 Toast.makeText(getActivity(), s1, Toast.LENGTH_SHORT).show();
                                 loadingView.setVisibility(View.GONE);
@@ -231,13 +251,14 @@ public class ContactFragment extends BaseFragment{
                 }
             });
         }
+
     }
 
     class BlackListSyncListener implements DemoHelper.DataSyncListener {
 
         @Override
         public void onSyncComplete(boolean success) {
-            getActivity().runOnUiThread(new Runnable(){
+            getActivity().runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
@@ -248,7 +269,9 @@ public class ContactFragment extends BaseFragment{
             });
         }
 
-    };
+    }
+
+    ;
 
     class ContactInfoSyncListener implements DemoHelper.DataSyncListener {
 
@@ -259,7 +282,7 @@ public class ContactFragment extends BaseFragment{
                 @Override
                 public void run() {
                     loadingView.setVisibility(View.GONE);
-                    if(success){
+                    if (success) {
                         refresh();
                     }
                 }
@@ -271,15 +294,20 @@ public class ContactFragment extends BaseFragment{
     public void refresh() {
         getContactList();
         contactListLayout.refresh();
-        if(inviteMessgeDao == null){
+        showInviteMsg();
+    }
+    
+    public void showInviteMsg(){
+        if (inviteMessgeDao == null) {
             inviteMessgeDao = new InviteMessgeDao(getActivity());
         }
-        if(inviteMessgeDao.getUnreadMessagesCount() > 0){
+        if (inviteMessgeDao.getUnreadMessagesCount() > 0) {
             applicationItem.showUnreadMsgView();
-        }else{
+        } else {
             applicationItem.hideUnreadMsgView();
-        }
+        } 
     }
+
     /**
      * 获取联系人列表，并过滤掉黑名单和排序
      */
@@ -287,18 +315,15 @@ public class ContactFragment extends BaseFragment{
         contactList.clear();
         synchronized (contactList) {
             //获取联系人列表
-            if(contactsMap == null){
+            if (contactsMap == null) {
                 return;
             }
             Iterator<Map.Entry<String, EaseUser>> iterator = contactsMap.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String, EaseUser> entry = iterator.next();
                 //兼容以前的通讯录里的已有的数据显示，加上此判断，如果是新集成的可以去掉此判断
-                if (!entry.getKey().equals("item_new_friends")
-                        && !entry.getKey().equals("item_groups")
-                        && !entry.getKey().equals("item_chatroom")
-                        && !entry.getKey().equals("item_robots")){
-                    if(!blackList.contains(entry.getKey())){
+                if (!entry.getKey().equals("item_new_friends") && !entry.getKey().equals("item_groups") && !entry.getKey().equals("item_chatroom") && !entry.getKey().equals("item_robots")) {
+                    if (!blackList.contains(entry.getKey())) {
                         //不显示黑名单中的用户
                         EaseUser user = entry.getValue();
                         EaseCommonUtils.setUserInitialLetter(user);
@@ -328,66 +353,42 @@ public class ContactFragment extends BaseFragment{
 
     }
 
-    protected EMConnectionListener connectionListener = new EMConnectionListener() {
-
-        @Override
-        public void onDisconnected(int error) {
-            if (error == EMError.USER_REMOVED || error == EMError.CONNECTION_CONFLICT) {
-                isConflict = true;
-            } else {
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        onConnectionDisconnected();
-                    }
-
-                });
-            }
+    public void onEventMainThread(CommunityPage.ConnectEvent event) {
+         if (event.getType() == 2||event.getType()==4) {
+            refresh();
         }
+    }
 
-        @Override
-        public void onConnected() {
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    onConnectionConnected();
-                }
-
-            });
-        }
-    };
     private EaseContactListItemClickListener listItemClickListener;
-
-
-    protected void onConnectionDisconnected() {
-//        refresh();
-    }
-
-    protected void onConnectionConnected() {
-        refresh();
-    }
 
     /**
      * 设置需要显示的数据map，key为环信用户id
+     *
      * @param contactsMap
      */
-    public void setContactsMap(Map<String, EaseUser> contactsMap){
+    public void setContactsMap(Map<String, EaseUser> contactsMap) {
         this.contactsMap = contactsMap;
     }
-
     public interface EaseContactListItemClickListener {
         /**
          * 联系人listview item点击事件
+         *
          * @param user 被点击item所对应的user对象
          */
         void onListItemClicked(EaseUser user);
+
     }
 
     /**
      * 设置listview item点击事件
+     *
      * @param listItemClickListener
      */
-    public void setContactListItemClickListener(EaseContactListItemClickListener listItemClickListener){
+    public void setContactListItemClickListener(EaseContactListItemClickListener listItemClickListener) {
         this.listItemClickListener = listItemClickListener;
     }
+    
+    
     
     @Override
     protected int setLayoutResID() {

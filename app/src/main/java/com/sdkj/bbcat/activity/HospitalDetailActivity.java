@@ -2,6 +2,7 @@ package com.sdkj.bbcat.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ActionMenuView;
@@ -78,7 +79,7 @@ public class HospitalDetailActivity extends SimpleActivity{
                     Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(detail.getHospital_detail().getCover())).into(iv_thumb);
                     tv_hospital_name.setText(detail.getHospital_detail().getTitle());
                     ratingBar.setRating(detail.getHospital_detail().getLevel());
-                    tv_desc.setText(detail.getHospital_detail().getDetail());
+                    tv_desc.setText(Html.fromHtml(detail.getHospital_detail().getDetail()));
                     tv_address.setText(detail.getHospital_detail().getAddress());
                     tv_tel.setText(detail.getHospital_detail().getContact_phone());
                     phoneno=detail.getHospital_detail().getContact_phone();

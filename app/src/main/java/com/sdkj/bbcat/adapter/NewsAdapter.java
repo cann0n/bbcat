@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.adapter;
 
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by ${Rhino} on 2015/12/10 14:24
  */
 public class NewsAdapter extends UltimatCommonAdapter<NewsVo, NewsAdapter.ViewHolder> {
-    
+
     public NewsAdapter(BaseActivity activity, List<NewsVo> data) {
         super(activity, ViewHolder.class, R.id.class, data, R.layout.item_recommend);
     }
@@ -36,10 +37,16 @@ public class NewsAdapter extends UltimatCommonAdapter<NewsVo, NewsAdapter.ViewHo
             final NewsVo newsVo = getItem(position);
 
             Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getCover())).into(holder.iv_image);
-            holder.tv_title.setText(newsVo.getTitle());
-            holder. tv_come_form.setText(newsVo.getCategory_name());
+
+            if (Utils.isEmpty(newsVo.getColor())) {
+                holder.tv_title.setText(newsVo.getTitle());
+            } else {
+                String text = "<font color=\"+newsVo.getColor+\">" + "[" + newsVo.getCategory_name() + "]" + "</font>";
+                holder.tv_title.setText(Html.fromHtml(text + newsVo.getTitle()));
+            }
+            holder.tv_come_form.setText(newsVo.getCategory_name());
             holder.tv_count.setText(newsVo.getView());
-            holder. rl_item.setOnClickListener(new View.OnClickListener() {
+            holder.rl_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activity.skip(NewsDetailActivity.class, newsVo);
@@ -56,7 +63,7 @@ public class NewsAdapter extends UltimatCommonAdapter<NewsVo, NewsAdapter.ViewHo
         TextView tv_count;
 
         RelativeLayout rl_item;
-        
+
         public ViewHolder(View itemView) {
             super(itemView);
         }

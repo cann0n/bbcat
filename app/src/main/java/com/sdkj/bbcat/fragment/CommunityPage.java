@@ -1,8 +1,9 @@
 package com.sdkj.bbcat.fragment;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,18 +12,41 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.easemob.EMConnectionListener;
+import com.easemob.EMError;
+import com.easemob.chat.EMChatManager;
+import com.easemob.easeui.domain.EaseUser;
 import com.huaxi100.networkapp.adapter.FragPagerAdapter;
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.fragment.FragmentVo;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.AppUtils;
+import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.SpUtil;
+import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.PublishActivity;
+import com.sdkj.bbcat.bean.FriendVo;
+import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.hx.DemoDBManager;
+import com.sdkj.bbcat.hx.UserDao;
 import com.sdkj.bbcat.hx.activity.AddContactActivity;
 import com.sdkj.bbcat.hx.activity.NewGroupActivity;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by ${Rhino} on 2015/11/12 09:58
@@ -53,9 +77,10 @@ public class CommunityPage extends BaseFragment {
 
     private PopupWindow popupWindowClub;
 
-
     @Override
     protected void setListener() {
+        EventBus.getDefault().register(this);
+        
         ArrayList<FragmentVo> pageVo = new ArrayList<FragmentVo>();
         pageVo.add(new FragmentVo(new FragmentMycircle(), "我的圈"));
         pageVo.add(new FragmentVo(new FragmentMyFriend(), "猫友"));
@@ -78,7 +103,9 @@ public class CommunityPage extends BaseFragment {
             }
         });
         changeBtn(0);
+        EMChatManager.getInstance().addConnectionListener(connectionListener);
     }
+    
 
     @OnClick(R.id.tv_guys)
     void left(View view) {
@@ -164,12 +191,138 @@ public class CommunityPage extends BaseFragment {
     }
 
     @OnClick(R.id.iv_left)
-    void publish(View ivew) {
+    void publish(View viewREAD_PHONE_STATE) {
         activity.skip(PublishActivity.class);
     }
 
     @Override
     protected int setLayoutResID() {
         return R.layout.fragment_community;
+    }
+
+    
+    private void queryFriends(){
+        final UserDao dao = new UserDao(activity);
+        List<EaseUser> data = new ArrayList<EaseUser>(dao.getContactList().values());
+        if(Utils.isEmpty(data)){
+            return;
+        }
+
+        StringBuilder builder=new StringBuilder();
+        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+        builder.append(sp.getStringValue(Const.PHONE));
+        for (EaseUser user : data) {
+            builder.append(","+user.getUsername());
+        }
+        PostParams params=new PostParams();
+        params.put("phones",builder.toString());
+        HttpUtils.postJSONObject(activity, Const.GET_AVATARS, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject obj) {
+                RespVo<FriendVo> respVo = GsonTools.getVo(obj.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    List<FriendVo> data = respVo.getListData(obj, FriendVo.class);
+                    if (!Utils.isEmpty(data)) {
+                        for (FriendVo vo : data) {
+                            if (Utils.isEmpty(vo.getMobile())) {
+                                return;
+                            }
+                            EaseUser friend = dao.getFriend(vo.getMobile());
+                            friend.setAvatar(SimpleUtils.getImageUrl(vo.getAvatar()));
+                            friend.setNick(vo.getNickname());
+                            dao.saveContact(friend);
+                        }
+                        EventBus.getDefault().post(new ConnectEvent(2));
+                    }
+                }
+            }
+
+            @Override
+            public void doFailed() {
+
+            }
+        });
+    }
+
+
+    protected EMConnectionListener connectionListener = new EMConnectionListener() {
+
+        @Override
+        public void onDisconnected(int error) {
+            if (error == EMError.USER_REMOVED || error == EMError.CONNECTION_CONFLICT) {
+                handler.sendEmptyMessage(0);
+            } else {
+                handler.sendEmptyMessage(1);
+            }
+        }
+
+        @Override
+        public void onConnected() {
+            handler.sendEmptyMessage(2);
+        }
+    };
+
+    protected Handler handler = new Handler(){
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 0:
+                    EventBus.getDefault().post(new ConnectEvent(0));
+                    EventBus.getDefault().post(new ConnectEvent(3));
+                    break;
+                case 2:
+                    EventBus.getDefault().post(new ConnectEvent(2));
+                    break;
+                case 1:
+                    EventBus.getDefault().post(new ConnectEvent(1));
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+    
+    public void onEventMainThread(CommunityPage.ConnectEvent event){
+        if(event.getType()==3){
+            activity.toast("账号已经在其他设备登录");
+            SimpleUtils.loginOut(activity);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        queryFriends();
+    }
+
+    @Override
+    public void onDestroy() {
+        EMChatManager.getInstance().removeConnectionListener(connectionListener);
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+    
+    
+    public  static class ConnectEvent{
+        /**
+         * type=0:已经被在其他地方登陆，执行退出操作
+         * type=1:断开服务器
+         * type=2:服务器重连
+         * type=3:退出登录
+         * type=4:有有好友邀请
+         */
+        private int type;
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public ConnectEvent(int type) {
+            this.type = type;
+        }
     }
 }

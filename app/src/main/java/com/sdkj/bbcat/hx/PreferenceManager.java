@@ -16,11 +16,12 @@ package com.sdkj.bbcat.hx;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.sdkj.bbcat.constValue.Const;
+
 public class PreferenceManager {
 	/**
 	 * 保存Preference的name
 	 */
-	public static final String PREFERENCE_NAME = "saveInfo";
 	private static SharedPreferences mSharedPreferences;
 	private static PreferenceManager mPreferencemManager;
 	private static SharedPreferences.Editor editor;
@@ -40,7 +41,7 @@ public class PreferenceManager {
 	private static String SHARED_KEY_CURRENTUSER_AVATAR = "SHARED_KEY_CURRENTUSER_AVATAR";
 	
 	private PreferenceManager(Context cxt) {
-		mSharedPreferences = cxt.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+		mSharedPreferences = cxt.getSharedPreferences(Const.SP_NAME, Context.MODE_PRIVATE);
 		editor = mSharedPreferences.edit();
 	}
 

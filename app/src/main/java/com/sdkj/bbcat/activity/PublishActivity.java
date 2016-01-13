@@ -1,15 +1,22 @@
 package com.sdkj.bbcat.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.google.gson.Gson;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
@@ -26,14 +33,20 @@ import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.bean.CircleTagVo;
 import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.bean.UploadFileVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.widget.FlowLayout;
+import com.sdkj.bbcat.widget.GlideImageLoader;
 import com.sdkj.bbcat.widget.GridViewPage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.huaxi100.networkapp.network.HttpUtils;
@@ -57,11 +70,16 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import cn.finalteam.galleryfinal.GalleryConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 public class PublishActivity extends SimpleActivity {
     @ViewInject(R.id.rl_label)
     private RelativeLayout rl_label;
-
 
     @ViewInject(R.id.ll_publish)
     private LinearLayout ll_publish;
@@ -85,18 +103,90 @@ public class PublishActivity extends SimpleActivity {
 
     private List<CircleTagVo> tags;
 
+    @ViewInject(R.id.fl_pics)
+    private FlowLayout fl_pics;
+
+    private Map<String, String> ids = new HashMap<>();
+
     @Override
     public void initBusiness() {
+        startBaiduLocation();
+        int width = (AppUtils.getWidth(activity) - 80) / 3;
+        View view = makeView(R.layout.item_photo);
+        ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, width);
+        lp.leftMargin = 18;
+        view.setLayoutParams(lp);
 
+        iv_image.setImageResource(R.drawable.icon_addzhaopian);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GalleryConfig.Builder builder = new GalleryConfig.Builder(activity);
+                builder.imageloader(new GlideImageLoader());
+                builder.singleSelect();
+                builder.enableEdit();
+                builder.enableRotate();
+                builder.showCamera();
+                GalleryConfig config = builder.build();
+                GalleryFinal.open(config);
+            }
+        });
+        fl_pics.addView(view);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GalleryFinal.GALLERY_REQUEST_CODE) {
+            if (resultCode == GalleryFinal.GALLERY_RESULT_SUCCESS) {
+                List<PhotoInfo> photoInfoList = (List<PhotoInfo>) data.getSerializableExtra(GalleryFinal.GALLERY_RESULT_LIST_DATA);
+                if (photoInfoList != null) {
+                    String photo = photoInfoList.get(0).getPhotoPath();
+                    uploadImage(photo);
+                }
+            }
+        }
+    }
+
+    private void uploadImage(final String path) {
+        showDialog();
+        final PostParams params = new PostParams();
+        params.put("file", new File(path));
+        HttpUtils.postJSONObject(activity, Const.UPLOAD_IMAGE, params, new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject jsonObject) {
+                dismissDialog();
+                RespVo<UploadFileVo> resp = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                if (resp.isSuccess()) {
+                    UploadFileVo fileVo = resp.getData(jsonObject, UploadFileVo.class);
+                    ids.put(path, fileVo.getId() + "");
+                    int width = (AppUtils.getWidth(activity) - 80) / 3;
+                    View view = makeView(R.layout.item_photo);
+                    ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, width);
+                    lp.leftMargin = 18;
+                    view.setLayoutParams(lp);
+                    view.setTag(path);
+                    iv_image.setImageBitmap(Utils.getLoacalBitmap(path));
+                    fl_pics.addView(view,0);
+                } else {
+                    toast("获取图片失败,请重试");
+                }
+            }
+
+            @Override
+            public void doFailed() {
+                dismissDialog();
+            }
+        });
+    }
 
     /**
      * 显示label的popupwindow
-     *
      */
     private void showLabel() {
-        if(Utils.isEmpty(tags)){
+        if (Utils.isEmpty(tags)) {
             queryLabel();
             return;
         }
@@ -110,10 +200,10 @@ public class PublishActivity extends SimpleActivity {
             LinearLayout content = (LinearLayout) popupView.findViewById(R.id.ll_bottom);
             TextView tv_cancel = (TextView) popupView.findViewById(R.id.tv_cancel);
             TextView tv_submit = (TextView) popupView.findViewById(R.id.tv_submit);
-            GridViewPage gridViewPage= (GridViewPage) popupView.findViewById(R.id.viewpage_label);
+            GridViewPage gridViewPage = (GridViewPage) popupView.findViewById(R.id.viewpage_label);
 
             //载入数据到gridViewPage中
-            loadDataToGridViewPage(gridViewPage,tags);
+            loadDataToGridViewPage(gridViewPage, tags);
 
 
             tv_cancel.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +245,7 @@ public class PublishActivity extends SimpleActivity {
 
     //载入数据到gridViewPage中
     private void loadDataToGridViewPage(GridViewPage gridViewPage, final List<CircleTagVo> list) {
-        gridViewPage.setModuleMenuRowCol(3,3);
+        gridViewPage.setModuleMenuRowCol(3, 3);
         GridViewPage.GirdViewPageAdapter adapter = new GridViewPage.GirdViewPageAdapter(activity, list) {
             private int selectindex = selectLabelIndex;
 
@@ -182,7 +272,7 @@ public class PublishActivity extends SimpleActivity {
                     @Override
                     public void onClick(View v) {
                         selectindex = position;
-                        selectLabelIndex=position;
+                        selectLabelIndex = position;
                         notifyDataSetChanged(position);
                     }
                 });
@@ -208,11 +298,11 @@ public class PublishActivity extends SimpleActivity {
             toast("请输入内容");
             return;
         }
-        if (tv_label.getTag()==null){
+        if (tv_label.getTag() == null) {
             toast("请选择标签");
             return;
         }
-        if(!SimpleUtils.isLogin(activity)){
+        if (!SimpleUtils.isLogin(activity)) {
             skip(LoginActivity.class);
             return;
         }
@@ -222,9 +312,22 @@ public class PublishActivity extends SimpleActivity {
         params.put("content", et_content.getText().toString());
         params.put("address", tv_address.getText().toString());
         params.put("category_id", tv_label.getTag().toString());//标签id
-        params.put("pictures", "1357");
+
+        String pics = "";
+        Set keys = ids.keySet();
+        Iterator<String> it = keys.iterator();
+        while (it.hasNext()) {
+            String key = it.next();
+            String id = ids.get(key);
+            if (Utils.isEmpty(pics)) {
+                pics = id;
+            } else {
+                pics = pics + "," + id;
+            }
+        }
+        params.put("pictures", pics);
         HttpUtils.postJSONObject(activity, Const.PUBLIC_CIRCLE, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
-            
+
             @Override
             public void getResp(JSONObject obj) {
                 dismissDialog();
@@ -256,7 +359,6 @@ public class PublishActivity extends SimpleActivity {
         finish();
     }
 
-
     private void queryLabel() {
         showDialog();
         HttpUtils.getJSONObject(activity, Const.GET_TAGS, new RespJSONObjectListener(activity) {
@@ -278,6 +380,34 @@ public class PublishActivity extends SimpleActivity {
 
             }
         });
+    }
+
+    private void startBaiduLocation() {
+        LocationClient mLocationClient = new LocationClient(activity.getApplicationContext());     //声明LocationClient类
+        mLocationClient.registerLocationListener(new MyLocationListener(mLocationClient));    //注册监听函数
+        LocationClientOption option = new LocationClientOption();
+        option.setCoorType("bd09ll");
+        option.setScanSpan(0);
+        option.setIsNeedAddress(true);
+        mLocationClient.setLocOption(option);
+        mLocationClient.start();
+    }
+
+    private class MyLocationListener implements BDLocationListener {
+
+        LocationClient mLocationClient;
+
+        public MyLocationListener(LocationClient mLocationClient) {
+            this.mLocationClient = mLocationClient;
+        }
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (!Utils.isEmpty(location.getLatitude() + "") && !Utils.isEmpty(location.getLongitude() + "")) {
+                mLocationClient.stop();
+                tv_address.setText(location.getCity());
+            }
+        }
     }
 
     @Override

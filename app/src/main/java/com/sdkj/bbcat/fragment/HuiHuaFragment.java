@@ -26,9 +26,11 @@ import com.easemob.chat.EMConversation;
 import com.easemob.easeui.widget.EaseConversationList;
 import com.easemob.util.NetUtils;
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
 
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2016/1/4 0004.
@@ -47,11 +51,14 @@ public class HuiHuaFragment extends BaseFragment{
     protected EaseConversationList conversationListView;
     protected FrameLayout errorItemContainer;
 
-    protected boolean isConflict;
-
     private TextView errorText;
+
+    private EaseConversationListItemClickListener listItemClickListener;
+
     @Override
     protected void setListener() {
+        EventBus.getDefault().register(this);
+        
         conversationListView = (EaseConversationList) rootView.findViewById(com.easemob.easeui.R.id.list);
         errorItemContainer = (FrameLayout) rootView.findViewById(com.easemob.easeui.R.id.fl_error_item);
         conversationListView.init(conversationList);
@@ -66,19 +73,10 @@ public class HuiHuaFragment extends BaseFragment{
             });
         }
 
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
-
-        conversationListView.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Utils.hideKeyboard(activity);
-                return false;
-            }
-        });
 
         View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.em_chat_neterror_item, null);
         errorItemContainer.addView(errorView);
+        errorItemContainer.setVisibility(View.GONE);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
 
         conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,77 +90,48 @@ public class HuiHuaFragment extends BaseFragment{
                 else {
                     // 进入聊天页面
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    if(conversation.isGroup()){
-                        if(conversation.getType() == EMConversation.EMConversationType.ChatRoom){
+                    if (conversation.isGroup()) {
+                        if (conversation.getType() == EMConversation.EMConversationType.ChatRoom) {
                             // it's group chat
                             intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_CHATROOM);
-                        }else{
+                        } else {
                             intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_GROUP);
                         }
 
                     }
-                    // it's single chat
+                    // it's single chat]
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
+                    SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+                    intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+                    intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
                     startActivity(intent);
                 }
             }
         });
         
-        
     }
-    protected EMConnectionListener connectionListener = new EMConnectionListener() {
-
-        @Override
-        public void onDisconnected(int error) {
-            if (error == EMError.USER_REMOVED || error == EMError.CONNECTION_CONFLICT) {
-                isConflict = true;
+    
+    
+    public void onEventMainThread(CommunityPage.ConnectEvent event){
+        if(event.getType()==0){
+            errorItemContainer.setVisibility(View.VISIBLE);
+            if (NetUtils.hasNetwork(getActivity())){
+                errorText.setText(R.string.can_not_connect_chat_server_connection);
             } else {
-                handler.sendEmptyMessage(0);
+                errorText.setText(R.string.the_current_network);
             }
-        }
-
-        @Override
-        public void onConnected() {
-            handler.sendEmptyMessage(1);
-        }
-    };
-    private EaseConversationListItemClickListener listItemClickListener;
-
-    protected Handler handler = new Handler(){
-        public void handleMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case 0:
-                    onConnectionDisconnected();
-                    break;
-                case 1:
-                    onConnectionConnected();
-                    break;
-
-                default:
-                    break;
+        }else if(event.getType()==1){
+            errorItemContainer.setVisibility(View.VISIBLE);
+            if (NetUtils.hasNetwork(getActivity())){
+                errorText.setText(R.string.can_not_connect_chat_server_connection);
+            } else {
+                errorText.setText(R.string.the_current_network);
             }
-        }
-    };
-
-    /**
-     * 连接到服务器
-     */
-    protected void onConnectionConnected(){
-        errorItemContainer.setVisibility(View.GONE);
-    }
-
-    /**
-     * 连接断开
-     */
-    protected void onConnectionDisconnected(){
-        errorItemContainer.setVisibility(View.VISIBLE);
-        if (NetUtils.hasNetwork(getActivity())){
-            errorText.setText(R.string.can_not_connect_chat_server_connection);
-        } else {
-            errorText.setText(R.string.the_current_network);
+        }else if(event.getType()==2){
+            errorItemContainer.setVisibility(View.GONE);
+            refresh();
         }
     }
-
     /**
      * 刷新页面
      */
@@ -233,35 +202,11 @@ public class HuiHuaFragment extends BaseFragment{
         });
     }
 
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        this.hidden = hidden;
-        if (!hidden && !isConflict) {
-            refresh();
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         if (!hidden) {
             refresh();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EMChatManager.getInstance().removeConnectionListener(connectionListener);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if(isConflict){
-            outState.putBoolean("isConflict", true);
         }
     }
 
@@ -284,5 +229,11 @@ public class HuiHuaFragment extends BaseFragment{
     @Override
     protected int setLayoutResID() {
         return com.easemob.easeui.R.layout.ease_fragment_conversation_list;
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

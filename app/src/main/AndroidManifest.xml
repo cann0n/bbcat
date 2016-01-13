@@ -143,7 +143,8 @@
             android:screenOrientation="portrait" />
 
         <!-- 环信相关配置-->
-        <meta-data android:name="EASEMOB_APPKEY"  android:value="easemob-demo#chatdemoui" />
+        <meta-data android:name="EASEMOB_APPKEY"  android:value="maodu#bubumaochat" />
+        <!--<meta-data android:name="EASEMOB_APPKEY"  maodu#bubumaochat android:value="easemob-demo#chatdemoui" />-->
         <!-- 声明sdk所需的service SDK核心功能-->
         <service android:name="com.easemob.chat.EMChatService" />
         <receiver android:name="com.easemob.chat.EMMonitorReceiver">
@@ -164,7 +165,7 @@
             android:process=":remote" />
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="3ecea51f560650b1ed8a4b99808f52e8" />
+            android:value="Ha8MG82nP9OWfWprGL8hy7P1" />
         <activity
             android:name=".activity.community.ChatActivity"
             android:launchMode="singleTop"
@@ -205,7 +206,38 @@
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustResize" >
         </activity>
-
+        <activity
+            android:name=".hx.activity.ExitGroupDialog"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name=".hx.activity.ImageGridActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name=".hx.activity.RecorderVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name="com.easemob.easeui.ui.EaseShowVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name="com.easemob.easeui.ui.EaseShowBigImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        
+		
         <activity
             android:name=".activity.bracelet.BodyFeaturesActivity"
             android:screenOrientation="portrait" />
@@ -241,7 +273,6 @@
         <activity
             android:name=".activity.loginandregister.PersonInfosActivity"
             android:screenOrientation="portrait" />
-
     </application>
     
 </manifest>

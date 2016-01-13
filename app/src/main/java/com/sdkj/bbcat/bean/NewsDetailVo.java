@@ -13,6 +13,7 @@ public class NewsDetailVo {
     private String create_time;
     private String detail;
     private String category_name;
+    private String is_collected;
 
     public String getId() {
         return id;
@@ -98,5 +99,13 @@ public class NewsDetailVo {
         public void setContent(String content) {
             this.content = content;
         }
+    }
+
+    public String getIs_collected() {
+        return is_collected;
+    }
+
+    public void setIs_collected(String is_collected) {
+        this.is_collected = is_collected;
     }
 }

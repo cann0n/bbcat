@@ -14,9 +14,12 @@ import android.widget.Toast;
 import com.easemob.EMValueCallBack;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
+import com.easemob.util.NetUtils;
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
 import com.sdkj.bbcat.hx.GroupAdapter;
 import com.sdkj.bbcat.hx.activity.GroupsActivity;
@@ -31,14 +34,14 @@ import de.greenrobot.event.EventBus;
  * Created by ${Rhino} on 2016/1/5 14:10
  * 群组列表
  */
-public class GroupFragment extends BaseFragment{
+public class GroupFragment extends BaseFragment {
 
     private ListView groupListView;
     protected List<EMGroup> grouplist;
     private GroupAdapter groupAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             swipeRefreshLayout.setRefreshing(false);
             switch (msg.what) {
@@ -52,22 +55,23 @@ public class GroupFragment extends BaseFragment{
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
-    
+
     @Override
     protected void setListener() {
         EventBus.getDefault().register(this);
-        
+
         grouplist = EMGroupManager.getInstance().getAllGroups();
         groupListView = (ListView) rootView.findViewById(R.id.list);
         //show group list
         groupAdapter = new GroupAdapter(activity, 1, grouplist);
         groupListView.setAdapter(groupAdapter);
 
-        swipeRefreshLayout = (SwipeRefreshLayout)rootView. findViewById(R.id.swipe_layout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
-                R.color.holo_orange_light, R.color.holo_red_light);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
         //下拉刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
@@ -99,35 +103,39 @@ public class GroupFragment extends BaseFragment{
 //                    // 添加公开群
 //                    startActivityForResult(new Intent(activity, PublicGroupsActivity.class), 0);
 //                } else {
-                    // 进入群聊
-                    Intent intent = new Intent(activity, ChatActivity.class);
-                    // it is group chat
-                    intent.putExtra("chatType", Constant.CHATTYPE_GROUP);
-                    intent.putExtra("userId", groupAdapter.getItem(position).getGroupId());
-                    startActivityForResult(intent, 0);
+                // 进入群聊
+                Intent intent = new Intent(activity, ChatActivity.class);
+                // it is group chat
+                intent.putExtra("chatType", Constant.CHATTYPE_GROUP);
+                intent.putExtra("userId", groupAdapter.getItem(position).getGroupId());
+                SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+                intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+                intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
+
+                startActivityForResult(intent, 0);
 //                }
             }
         });
     }
 
-    public void onEventMainThread(RefreshGroupEvent event){
-        
+    public void onEventMainThread(CommunityPage.ConnectEvent event) {
+        if (event.getType() == 0) {
+        } else if (event.getType() == 1) {
+        } else if (event.getType() == 2) {
+            refresh();
+        }
     }
-    
-    public static class RefreshGroupEvent{
-        
-    }
-    
+
     @Override
     public void onResume() {
         super.onResume();
         refresh();
     }
 
-    private void refresh(){
+    private void refresh() {
         grouplist = EMGroupManager.getInstance().getAllGroups();
         groupAdapter = new GroupAdapter(activity, 1, grouplist);
-       
+
         groupListView.setAdapter(groupAdapter);
         groupAdapter.notifyDataSetChanged();
     }
@@ -137,7 +145,7 @@ public class GroupFragment extends BaseFragment{
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
-    
+
     @Override
     protected int setLayoutResID() {
         return R.layout.em_fragment_groups;

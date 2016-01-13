@@ -33,9 +33,9 @@ import com.sdkj.bbcat.BuildConfig;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.hx.ImageCache;
 import com.sdkj.bbcat.hx.ImageResizer;
-import com.sdkj.bbcat.hx.RecyclingImageView;
 import com.sdkj.bbcat.hx.Utils;
 import com.sdkj.bbcat.hx.VideoEntity;
+import com.sdkj.bbcat.widget.RecyclingImageView;
 
 import java.util.ArrayList;
 import java.util.List;

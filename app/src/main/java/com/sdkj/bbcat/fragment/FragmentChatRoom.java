@@ -26,8 +26,11 @@ import com.easemob.chat.EMChatRoom;
 import com.easemob.chat.EMCursorResult;
 import com.easemob.exceptions.EaseMobException;
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,9 +113,10 @@ public class FragmentChatRoom extends BaseFragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 final EMChatRoom room = adapter.getItem(position);
+                SpUtil sp=new SpUtil(activity,Const.SP_NAME);
                 startActivity(new Intent(activity, ChatActivity.class).putExtra("chatType", 3).
-                        putExtra("userId", room.getId()));
-
+                        putExtra("userId", room.getId()).putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR)).putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME)));
+            
             }
         });
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {

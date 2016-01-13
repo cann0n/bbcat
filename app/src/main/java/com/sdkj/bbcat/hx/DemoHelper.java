@@ -42,9 +42,12 @@ import com.easemob.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
+import com.sdkj.bbcat.fragment.CommunityPage;
 import com.sdkj.bbcat.hx.activity.VideoCallActivity;
 import com.sdkj.bbcat.hx.activity.VoiceCallActivity;
 
@@ -53,6 +56,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import de.greenrobot.event.EventBus;
 
 public class DemoHelper {
     /**
@@ -314,6 +319,9 @@ public class DemoHelper {
                         
                     }
                 }
+                SpUtil sp=new SpUtil(appContext,Const.SP_NAME);
+                intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+                intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
                 return intent;
             }
         });
@@ -555,6 +563,7 @@ public class DemoHelper {
             msg.setStatus(InviteMessage.InviteMesageStatus.BEINVITEED);
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+            EventBus.getDefault().post(new CommunityPage.ConnectEvent(4));
         }
 
         @Override
@@ -602,10 +611,10 @@ public class DemoHelper {
      * 账号在别的设备登录
      */
     protected void onConnectionConflict(){
-        Intent intent = new Intent(appContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
-        appContext.startActivity(intent);
+//        Intent intent = new Intent(appContext, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
+//        appContext.startActivity(intent);
     }
     
     /**
@@ -613,10 +622,10 @@ public class DemoHelper {
      */
     //TODO
     protected void onCurrentAccountRemoved(){
-        Intent intent = new Intent(appContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constant.ACCOUNT_REMOVED, true);
-        appContext.startActivity(intent);
+//        Intent intent = new Intent(appContext, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(Constant.ACCOUNT_REMOVED, true);
+//        appContext.startActivity(intent);
     }
 	
 	private EaseUser getUserInfo(String username){
@@ -1008,7 +1017,6 @@ public class DemoHelper {
                    UserDao dao = new UserDao(appContext);
                    List<EaseUser> users = new ArrayList<EaseUser>(userlist.values());
                    dao.saveContactList(users);
-
                    demoModel.setContactSynced(true);
                    EMLog.d(TAG, "set contact syn status to true");
                    

@@ -12,6 +12,7 @@ import com.sdkj.bbcat.constValue.Constant;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,26 @@ public class DemoDBManager {
         }
     }
 
+    /**
+     * 更新用户好友头像key:name,value:avatar
+     * @param names
+     */
+    synchronized public void saveAvatars(Map<String,EaseUser> names) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Iterator<String> it=names.keySet().iterator();
+        while (it.hasNext()){
+            String name=it.next();
+            String avatar=names.get(name).getAvatar();
+            ContentValues values = new ContentValues();
+            values.put(UserDao.COLUMN_NAME_AVATAR, avatar);//key为字段名，value为值
+            values.put(UserDao.COLUMN_NAME_NICK, names.get(name).getNick());//key为字段名，value为值
+            db.update(UserDao.TABLE_NAME, values, UserDao.COLUMN_NAME_ID+"=?", new String[]{name});
+        }
+        if(db.isOpen()){
+            db.close();
+        }
+    }
+    
     /**
      * 获取好友list
      * 
@@ -292,7 +313,49 @@ public class DemoDBManager {
         }
          return count;
     }
-    
+    /**
+     * 获取单个用户
+     * @return
+     */
+    synchronized public EaseUser getFriend(String userName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        EaseUser user = new EaseUser(userName);
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from " + UserDao.TABLE_NAME +" where "+UserDao.COLUMN_NAME_ID+"="+userName, null);
+            while (cursor.moveToNext()) {
+                String username = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_ID));
+                String nick = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK));
+                String avatar = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_AVATAR));
+                user.setNick(nick);
+                user.setAvatar(avatar);
+                String headerName = null;
+                if (!TextUtils.isEmpty(user.getNick())) {
+                    headerName = user.getNick();
+                } else {
+                    headerName = user.getUsername();
+                }
+
+                if (username.equals(Constant.NEW_FRIENDS_USERNAME) || username.equals(Constant.GROUP_USERNAME)
+                        || username.equals(Constant.CHAT_ROOM)|| username.equals(Constant.CHAT_ROBOT)) {
+                    user.setInitialLetter("");
+                } else if (Character.isDigit(headerName.charAt(0))) {
+                    user.setInitialLetter("#");
+                } else {
+                    user.setInitialLetter(HanziToPinyin.getInstance().get(headerName.substring(0, 1))
+                            .get(0).target.substring(0, 1).toUpperCase());
+                    char header = user.getInitialLetter().toLowerCase().charAt(0);
+                    if (header < 'a' || header > 'z') {
+                        user.setInitialLetter("#");
+                    }
+                }
+            }
+            cursor.close();
+        }
+        if(db.isOpen()){
+            db.close();
+        }
+        return user;
+    }
     synchronized void setUnreadNotifyCount(int count){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if(db.isOpen()){
