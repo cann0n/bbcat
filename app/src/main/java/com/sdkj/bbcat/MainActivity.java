@@ -94,9 +94,12 @@ public class MainActivity extends TabUiActivity {
             infosBean.setBirthday(sp_login.getStringValue("birthday"));
             infosBean.setNickname(sp_login.getStringValue("nickname"));
             infosBean.setSex(sp_login.getStringValue("sex"));
+            infosBean.setBaby_status(sp_login.getStringValue("baby_status"));
+            infosBean.setAvatar(sp_login.getStringValue("avatar"));
             LoginBean bean = new LoginBean();
             bean.setUserInfo(infosBean);
-            bean.setToken(sp_login.getStringValue("token"));
+            bean.setToken(sp_login.getStringValue(Const.TOKEN));
+            bean.setUid(sp_login.getStringValue(Const.UID));
             ((BbcatApp)getApplication()).setmUser(bean);
         }
     }

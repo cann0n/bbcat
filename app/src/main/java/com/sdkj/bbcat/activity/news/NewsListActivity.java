@@ -15,9 +15,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
-import com.sdkj.bbcat.activity.CatDortorActivity;
 import com.sdkj.bbcat.activity.SearchActivity;
-import com.sdkj.bbcat.adapter.HospitalAdapter;
 import com.sdkj.bbcat.adapter.NewsAdapter;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
@@ -88,7 +86,7 @@ public class NewsListActivity extends SimpleActivity {
                 hospital_list.setRefreshing(false);
                 RespVo<NewsVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
-                    
+
                     List<NewsVo> data = GsonTools.getList(jsonObject.optJSONObject("data").optJSONArray("list"), NewsVo.class);
                     if (pageNum == 1) {
                         adapter.removeAll();

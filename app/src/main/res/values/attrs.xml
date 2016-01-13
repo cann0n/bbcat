@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  自定义VerticalRulerView属性值 -->
+    <declare-styleable name="VerticalRulerview">
+        <attr name="vDirections">
+            <enum name="left" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+    	<attr name="vMinValue" format="integer"/>
+    	<attr name="vMaxValue" format="integer"/>
+    	<attr name="vCurrentValue" format="integer"/>
+    </declare-styleable>
+    
+     <!--  自定义HorizontalRulerView属性值 -->
+    <declare-styleable name="HorizontalRulerview">
+        <attr name="hDirections">
+            <enum name="top" value="1" />
+            <enum name="bottom" value="2" />
+        </attr>
+    	<attr name="hMinValue" format="integer"/>
+    	<attr name="hMaxValue" format="integer"/>
+    	<attr name="hCurrentValue" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+</resources>
