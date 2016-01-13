@@ -167,4 +167,11 @@ public class Const
      * 记录宝宝成长数据记录
      */
     public static final String SetBabyFeatureInfos = DOMAIN + "Band/babyBodyLog";
+    
+
+    /**
+     * 周围的人
+     */
+    public static final String AROUND_PEOPLE = DOMAIN + "user/nearby";
+    
 }

@@ -246,6 +246,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.community.AroundPeopleActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.bracelet.BabyNotesActivity"
             android:screenOrientation="portrait" />
 

@@ -30,6 +30,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.PublishActivity;
+import com.sdkj.bbcat.activity.community.AroundPeopleActivity;
 import com.sdkj.bbcat.bean.FriendVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
@@ -165,6 +166,7 @@ public class CommunityPage extends BaseFragment {
                 @Override
                 public void onClick(View view) {
                     popupWindowClub.dismiss();
+                    activity.skip(AroundPeopleActivity.class);
                 }
             });
             tv_disco.setOnClickListener(new View.OnClickListener() {
