@@ -19,7 +19,7 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.HospitalDetailActivity;
 import com.sdkj.bbcat.activity.MedicalOnlineActivity;
 import com.sdkj.bbcat.activity.SearchActivity;
-import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
+import com.sdkj.bbcat.activity.loginandregister.PersonalCenter;
 import com.sdkj.bbcat.activity.news.DiaryListActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.activity.news.NewsListActivity;
@@ -289,8 +289,9 @@ public class HomePage extends BaseFragment {
     }
 
     @OnClick(R.id.iv_info)
-    void showInfo(View view){
-        activity.skip(LoginActivity.class);
+    void showInfo(View view)
+    {
+        activity.skip(PersonalCenter.class);
     }
     @Override
     protected int setLayoutResID() {

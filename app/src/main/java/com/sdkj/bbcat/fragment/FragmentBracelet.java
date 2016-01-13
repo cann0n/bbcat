@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
@@ -15,7 +16,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
-import com.sdkj.bbcat.bean.HomeVo;
+import com.sdkj.bbcat.bean.BraceletBotVo;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
@@ -40,22 +41,21 @@ public class FragmentBracelet extends BaseFragment
     {
         queryData();
     }
+
     private void queryData()
     {
-        HttpUtils.getJSONObject(activity, SimpleUtils.buildUrl(activity,Const.HOME_PAGE), new RespJSONObjectListener(activity)
+        HttpUtils.postJSONObject(activity, Const.GetBraBotDates,SimpleUtils.buildUrl(activity,new PostParams()), new RespJSONObjectListener(activity)
         {
-            @Override
             public void getResp(JSONObject obj)
             {
                 ((MainActivity) activity).dismissDialog();
-                RespVo<HomeVo> respVo = GsonTools.getVo(obj.toString(), RespVo.class);
+                RespVo<BraceletBotVo> respVo = GsonTools.getVo(obj.toString(), RespVo.class);
                 if (respVo.isSuccess())
                 {
-                    HomeVo homeVo = respVo.getData(obj, HomeVo.class);
-                    if (! Utils.isEmpty(homeVo.getNews()))
+                    BraceletBotVo value = respVo.getData(obj, BraceletBotVo.class);
+                    if (! Utils.isEmpty(value.getNewest()))
                     {
-                        final HomeVo.Category category0 = homeVo.getNews().get(0);
-                        for (final NewsVo newsVo : category0.getCategory_list())
+                        for (final NewsVo newsVo : value.getNewest())
                         {
                             View view = activity.makeView(R.layout.item_recommend);
                             ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
@@ -68,7 +68,6 @@ public class FragmentBracelet extends BaseFragment
                             tv_count.setText(newsVo.getView() + "");
                             view.setOnClickListener(new View.OnClickListener()
                             {
-                                @Override
                                 public void onClick(View view)
                                 {
                                     activity.skip(NewsDetailActivity.class, newsVo);
@@ -81,7 +80,6 @@ public class FragmentBracelet extends BaseFragment
                 }
             }
 
-            @Override
             public void doFailed()
             {
                 ((MainActivity) activity).dismissDialog();

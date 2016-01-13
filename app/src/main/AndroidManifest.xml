@@ -141,7 +141,6 @@
         <activity
             android:name=".activity.doctor.DoctorActActivity"
             android:screenOrientation="portrait" />
-        
 
         <!-- 环信相关配置-->
         <meta-data android:name="EASEMOB_APPKEY"  android:value="easemob-demo#chatdemoui" />
@@ -206,7 +205,43 @@
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustResize" >
         </activity>
-        
+
+        <activity
+            android:name=".activity.bracelet.BodyFeaturesActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.bracelet.BabyNotesActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.bracelet.FeedNotesActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.bracelet.InoculationActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.bracelet.AddFeedNotesActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.bracelet.AddInoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.bracelet.AllBodyFeaActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.loginandregister.PersonalCenter"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.loginandregister.PersonInfosActivity"
+            android:screenOrientation="portrait" />
+
     </application>
     
 </manifest>

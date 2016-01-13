@@ -10,4 +10,9 @@
         <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
+    <style name="BabyInfosDialogAnim" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/dialoganim_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialoganim_exit</item>
+    </style>
+
 </resources>

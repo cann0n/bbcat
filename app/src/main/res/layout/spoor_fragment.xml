@@ -26,9 +26,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="20dp">
 
                     <TextView
+                        android:id="@+id/sh_bodyfeatures"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -40,6 +41,7 @@
                         android:textSize="@dimen/font14"/>
 
                     <TextView
+                        android:id="@+id/sh_babyfnotes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -51,6 +53,7 @@
                         android:textSize="@dimen/font14"/>
 
                     <TextView
+                        android:id="@+id/sh_foodnotes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -63,6 +66,7 @@
                         android:visibility="visible"/>
 
                     <TextView
+                        android:id="@+id/sh_inoculation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -79,7 +83,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="12dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -134,174 +139,189 @@
                 android:layout_height="1dp"
                 android:background="@color/defaultbg_gray"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="#F6F6F6"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/defaultbg_gray"/>
-
-            <TextView
-                android:id="@+id/sh_sttztv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
-                android:drawableRight="@drawable/icon_more"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                android:text="身体特征"
-                android:textColor="@color/color_gray"
-                android:textSize="@dimen/font16"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/defaultbg_gray"/>
-
             <LinearLayout
+                android:id="@+id/sh_bodyfeaturesquanall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_white"
                 android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:background="#F6F6F6"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/defaultbg_gray"/>
+
+                <TextView
+                    android:id="@+id/sh_sttztv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/icon_more"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:text="身体特征"
+                    android:textColor="@color/color_gray"
+                    android:textSize="@dimen/font16"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/defaultbg_gray"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="3dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="3dp">
+                    android:layout_marginTop="8dp"
+                    android:background="@color/color_white"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/sh_sgimg"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/zhuyi_orange"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="3dp">
+
+                        <ImageView
+                            android:id="@+id/sh_sgimg"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/zhuyi_orange"/>
+
+                        <TextView
+                            android:id="@+id/sh_sgtvup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="12dp"
+                            android:gravity="center"
+                            android:text="身高:40cm"
+                            android:textColor="@color/default_black"
+                            android:textSize="17sp"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/sh_sgtvup"
+                        android:id="@+id/sh_sgtvdown"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginLeft="55dp"
                         android:gravity="center"
-                        android:text="身高:40cm"
-                        android:textColor="@color/default_black"
-                        android:textSize="17sp"
-                        android:textStyle="bold"/>
+                        android:text="低于正常范围之内，请加强宝宝的饮食营养!"
+                        android:textColor="@color/color_gray"
+                        android:textSize="13sp"/>
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/sh_sgtvdown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="55dp"
-                    android:gravity="center"
-                    android:text="低于正常范围之内，请加强宝宝的饮食营养!"
-                    android:textColor="@color/color_gray"
-                    android:textSize="13sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_white"
-                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="3dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="3dp">
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@color/color_white"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/sh_tzimg"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/zhengchang_green"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="3dp">
+
+                        <ImageView
+                            android:id="@+id/sh_tzimg"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/zhengchang_green"/>
+
+                        <TextView
+                            android:id="@+id/sh_tztvup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="12dp"
+                            android:gravity="center"
+                            android:text="体重:3kg"
+                            android:textColor="@color/default_black"
+                            android:textSize="17sp"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/sh_tztvup"
+                        android:id="@+id/sh_tztvdown"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginLeft="55dp"
                         android:gravity="center"
-                        android:text="体重:3kg"
-                        android:textColor="@color/default_black"
-                        android:textSize="17sp"
-                        android:textStyle="bold"/>
+                        android:text="在正常范围之内。"
+                        android:textColor="@color/color_gray"
+                        android:textSize="13sp"/>
+
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/sh_tztvdown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="55dp"
-                    android:gravity="center"
-                    android:text="在正常范围之内。"
-                    android:textColor="@color/color_gray"
-                    android:textSize="13sp"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_white"
-                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="3dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="3dp">
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/color_white"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/sh_twimg"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/zhengchang_green"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="3dp">
+
+                        <ImageView
+                            android:id="@+id/sh_twimg"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/zhengchang_green"/>
+
+                        <TextView
+                            android:id="@+id/sh_twtvup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="12dp"
+                            android:gravity="center"
+                            android:text="头围:33cm"
+                            android:textColor="@color/default_black"
+                            android:textSize="17sp"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/sh_twtvup"
+                        android:id="@+id/sh_twtvdown"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginLeft="55dp"
                         android:gravity="center"
-                        android:text="头围:33cm"
-                        android:textColor="@color/default_black"
-                        android:textSize="17sp"
-                        android:textStyle="bold"/>
-
+                        android:text="在正常范围之内。"
+                        android:textColor="@color/color_gray"
+                        android:textSize="13sp"/>
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/sh_twtvdown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="55dp"
-                    android:gravity="center"
-                    android:text="在正常范围之内。"
-                    android:textColor="@color/color_gray"
-                    android:textSize="13sp"/>
-
-
             </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sh_babynotequanall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
@@ -339,79 +359,100 @@
                 android:background="@color/color_white"
                 android:orientation="vertical"/>
 
+            </LinearLayout>
 
-            <!-- <View
-                 android:layout_width="match_parent"
-                 android:layout_height="12dp"
-                 android:background="#F6F6F6"/>
+        <LinearLayout
+            android:id="@+id/sh_feednotequanall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-             <ImageView
-                 android:layout_width="match_parent"
-                 android:layout_height="1dp"
-                 android:background="@color/defaultbg_gray"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:background="#F6F6F6"/>
 
-             <TextView
-                 android:id="@+id/sh_wyjl"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:drawablePadding="10dp"
-                 android:drawableRight="@drawable/icon_more"
-                 android:paddingBottom="10dp"
-                 android:paddingLeft="20dp"
-                 android:paddingRight="20dp"
-                 android:paddingTop="10dp"
-                 android:text="喂养记录"
-                 android:textColor="@color/color_gray"
-                 android:textSize="@dimen/font16"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/defaultbg_gray"/>
 
-             <View
-                 android:layout_width="match_parent"
-                 android:layout_height="1px"
-                 android:background="@color/defaultbg_gray"/>
+            <TextView
+                android:id="@+id/sh_wyjl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/icon_more"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:text="喂养记录"
+                android:textColor="@color/color_gray"
+                android:textSize="@dimen/font16"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/defaultbg_gray"/>
 
 
-             <LinearLayout
-                 android:id="@+id/sh_wyjlll"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:background="@color/color_white"
-                 android:orientation="vertical"/>
+            <LinearLayout
+                android:id="@+id/sh_wyjlll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:orientation="vertical"/>
+            </LinearLayout>
 
-             <View
-                 android:layout_width="match_parent"
-                 android:layout_height="12dp"
-                 android:background="#F6F6F6"/>
+        <LinearLayout
+            android:id="@+id/sh_inoculationquanall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-             <ImageView
-                 android:layout_width="match_parent"
-                 android:layout_height="1dp"
-                 android:background="@color/defaultbg_gray"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:background="#F6F6F6"/>
 
-             <TextView
-                 android:id="@+id/sh_yfjz"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:drawablePadding="10dp"
-                 android:drawableRight="@drawable/icon_more"
-                 android:paddingBottom="10dp"
-                 android:paddingLeft="20dp"
-                 android:paddingRight="20dp"
-                 android:paddingTop="10dp"
-                 android:text="预防接种"
-                 android:textColor="@color/color_gray"
-                 android:textSize="@dimen/font16"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/defaultbg_gray"/>
 
-             <View
-                 android:layout_width="match_parent"
-                 android:layout_height="1px"
-                 android:background="@color/defaultbg_gray"/>
+            <TextView
+                android:id="@+id/sh_yfjz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/icon_more"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:text="预防接种"
+                android:textColor="@color/color_gray"
+                android:textSize="@dimen/font16"/>
 
-             <LinearLayout
-                 android:id="@+id/sh_yfjzll"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:background="@color/color_white"
-                 android:orientation="vertical"/>-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/defaultbg_gray"/>
+
+            <LinearLayout
+                android:id="@+id/sh_yfjzll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:orientation="vertical"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="#F6F6F6"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

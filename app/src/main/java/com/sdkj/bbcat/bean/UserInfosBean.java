@@ -10,6 +10,8 @@ public class UserInfosBean implements Serializable
     private String nickname;
     private String sex;
     private String birthday;
+    private String baby_status;
+    private String avatar;
 
     public String getNickname()
     {
@@ -39,5 +41,25 @@ public class UserInfosBean implements Serializable
     public void setBirthday(String birthday)
     {
         this.birthday = birthday;
+    }
+
+    public String getBaby_status()
+    {
+        return baby_status;
+    }
+
+    public void setBaby_status(String baby_status)
+    {
+        this.baby_status = baby_status;
+    }
+
+    public String getAvatar()
+    {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar)
+    {
+        this.avatar = avatar;
     }
 }

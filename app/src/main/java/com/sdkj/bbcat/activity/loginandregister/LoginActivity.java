@@ -153,6 +153,8 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                         sp_login.setValue("sex", bean.getUserInfo().getSex());
                         sp_login.setValue("birthday", bean.getUserInfo().getBirthday());
                         sp_login.setValue("nickname", bean.getUserInfo().getNickname());
+                        sp_login.setValue("baby_status", bean.getUserInfo().getBaby_status());
+                        sp_login.setValue("avatar", bean.getUserInfo().getAvatar());
                         sp_login.setValue(Const.TOKEN, bean.getToken());
                         sp_login.setValue(Const.UID, bean.getUid());
                         toast("登陆成功");
