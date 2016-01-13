@@ -19,6 +19,8 @@ import com.huaxi100.networkapp.widget.CustomRecyclerView;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.activity.MoreTagsActivity;
+import com.sdkj.bbcat.activity.news.NewsListActivity;
 import com.sdkj.bbcat.adapter.CircleAdapter;
 import com.sdkj.bbcat.bean.CircleVo;
 import com.sdkj.bbcat.bean.RespVo;
@@ -77,7 +79,7 @@ public class FragmentMycircle extends BaseFragment {
         rl_more_tag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.toast("more");
+                activity.skip(MoreTagsActivity.class);
             }
         });
         
@@ -120,7 +122,7 @@ public class FragmentMycircle extends BaseFragment {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    activity.toast(tag.getTitle());
+                                    activity.skip(NewsListActivity.class,tag.getId(),tag.getTitle());
                                 }
                             });
                             ll_label.addView(view);
