@@ -12,12 +12,7 @@ public class Const
 
     public static final String AL_LOGIN = "alreadylogin";
     
-    public static  final String APK_VERSION="0.1";
    
-   
-    public static  final String CLIENT="android";
-    public static  final String UID="bbcat_uid";
-    public static  final String TOKEN="bbcat_token";
     public static  final String PHONE="bbcat_phone";
     public static  final String AVATAR="bbcat_avatar";
     public static  final String NICKNAME="bbcat_nickname";
@@ -52,44 +47,57 @@ public class Const
     /**
      * 详情页
      */
+    public static final String NEWS_DETAIL=DOMAIN+"index/detail";
+
     /**
      * 分类列表页
      */
+    public static final String CATEGORY_LIST=DOMAIN+"index/lists";
 
     /**
      * 医院列表
      */
+    public static final String HOSPITAL_LIST=DOMAIN+"/Hospital/index";
 
     /**
      * 医院详情
      */
+    public static final String HOSPITAL_detail=DOMAIN+"/Hospital/detail";
 
     /**
      * 医院医生列表
      */
+    public static final String EXPERT_LIST=DOMAIN+"/Hospital/expert";
 
     /**
      * 我的圈首页
      */
+    public static final String MY_CIRCLE=DOMAIN+"/circle/index";
 
     /**
      * 医院最新活动
      */
+    public static final String HOSPITAL_ACTIVITY=DOMAIN+"/Hospital/activity";
+
     /**
      * 圈圈详情
      */
+    public static final String CIRCLE_DETAIL=DOMAIN+"/circle/detail";
 
     /**
      * 发布动态
      */
+    public static final String PUBLIC_CIRCLE=DOMAIN+"/circle/push";
 
     /**
      * 发布动态获取tag
      */
+    public static final String GET_TAGS=DOMAIN+"/circle/getTags";
 
     /**
      * 点赞
      */
+    public static final String DO_LIKE=DOMAIN+"/circle/doCollection";
 
     /**
      * 上传图片
