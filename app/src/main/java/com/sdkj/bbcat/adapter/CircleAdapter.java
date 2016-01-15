@@ -54,11 +54,11 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
             holder.tv_name.setText(newsVo.getUser_info().getNickname());
             holder.tv_desc.setText(newsVo.getUser_info().getBirthday());
-            if (Utils.isEmpty(newsVo.getNews_info().getCover())) {
+            if (Utils.isEmpty(newsVo.getNews_info().getMulti_cover())) {
                 holder.iv_thumb.setVisibility(View.GONE);
             } else {
                 holder.iv_thumb.setVisibility(View.VISIBLE);
-                Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getCover())).into(holder.iv_thumb);
+                Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(holder.iv_thumb);
             }
             if (Utils.isEmpty(newsVo.getNews_info().getAddress())) {
                 holder.tv_address.setVisibility(View.GONE);

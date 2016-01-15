@@ -115,11 +115,11 @@ public class DetailActivity extends SimpleActivity {
                 }
             }
         });
-        if (Utils.isEmpty(newsVo.getNews_info().getCover())) {
+        if (Utils.isEmpty(newsVo.getNews_info().getMulti_cover())) {
             iv_thumb.setVisibility(View.GONE);
         } else {
             iv_thumb.setVisibility(View.VISIBLE);
-            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getCover())).into(iv_thumb);
+            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(iv_thumb);
         }
         
         if (Utils.isEmpty(newsVo.getNews_info().getAddress())) {

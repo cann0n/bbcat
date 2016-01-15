@@ -145,12 +145,21 @@ public class CircleVo {
             private  String create_time;
             private  String view;
             private  String title;
-            private  String cover;
             private  String comment;
             private  String collection;
             private  String uid;
             private String color;
             private String category_name;
+            
+            private List<Cover> multi_cover;
+
+            public List<Cover> getMulti_cover() {
+                return multi_cover;
+            }
+
+            public void setMulti_cover(List<Cover> multi_cover) {
+                this.multi_cover = multi_cover;
+            }
 
             public String getColor() {
                 return color;
@@ -218,13 +227,6 @@ public class CircleVo {
                 this.title = title;
             }
 
-            public String getCover() {
-                return cover;
-            }
-
-            public void setCover(String cover) {
-                this.cover = cover;
-            }
 
             public String getComment() {
                 return comment;
@@ -248,6 +250,18 @@ public class CircleVo {
 
             public void setUid(String uid) {
                 this.uid = uid;
+            }
+        }
+        
+        public  static class Cover implements Serializable{
+            private String img;
+
+            public String getImg() {
+                return img;
+            }
+
+            public void setImg(String img) {
+                this.img = img;
             }
         }
         
