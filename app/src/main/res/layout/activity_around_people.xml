@@ -4,15 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/color_white"
     android:orientation="vertical">
-
-    <include layout="@layout/layout_title_bar" />
-
+    
     <com.huaxi100.networkapp.widget.CustomRecyclerView
         android:id="@+id/people_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         />
-    <!-- 群组item 会话item 聊天室item 黑名单item 全都集合在这里面了 自行设置visiable-->
-    <include layout="@layout/item_qunzu"/>
-    <include layout="@layout/item_qunzu"/>
 </LinearLayout>
