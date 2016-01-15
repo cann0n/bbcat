@@ -24,6 +24,7 @@ import com.sdkj.bbcat.bean.CommentVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.widget.AutoScrollViewPager;
 import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
@@ -34,9 +35,6 @@ public class DetailActivity extends SimpleActivity {
 
     @ViewInject(R.id.iv_avatar)
     ImageView iv_avatar;
-
-    @ViewInject(R.id.iv_thumb)
-    ImageView iv_thumb;
 
     @ViewInject(R.id.tv_name)
     TextView tv_name;
@@ -58,6 +56,8 @@ public class DetailActivity extends SimpleActivity {
 
     @ViewInject(R.id.tv_comment_num)
     TextView tv_comment_num;
+    @ViewInject(R.id.tv_comment_bottom)
+    TextView tv_comment_bottom;
 
     @ViewInject(R.id.tv_zan_num)
     TextView tv_zan_num;
@@ -90,11 +90,17 @@ public class DetailActivity extends SimpleActivity {
     LinearLayout ll_comment_bottom;
 
     private CircleVo.ItemCircle newsVo;
+
+    AutoScrollViewPager banner;
+    
+    @ViewInject(R.id.ll_banner)
+    LinearLayout ll_banner;
+    
     @Override
     public void initBusiness() {
         new TitleBar(activity).setTitle("详情").back();
         ll_comment_bar.setVisibility(View.GONE);
-
+        banner=new AutoScrollViewPager(activity);
 
         newsVo = (CircleVo.ItemCircle) getVo("0");
         if ("1".equals(newsVo.getNews_info().getIs_collected())) {
@@ -120,11 +126,11 @@ public class DetailActivity extends SimpleActivity {
                 }
             }
         });
+        banner.loadAutoScrollViewPager(ll_banner,newsVo.getNews_info().getMulti_cover());
         if (Utils.isEmpty(newsVo.getNews_info().getMulti_cover())) {
-            iv_thumb.setVisibility(View.GONE);
+            ll_banner.setVisibility(View.GONE);
         } else {
-            iv_thumb.setVisibility(View.VISIBLE);
-            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(iv_thumb);
+            ll_banner.setVisibility(View.VISIBLE);
         }
         
         if (Utils.isEmpty(newsVo.getNews_info().getAddress())) {
@@ -138,6 +144,7 @@ public class DetailActivity extends SimpleActivity {
         tv_time.setText(newsVo.getNews_info().getCreate_time() + "");
         tv_title.setText(newsVo.getNews_info().getTitle());
         tv_comment.setText(newsVo.getNews_info().getComment());
+        tv_comment_bottom.setText(newsVo.getNews_info().getComment());
         tv_zan.setText(newsVo.getNews_info().getCollection());
         tv_zan_num.setText("赞"+newsVo.getNews_info().getCollection());
         showDialog();

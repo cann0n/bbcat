@@ -194,4 +194,3 @@ public class Const
      */
     public static final String GetComment = DOMAIN + "circle/commentList ";
 }
-}
