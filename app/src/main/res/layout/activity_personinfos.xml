@@ -48,10 +48,10 @@
 
                 <com.sdkj.bbcat.widget.CircleImageView
                     android:id="@+id/personinfos_head"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
                     android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/em_default_image"
+                    android:src="@drawable/em_default_image"
                     app:border_color="@color/color_white"
                     app:border_width="1dp"/>
 
@@ -248,16 +248,13 @@
                 android:id="@+id/personinfos_addressall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="16dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="12dp"
-                android:paddingTop="16dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
                     android:singleLine="true"
                     android:text="地理位置"
                     android:textColor="@color/default_black"
@@ -274,12 +271,19 @@
                     android:textColor="@color/default_black"
                     android:textSize="16sp"/>
 
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="6dp"
-                    android:background="@drawable/intoicon"/>
+                <TextView
+                    android:id="@+id/personinfos_addressupdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="16dp"
+                    android:text="更新"
+                    android:textSize="16sp"
+                    android:textColor="@color/theme_orange_color"
+                    android:layout_marginLeft="6dp"/>
             </LinearLayout>
 
             <ImageView

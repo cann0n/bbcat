@@ -7,6 +7,7 @@ import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.bean.LoginBean;
 import com.sdkj.bbcat.bean.UserInfosBean;
 import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.fragment.BraceletPage;
 import com.sdkj.bbcat.fragment.CommunityPage;
 import com.sdkj.bbcat.fragment.HomePage;
@@ -87,15 +88,15 @@ public class MainActivity extends TabUiActivity {
     public void initBusiness()
     {
         super.initBusiness();
-        SpUtil sp_login =  new SpUtil(activity,Const.AL_LOGIN);
-        if(sp_login.getBoolValueFalse("isLogin"))
+        if(SimpleUtils.isLogin(activity))
         {
             UserInfosBean infosBean = new UserInfosBean();
+            SpUtil sp_login =  new SpUtil(activity,Const.SP_NAME);
             infosBean.setBirthday(sp_login.getStringValue("birthday"));
-            infosBean.setNickname(sp_login.getStringValue("nickname"));
+            infosBean.setNickname(sp_login.getStringValue(Const.NICKNAME));
             infosBean.setSex(sp_login.getStringValue("sex"));
             infosBean.setBaby_status(sp_login.getStringValue("baby_status"));
-            infosBean.setAvatar(sp_login.getStringValue("avatar"));
+            infosBean.setAvatar(sp_login.getStringValue(Const.AVATAR));
             LoginBean bean = new LoginBean();
             bean.setUserInfo(infosBean);
             bean.setToken(sp_login.getStringValue(Const.TOKEN));

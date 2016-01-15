@@ -1,13 +1,18 @@
 package com.sdkj.bbcat.adapter;
 
-import android.graphics.Color;
+import android.app.AlertDialog;
 import android.os.Handler;
 import android.text.Html;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,11 +26,11 @@ import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.activity.DetailActivity;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
-import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.CircleVo;
-import com.sdkj.bbcat.bean.NewsVo;
+import com.sdkj.bbcat.bean.CommentVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
@@ -38,8 +43,8 @@ import java.util.List;
  * Created by ${Rhino} on 2015/12/10 14:24
  * 我的圈列表
  */
-public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, CircleAdapter.ViewHolder> {
-
+public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, CircleAdapter.ViewHolder>
+{
     public CircleAdapter(BaseActivity activity, List<CircleVo.ItemCircle> data) {
         super(activity, ViewHolder.class, R.id.class, data, R.layout.item_circle);
     }
@@ -79,9 +84,11 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
             holder.tv_comment.setText(newsVo.getNews_info().getComment());
             holder.tv_zan.setText(newsVo.getNews_info().getCollection());
 
-            holder.ll_item.setOnClickListener(new View.OnClickListener() {
+            holder.ll_item.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     activity.skip(DetailActivity.class, newsVo);
                 }
             });
@@ -91,6 +98,77 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                     activity.toast("分享");
                 }
             });
+
+            holder.ll_comment.setOnClickListener(new View.OnClickListener()
+            {
+                public void onClick(View v)
+                {
+                    final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+                    alertDialog.setView(new EditText(activity));
+                    alertDialog.show();
+
+                    View view = LayoutInflater.from(activity).inflate(R.layout.inflater_comment,null);
+                    alertDialog.setContentView(view);
+                    final EditText et = (EditText)view.findViewById(R.id.comment_et);
+                    final TextView btn = (TextView)view.findViewById(R.id.comment_btn);
+
+                    btn.setOnClickListener(new View.OnClickListener()
+                    {
+                        public void onClick(View v)
+                        {
+                            final PostParams params = new PostParams();
+                            try
+                            {
+                                params.put("id", newsVo.getNews_info().getId());
+                                params.put("content",et.getText().toString().trim());
+                            }
+                            catch(Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+
+                            HttpUtils.postJSONObject(activity, Const.CommitComment, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
+                            {
+                                public void getResp(JSONObject jsonObject)
+                                {
+                                    ((SimpleActivity) activity).dismissDialog();
+                                    RespVo<CommentVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                                    if (respVo.isSuccess())
+                                    {
+                                        CommentVo commentVo = respVo.getData(jsonObject, CommentVo.class);
+                                        activity.toast("评论成功");
+                                        alertDialog.dismiss();
+                                    }
+                                    else
+                                    {
+                                        activity.toast(respVo.getMessage());
+                                        activity.toast("评论成功");
+                                    }
+                                }
+
+                                public void doFailed()
+                                {
+
+                                    ((SimpleActivity) activity).dismissDialog();
+                                    activity.toast("评论成功");
+                                    alertDialog.dismiss();
+                                }
+                            });
+                        }
+                    });
+
+                    DisplayMetrics displayMetrics = new DisplayMetrics();
+                    activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                    Window window = alertDialog.getWindow();
+                    window.setWindowAnimations(R.style.PhotoCameraDialogAnim);
+
+                    WindowManager.LayoutParams params = alertDialog.getWindow().getAttributes();
+                    params.width = displayMetrics.widthPixels;
+                    params.gravity = Gravity.BOTTOM;
+                    alertDialog.getWindow().setAttributes(params);
+                }
+            });
+
 
             holder.tv_zan_add.setVisibility(View.INVISIBLE);
             //已关注
@@ -152,6 +230,7 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         LinearLayout ll_item;
         LinearLayout ll_share;
         LinearLayout ll_zan;
+        LinearLayout ll_comment;
 
         public ViewHolder(View itemView) {
             super(itemView);

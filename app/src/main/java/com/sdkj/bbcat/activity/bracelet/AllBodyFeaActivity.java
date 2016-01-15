@@ -1,6 +1,7 @@
 package com.sdkj.bbcat.activity.bracelet;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
@@ -15,6 +16,7 @@ import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.adapter.BodyFeaAdapter;
 import com.sdkj.bbcat.bean.AllBodyFeaBean;
 import com.sdkj.bbcat.bean.BodyFeaBean;
+import com.sdkj.bbcat.bean.GrowthVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
@@ -44,7 +46,13 @@ public class AllBodyFeaActivity extends SimpleActivity
 
     public void initBusiness()
     {
-        new TitleBar(activity).setTitle("身体特征").back();
+        new TitleBar(activity).setTitle("身体特征").back().showRight("添加", new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                activity.skip(BodyFeaturesActivity.class,(GrowthVo.BobyState)getVo("0"));
+            }
+        });
         adapter = new BodyFeaAdapter(activity, new ArrayList<BodyFeaBean>());
         list.addFooter(adapter);
         list.setAdapter(adapter);

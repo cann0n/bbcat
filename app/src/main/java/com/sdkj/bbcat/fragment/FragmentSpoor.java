@@ -302,7 +302,10 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener
         }
         else if(v == bodyFeatures)
         {
-            activity.skip(AllBodyFeaActivity.class);
+            if(mGrowthVo != null && mGrowthVo.getBaby_status() != null)
+                activity.skip(AllBodyFeaActivity.class,mGrowthVo.getBaby_status());
+            else
+                activity.skip(AllBodyFeaActivity.class, new GrowthVo.BobyState());
         }
 
         else if(v == mBobyNotes || v == babyNote)

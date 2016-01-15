@@ -274,12 +274,29 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.loginandregister.PersonalCenter"
+            android:name=".activity.ComDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.loginandregister.PersonInfosActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.loginandregister.NickNameActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.loginandregister.SexActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.loginandregister.StateActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.loginandregister.StateActivity"
+            android:screenOrientation="portrait" />
+
     </application>
     
 </manifest>

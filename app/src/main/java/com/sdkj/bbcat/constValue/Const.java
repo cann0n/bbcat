@@ -11,12 +11,12 @@ public class Const
     public static final String FIR_INSTALL = "firstinstall";
 
     public static final String AL_LOGIN = "alreadylogin";
-    
-   
+
+
     public static  final String PHONE="bbcat_phone";
     public static  final String AVATAR="bbcat_avatar";
     public static  final String NICKNAME="bbcat_nickname";
-    
+
 
     public static final String APK_VERSION = "0.1";
 
@@ -119,7 +119,7 @@ public class Const
      * 关注
      */
     public static final String DO_FOLLOW=DOMAIN+"/circle/follow";
-    
+
     public static final String Schema = "http://120.26.212.241/";
 
     public static final String GetVerifyCode = DOMAIN + "sms/GetVerifyCode";
@@ -174,4 +174,24 @@ public class Const
      */
     public static final String AROUND_PEOPLE = DOMAIN + "user/nearby";
     
+    /**
+     * 保存用户信息
+     */
+    public static final String SaveUserInfos = DOMAIN + "user/saveInfo";
+
+    /**
+     * 上传用户头像
+     */
+    public static final String UpdateUserAvatar = DOMAIN + "user/userAvatar";
+
+    /**
+     * 发布评论
+     */
+    public static final String CommitComment = DOMAIN + "circle/doComment";
+
+    /**
+     * 获取文章评论
+     */
+    public static final String GetComment = DOMAIN + "circle/commentList ";
+}
 }
