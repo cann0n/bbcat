@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:background="@color/theme_orange_color"
@@ -55,6 +58,8 @@
             android:background="@color/color_divide" />
     </RelativeLayout>
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,30 +74,38 @@
             android:paddingTop="12dp"
             android:textColor="#898989"
             android:textSize="@dimen/textview_normal"/>
-        <com.sdkj.bbcat.widget.FlowLayout
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_divide"/>
+
+        <com.sdkj.bbcat.widget.TagCloudLayout
+            android:id="@+id/tagcontainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/theme_padding">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom ="13dp"
+            android:paddingTop="13dp"
+            app:lineSpacing="8dp"
+            app:tagSpacing="12dp"/>
 
-            <include layout="@layout/item_top_search_words"/>
-            <include layout="@layout/item_top_search_words"/>
-
-        </com.sdkj.bbcat.widget.FlowLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/color_divide"/>
         <!-- 这个要用RecyclerView的话直接打开注释就行-->
-        <!--<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView-->
-            <!--android:id="@+id/ultimate_recycler_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:divider="@android:color/transparent"-->
-            <!--android:dividerHeight="0dp">-->
-            <!-- -->
+        <com.huaxi100.networkapp.widget.CustomRecyclerView
+            android:id="@+id/ultimate_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"/>
+
         <!--</com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>-->
-        <include layout="@layout/item_search_words"/>
-        <include layout="@layout/item_search_words"/>
+        <!--<include layout="@layout/item_search_words"/>
+        <include layout="@layout/item_search_words"/>-->
 
     </LinearLayout>
 </LinearLayout>

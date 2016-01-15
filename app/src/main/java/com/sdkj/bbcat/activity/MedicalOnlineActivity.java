@@ -164,7 +164,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
 
     @OnClick(R.id.iv_search)
     void search(View view) {
-        skip(SearchActivity.class);
+        skip(DocSearchActivity.class);
     }
 
     @OnClick(R.id.iv_catdoctor)

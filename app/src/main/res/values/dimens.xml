@@ -36,5 +36,5 @@
     <dimen name="image_thumbnail_size">100dp</dimen>
     <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="chat_nick_margin_left">17dp</dimen>
-    
+
 </resources>

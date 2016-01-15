@@ -297,6 +297,10 @@
             android:name=".activity.loginandregister.PersonalCenter"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.DocSearchActivity"
+            android:screenOrientation="portrait" />
+
     </application>
     
 </manifest>

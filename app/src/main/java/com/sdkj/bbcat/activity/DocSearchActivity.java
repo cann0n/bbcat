@@ -15,7 +15,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
-import com.sdkj.bbcat.adapter.ArticleAdapter;
+import com.sdkj.bbcat.adapter.DocAdapter;
 import com.sdkj.bbcat.adapter.TagBaseAdapter;
 import com.sdkj.bbcat.bean.CircleTagVo;
 import com.sdkj.bbcat.bean.RespVo;
@@ -30,19 +30,22 @@ import java.util.List;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
-public class SearchActivity extends SimpleActivity
+/**
+ * Created by Mr.Yuan on 2016/1/16 0016.
+ */
+public class DocSearchActivity extends SimpleActivity
 {
     @ViewInject(R.id.et_search)
-    private EditText  mEt;
+    private EditText           mEt;
     @ViewInject(R.id.iv_search)
-    private ImageView mSearch;
+    private ImageView          mSearch;
     @ViewInject(R.id.tagcontainer)
-    private TagCloudLayout mTagLayout;
-    private TagBaseAdapter mTagAdapter;
-    private List<String> mTagListData;
+    private TagCloudLayout     mTagLayout;
+    private TagBaseAdapter     mTagAdapter;
+    private List<String>       mTagListData;
     @ViewInject(R.id.ultimate_recycler_view)
     private CustomRecyclerView listView;
-    private ArticleAdapter     adapter;
+    private DocAdapter         adapter;
     private int pageNum = 1;
 
     @OnClick(R.id.iv_back)
@@ -59,14 +62,14 @@ public class SearchActivity extends SimpleActivity
     public void initBusiness()
     {
         mTagListData = new ArrayList<>();
-        mTagAdapter = new TagBaseAdapter(this,mTagListData);
+        mTagAdapter = new TagBaseAdapter(this, mTagListData);
         mTagLayout.setAdapter(mTagAdapter);
 
         /**请求热门词汇*/
         final PostParams params = new PostParams();
-        params.put("category_id", "4");
+        params.put("category_id", "6");
 
-        HttpUtils.postJSONObject(activity, Const.GetHotChar,SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
+        HttpUtils.postJSONObject(activity, Const.GetHotChar, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
         {
             public void getResp(JSONObject jsonObject)
             {
@@ -76,11 +79,10 @@ public class SearchActivity extends SimpleActivity
                 {
                     List<String> hotCharList = respVo.getListData(jsonObject, String.class);
                     mTagListData.addAll(hotCharList);
-                    if(mTagListData.size() == 0)
+                    if (mTagListData.size() == 0)
                         mTagListData.add(new String("暂无热门搜索标签"));
                     mTagAdapter.notifyDataSetChanged();
-                }
-                else
+                } else
                     activity.toast(respVo.getMessage());
             }
 
@@ -91,7 +93,7 @@ public class SearchActivity extends SimpleActivity
             }
         });
 
-        adapter = new ArticleAdapter(activity, new ArrayList<CircleTagVo>());
+        adapter = new DocAdapter(activity, new ArrayList<CircleTagVo>());
         listView.addFooter(adapter);
         listView.setAdapter(adapter);
         listView.setNoMoreData();
@@ -144,7 +146,7 @@ public class SearchActivity extends SimpleActivity
     {
         showDialog();
         PostParams params = new PostParams();
-        params.put("category_id", "4");
+        params.put("category_id", "6");
         params.put("keyword",mEt.getText().toString().trim());
 
         HttpUtils.postJSONObject(activity, Const.SearchContent, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
@@ -195,3 +197,4 @@ public class SearchActivity extends SimpleActivity
         });
     }
 }
+

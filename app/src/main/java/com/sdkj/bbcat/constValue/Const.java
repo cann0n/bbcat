@@ -192,5 +192,15 @@ public class Const
     /**
      * 获取文章评论
      */
-    public static final String GetComment = DOMAIN + "circle/commentList ";
+    public static final String GetComment = DOMAIN + "circle/commentList";
+
+    /**
+     * 搜索栏热门词语
+     */
+    public static final String GetHotChar = DOMAIN + "index/getHotSearch";
+
+    /**
+     * 搜索栏热门词语
+     */
+    public static final String SearchContent = DOMAIN + "index/search";
 }
