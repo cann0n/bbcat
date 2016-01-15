@@ -21,7 +21,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="50dp">
 
-                <include layout="@layout/item_circle"/>
+                <include layout="@layout/item_detail"/>
 
                 <View
                     android:layout_width="match_parent"

@@ -292,9 +292,9 @@
         <activity
             android:name=".activity.loginandregister.StateActivity"
             android:screenOrientation="portrait" />
-
+       
         <activity
-            android:name=".activity.loginandregister.StateActivity"
+            android:name=".activity.loginandregister.PersonalCenter"
             android:screenOrientation="portrait" />
 
     </application>
