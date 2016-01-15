@@ -89,7 +89,7 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                 @Override
                 public void onClick(View view)
                 {
-                    activity.skip(DetailActivity.class, newsVo);
+                   activity.skip(DetailActivity.class,newsVo);
                 }
             });
             holder.ll_share.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +104,7 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                 public void onClick(View v)
                 {
                     final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+                    alertDialog.setCanceledOnTouchOutside(true);
                     alertDialog.setView(new EditText(activity));
                     alertDialog.show();
 
@@ -116,44 +117,53 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                     {
                         public void onClick(View v)
                         {
-                            final PostParams params = new PostParams();
-                            try
+                            if(!Utils.isEmpty(et.getText().toString().trim()))
                             {
-                                params.put("id", newsVo.getNews_info().getId());
-                                params.put("content",et.getText().toString().trim());
-                            }
-                            catch(Exception e)
-                            {
-                                e.printStackTrace();
-                            }
 
-                            HttpUtils.postJSONObject(activity, Const.CommitComment, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
-                            {
-                                public void getResp(JSONObject jsonObject)
+                                final PostParams params = new PostParams();
+                                try
                                 {
-                                    ((SimpleActivity) activity).dismissDialog();
-                                    RespVo<CommentVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                                    if (respVo.isSuccess())
+                                    params.put("id", newsVo.getNews_info().getId());
+                                    params.put("content",et.getText().toString().trim());
+                                }
+                                catch(Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                HttpUtils.postJSONObject(activity, Const.CommitComment, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
+                                {
+                                    public void getResp(JSONObject jsonObject)
                                     {
-                                        CommentVo commentVo = respVo.getData(jsonObject, CommentVo.class);
-                                        activity.toast("评论成功");
+                                        ((SimpleActivity) activity).dismissDialog();
+                                        RespVo<CommentVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                                        if (respVo.isSuccess())
+                                        {
+                                            CommentVo commentVo = respVo.getData(jsonObject, CommentVo.class);
+                                            holder.tv_comment.setText((Integer.valueOf(newsVo.getNews_info().getComment())+1)+"");
+                                            activity.toast("评论成功");
+                                            alertDialog.dismiss();
+                                        }
+                                        else
+                                        {
+                                            activity.toast(respVo.getMessage());
+                                        }
+                                    }
+
+                                    public void doFailed()
+                                    {
+
+                                        ((SimpleActivity) activity).dismissDialog();
+                                        activity.toast("评论失败");
                                         alertDialog.dismiss();
                                     }
-                                    else
-                                    {
-                                        activity.toast(respVo.getMessage());
-                                        activity.toast("评论成功");
-                                    }
-                                }
+                                });
+                            }
 
-                                public void doFailed()
-                                {
-
-                                    ((SimpleActivity) activity).dismissDialog();
-                                    activity.toast("评论成功");
-                                    alertDialog.dismiss();
-                                }
-                            });
+                            else
+                            {
+                                activity.toast("请输入评论内容后再提交");
+                            }
                         }
                     });
 
@@ -254,8 +264,10 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                         newsVo.getNews_info().setCollection(like_num.getText().toString());
                         anim.setVisibility(View.VISIBLE);
                         anim.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.applaud_animation));
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
+                        new Handler().postDelayed(new Runnable()
+                        {
+                            public void run()
+                            {
                                 anim.setVisibility(View.GONE);
                             }
                         }, 1000);
@@ -287,27 +299,34 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         PostParams param = new PostParams();
         param.put("to_uid", newsVo.getUser_info().getUid());
         param.put("uid", sp.getStringValue(Const.UID));
-        HttpUtils.postJSONObject(activity, Const.DO_FOLLOW, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.DO_FOLLOW, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity)
+        {
             @Override
-            public void getResp(JSONObject jsonObject) {
+            public void getResp(JSONObject jsonObject)
+            {
                 RespVo<String> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                if (respVo.isSuccess()) {
-                    if ("0".equals(newsVo.getUser_info().getIs_following())) {
+                if (respVo.isSuccess())
+                {
+                    if ("0".equals(newsVo.getUser_info().getIs_following()))
+                    {
                         newsVo.getUser_info().setIs_following("1");
                         follow.setText("已关注");
-                    } else {
+                    } else
+                    {
                         newsVo.getUser_info().setIs_following("1");
                         follow.setText("关注");
                     }
 
 
-                } else if (respVo.isNeedLogin()) {
+                } else if (respVo.isNeedLogin())
+                {
                     activity.skip(LoginActivity.class);
                 }
             }
 
             @Override
-            public void doFailed() {
+            public void doFailed()
+            {
 
             }
         });

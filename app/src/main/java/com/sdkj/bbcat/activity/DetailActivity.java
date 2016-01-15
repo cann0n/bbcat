@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -188,7 +189,9 @@ public class DetailActivity extends SimpleActivity {
         {
             public void onClick(View v)
             {
-                skip(ComDetailActivity.class, newsVo);
+                Intent intent = new Intent(DetailActivity.this,ComDetailActivity.class);
+                intent.putExtra("newvo",newsVo);
+                startActivityForResult(intent,0);
             }
         });
     }
@@ -245,8 +248,10 @@ public class DetailActivity extends SimpleActivity {
                         newsVo.getNews_info().setCollection(like_num.getText().toString());
                         anim.setVisibility(View.VISIBLE);
                         anim.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.applaud_animation));
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
+                        new Handler().postDelayed(new Runnable()
+                        {
+                            public void run()
+                            {
                                 anim.setVisibility(View.GONE);
                             }
                         }, 1000);
@@ -269,14 +274,42 @@ public class DetailActivity extends SimpleActivity {
             }
         });
     }
-    
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+
+    }
+
     @OnClick(R.id.ll_zan_bottom)
     void zan(View view){
-        doLike(newsVo,iv_zan_bottom,tv_zan_bottom,tv_zan_add_bottom);
+        doLike(newsVo, iv_zan_bottom, tv_zan_bottom, tv_zan_add_bottom);
     }
     
     @Override
     public int setLayoutResID() {
         return R.layout.activity_detail;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data != null)
+        {
+            switch (requestCode)
+            {
+                case 0:
+                {
+                    if (data.getBooleanExtra("ismody", false))
+                    {
+                        ll_comment_container.removeAllViews();
+                        initBusiness();
+                    }
+                }
+            }
+        }
     }
 }
