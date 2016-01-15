@@ -51,6 +51,9 @@ public class SimpleUtils {
     }
     
     public static String getImageUrl(String url) {
+        if(Utils.isEmpty(url)){
+            return "";
+        }else 
         if (url.startsWith("http") || url.startsWith("https")) {
             return url;
         } else {

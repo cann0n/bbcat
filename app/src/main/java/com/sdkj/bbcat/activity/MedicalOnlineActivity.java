@@ -169,7 +169,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
 
     @OnClick(R.id.iv_catdoctor)
     void catdoctor(View view) {
-        skip(CatDortorActivity.class);
+       finish();
     }
 
     @OnClick(R.id.ll_location)

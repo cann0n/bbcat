@@ -36,6 +36,15 @@ public class HospitalDetailVo {
         private String contact_phone;
         private String detail;
         private String category_name;
+        private String hxchat_id;
+
+        public String getHxchat_id() {
+            return hxchat_id;
+        }
+
+        public void setHxchat_id(String hxchat_id) {
+            this.hxchat_id = hxchat_id;
+        }
 
         public String getId() {
             return id;

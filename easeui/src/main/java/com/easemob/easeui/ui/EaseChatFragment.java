@@ -200,6 +200,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
             if(EaseUserUtils.getUserInfo(toChatUsername) != null){
                 titleBar.setTitle(EaseUserUtils.getUserInfo(toChatUsername).getNick());
             }
+            if(fragmentArgs.getString(EaseConstant.TO_USER_NICKNAME)!=null){
+                titleBar.setTitle(fragmentArgs.getString(EaseConstant.TO_USER_NICKNAME));
+            }
             titleBar.setRightImageResource(R.drawable.ease_mm_title_remove);
         } else {
         	titleBar.setRightImageResource(R.drawable.ease_to_group_details_normal);
@@ -686,8 +689,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
         }
         //发送消息
         
-        message.setAttribute("avatar",avatar);
-        message.setAttribute("nickname",nickName);
+//        message.setAttribute("avatar",avatar);
+//        message.setAttribute("nickname",nickName);
         
         EMChatManager.getInstance().sendMessage(message, null);
         //刷新ui
