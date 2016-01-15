@@ -85,11 +85,16 @@ public class DetailActivity extends SimpleActivity {
 
     @ViewInject(R.id.ll_comment_container)
     LinearLayout ll_comment_container;
-    CircleVo.ItemCircle newsVo;
+
+    @ViewInject(R.id.ll_comment_bottom)
+    LinearLayout ll_comment_bottom;
+
+    private CircleVo.ItemCircle newsVo;
     @Override
     public void initBusiness() {
         new TitleBar(activity).setTitle("详情").back();
         ll_comment_bar.setVisibility(View.GONE);
+
 
         newsVo = (CircleVo.ItemCircle) getVo("0");
         if ("1".equals(newsVo.getNews_info().getIs_collected())) {
@@ -139,18 +144,23 @@ public class DetailActivity extends SimpleActivity {
         PostParams params = new PostParams();
         params.put("id", newsVo.getNews_info().getId());
 
-        HttpUtils.postJSONObject(activity, Const.CIRCLE_DETAIL, SimpleUtils.buildUrl(activity,params), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.CIRCLE_DETAIL, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
+        {
             @Override
-            public void getResp(JSONObject obj) {
+            public void getResp(JSONObject obj)
+            {
                 dismissDialog();
                 RespVo respVo = GsonTools.getVo(obj.toString(), RespVo.class);
-                if (respVo.isSuccess()) {
-                    List<CommentVo> data = GsonTools.getList( obj.optJSONObject("data").optJSONObject("comment_list").optJSONArray("list"),CommentVo.class);
-                    tv_comment_num.setText("评论"+obj.optJSONObject("data").optJSONObject("comment_list").optString("total_count"));
-                    if (Utils.isEmpty(data)) {
+                if (respVo.isSuccess())
+                {
+                    List<CommentVo> data = GsonTools.getList(obj.optJSONObject("data").optJSONObject("comment_list").optJSONArray("list"), CommentVo.class);
+                    tv_comment_num.setText("评论" + obj.optJSONObject("data").optJSONObject("comment_list").optString("total_count"));
+                    if (Utils.isEmpty(data))
+                    {
                         return;
                     }
-                    for (CommentVo comment : data) {
+                    for (CommentVo comment : data)
+                    {
                         View view = makeView(R.layout.item_comment);
                         ImageView iv_item_avatar = (ImageView) view.findViewById(R.id.iv_item_avatar);
                         TextView tv_item_name = (TextView) view.findViewById(R.id.tv_item_name);
@@ -168,8 +178,17 @@ public class DetailActivity extends SimpleActivity {
             }
 
             @Override
-            public void doFailed() {
+            public void doFailed()
+            {
                 dismissDialog();
+            }
+        });
+
+        ll_comment_bottom.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                skip(ComDetailActivity.class, newsVo);
             }
         });
     }

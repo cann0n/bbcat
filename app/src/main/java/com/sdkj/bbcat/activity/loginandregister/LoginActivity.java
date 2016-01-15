@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.activity.loginandregister;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -156,9 +157,9 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                         SpUtil sp_login =  new SpUtil(activity,Const.SP_NAME);
                         sp_login.setValue("sex", bean.getUserInfo().getSex());
                         sp_login.setValue("birthday", bean.getUserInfo().getBirthday());
-                        sp_login.setValue("nickname", bean.getUserInfo().getNickname());
+                        //sp_login.setValue("nickname", bean.getUserInfo().getNickname());
+                        //sp_login.setValue("avatar", bean.getUserInfo().getAvatar());
                         sp_login.setValue("baby_status", bean.getUserInfo().getBaby_status());
-                        sp_login.setValue("avatar", bean.getUserInfo().getAvatar());
                         sp_login.setValue(Const.TOKEN, bean.getToken());
                         sp_login.setValue(Const.UID, bean.getUid());
                         sp_login.setValue(Const.NICKNAME, bean.getUserInfo().getNickname());
@@ -166,8 +167,11 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                         PreferenceManager.getInstance().setCurrentUserAvatar(SimpleUtils.getImageUrl(bean.getUserInfo().getAvatar()));
                         PreferenceManager.getInstance().setCurrentUserNick(bean.getUserInfo().getNickname());
                         sp_login.setValue(Const.PHONE, mAccountEt.getText().toString().trim());
-                        toast("登陆成功");
                         SimpleUtils.loginHx(activity.getApplicationContext());
+                        Intent intent = new Intent();
+                        intent.putExtra("alreadymody", true);
+                        setResult(0,intent);
+                        toast("登陆成功");
                         finish();
                     }
 

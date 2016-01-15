@@ -1,6 +1,8 @@
 package com.sdkj.bbcat.activity.loginandregister;
 
+import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +21,8 @@ import com.sdkj.bbcat.widget.CircleImageView;
  */
 public class PersonalCenter extends SimpleActivity implements View.OnClickListener
 {
+    @ViewInject(R.id.pc_back)
+    private ImageView mBack;
     @ViewInject(R.id.pc_head)
     private CircleImageView mHead;
     @ViewInject(R.id.pc_unregisall)
@@ -55,6 +59,9 @@ public class PersonalCenter extends SimpleActivity implements View.OnClickListen
     private RelativeLayout  mQitaRL;
     private LoginBean       mLoginBean;
 
+    public static final int MLOGIN = 0X0001;
+    public static final int MMDOY =0X0002;
+
     public int setLayoutResID()
     {
         return R.layout.activity_personcenter;
@@ -62,7 +69,22 @@ public class PersonalCenter extends SimpleActivity implements View.OnClickListen
 
     public void initBusiness()
     {
-        if (isLogin())
+        initData();
+        mBack.setOnClickListener(this);
+        mLogin.setOnClickListener(this);
+        mRegis.setOnClickListener(this);
+        mJiFenRL.setOnClickListener(this);
+        mFriendRL.setOnClickListener(this);
+        mFriendMsgRL.setOnClickListener(this);
+        mZuJiRL.setOnClickListener(this);
+        mRingRL.setOnClickListener(this);
+        mPersonRL.setOnClickListener(this);
+        mQitaRL.setOnClickListener(this);
+    }
+
+    private void initData()
+    {
+        if (SimpleUtils.isLogin(activity))
         {
             mLoginBean = ((BbcatApp) getApplication()).getmUser();
             Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl((mLoginBean.getUserInfo().getAvatar()))).into(mHead);
@@ -81,25 +103,22 @@ public class PersonalCenter extends SimpleActivity implements View.OnClickListen
         mShare.setText("0");
         mJiFen.setText("0");
         mFriendMsgNum.setText("0");
-        mLogin.setOnClickListener(this);
-        mRegis.setOnClickListener(this);
-        mJiFenRL.setOnClickListener(this);
-        mFriendRL.setOnClickListener(this);
-        mFriendMsgRL.setOnClickListener(this);
-        mZuJiRL.setOnClickListener(this);
-        mRingRL.setOnClickListener(this);
-        mPersonRL.setOnClickListener(this);
-        mQitaRL.setOnClickListener(this);
     }
 
     public void onClick(View v)
     {
         if(v == mLogin)
         {
-            skip(LoginActivity.class);
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivityForResult(intent,MLOGIN);
         }
 
-        else if(v == mRegis)
+        else if(v == mBack)
+        {
+            finish();
+        }
+
+         else if(v == mRegis)
         {
             skip(FindScreteFirstStepActivity.class);
         }
@@ -137,13 +156,28 @@ public class PersonalCenter extends SimpleActivity implements View.OnClickListen
         /**个人信息*/
         else if(v == mPersonRL)
         {
-           skip(PersonInfosActivity.class);
+            Intent intent  = new Intent(this,PersonInfosActivity.class);
+            startActivityForResult(intent,MMDOY);
         }
 
         /**其他*/
         else if(v == mQitaRL)
         {
             toast("其它");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data != null)
+        {
+            switch (requestCode)
+            {
+                case MLOGIN:if(data.getBooleanExtra("alreadymody",false)) initData();break;
+                case MMDOY:if(data.getBooleanExtra("alreadymody",false)) initData();break;
+            }
         }
     }
 }
