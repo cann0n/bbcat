@@ -152,7 +152,7 @@ public abstract class TabUiActivity extends SimpleActivity {
     }
 
 
-    private void switchFragment(int viewId) {
+    public void switchFragment(int viewId) {
         if (viewId==R.id.tv_3||viewId == R.id.tv_tab4) {
             if (!SimpleUtils.isLogin(activity)) {
                 skip(LoginActivity.class);

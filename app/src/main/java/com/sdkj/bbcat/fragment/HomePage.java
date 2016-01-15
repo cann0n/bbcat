@@ -280,7 +280,8 @@ public class HomePage extends BaseFragment {
 
     @OnClick(R.id.tv_knowledge)
     void knowledge(View view) {
-        activity.skip(NewsListActivity.class, "3", "育儿知识");
+//        activity.skip(NewsListActivity.class, "3", "育儿知识");
+        ((MainActivity)activity).switchFragment(R.id.tv_tab2);
     }
 
     @OnClick(R.id.tv_circle)

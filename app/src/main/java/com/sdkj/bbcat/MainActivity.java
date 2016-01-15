@@ -25,7 +25,7 @@ public class MainActivity extends TabUiActivity {
         names.add("首页");
         names.add("育儿知识");
         names.add("手环");
-        names.add("社区");
+        names.add("我的圈圈");
         return names;
     }
 
@@ -109,5 +109,10 @@ public class MainActivity extends TabUiActivity {
     protected void onSaveInstanceState(Bundle outState)
     {
 
+    }
+
+    @Override
+    public void switchFragment(int viewId) {
+        super.switchFragment(viewId);
     }
 }
