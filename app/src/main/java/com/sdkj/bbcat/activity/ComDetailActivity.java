@@ -40,92 +40,71 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 /**
  * Created by Mr.Yuan on 2016/1/15 0015.
  */
-public class ComDetailActivity extends SimpleActivity
-{
+public class ComDetailActivity extends SimpleActivity {
     @ViewInject(R.id.cd_list)
     private CustomRecyclerView cd_list;
-    private ComDetailAdapter   adapter;
+    private ComDetailAdapter adapter;
     private int pageNum = 1;
     private CircleVo.ItemCircle newsVo;
     private boolean IsMody = false;
 
-    public void initBusiness()
-    {
-        TitleBar titleBar = new TitleBar(activity)
-        {
-            protected void backDoing()
-            {
-                if(IsMody)
-                {
+    public void initBusiness() {
+        TitleBar titleBar = new TitleBar(activity) {
+            protected void backDoing() {
+                if (IsMody) {
                     Intent intent = new Intent();
-                    intent.putExtra("ismody",true);
-                    setResult(0,intent);
-                }finish();
+                    intent.putExtra("ismody", true);
+                    setResult(0, intent);
+                }
+                finish();
             }
-        }.setTitle("文章评论").back().showRight("添加", new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
+        }.setTitle("文章评论").back().showRight("评论", new View.OnClickListener() {
+            public void onClick(View v) {
                 final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
                 alertDialog.setCanceledOnTouchOutside(true);
                 alertDialog.setView(new EditText(activity));
                 alertDialog.show();
 
-                View view = LayoutInflater.from(activity).inflate(R.layout.inflater_comment,null);
+                View view = LayoutInflater.from(activity).inflate(R.layout.inflater_comment, null);
                 alertDialog.setContentView(view);
-                final EditText et = (EditText)view.findViewById(R.id.comment_et);
-                final TextView btn = (TextView)view.findViewById(R.id.comment_btn);
+                final EditText et = (EditText) view.findViewById(R.id.comment_et);
+                final TextView btn = (TextView) view.findViewById(R.id.comment_btn);
 
-                btn.setOnClickListener(new View.OnClickListener()
-                {
-                    public void onClick(View v)
-                    {
-                        if(! Utils.isEmpty(et.getText().toString().trim()))
-                        {
+                btn.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        if (!Utils.isEmpty(et.getText().toString().trim())) {
 
                             final PostParams params = new PostParams();
-                            try
-                            {
+                            try {
                                 params.put("id", newsVo.getNews_info().getId());
-                                params.put("content",et.getText().toString().trim());
-                            }
-                            catch(Exception e)
-                            {
+                                params.put("content", et.getText().toString().trim());
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
-                            HttpUtils.postJSONObject(activity, Const.CommitComment, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
-                            {
-                                public void getResp(JSONObject jsonObject)
-                                {
+                            HttpUtils.postJSONObject(activity, Const.CommitComment, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+                                public void getResp(JSONObject jsonObject) {
                                     ((SimpleActivity) activity).dismissDialog();
                                     RespVo<CommentVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                                    if (respVo.isSuccess())
-                                    {
+                                    if (respVo.isSuccess()) {
                                         query();
                                         CommentVo commentVo = respVo.getData(jsonObject, CommentVo.class);
                                         activity.toast("评论成功");
                                         IsMody = true;
                                         alertDialog.dismiss();
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         activity.toast(respVo.getMessage());
                                     }
                                 }
 
-                                public void doFailed()
-                                {
+                                public void doFailed() {
 
                                     ((SimpleActivity) activity).dismissDialog();
                                     activity.toast("评论失败");
                                     alertDialog.dismiss();
                                 }
                             });
-                        }
-
-                        else
-                        {
+                        } else {
                             activity.toast("请输入评论内容后再提交");
                         }
                     }
@@ -150,20 +129,15 @@ public class ComDetailActivity extends SimpleActivity
 
         cd_list.setRefreshHeaderMode(cd_list.MODE_CLASSICDEFAULT_HEADER);
         cd_list.setLayoutManager(new LinearLayoutManager(activity));
-        cd_list.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener()
-        {
-            public void loadMore(int i, int i1)
-            {
-                if (cd_list.canLoadMore())
-                {
+        cd_list.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+            public void loadMore(int i, int i1) {
+                if (cd_list.canLoadMore()) {
                     query();
                 }
             }
         });
-        cd_list.setOnCustomRefreshListener(new CustomRecyclerView.OnCustomRefreshListener()
-        {
-            public void OnCustomRefresh(PtrFrameLayout frame)
-            {
+        cd_list.setOnCustomRefreshListener(new CustomRecyclerView.OnCustomRefreshListener() {
+            public void OnCustomRefresh(PtrFrameLayout frame) {
                 pageNum = 1;
                 query();
             }
@@ -172,19 +146,15 @@ public class ComDetailActivity extends SimpleActivity
         query();
     }
 
-    private void query()
-    {
+    private void query() {
         PostParams params = new PostParams();
         params.put("id", newsVo.getNews_info().getId());
 
-        HttpUtils.postJSONObject(activity, Const.GetComment, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
-        {
-            public void getResp(JSONObject jsonObject)
-            {
+        HttpUtils.postJSONObject(activity, Const.GetComment, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+            public void getResp(JSONObject jsonObject) {
                 dismissDialog();
                 RespVo<CdComentVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                if (respVo.isSuccess())
-                {
+                if (respVo.isSuccess()) {
                     CdComentVo comentVo = respVo.getData(jsonObject, CdComentVo.class);
                     adapter.removeAll();
                     adapter.addItems(comentVo.getList());
@@ -211,37 +181,30 @@ public class ComDetailActivity extends SimpleActivity
                         adapter.addItems(data);
                     }
                     pageNum++;*/
-                }
-
-                else
-                {
+                } else {
                     activity.toast(respVo.getMessage());
                 }
             }
 
             @Override
-            public void doFailed()
-            {
+            public void doFailed() {
                 toast("获取文章评论失败");
             }
         });
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if(IsMody)
-        {
+    public void onBackPressed() {
+        if (IsMody) {
             Intent intent = new Intent();
-            intent.putExtra("ismody",true);
-            setResult(0,intent);
+            intent.putExtra("ismody", true);
+            setResult(0, intent);
         }
         super.onBackPressed();
     }
 
     @Override
-    public int setLayoutResID()
-    {
+    public int setLayoutResID() {
         return R.layout.activity_comdetail;
     }
 }

@@ -12,21 +12,25 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.easemob.chat.EMConversation;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.AppUtils;
 import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.community.ChatActivity;
 import com.sdkj.bbcat.activity.doctor.DoctorActActivity;
 import com.sdkj.bbcat.bean.HospitalDetailVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.Constant;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.widget.TitleBar;
 
@@ -61,6 +65,8 @@ public class HospitalDetailActivity extends SimpleActivity{
     private LinearLayout ll_time_container;
     
     private String phoneno;
+
+    HospitalDetailVo detail;
     
     @Override
     public void initBusiness() {
@@ -75,7 +81,7 @@ public class HospitalDetailActivity extends SimpleActivity{
                 dismissDialog();
                 RespVo<HospitalDetailVo> respVo= GsonTools.getVo(obj.toString(),RespVo.class);
                 if(respVo.isSuccess()){
-                    HospitalDetailVo detail=respVo.getData(obj,HospitalDetailVo.class);
+                     detail=respVo.getData(obj,HospitalDetailVo.class);
                     Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(detail.getHospital_detail().getCover())).into(iv_thumb);
                     tv_hospital_name.setText(detail.getHospital_detail().getTitle());
                     ratingBar.setRating(detail.getHospital_detail().getLevel());
@@ -157,7 +163,16 @@ public class HospitalDetailActivity extends SimpleActivity{
     }
     @OnClick(R.id.rl_bida)
     void bida(View view){
-        skip(AskActivity.class);
+//        skip(AskActivity.class);
+        Intent intent = new Intent(getActivity(), ChatActivity.class);
+//        intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_CHATROOM);
+        // it's single chat]
+        intent.putExtra(Constant.EXTRA_USER_ID, detail.getHospital_detail().getHxchat_id());
+        SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+        intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+        intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+        intent.putExtra(Constant.TO_USER_NICKNAME, detail.getHospital_detail().getTitle());
+        startActivity(intent);
     }
     
     @OnClick(R.id.rl_huodong)

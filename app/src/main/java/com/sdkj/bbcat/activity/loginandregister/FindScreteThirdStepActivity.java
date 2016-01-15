@@ -62,7 +62,7 @@ public class FindScreteThirdStepActivity extends SimpleActivity
                             params.put("vid",(String)getVo("1"));
                             params.put("password", screteOne.getText().toString().trim());
                             params.put("repassword", screteTwo.getText().toString().trim());
-                            params.put("verifyCode","123456");
+                            params.put("verifyCode",getVo("2").toString());
 
                             HttpUtils.postJSONObject(FindScreteThirdStepActivity.this, Const.FindScrete,params, new RespJSONObjectListener(FindScreteThirdStepActivity.this)
                             {

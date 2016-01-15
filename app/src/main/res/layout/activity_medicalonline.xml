@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="10dp"
             android:paddingRight="@dimen/theme_margin"
-            android:src="@drawable/icon_onlie_msg" />
+            android:src="@drawable/icon_back_w" />
 
         <TextView
             android:id="@+id/tv_title"
