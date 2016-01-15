@@ -19,6 +19,7 @@ public class FillInfosFirstActivity extends SimpleActivity implements View.OnCli
     private LinearLayout beiyun_ll;
     @ViewInject(R.id.fillinfos_chusheng)
     private LinearLayout chusheng_ll;
+    private int state = 0;
 
     @Override
     public int setLayoutResID()
@@ -39,16 +40,11 @@ public class FillInfosFirstActivity extends SimpleActivity implements View.OnCli
     public void onClick(View v)
     {
         if(v == huanyun_ll)
-        {
-
-        }
+            state = 1;
         else if(v == beiyun_ll)
-        {
-
-        }
+            state = 2;
         else if(v == chusheng_ll)
-        {
-            skip(FillInfosTwoActivity.class);
-        }
+            state = 3;
+        skip(FillInfosTwoActivity.class,state);
     }
 }
