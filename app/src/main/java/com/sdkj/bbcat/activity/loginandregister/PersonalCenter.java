@@ -120,7 +120,7 @@ public class PersonalCenter extends SimpleActivity implements View.OnClickListen
 
          else if(v == mRegis)
         {
-            skip(FindScreteFirstStepActivity.class);
+            skip(RegisterInputPhoneActivity.class);
         }
 
         /**积分*/

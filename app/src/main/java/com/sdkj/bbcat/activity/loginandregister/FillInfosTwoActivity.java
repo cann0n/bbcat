@@ -18,6 +18,9 @@ public class FillInfosTwoActivity extends SimpleActivity implements View.OnClick
     @ViewInject(R.id.infostwo_nan)
     private LinearLayout nan_ll;
 
+    private int state = 0;
+    private int sex  = 0;
+
     @Override
     public int setLayoutResID()
     {
@@ -27,6 +30,7 @@ public class FillInfosTwoActivity extends SimpleActivity implements View.OnClick
     @Override
     public void initBusiness()
     {
+        state = (int)getVo("0");
         TitleBar titleBar = new TitleBar(activity).setTitle("宝宝性别").back();
         nv_ll.setOnClickListener(this);
         nan_ll.setOnClickListener(this);
@@ -37,12 +41,9 @@ public class FillInfosTwoActivity extends SimpleActivity implements View.OnClick
     public void onClick(View v)
     {
         if(v == nv_ll)//暂定1男2女
-        {
-            skip(FillInfosEndActivity.class,2);
-        }
+            sex = 1;
         else if(v == nan_ll)
-        {
-            skip(FillInfosEndActivity.class,1);
-        }
+            sex = 2;
+        skip(FillInfosEndActivity.class,state,sex);
     }
 }

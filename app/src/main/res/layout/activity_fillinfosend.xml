@@ -8,4 +8,37 @@
 
     <include layout="@layout/layout_title_bar"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/infos_img"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/nv"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="生日"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/infos_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:layout_gravity="center"
+        android:text="2015年5月5日"
+        android:textSize="22sp"
+        android:textColor="@color/theme_orange_color"/>
+
 </LinearLayout>
