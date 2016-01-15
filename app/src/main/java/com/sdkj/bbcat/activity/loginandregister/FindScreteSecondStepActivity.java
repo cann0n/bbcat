@@ -30,8 +30,7 @@ import java.util.Map;
 /**
  * Created by Mr.Yuan on 2015/12/25 0025.
  */
-public class FindScreteSecondStepActivity extends SimpleActivity implements View.OnClickListener
-{
+public class FindScreteSecondStepActivity extends SimpleActivity implements View.OnClickListener {
     @ViewInject(R.id.findscretesecond_inputphone)
     private EditText phoneEt;
     @ViewInject(R.id.findscretesecond_getverifycode)
@@ -39,24 +38,20 @@ public class FindScreteSecondStepActivity extends SimpleActivity implements View
     @ViewInject(R.id.findscretesecond_inputverifycode)
     private EditText verifyCodeEt;
     @ViewInject(R.id.findscretesecond_btn)
-    private Button   verifyCodeBtn;
+    private Button verifyCodeBtn;
 
-    private String  verifyVid="";
-    private int     daojishi = 0;
-    private Handler handler  = new Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            if (daojishi == 0)
-            {
+    private String verifyVid = "";
+    private int daojishi = 0;
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (daojishi == 0) {
                 getVerifyCodeTv.setBackgroundResource(R.drawable.btn_orange);
                 getVerifyCodeTv.setText("发送验证码");
                 phoneEt.setEnabled(true);
                 phoneEt.setText(phoneEt.getText().toString());
                 verifyCodeEt.setText("");
                 verifyCodeEt.setEnabled(false);
-            } else
-            {
+            } else {
                 getVerifyCodeTv.setBackgroundResource(R.drawable.btn_gray);
                 getVerifyCodeTv.setText(daojishi + "秒");
                 getVerifyCodeTv.setEnabled(false);
@@ -67,69 +62,55 @@ public class FindScreteSecondStepActivity extends SimpleActivity implements View
     };
 
     @Override
-    public int setLayoutResID()
-    {
+    public int setLayoutResID() {
         return R.layout.activity_findscretesecondstep;
     }
 
     @Override
-    public void initBusiness()
-    {
+    public void initBusiness() {
         new TitleBar(activity).setTitle("找回密码").back();
-        phoneEt.addTextChangedListener(new TextWatcher()
-        {
+        phoneEt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if (Utils.isPhoneNum(s.toString().trim()))
-                {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Utils.isPhoneNum(s.toString().trim())) {
                     getVerifyCodeTv.setEnabled(true);
                     getVerifyCodeTv.setBackgroundResource(R.drawable.btn_orange);
-                } else
-                {
+                } else {
                     getVerifyCodeTv.setEnabled(false);
                     getVerifyCodeTv.setBackgroundResource(R.drawable.btn_gray);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
 
             }
         });
 
-        verifyCodeEt.addTextChangedListener(new TextWatcher()
-        {
+        verifyCodeEt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if (! Utils.isEmpty(s.toString().trim()))
-                {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!Utils.isEmpty(s.toString().trim())) {
                     verifyCodeBtn.setEnabled(true);
                     verifyCodeBtn.setBackgroundResource(R.drawable.btn_orange);
-                } else
-                {
+                } else {
                     verifyCodeBtn.setEnabled(false);
                     verifyCodeBtn.setBackgroundResource(R.drawable.btn_gray);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -138,51 +119,47 @@ public class FindScreteSecondStepActivity extends SimpleActivity implements View
     }
 
     @Override
-    public void onClick(View v)
-    {
-        if (v == getVerifyCodeTv)
-        {
+    public void onClick(View v) {
+        if (v == getVerifyCodeTv) {
             showDialog();
             phoneEt.setEnabled(false);
-            PostParams params= new PostParams();
-            params.put("from","req");
+            PostParams params = new PostParams();
+            params.put("from", "req");
             params.put("mobile", phoneEt.getText().toString().trim());
 
-            HttpUtils.postJSONObject(FindScreteSecondStepActivity.this, Const.GetVerifyCode, params, new RespJSONObjectListener(FindScreteSecondStepActivity.this)
-            {
+            HttpUtils.postJSONObject(FindScreteSecondStepActivity.this, Const.GetVerifyCode, params, new RespJSONObjectListener(FindScreteSecondStepActivity.this) {
                 @Override
-                public void getResp(JSONObject jsonObject)
-                {
+                public void getResp(JSONObject jsonObject) {
                     dismissDialog();
                     RespVo<VerifyBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                    if (respVo.isSuccess())
-                    {
+                    if (respVo.isSuccess()) {
                         daojishi = 60;
                         verifyCodeEt.setEnabled(true);
                         handler.sendEmptyMessage(0);
                         verifyVid = respVo.getData(jsonObject, VerifyBean.class).getVid();
-                    }
-                    else
-                    {
+                    } else {
                         dismissDialog();
                         toast(respVo.getMessage());
                     }
                 }
 
                 @Override
-                public void doFailed()
-                {
+                public void doFailed() {
                     dismissDialog();
                     toast("链接服务器失败");
                 }
             });
-        }
-
-        else if (v == verifyCodeBtn)
-        {
-            if(verifyCodeEt.getText().toString().trim().equals("123456"))
-            {
-                skip(FindScreteThirdStepActivity.class, phoneEt.getText().toString().trim(),verifyVid);
+        } else if (v == verifyCodeBtn) {
+//            if (verifyCodeEt.getText().toString().trim().equals("123456")) {
+                if(Utils.isEmpty(verifyCodeEt.getText().toString())){
+                    toast("请输入验证码");
+                    return;
+                }    
+                if(Utils.isEmpty(verifyVid)){
+                    toast("请先接收验证码");
+                    return;
+                }
+                skip(FindScreteThirdStepActivity.class, phoneEt.getText().toString().trim(), verifyVid,verifyCodeEt.getText().toString());
                 daojishi = 0;
                 getVerifyCodeTv.setEnabled(false);
                 getVerifyCodeTv.setText("发送验证码");
@@ -192,11 +169,9 @@ public class FindScreteSecondStepActivity extends SimpleActivity implements View
                 verifyCodeBtn.setBackgroundResource(R.drawable.btn_gray);
                 verifyCodeEt.setText("");
                 verifyCodeEt.setEnabled(false);
-            }
-            else
-            {
-                toast("验证码不正确");
-            }
+//            } else {
+//                toast("验证码不正确");
+//            }
 
            /* phoneEt.setEnabled(false);
             HashMap<String, String> map = new HashMap<String, String>();
@@ -235,18 +210,14 @@ public class FindScreteSecondStepActivity extends SimpleActivity implements View
         }
     }
 
-    private final static String getCompleteUrl(String url, HashMap<String, String> params)
-    {
-        if (null != params && params.size() != 0)
-        {
+    private final static String getCompleteUrl(String url, HashMap<String, String> params) {
+        if (null != params && params.size() != 0) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(url + "?");
-            for (Map.Entry<String, String> entry : params.entrySet())
-            {
+            for (Map.Entry<String, String> entry : params.entrySet()) {
                 stringBuffer.append(entry.getKey() + "=" + entry.getValue() + "&");
             }
             return stringBuffer.substring(0, stringBuffer.length() - 1);
-        } else
-            return url;
+        } else return url;
     }
 }
