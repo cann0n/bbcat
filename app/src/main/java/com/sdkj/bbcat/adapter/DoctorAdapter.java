@@ -2,19 +2,13 @@ package com.sdkj.bbcat.adapter;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.adapter.ListViewCommonAdapter;
-import com.huaxi100.networkapp.adapter.UltimatCommonAdapter;
-import com.huaxi100.networkapp.utils.Utils;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.sdkj.bbcat.R;
-import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.HospitalDetailVo;
-import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 
 import java.util.List;

@@ -8,15 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.bean.SearchTagVo;
 
 import java.util.List;
 
 public class TagBaseAdapter extends BaseAdapter
 {
     private Context mContext;
-    private List<String> mList;
+    private List<SearchTagVo> mList;
 
-    public TagBaseAdapter(Context context, List<String> list)
+    public TagBaseAdapter(Context context, List<SearchTagVo> list)
     {
         mContext = context;
         mList = list;
@@ -28,7 +29,7 @@ public class TagBaseAdapter extends BaseAdapter
     }
 
     @Override
-    public String getItem(int position) {
+    public SearchTagVo getItem(int position) {
         return mList.get(position);
     }
 
@@ -53,8 +54,8 @@ public class TagBaseAdapter extends BaseAdapter
         {
             holder = (ViewHolder)convertView.getTag();
         }
-        final String text = getItem(position);
-        holder.tagBtn.setText(text);
+        final SearchTagVo text = getItem(position);
+        holder.tagBtn.setText(text.getKeyword());
         return convertView;
     }
 

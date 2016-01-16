@@ -160,7 +160,7 @@ public class PublishActivity extends SimpleActivity {
                 RespVo<UploadFileVo> resp = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (resp.isSuccess()) {
                     UploadFileVo fileVo = resp.getData(jsonObject, UploadFileVo.class);
-                    ids.put(path, fileVo.getId() + "");
+                    ids.put(fileVo.getId() + "", fileVo.getId() + "");
                     int width = (AppUtils.getWidth(activity) - 80) / 3;
                     View view = makeView(R.layout.item_photo);
                     ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
@@ -170,6 +170,9 @@ public class PublishActivity extends SimpleActivity {
                     view.setTag(path);
                     iv_image.setImageBitmap(Utils.getLoacalBitmap(path));
                     fl_pics.addView(view,0);
+                    if(fl_pics.getChildCount()==4){
+                        fl_pics.removeViewAt(3);
+                    }
                 } else {
                     toast("获取图片失败,请重试");
                 }

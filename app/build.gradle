@@ -34,4 +34,14 @@ dependencies {
     compile files('src/main/libs/Parse-1.9.4.jar')
     compile files('src/main/libs/bolts-android-1.2.0.jar')
     compile 'cn.finalteam:galleryfinal:1.2.5'
+    compile files('src/main/libs/MobCommons.jar')
+    compile files('src/main/libs/MobTools.jar')
+    compile files('src/main/libs/ShareSDK-Core-2.6.6.jar')
+    compile files('src/main/libs/ShareSDK-QQ-2.6.6.jar')
+    compile files('src/main/libs/ShareSDK-QZone-2.6.6.jar')
+    compile files('src/main/libs/ShareSDK-SinaWeibo-2.6.6.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-2.6.6.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-Core-2.6.6.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-Favorite-2.6.6.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-Moments-2.6.6.jar')
 }

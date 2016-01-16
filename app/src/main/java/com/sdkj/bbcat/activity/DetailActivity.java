@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
@@ -31,6 +32,10 @@ import com.sdkj.bbcat.widget.TitleBar;
 import org.json.JSONObject;
 
 import java.util.List;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.OnekeyShareTheme;
+import cn.sharesdk.wechat.favorite.WechatFavorite;
 
 public class DetailActivity extends SimpleActivity {
 
@@ -276,13 +281,20 @@ public class DetailActivity extends SimpleActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
     @OnClick(R.id.ll_zan_bottom)
     void zan(View view) {
         doLike(newsVo, iv_zan_bottom, tv_zan_bottom, tv_zan_add_bottom);
+    }
+    
+    @OnClick(R.id.ll_share_bottom)
+    void share(View view){
+        if(Utils.isEmpty(newsVo.getNews_info().getMulti_cover())){
+            showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(),"");
+        }else {
+            showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(), SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg()));
+        }
     }
 
     @Override
@@ -303,5 +315,34 @@ public class DetailActivity extends SimpleActivity {
                 }
             }
         }
+    }
+
+    public void showShare(Context context, String platformToShare, boolean showContentEdit,String title,String id,String cover) {
+        OnekeyShare oks = new OnekeyShare();
+        oks.setSilent(!showContentEdit);
+        if (platformToShare != null) {
+            oks.setPlatform(platformToShare);
+        }
+        //ShareSDK快捷分享提供两个界面第一个是九宫格 CLASSIC  第二个是SKYBLUE
+        oks.setTheme(OnekeyShareTheme.CLASSIC);
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+        // 在自动授权时可以禁用SSO方式
+        oks.disableSSOWhenAuthorize();
+        oks.addHiddenPlatform(WechatFavorite.NAME);
+        oks.setTitle(title);//分享标题
+        oks.setTitleUrl(Const.SHARE + id);//分享地址
+        oks.setText(title);//分享文本
+        if(!Utils.isEmpty(cover)){
+            oks.setImageUrl(SimpleUtils.getImageUrl(cover));//分享图片
+        }
+        oks.setUrl(Const.SHARE+id); //微信不绕过审核分享链接
+        oks.setComment("分享"); //我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供
+        oks.setSite("咘咘猫");  //QZone分享完之后返回应用时提示框上显示的名称
+        oks.setSiteUrl(Const.SHARE + id);//QZone分享参数
+        oks.setVenueName("咘咘猫");
+        oks.setVenueDescription(title);
+        oks.setShareFromQQAuthSupport(false);
+        oks.show(context);
     }
 }

@@ -1,12 +1,9 @@
 package com.sdkj.bbcat.adapter;
 
 import android.app.ProgressDialog;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.easemob.chat.EMChatManager;
@@ -14,12 +11,9 @@ import com.easemob.chat.EMContactManager;
 import com.easemob.easeui.widget.EaseAlertDialog;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.adapter.UltimatCommonAdapter;
-import com.huaxi100.networkapp.utils.Utils;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.sdkj.bbcat.R;
-import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.AroundPeopleVo;
-import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.hx.DemoHelper;
 

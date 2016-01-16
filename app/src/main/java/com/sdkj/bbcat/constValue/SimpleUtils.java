@@ -99,16 +99,35 @@ public class SimpleUtils {
         sp.remove(Const.UID);
         sp.remove(Const.NICKNAME);
         sp.remove(Const.TOKEN);
-        
+        loginOutHx();
         activity.skip(LoginActivity.class, "fromReconnect");
         activity.finish();
+    }
+    
+    public static void loginOutHx(){
+        EMChatManager.getInstance().logout(new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+
+            @Override
+            public void onError(int code, String message) {
+
+            }
+        });
     }
     
     public static void loginHx(final Context context){
         final SpUtil sp=new SpUtil(context, Const.SP_NAME);
         if(!Utils.isEmpty(sp.getStringValue(Const.PHONE))){
             EMChatManager.getInstance().login(sp.getStringValue(Const.PHONE),sp.getStringValue(Const.PHONE),new EMCallBack() {//回调
-//            EMChatManager.getInstance().login("15114023665","123456",new EMCallBack() {//回调
                 @Override
                 public void onSuccess() {
                     System.out.println("sp = 登录环信成功" );

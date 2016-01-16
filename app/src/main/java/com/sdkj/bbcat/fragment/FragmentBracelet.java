@@ -70,7 +70,7 @@ public class FragmentBracelet extends BaseFragment
                             {
                                 public void onClick(View view)
                                 {
-                                    activity.skip(NewsDetailActivity.class, newsVo);
+                                    activity.skip(NewsDetailActivity.class, newsVo.getId());
                                 }
                             });
                             view.setBackgroundResource(R.color.color_white);

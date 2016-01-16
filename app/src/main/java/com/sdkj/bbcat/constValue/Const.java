@@ -203,4 +203,16 @@ public class Const
      * 搜索栏热门词语
      */
     public static final String SearchContent = DOMAIN + "index/search";
+
+    /**
+     * 第三方登录
+     */
+    public static final String THIRD_LOGIN = DOMAIN + "user/thirdLogin";
+
+    /**
+     * 获取用户统计数据
+     */
+    public static final String USER_INFO = DOMAIN + "circle/getUserStat";
+    
+    public static final String SHARE = DOMAIN + "circle/share/id/";
 }

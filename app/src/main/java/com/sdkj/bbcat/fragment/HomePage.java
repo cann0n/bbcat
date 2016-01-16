@@ -112,7 +112,7 @@ public class HomePage extends BaseFragment {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    activity.skip(NewsDetailActivity.class, newsVo);
+                                    activity.skip(NewsDetailActivity.class, newsVo.getId());
                                 }
                             });
                             ll_recommend.addView(view);
@@ -138,7 +138,7 @@ public class HomePage extends BaseFragment {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    activity.skip(NewsDetailActivity.class, newsVo);
+                                    activity.skip(NewsDetailActivity.class, newsVo.getId());
                                 }
                             });
                             ll_diary.addView(view);
@@ -195,7 +195,7 @@ public class HomePage extends BaseFragment {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    activity.skip(NewsDetailActivity.class, newsVo);
+                                    activity.skip(NewsDetailActivity.class, newsVo.getId());
                                 }
                             });
                             ll_knowledge.addView(view);
@@ -221,7 +221,7 @@ public class HomePage extends BaseFragment {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    activity.skip(NewsDetailActivity.class, newsVo);
+                                    activity.skip(NewsDetailActivity.class, newsVo.getId());
                                 }
                             });
                             ll_circle.addView(view);
@@ -247,7 +247,7 @@ public class HomePage extends BaseFragment {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    activity.skip(NewsDetailActivity.class, newsVo);
+                                    activity.skip(NewsDetailActivity.class, newsVo.getId());
                                 }
                             });
                             ll_guess.addView(view);

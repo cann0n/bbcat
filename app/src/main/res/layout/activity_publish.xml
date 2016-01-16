@@ -160,7 +160,7 @@
                 android:paddingRight="@dimen/theme_padding"
                 android:textColor="@color/theme_orange_color"
                 android:textSize="@dimen/textview_min"
-                android:tag=""/>
+                />
 
             <ImageView
                 android:id="@+id/iv_next"

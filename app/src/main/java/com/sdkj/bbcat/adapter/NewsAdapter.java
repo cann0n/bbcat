@@ -49,7 +49,7 @@ public class NewsAdapter extends UltimatCommonAdapter<NewsVo, NewsAdapter.ViewHo
             holder.rl_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.skip(NewsDetailActivity.class, newsVo);
+                    activity.skip(NewsDetailActivity.class, newsVo.getId());
                 }
             });
         }
