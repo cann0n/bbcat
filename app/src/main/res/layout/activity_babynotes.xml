@@ -7,7 +7,10 @@
     android:orientation="vertical">
 
     <include layout="@layout/layout_title_bar"/>
-
+    <com.huaxi100.networkapp.widget.CustomRecyclerView
+        android:id="@+id/note_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

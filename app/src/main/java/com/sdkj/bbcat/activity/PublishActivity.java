@@ -169,8 +169,8 @@ public class PublishActivity extends SimpleActivity {
                     view.setLayoutParams(lp);
                     view.setTag(path);
                     iv_image.setImageBitmap(Utils.getLoacalBitmap(path));
-                    fl_pics.addView(view,0);
-                    if(fl_pics.getChildCount()==4){
+                    fl_pics.addView(view, 0);
+                    if (fl_pics.getChildCount() == 4) {
                         fl_pics.removeViewAt(3);
                     }
                 } else {
@@ -192,7 +192,17 @@ public class PublishActivity extends SimpleActivity {
         if (Utils.isEmpty(tags)) {
             queryLabel();
             return;
+        }else{
+            CircleTagVo tag1 = new CircleTagVo();
+            tag1.setTitle("普通日记");
+            tag1.setType("1");
+            CircleTagVo tag2 = new CircleTagVo();
+            tag2.setTitle("宝宝第一次");
+            tag2.setType("2");
+            tags.add(tag1);
+            tags.add(tag2); 
         }
+       
         if (popupView == null) {
             popupView = makeView(R.layout.pupopwindow_selectlabel);
             Rect rect = new Rect();
@@ -217,14 +227,18 @@ public class PublishActivity extends SimpleActivity {
                 }
             });
             tv_submit.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View arg0) {
                     tv_label.setText(tags.get(selectLabelIndex).getTitle());
-                    tv_label.setTag(tags.get(selectLabelIndex).getId());
+                    if (Utils.isEmpty(tags.get(selectLabelIndex).getId())) {
+                        tv_label.setTag(R.id.tag_first, tags.get(selectLabelIndex).getType());
+                    } else {
+                        tv_label.setTag(R.id.tag_two, tags.get(selectLabelIndex).getId());
+                    }
                     popupWindow.dismiss();
                 }
             });
+
             window.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -301,7 +315,7 @@ public class PublishActivity extends SimpleActivity {
             toast("请输入内容");
             return;
         }
-        if (tv_label.getTag() == null) {
+        if (tv_label.getTag(R.id.tag_first) == null && tv_label.getTag(R.id.tag_two) == null) {
             toast("请选择标签");
             return;
         }
@@ -314,7 +328,12 @@ public class PublishActivity extends SimpleActivity {
         params.put("title", et_title.getText().toString());
         params.put("content", et_content.getText().toString());
         params.put("address", tv_address.getText().toString());
-        params.put("category_id", tv_label.getTag().toString());//标签id
+        if(tv_label.getTag(R.id.tag_two)!=null){
+            params.put("category_id", tv_label.getTag(R.id.tag_two).toString());//标签id
+        }
+        if(tv_label.getTag(R.id.tag_first)!=null){
+            params.put("type", tv_label.getTag(R.id.tag_first).toString());//标签id
+        }
 
         String pics = "";
         Set keys = ids.keySet();

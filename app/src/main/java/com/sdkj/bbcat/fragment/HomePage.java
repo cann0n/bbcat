@@ -19,6 +19,7 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.HospitalDetailActivity;
 import com.sdkj.bbcat.activity.MedicalOnlineActivity;
 import com.sdkj.bbcat.activity.SearchActivity;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.activity.loginandregister.PersonalCenter;
 import com.sdkj.bbcat.activity.news.DiaryListActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
@@ -30,6 +31,8 @@ import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 
 import org.json.JSONObject;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by ${Rhino} on 2015/11/12 09:58
@@ -77,7 +80,7 @@ public class HomePage extends BaseFragment {
     }
 
     private void queryData() {
-        HttpUtils.getJSONObject(activity, SimpleUtils.buildUrl(activity,Const.HOME_PAGE), new RespJSONObjectListener(activity) {
+        HttpUtils.getJSONObject(activity, SimpleUtils.buildUrl(activity, Const.HOME_PAGE), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject obj) {
                 ((MainActivity) activity).dismissDialog();
@@ -168,7 +171,7 @@ public class HomePage extends BaseFragment {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    activity.skip(HospitalDetailActivity.class,newsVo.getId());
+                                    activity.skip(HospitalDetailActivity.class, newsVo.getId());
                                 }
                             });
                             ll_doctor.addView(view);
@@ -280,20 +283,35 @@ public class HomePage extends BaseFragment {
 
     @OnClick(R.id.tv_knowledge)
     void knowledge(View view) {
-//        activity.skip(NewsListActivity.class, "3", "育儿知识");
-        ((MainActivity)activity).switchFragment(R.id.tv_tab2);
+        ((MainActivity) activity).switchFragment(R.id.tv_tab2);
     }
 
     @OnClick(R.id.tv_circle)
     void tv_circle(View view) {
-        activity.skip(NewsListActivity.class, "4", "我的圈圈");
+        if (SimpleUtils.isLogin(activity)) {
+            activity.skip(NewsListActivity.class, "4", "我的圈圈");
+        } else {
+            activity.skip(LoginActivity.class);
+        }
     }
 
     @OnClick(R.id.iv_info)
-    void showInfo(View view)
-    {
+    void showInfo(View view) {
         activity.skip(PersonalCenter.class);
     }
+
+    @OnClick(R.id.tv_foot_mark)
+    void mark(View view) {
+        if (SimpleUtils.isLogin(activity)) {
+            ((MainActivity) activity).switchFragment(R.id.tv_tab3);
+            BraceletPage.ChangeEvent event=new BraceletPage.ChangeEvent();
+            event.setPosition(1);
+            EventBus.getDefault().post(event);
+        } else {
+            activity.skip(LoginActivity.class);
+        }
+    }
+
     @Override
     protected int setLayoutResID() {
         return R.layout.fragment_page;

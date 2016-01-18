@@ -153,7 +153,7 @@ public abstract class TabUiActivity extends SimpleActivity {
 
 
     public void switchFragment(int viewId) {
-        if (viewId==R.id.tv_3||viewId == R.id.tv_tab4) {
+        if (viewId == R.id.tv_3 || viewId == R.id.tv_tab4) {
             if (!SimpleUtils.isLogin(activity)) {
                 skip(LoginActivity.class);
                 return;
@@ -206,6 +206,50 @@ public abstract class TabUiActivity extends SimpleActivity {
                 transaction.hide(pre).show(next).commit();
             }
         }
+    }
+
+    public Fragment getFragment(int viewId) {
+        Fragment fragment = null;
+        if (viewId == R.id.tv_tab1) {
+            fragment = fragContainer.get(viewId);
+            if (fragment == null) {
+                fragment = initPage1();
+                fragContainer.put(viewId, fragment);
+            }
+        } else if (viewId == R.id.tv_tab2) {
+            fragment = fragContainer.get(viewId);
+            if (fragment == null) {
+                fragment = initPage2();
+                fragContainer.put(viewId, fragment);
+            }
+        } else if (viewId == R.id.tv_tab3) {
+            fragment = fragContainer.get(viewId);
+            if (fragment == null) {
+                fragment = initPage3();
+                fragContainer.put(viewId, fragment);
+            }
+        } else if (viewId == R.id.tv_tab4) {
+            fragment = fragContainer.get(viewId);
+            if (fragment == null) {
+                fragment = initPage4();
+                fragContainer.put(viewId, fragment);
+            }
+        } else {
+            fragment = fragContainer.get(viewId);
+            if (fragment == null) {
+                fragment = initPage5();
+                fragContainer.put(viewId, fragment);
+            }
+        }
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        if (fragment.isAdded()) {
+//            transaction.show(fragment).commit();
+//        } else {
+//            transaction.add(R.id.fl_content, fragment).commit();
+//        }
+        
+        return fragment;
     }
 
     private void changeTextStatus(int resId) {

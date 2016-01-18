@@ -213,6 +213,18 @@ public class Const
      * 获取用户统计数据
      */
     public static final String USER_INFO = DOMAIN + "circle/getUserStat";
-    
+    /**
+     * 分享
+     */
     public static final String SHARE = DOMAIN + "circle/share/id/";
+
+    /**
+     * 获取所有群组
+     */
+    public static final String GET_GROUPS = DOMAIN + "webim/getAllGroup";
+
+    /**
+     * 获取宝宝日记
+     */
+    public static final String NOTE_LIST = DOMAIN + "circle/lists";
 }

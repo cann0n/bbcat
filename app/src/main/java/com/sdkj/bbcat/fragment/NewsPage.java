@@ -74,6 +74,7 @@ public class NewsPage extends BaseFragment {
         View header = activity.makeView(R.layout.view_news_header);
         TextView tv_last_more = (TextView) header.findViewById(R.id.tv_last_more);
         tv_1 = (TextView) header.findViewById(R.id.tv_1);
+        
         tv_2 = (TextView) header.findViewById(R.id.tv_2);
         tv_last_more.setOnClickListener(new View.OnClickListener() {
             @Override
