@@ -302,6 +302,15 @@
         <activity
             android:name=".activity.loginandregister.PersonalCenter"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.MyFollowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.MyCollectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.loginandregister.BlacklistActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.DocSearchActivity"

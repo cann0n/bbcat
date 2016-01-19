@@ -95,6 +95,11 @@ public class Const
     public static final String GET_TAGS=DOMAIN+"/circle/getTags";
 
     /**
+     * 热门标签
+     */
+    public static final String HOT_TAGS=DOMAIN+"/circle/hotTagsAll";
+
+    /**
      * 点赞
      */
     public static final String DO_LIKE=DOMAIN+"/circle/doCollection";
@@ -212,7 +217,7 @@ public class Const
     /**
      * 获取用户统计数据
      */
-    public static final String USER_INFO = DOMAIN + "circle/getUserStat";
+    public static final String USER_INFO = DOMAIN + "user/getUserStat";
     /**
      * 分享
      */
@@ -227,4 +232,14 @@ public class Const
      * 获取宝宝日记
      */
     public static final String NOTE_LIST = DOMAIN + "circle/lists";
+
+    /**
+     * 我的关注
+     */
+    public static final String MY_FOLLOWS = DOMAIN + "user/myFollows";
+
+    /**
+     * 我的收藏
+     */
+    public static final String MY_COLLECT = DOMAIN + "index/myCollections";
 }

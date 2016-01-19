@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,6 +29,7 @@ import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.domain.EaseUser;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.easeui.widget.EaseContactList;
+import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
 import com.huaxi100.networkapp.fragment.BaseFragment;
@@ -350,6 +353,71 @@ public class ContactFragment extends BaseFragment {
                 }
             });
         }
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        toBeProcessUser = (EaseUser) listView.getItemAtPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
+        toBeProcessUsername = toBeProcessUser.getUsername();
+        getActivity().getMenuInflater().inflate(R.menu.em_context_contact_list, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.delete_contact) {
+            try {
+                // 删除此联系人
+                deleteContact(toBeProcessUser);
+                // 删除相关的邀请消息
+                InviteMessgeDao dao = new InviteMessgeDao(getActivity());
+                dao.deleteMessage(toBeProcessUser.getUsername());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
+        }else if(item.getItemId() == R.id.add_to_blacklist){
+            moveToBlacklist(toBeProcessUsername);
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    /**
+     * 把user移入到黑名单
+     */
+    protected void moveToBlacklist(final String username){
+        final ProgressDialog pd = new ProgressDialog(getActivity());
+        String st1 = getResources().getString(com.easemob.easeui.R.string.Is_moved_into_blacklist);
+        final String st2 = getResources().getString(com.easemob.easeui.R.string.Move_into_blacklist_success);
+        final String st3 = getResources().getString(com.easemob.easeui.R.string.Move_into_blacklist_failure);
+        pd.setMessage(st1);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    //加入到黑名单
+                    EMContactManager.getInstance().addUserToBlackList(username,false);
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            pd.dismiss();
+                            Toast.makeText(getActivity(), st2, Toast.LENGTH_SHORT).show();
+                            refresh();
+                        }
+                    });
+                } catch (EaseMobException e) {
+                    e.printStackTrace();
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            pd.dismiss();
+                            Toast.makeText(getActivity(), st3, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
 
     }
 

@@ -73,7 +73,6 @@ public class CommunityPage extends BaseFragment {
     @ViewInject(R.id.iv_edit)
     private ImageView iv_edit;
 
-
     private View popupClub;
 
     private PopupWindow popupWindowClub;

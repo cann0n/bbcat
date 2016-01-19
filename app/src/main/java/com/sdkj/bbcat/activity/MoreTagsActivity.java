@@ -40,7 +40,7 @@ public class MoreTagsActivity extends SimpleActivity {
 
     private void queryLabel() {
         showDialog();
-        HttpUtils.getJSONObject(activity, Const.GET_TAGS, new RespJSONObjectListener(activity) {
+        HttpUtils.getJSONObject(activity, Const.HOT_TAGS, new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject obj) {
                 dismissDialog();

@@ -146,17 +146,17 @@ public class PersonalCenter extends SimpleActivity implements View.OnClickListen
 
         /**我的好友*/
         else if (v == mFriendRL) {
-            toast("我的好友");
+            skip(MyCollectActivity.class);
         }
 
         /**好友动态*/
         else if (v == mFriendMsgRL) {
-            toast("好友动态");
+            skip(MyFollowActivity.class);
         }
 
         /**成长足迹*/
         else if (v == mZuJiRL) {
-            toast("成长足迹");
+            skip(BlacklistActivity.class);
         }
 
         /**我的圈圈*/

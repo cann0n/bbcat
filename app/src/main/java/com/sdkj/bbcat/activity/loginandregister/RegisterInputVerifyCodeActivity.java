@@ -15,64 +15,46 @@ import com.sdkj.bbcat.widget.TitleBar;
 /**
  * Created by Mr.Yuan on 2015/12/24 0024.
  */
-public class RegisterInputVerifyCodeActivity extends SimpleActivity
-{
+public class RegisterInputVerifyCodeActivity extends SimpleActivity {
     @ViewInject(R.id.registerinputverifycode_et)
     private EditText verifyCodeEt;
     @ViewInject(R.id.registerinputverifycode_btn)
-    private Button   verifyCodeBtn;
+    private Button verifyCodeBtn;
 
     @Override
-    public int setLayoutResID()
-    {
+    public int setLayoutResID() {
         return R.layout.activity_registerinputverifycode;
     }
 
     @Override
-    public void initBusiness()
-    {
+    public void initBusiness() {
         new TitleBar(activity).setTitle("注册").back();
-        verifyCodeEt.addTextChangedListener(new TextWatcher()
-        {
+        verifyCodeEt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if(!Utils.isEmpty(s.toString().trim()))
-                {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!Utils.isEmpty(s.toString().trim())) {
                     verifyCodeBtn.setEnabled(true);
                     verifyCodeBtn.setBackgroundResource(R.drawable.btn_orange);
-                }
-                else
-                {
+                } else {
                     verifyCodeBtn.setEnabled(false);
                     verifyCodeBtn.setBackgroundResource(R.drawable.btn_gray);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
 
             }
         });
 
-        verifyCodeBtn.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                if (verifyCodeEt.getText().toString().trim().equals("123456"))
-                {
-                    skip(RegisterInputScreteActivity.class, getVo("0"),getVo("1"));
-                } else
-                {
-                    toast("验证码不正确");
-                }
+        verifyCodeBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                skip(RegisterInputScreteActivity.class, getVo("0"), getVo("1"),verifyCodeEt.getText().toString());
 
                /* PostParams params = new PostParams();
                 params.put("username",phoneNum);
