@@ -13,11 +13,14 @@ import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
+import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.bracelet.AllBodyFeaActivity;
+import com.sdkj.bbcat.activity.bracelet.BabyFoodsActivity;
 import com.sdkj.bbcat.activity.bracelet.BabyNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.BodyFeaturesActivity;
+import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.bracelet.FeedNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.InoculationActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
@@ -52,6 +55,12 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
     private TextView mHeightTvUp;
     @ViewInject(R.id.sh_sgtvdown)
     private TextView mHeightTvDown;
+
+    @ViewInject(R.id.tv_record)
+    private TextView tv_record;
+
+    @ViewInject(R.id.tv_foods)
+    private TextView tv_foods;
 
     @ViewInject(R.id.sh_tzimg)
     private ImageView mWeightImg;
@@ -115,7 +124,7 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                 RespVo<GrowthVo> respVo = GsonTools.getVo(obj.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
                     mGrowthVo = respVo.getData(obj, GrowthVo.class);
-                    if (mGrowthVo != null && mGrowthVo.getBaby_status() != null&&!Utils.isEmpty( mGrowthVo.getBaby_status().getHead())) {
+                    if (mGrowthVo != null && mGrowthVo.getBaby_status() != null && !Utils.isEmpty(mGrowthVo.getBaby_status().getHead())) {
                         GrowthVo.BobyState state = mGrowthVo.getBaby_status();
                         float heightMin = Float.valueOf(state.getMin_height());
                         float heightMax = Float.valueOf(state.getMax_height());
@@ -127,7 +136,7 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                         mHeightTvUp.setText("身高:" + state.getHeight() + "cm");
                         if (Float.valueOf(state.getHeight()) < heightMin) {
                             mHeightImg.setBackgroundResource(R.drawable.zhuyi_orange);
-                                mHeightTvDown.setText("低于正常范围之内，请加强宝宝的饮食营养!");
+                            mHeightTvDown.setText("低于正常范围之内，请加强宝宝的饮食营养!");
                         } else if (Float.valueOf(state.getHeight()) > heightMax) {
                             mHeightImg.setBackgroundResource(R.drawable.zhuyi_orange);
                             mHeightTvDown.setText("高于正常范围之内，请减弱宝宝的饮食营养!");
@@ -270,5 +279,15 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
         } else if (v == mInoculation || v == inoculation) {
             activity.skip(InoculationActivity.class);
         }
+    }
+    
+    @OnClick(R.id.tv_record)
+    void showRecord(View view){
+        activity.skip(DiseaseRecordActivity.class);
+    }
+    
+    @OnClick(R.id.tv_foods)
+    void showFoods(View view){
+        activity.skip(BabyFoodsActivity.class);
     }
 }

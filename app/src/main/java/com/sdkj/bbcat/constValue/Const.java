@@ -242,4 +242,9 @@ public class Const
      * 我的收藏
      */
     public static final String MY_COLLECT = DOMAIN + "index/myCollections";
+
+    /**
+     * 宝宝辅食
+     */
+    public static final String BABY_FOODS = IMAGE_DOMAIN + "baby/food/index";
 }

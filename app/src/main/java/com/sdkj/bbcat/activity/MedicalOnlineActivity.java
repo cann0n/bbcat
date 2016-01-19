@@ -85,6 +85,13 @@ public class MedicalOnlineActivity extends SimpleActivity {
     private View popupViewStatus;
 
     private PopupWindow popupWindowStatus;
+    
+    private double lat=0;
+    private double lng=0;
+    private String order="level desc";
+    
+    private String classify="";
+    private String km="0.5";
 
     @Override
     public void initBusiness() {
@@ -112,15 +119,16 @@ public class MedicalOnlineActivity extends SimpleActivity {
             }
         });
         showDialog();
-        query(true);
         startBaiduLocation();
     }
 
     private void query(boolean isFirst) {
         final PostParams params = new PostParams();
-        params.put("location", "");
-        params.put("order", "");
-        params.put("classify", "");
+        params.put("lat", lat+"");
+        params.put("lng", lng+"");
+        params.put("order", order);
+        params.put("classify", classify);
+        params.put("km", km);
         params.put("page", pageNum + "");
         if(isFirst){
             showDialog();
@@ -206,6 +214,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                     tv_sort.setText("信誉升");
                     tv_sort.setTag("");
                     pageNum = 1;
+                    order="level asc";
                     query(true);
                 }
             });
@@ -217,6 +226,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                     tv_sort.setText("信誉降");
                     tv_sort.setTag("1");
                     pageNum = 1;
+                    order="level desc";
                     query(true);
                 }
             });
@@ -265,6 +275,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_local.setText("500M内");
                     tv_local.setTag("");
+                    km="0.5";
                     popupWindowLocal.dismiss();
                     pageNum = 1;
                     query(true);
@@ -273,18 +284,20 @@ public class MedicalOnlineActivity extends SimpleActivity {
             tv_grade1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    tv_local.setText("500M--2KM");
+                    tv_local.setText("10KM内");
                     tv_local.setTag("1");
                     popupWindowLocal.dismiss();
                     pageNum = 1;
+                    km="10";
                     query(true);
                 }
             });
             tv_grade2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    tv_local.setText(">2KM");
+                    tv_local.setText(">10KM");
                     tv_local.setTag("2");
+                    km="100";
                     popupWindowLocal.dismiss();
                     pageNum = 1;
                     query(true);
@@ -337,7 +350,8 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 @Override
                 public void onClick(View view) {
                     tv_type.setText("一级");
-                    tv_type.setTag("");
+                    tv_type.setTag("1");
+                    classify="1";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -347,7 +361,8 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 @Override
                 public void onClick(View view) {
                     tv_type.setText("二级");
-                    tv_type.setTag("4");
+                    tv_type.setTag("2");
+                    classify="2";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -357,7 +372,8 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 @Override
                 public void onClick(View view) {
                     tv_type.setText("三级");
-                    tv_type.setTag("5");
+                    tv_type.setTag("3");
+                    classify="3";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -367,7 +383,8 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 @Override
                 public void onClick(View view) {
                     tv_type.setText("公立");
-                    tv_type.setTag("6");
+                    tv_type.setTag("4");
+                    classify="4";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -377,7 +394,8 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 @Override
                 public void onClick(View view) {
                     tv_type.setText("私立");
-                    tv_type.setTag("7");
+                    tv_type.setTag("5");
+                    classify="5";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -387,7 +405,8 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 @Override
                 public void onClick(View view) {
                     tv_type.setText("妇幼保健院");
-                    tv_type.setTag("7");
+                    tv_type.setTag("6");
+                    classify="6";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -441,6 +460,9 @@ public class MedicalOnlineActivity extends SimpleActivity {
             if (!Utils.isEmpty(location.getLatitude() + "") && !Utils.isEmpty(location.getLongitude() + "")) {
                 mLocationClient.stop();
                 tv_city_name.setText(location.getCity());
+                lat=location.getLatitude();
+                lng=location.getLongitude();
+                query(false);
             }
         }
     }

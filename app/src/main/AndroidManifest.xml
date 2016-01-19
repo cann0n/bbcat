@@ -311,6 +311,12 @@
         <activity
             android:name=".activity.loginandregister.BlacklistActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.bracelet.BabyFoodsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.bracelet.DiseaseRecordActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.DocSearchActivity"

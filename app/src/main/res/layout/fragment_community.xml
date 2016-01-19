@@ -37,7 +37,7 @@
                 android:layout_marginLeft="1dp"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="我的圈"
+                android:text="妈妈圈"
                 android:textSize="@dimen/font18"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"/>

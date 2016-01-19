@@ -41,7 +41,7 @@ public class AroundAdapter extends UltimatCommonAdapter<AroundPeopleVo, AroundAd
             holder.tv_jiaru.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    addContact(newsVo.getMobile());
                 }
             });
         }

@@ -289,7 +289,7 @@ public class HomePage extends BaseFragment {
     @OnClick(R.id.tv_circle)
     void tv_circle(View view) {
         if (SimpleUtils.isLogin(activity)) {
-            activity.skip(NewsListActivity.class, "4", "我的圈圈");
+            ((MainActivity) activity).switchFragment(R.id.tv_tab4);    
         } else {
             activity.skip(LoginActivity.class);
         }

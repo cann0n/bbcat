@@ -29,23 +29,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
- * Created by Mr.Yuan on 2016/1/7 0007.
+ * 疾病记录
  */
-public class BabyNotesActivity extends SimpleActivity {
+public class DiseaseRecordActivity extends SimpleActivity {
 
     @ViewInject(R.id.note_list)
     private CustomRecyclerView list_view;
 
     private CircleAdapter adapter;
-
-    private int pageNum = 1;
-
-    private int currentType = 1;
-
-    private int preType = 1;
+    private int pageNum=1;
 
 
     public int setLayoutResID() {
@@ -53,7 +49,8 @@ public class BabyNotesActivity extends SimpleActivity {
     }
 
     public void initBusiness() {
-        new TitleBar(activity).setTitle("宝宝日记").back().showRight("发布", new View.OnClickListener() {
+        EventBus.getDefault().register(this);
+        new TitleBar(activity).setTitle("疾病记录").back().showRight("添加", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 skip(PublishActivity.class);
@@ -83,44 +80,18 @@ public class BabyNotesActivity extends SimpleActivity {
             }
         });
 
-        View header = activity.makeView(R.layout.view_note_header);
-        TextView tv_normal = (TextView) header.findViewById(R.id.tv_normal);
-        TextView tv_first = (TextView) header.findViewById(R.id.tv_first);
-        tv_normal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pageNum = 1;
-                currentType = 1;
-                preType = 1;
-                showDialog();
-                queryData("");
-            }
-        });
-        tv_first.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pageNum = 1;
-                currentType = 2;
-                preType = 2;
-                
-                showDialog();
-                queryData("");
-            }
-        });
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(AppUtils.getWidth(activity) + 10, LinearLayout.LayoutParams.WRAP_CONTENT);
-        header.setLayoutParams(lp);
-        lp.rightMargin = -5;
-        UltimateRecyclerView.CustomRelativeWrapper wrapper = new UltimateRecyclerView.CustomRelativeWrapper(activity);
-        wrapper.addView(header);
-        adapter.setCustomHeaderView(wrapper);
         showDialog();
+        queryData("");
+    }
+
+    public void onEventMainThread(RefreshEvent event) {
+        pageNum=1;
         queryData("");
     }
 
     private void queryData(String id) {
         PostParams params = new PostParams();
-        params.put("type", currentType + "");
+        params.put("type", "3");
         params.put("page", pageNum + "");
 
         HttpUtils.postJSONObject(activity, Const.NOTE_LIST, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
@@ -156,5 +127,15 @@ public class BabyNotesActivity extends SimpleActivity {
                 dismissDialog();
             }
         });
+    }
+    
+    public static class RefreshEvent{
+        
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

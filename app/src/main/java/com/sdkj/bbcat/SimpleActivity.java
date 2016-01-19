@@ -25,7 +25,7 @@ public abstract class SimpleActivity extends BaseActivity {
             loadingDialog.setCanceledOnTouchOutside(false);
         }
         loadingDialog.show();
-        loadingDialog.setContentView(R.layout.view_loading);
+        loadingDialog.setContentView(R.layout.view_pb);
     }
 
     public void showDialog(String msg) {

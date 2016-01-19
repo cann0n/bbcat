@@ -30,6 +30,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.bean.CircleTagVo;
 import com.sdkj.bbcat.bean.RespVo;
@@ -76,6 +77,7 @@ import java.util.Set;
 import cn.finalteam.galleryfinal.GalleryConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
+import de.greenrobot.event.EventBus;
 
 public class PublishActivity extends SimpleActivity {
     @ViewInject(R.id.rl_label)
@@ -192,17 +194,21 @@ public class PublishActivity extends SimpleActivity {
         if (Utils.isEmpty(tags)) {
             queryLabel();
             return;
-        }else{
+        } else {
             CircleTagVo tag1 = new CircleTagVo();
             tag1.setTitle("普通日记");
             tag1.setType("1");
             CircleTagVo tag2 = new CircleTagVo();
             tag2.setTitle("宝宝第一次");
             tag2.setType("2");
+            CircleTagVo tag3 = new CircleTagVo();
+            tag3.setTitle("疾病记录");
+            tag3.setType("3");
             tags.add(tag1);
-            tags.add(tag2); 
+            tags.add(tag2);
+            tags.add(tag3);
         }
-       
+
         if (popupView == null) {
             popupView = makeView(R.layout.pupopwindow_selectlabel);
             Rect rect = new Rect();
@@ -328,11 +334,12 @@ public class PublishActivity extends SimpleActivity {
         params.put("title", et_title.getText().toString());
         params.put("content", et_content.getText().toString());
         params.put("address", tv_address.getText().toString());
-        if(tv_label.getTag(R.id.tag_two)!=null){
+        if (tv_label.getTag(R.id.tag_two) != null) {
             params.put("category_id", tv_label.getTag(R.id.tag_two).toString());//标签id
         }
-        if(tv_label.getTag(R.id.tag_first)!=null){
+        if (tv_label.getTag(R.id.tag_first) != null) {
             params.put("type", tv_label.getTag(R.id.tag_first).toString());//标签id
+            params.put("category_id", "2");//标签id
         }
 
         String pics = "";
@@ -356,6 +363,7 @@ public class PublishActivity extends SimpleActivity {
                 RespVo respVo = GsonTools.getVo(obj.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
                     toast("动态已发布");
+                    EventBus.getDefault().post(new DiseaseRecordActivity.RefreshEvent());
                     finish();
                 } else {
                     toast(respVo.getMessage());

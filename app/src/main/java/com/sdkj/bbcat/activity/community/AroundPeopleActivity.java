@@ -1,6 +1,7 @@
 package com.sdkj.bbcat.activity.community;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -38,7 +39,7 @@ public class AroundPeopleActivity extends SimpleActivity {
     @ViewInject(R.id.people_list)
     private CustomRecyclerView people_list;
 
-    private int pageNum = 20;
+    private int pageNum = 1;
 
     private AroundAdapter adapter;
 
@@ -48,7 +49,12 @@ public class AroundPeopleActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
-        new TitleBar(this).back().setTitle("附近的人");
+        new TitleBar(this).back().setTitle("附近的人").showRight("筛选", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
         adapter = new AroundAdapter(activity, new ArrayList<AroundPeopleVo>());
         people_list.addFooter(adapter);
         people_list.setAdapter(adapter);
@@ -66,7 +72,7 @@ public class AroundPeopleActivity extends SimpleActivity {
         people_list.setOnCustomRefreshListener(new CustomRecyclerView.OnCustomRefreshListener() {
             @Override
             public void OnCustomRefresh(PtrFrameLayout frame) {
-                pageNum = 20;
+                pageNum = 1;
                 if (lat == 0) {
                     startBaiduLocation();
                 } else {
@@ -81,6 +87,7 @@ public class AroundPeopleActivity extends SimpleActivity {
     private void query() {
         final PostParams params = new PostParams();
         params.put("km", pageNum + "");
+        params.put("page", pageNum + "");
         params.put("lng", lng + "");
         params.put("lat", lat + "");
         HttpUtils.postJSONObject(activity, Const.AROUND_PEOPLE, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
@@ -92,7 +99,7 @@ public class AroundPeopleActivity extends SimpleActivity {
                 if (respVo.isSuccess()) {
 
                     List<AroundPeopleVo> data = respVo.getListData(jsonObject, AroundPeopleVo.class);
-                    if (pageNum == 20) {
+                    if (pageNum == 1) {
                         adapter.removeAll();
                         people_list.setCanLoadMore();
                     }
@@ -106,7 +113,7 @@ public class AroundPeopleActivity extends SimpleActivity {
                         }
                         adapter.addItems(data);
                     }
-                    pageNum = pageNum + 5;
+                    pageNum ++;
                 } else {
                     activity.toast(respVo.getMessage());
                 }

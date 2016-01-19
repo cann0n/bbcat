@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false"
+    android:variablePadding="true">
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_01"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_02"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_03"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_04"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_05"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_06"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_07"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_08"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_09"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_10"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_11"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_12"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_13"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_14"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_15"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_16"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_17"
+            android:gravity="left"/>
+    </item>
+    <item android:duration="90">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/pb_00"
+            android:gravity="left"/>
+    </item>
+</animation-list>
+    <!-- From: file:/E:/easyapp/networkapp/src/main/res/anim/loading.xml -->
