@@ -2,9 +2,11 @@ package com.sdkj.bbcat.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
@@ -16,11 +18,13 @@ import com.huaxi100.networkapp.widget.CustomRecyclerView;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.activity.news.NewsListActivity;
 import com.sdkj.bbcat.adapter.NewsAdapter;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
@@ -44,6 +48,7 @@ public class NewsPage extends BaseFragment {
 
     TextView tv_1;
     TextView tv_2;
+    LinearLayout ll_recommend;
 
     @Override
     protected void setListener() {
@@ -73,8 +78,9 @@ public class NewsPage extends BaseFragment {
 
         View header = activity.makeView(R.layout.view_news_header);
         TextView tv_last_more = (TextView) header.findViewById(R.id.tv_last_more);
+        ll_recommend = (LinearLayout) header.findViewById(R.id.ll_recommend);
         tv_1 = (TextView) header.findViewById(R.id.tv_1);
-        
+
         tv_2 = (TextView) header.findViewById(R.id.tv_2);
         tv_last_more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +118,7 @@ public class NewsPage extends BaseFragment {
                             activity.skip(NewsListActivity.class, subs.get(0).getId(), subs.get(0).getTitle());
                         }
                     });
-                    
+
                     tv_2.setText(subs.get(1).getTitle());
                     tv_2.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -120,7 +126,7 @@ public class NewsPage extends BaseFragment {
                             activity.skip(NewsListActivity.class, subs.get(1).getId(), subs.get(1).getTitle());
                         }
                     });
-                    
+
                     List<NewsVo> data = GsonTools.getList(jsonObject.optJSONObject("data").optJSONArray("list"), NewsVo.class);
 
                     if (pageNum == 1) {
@@ -135,6 +141,36 @@ public class NewsPage extends BaseFragment {
                         } else {
                             list_view.setCanLoadMore();
                         }
+
+                        if (pageNum == 1 && data.size() > 3) {
+                            int count = 0;
+                            ll_recommend.removeAllViews();
+                            for (final NewsVo newsVo : data) {
+                                if (count < 3) {
+                                    View view = activity.makeView(R.layout.item_recommend);
+                                    ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
+                                    TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
+                                    TextView tv_come_form = (TextView) view.findViewById(R.id.tv_come_form);
+                                    TextView tv_count = (TextView) view.findViewById(R.id.tv_count);
+                                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getCover())).into(iv_image);
+                                    tv_title.setText(newsVo.getTitle());
+                                    tv_come_form.setText(newsVo.getCategory_name());
+                                    tv_count.setText(newsVo.getView() + "");
+                                    view.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            activity.skip(NewsDetailActivity.class, newsVo.getId());
+                                        }
+                                    });
+                                    ll_recommend.addView(view);
+                                    count++;
+                                }
+                            }
+                            data.remove(0);
+                            data.remove(0);
+                            data.remove(0);
+                        }
+
                         adapter.addItems(data);
                     }
                     pageNum++;

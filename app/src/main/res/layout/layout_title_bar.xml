@@ -43,7 +43,6 @@
         android:layout_centerVertical="true"
         android:paddingRight="@dimen/theme_padding"
         android:paddingLeft="@dimen/theme_padding"
-        android:src="@null"
         android:layout_alignParentRight="true"
         android:visibility="gone"/>
     

@@ -317,6 +317,9 @@
         <activity
             android:name=".activity.bracelet.DiseaseRecordActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.doctor.OnlineQAActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.DocSearchActivity"

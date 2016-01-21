@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -8,8 +9,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMContactManager;
+import com.easemob.easeui.widget.EaseAlertDialog;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -26,6 +31,7 @@ import com.sdkj.bbcat.bean.CommentVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.hx.DemoHelper;
 import com.sdkj.bbcat.widget.AutoScrollViewPager;
 import com.sdkj.bbcat.widget.TitleBar;
 
@@ -104,7 +110,14 @@ public class DetailActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
-        new TitleBar(activity).setTitle("详情").back();
+        new TitleBar(activity).setTitle("详情").back().showRight("加TA", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(newsVo!=null&&newsVo.getUser_info()!=null){
+                    addContact(newsVo.getUser_info().getMobile());
+                }
+            }
+        });
         ll_comment_bar.setVisibility(View.GONE);
         banner = new AutoScrollViewPager(activity);
 
@@ -344,5 +357,45 @@ public class DetailActivity extends SimpleActivity {
         oks.setVenueDescription(title);
         oks.setShareFromQQAuthSupport(false);
         oks.show(context);
+    }
+
+    public void addContact(final String mobile){
+        if(EMChatManager.getInstance().getCurrentUser().equals(mobile)){
+            new EaseAlertDialog(this, R.string.not_add_myself).show();
+            return;
+        }
+
+        if(DemoHelper.getInstance().getContactList().containsKey(mobile)){
+            //提示已在好友列表中(在黑名单列表里)，无需添加
+            if(EMContactManager.getInstance().getBlackListUsernames().contains(mobile)){
+                new EaseAlertDialog(this, R.string.user_already_in_contactlist).show();
+                return;
+            }
+            new EaseAlertDialog(this, R.string.This_user_is_already_your_friend).show();
+            return;
+        }
+
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    //demo写死了个reason，实际应该让用户手动填入
+                    String s = getResources().getString(R.string.Add_a_friend);
+                    EMContactManager.getInstance().addContact(mobile, s);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            String s1 = getResources().getString(R.string.send_successful);
+                            Toast.makeText(getApplicationContext(), s1, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (final Exception e) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            String s2 = getResources().getString(R.string.Request_add_buddy_failure);
+                            Toast.makeText(getApplicationContext(), s2 + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }

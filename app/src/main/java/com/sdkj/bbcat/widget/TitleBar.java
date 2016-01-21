@@ -48,9 +48,10 @@ public class TitleBar {
         tv_right.setOnClickListener(listener);
         return this;
     }
-    public  TitleBar showShare(View.OnClickListener listener){
+    public  TitleBar showShare(int resId,View.OnClickListener listener){
         iv_right.setVisibility(View.VISIBLE);
         iv_right.setOnClickListener(listener);
+        iv_right.setImageResource(resId);
         return this;
     }
 

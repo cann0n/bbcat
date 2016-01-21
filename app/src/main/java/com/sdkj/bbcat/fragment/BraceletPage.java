@@ -7,6 +7,7 @@ import com.huaxi100.networkapp.adapter.FragPagerAdapter;
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.fragment.FragmentVo;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
+import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 
 import java.util.ArrayList;
@@ -64,6 +65,17 @@ public class BraceletPage extends BaseFragment {
             viewPagerRv.setVisibility(View.VISIBLE);
             viewPagerLv.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @OnClick(R.id.tv_ring)
+    void ring(View view) {
+        changeBtn(0);
+    }
+
+
+    @OnClick(R.id.tv_footprint)
+    void footPrint(View view) {
+        changeBtn(1);
     }
 
     public void onEventMainThread(ChangeEvent event) {

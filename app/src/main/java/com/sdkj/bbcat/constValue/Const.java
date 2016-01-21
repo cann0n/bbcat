@@ -247,4 +247,9 @@ public class Const
      * 宝宝辅食
      */
     public static final String BABY_FOODS = IMAGE_DOMAIN + "baby/food/index";
+
+    /**
+     * 在线咨询
+     */
+    public static final String ONLINE_FAQ = DOMAIN + "index/questions";
 }

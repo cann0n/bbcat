@@ -35,6 +35,7 @@ import com.sdkj.bbcat.bean.CommentVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.widget.CircleImageView;
 
 import org.json.JSONObject;
 
@@ -229,7 +230,7 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
     public static class ViewHolder extends UltimateRecyclerviewViewHolder {
 
-        ImageView iv_avatar;
+        CircleImageView iv_avatar;
         ImageView iv_thumb;
         TextView tv_name;
         TextView tv_desc;

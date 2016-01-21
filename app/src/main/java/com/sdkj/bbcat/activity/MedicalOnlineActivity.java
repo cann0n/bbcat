@@ -4,6 +4,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.doctor.OnlineQAActivity;
 import com.sdkj.bbcat.adapter.HospitalAdapter;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
@@ -73,6 +75,8 @@ public class MedicalOnlineActivity extends SimpleActivity {
     @ViewInject(R.id.tv_type)
     private TextView tv_type;
 
+    @ViewInject(R.id.iv_call)
+    private ImageView iv_call;
 
     private View popupViewSort;
 
@@ -137,6 +141,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
             @Override
             public void getResp(JSONObject jsonObject) {
                 dismissDialog();
+                iv_call.setVisibility(View.VISIBLE);
                 hospital_list.setRefreshing(false);
                 RespVo<NewsVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
@@ -465,6 +470,11 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 query(false);
             }
         }
+    }
+    
+    @OnClick(R.id.iv_call)
+    void makeCall(View view){
+        skip(OnlineQAActivity.class);
     }
     
     @Override
