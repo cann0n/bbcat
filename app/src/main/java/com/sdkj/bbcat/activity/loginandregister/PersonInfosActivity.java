@@ -99,7 +99,7 @@ public class PersonInfosActivity extends SimpleActivity implements View.OnClickL
                 PostParams params = new PostParams();
                 try
                 {
-                    params.put("nick", URLEncoder.encode(mNick.getText().toString().trim(), "utf-8"));
+                    params.put("nickname", URLEncoder.encode(mNick.getText().toString().trim(), "utf-8"));
                     if(mState.getText().toString().trim().equals("怀孕中"))
                         params.put("baby_status","1");
                     else if(mState.getText().toString().trim().equals("备孕中"))
