@@ -69,17 +69,17 @@ public class BraceletPage extends BaseFragment {
 
     @OnClick(R.id.tv_ring)
     void ring(View view) {
-        changeBtn(0);
+        viewPager.setCurrentItem(0);
     }
 
 
     @OnClick(R.id.tv_footprint)
     void footPrint(View view) {
-        changeBtn(1);
+        viewPager.setCurrentItem(1);
     }
 
     public void onEventMainThread(ChangeEvent event) {
-        changeBtn(event.getPosition());
+        viewPager.setCurrentItem(event.getPosition());
     }
 
     public static class ChangeEvent {

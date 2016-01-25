@@ -22,6 +22,7 @@ import com.sdkj.bbcat.activity.bracelet.BabyNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.BodyFeaturesActivity;
 import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.bracelet.FeedNotesActivity;
+import com.sdkj.bbcat.activity.bracelet.FootPrintActivity;
 import com.sdkj.bbcat.activity.bracelet.InoculationActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.FeedInoVo;
@@ -126,12 +127,12 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                     mGrowthVo = respVo.getData(obj, GrowthVo.class);
                     if (mGrowthVo != null && mGrowthVo.getBaby_status() != null && !Utils.isEmpty(mGrowthVo.getBaby_status().getHead())) {
                         GrowthVo.BobyState state = mGrowthVo.getBaby_status();
-                        float heightMin = Float.valueOf(state.getMin_height());
-                        float heightMax = Float.valueOf(state.getMax_height());
-                        float weightMin = Float.valueOf(state.getMin_weight());
-                        float weightMax = Float.valueOf(state.getMax_weight());
-                        float headMin = Float.valueOf(state.getMin_head());
-                        float headMax = Float.valueOf(state.getMax_head());
+                        float heightMin = state.getMin_height();
+                        float heightMax = state.getMax_height();
+                        float weightMin = state.getMin_weight();
+                        float weightMax = state.getMax_weight();
+                        float headMin = state.getMin_head();
+                        float headMax = state.getMax_head();
 
                         mHeightTvUp.setText("身高:" + state.getHeight() + "cm");
                         if (Float.valueOf(state.getHeight()) < heightMin) {
@@ -265,9 +266,14 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if (v == mBodyFeatures) {
-            if (mGrowthVo != null && mGrowthVo.getBaby_status() != null)
-                activity.skip(BodyFeaturesActivity.class, mGrowthVo.getBaby_status());
-            else activity.skip(BodyFeaturesActivity.class, new GrowthVo.BobyState());
+            if (mGrowthVo != null && mGrowthVo.getBaby_status() != null) {
+
+//                activity.skip(BodyFeaturesActivity.class, mGrowthVo.getBaby_status());
+                activity.skip(FootPrintActivity.class, mGrowthVo.getBaby_status());
+            } else {
+//                activity.skip(BodyFeaturesActivity.class, new GrowthVo.BobyState());
+                activity.skip(FootPrintActivity.class, new GrowthVo.BobyState());
+            }
         } else if (v == bodyFeatures) {
             if (mGrowthVo != null && mGrowthVo.getBaby_status() != null)
                 activity.skip(AllBodyFeaActivity.class, mGrowthVo.getBaby_status());
@@ -280,14 +286,14 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
             activity.skip(InoculationActivity.class);
         }
     }
-    
+
     @OnClick(R.id.tv_record)
-    void showRecord(View view){
+    void showRecord(View view) {
         activity.skip(DiseaseRecordActivity.class);
     }
-    
+
     @OnClick(R.id.tv_foods)
-    void showFoods(View view){
+    void showFoods(View view) {
         activity.skip(BabyFoodsActivity.class);
     }
 }

@@ -85,12 +85,12 @@ public class GrowthVo implements  Serializable
         private String head;
         private String create_time;
         private String month;
-        private String min_height;
-        private String max_height;
-        private String min_weight;
-        private String max_weight;
-        private String min_head;
-        private String max_head;
+        private float min_height;
+        private float max_height;
+        private float min_weight;
+        private float max_weight;
+        private float min_head;
+        private float max_head;
 
         public String getId()
         {
@@ -172,62 +172,62 @@ public class GrowthVo implements  Serializable
             this.month = month;
         }
 
-        public String getMin_height()
+        public float getMin_height()
         {
             return min_height;
         }
 
-        public void setMin_height(String min_height)
+        public void setMin_height(float min_height)
         {
             this.min_height = min_height;
         }
 
-        public String getMax_height()
+        public float getMax_height()
         {
             return max_height;
         }
 
-        public void setMax_height(String max_height)
+        public void setMax_height(float max_height)
         {
             this.max_height = max_height;
         }
 
-        public String getMin_weight()
+        public float getMin_weight()
         {
             return min_weight;
         }
 
-        public void setMin_weight(String min_weight)
+        public void setMin_weight(float min_weight)
         {
             this.min_weight = min_weight;
         }
 
-        public String getMax_weight()
+        public float getMax_weight()
         {
             return max_weight;
         }
 
-        public void setMax_weight(String max_weight)
+        public void setMax_weight(float max_weight)
         {
             this.max_weight = max_weight;
         }
 
-        public String getMin_head()
+        public float getMin_head()
         {
             return min_head;
         }
 
-        public void setMin_head(String min_head)
+        public void setMin_head(float min_head)
         {
             this.min_head = min_head;
         }
 
-        public String getMax_head()
+        public float getMax_head()
         {
             return max_head;
         }
 
-        public void setMax_head(String max_head)
+        public void setMax_head(float max_head)
         {
             this.max_head = max_head;
         }
