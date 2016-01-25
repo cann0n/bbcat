@@ -45,5 +45,6 @@ public class FillInfosTwoActivity extends SimpleActivity implements View.OnClick
         else if(v == nan_ll)
             sex = 2;
         skip(FillInfosEndActivity.class,state,sex);
+        finish();
     }
 }

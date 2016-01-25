@@ -48,7 +48,15 @@ public class NewsPage extends BaseFragment {
 
     TextView tv_1;
     TextView tv_2;
+    TextView tv_3;
+    TextView tv_4;
+    TextView tv_5;
+    TextView tv_6;
+    TextView tv_7;
+    TextView tv_8;
     LinearLayout ll_recommend;
+    LinearLayout ll_top2;
+    LinearLayout ll_top1;
 
     @Override
     protected void setListener() {
@@ -79,9 +87,16 @@ public class NewsPage extends BaseFragment {
         View header = activity.makeView(R.layout.view_news_header);
         TextView tv_last_more = (TextView) header.findViewById(R.id.tv_last_more);
         ll_recommend = (LinearLayout) header.findViewById(R.id.ll_recommend);
+        ll_top1 = (LinearLayout) header.findViewById(R.id.ll_top1);
+        ll_top2 = (LinearLayout) header.findViewById(R.id.ll_top2);
         tv_1 = (TextView) header.findViewById(R.id.tv_1);
-
         tv_2 = (TextView) header.findViewById(R.id.tv_2);
+        tv_3 = (TextView) header.findViewById(R.id.tv_3);
+        tv_4 = (TextView) header.findViewById(R.id.tv_4);
+        tv_5 = (TextView) header.findViewById(R.id.tv_5);
+        tv_6 = (TextView) header.findViewById(R.id.tv_6);
+        tv_7 = (TextView) header.findViewById(R.id.tv_7);
+        tv_8 = (TextView) header.findViewById(R.id.tv_8);
         tv_last_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,24 +124,11 @@ public class NewsPage extends BaseFragment {
                 list_view.setRefreshing(false);
                 RespVo<NewsVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
-
                     final List<Sub> subs = GsonTools.getList(jsonObject.optJSONObject("data").optJSONObject("now_category").optJSONArray("sub"), Sub.class);
-                    tv_1.setText(subs.get(0).getTitle());
-                    tv_1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            activity.skip(NewsListActivity.class, subs.get(0).getId(), subs.get(0).getTitle());
-                        }
-                    });
-
-                    tv_2.setText(subs.get(1).getTitle());
-                    tv_2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            activity.skip(NewsListActivity.class, subs.get(1).getId(), subs.get(1).getTitle());
-                        }
-                    });
-
+                    try {
+                        buildHeader(subs);
+                    } catch (Exception e) {
+                    }
                     List<NewsVo> data = GsonTools.getList(jsonObject.optJSONObject("data").optJSONArray("list"), NewsVo.class);
 
                     if (pageNum == 1) {
@@ -184,6 +186,86 @@ public class NewsPage extends BaseFragment {
                 list_view.setRefreshing(false);
             }
         });
+    }
+
+    private void buildHeader(final List<Sub> subs) throws Exception {
+        if (Utils.isEmpty(subs)) {
+            return;
+        }
+        tv_1.setText(subs.get(0).getTitle());
+        tv_1.setVisibility(View.VISIBLE);
+        tv_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.skip(NewsListActivity.class, subs.get(0).getId(), subs.get(0).getTitle());
+            }
+        });
+
+        tv_2.setText(subs.get(1).getTitle());
+        tv_2.setVisibility(View.VISIBLE);
+        tv_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.skip(NewsListActivity.class, subs.get(1).getId(), subs.get(1).getTitle());
+            }
+        });
+
+        tv_3.setText(subs.get(2).getTitle());
+        tv_3.setVisibility(View.VISIBLE);
+        tv_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.skip(NewsListActivity.class, subs.get(2).getId(), subs.get(2).getTitle());
+            }
+        });
+
+        tv_4.setText(subs.get(3).getTitle());
+        tv_4.setVisibility(View.VISIBLE);
+        tv_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.skip(NewsListActivity.class, subs.get(3).getId(), subs.get(3).getTitle());
+            }
+        });
+
+        tv_5.setText(subs.get(4).getTitle());
+        tv_5.setVisibility(View.VISIBLE);
+        tv_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.skip(NewsListActivity.class, subs.get(4).getId(), subs.get(4).getTitle());
+            }
+        });
+
+        tv_6.setText(subs.get(5).getTitle());
+        tv_6.setVisibility(View.VISIBLE);
+        tv_6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.skip(NewsListActivity.class, subs.get(5).getId(), subs.get(5).getTitle());
+            }
+        });
+
+
+        tv_7.setText(subs.get(6).getTitle());
+        tv_7.setVisibility(View.VISIBLE);
+        tv_7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.skip(NewsListActivity.class, subs.get(6).getId(), subs.get(6).getTitle());
+            }
+        });
+
+
+        tv_8.setText(subs.get(7).getTitle());
+        tv_8.setVisibility(View.VISIBLE);
+        tv_8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.skip(NewsListActivity.class, subs.get(7).getId(), subs.get(7).getTitle());
+            }
+        });
+
     }
 
     @Override

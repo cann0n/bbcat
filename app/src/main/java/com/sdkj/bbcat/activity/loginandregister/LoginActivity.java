@@ -1,18 +1,15 @@
 package com.sdkj.bbcat.activity.loginandregister;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -27,7 +24,6 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.bean.LoginBean;
 import com.sdkj.bbcat.bean.RespVo;
-import com.sdkj.bbcat.bean.UserStatVo;
 import com.sdkj.bbcat.bean.VerifyBean;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
@@ -72,10 +68,10 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
 
     @Override
     public void initBusiness() {
-        TitleBar titleBar = new TitleBar(activity).setTitle("登陆").back();
+        TitleBar titleBar = new TitleBar(activity).setTitle("登录").back();
         titleBar.showRight("注册", new View.OnClickListener() {
             public void onClick(View v) {
-                skip(RegisterInputPhoneActivity.class);
+                skip(RegisterStep1Activity.class);
             }
         });
 

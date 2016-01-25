@@ -291,10 +291,6 @@ public class DetailActivity extends SimpleActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     @OnClick(R.id.ll_zan_bottom)
     void zan(View view) {

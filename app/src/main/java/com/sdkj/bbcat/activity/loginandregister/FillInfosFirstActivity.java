@@ -46,5 +46,6 @@ public class FillInfosFirstActivity extends SimpleActivity implements View.OnCli
         else if(v == chusheng_ll)
             state = 3;
         skip(FillInfosTwoActivity.class,state);
+        finish();
     }
 }

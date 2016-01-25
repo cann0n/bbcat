@@ -12,6 +12,7 @@ import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.BbcatApp;
@@ -24,17 +25,21 @@ import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Mr.Yuan on 2015/12/24 0024.
  */
-public class RegisterInputScreteActivity extends SimpleActivity {
+public class RegisterStep3Activity extends SimpleActivity {
     @ViewInject(R.id.registerinputscrete_etone)
     private EditText screteEtOne;
     @ViewInject(R.id.registerinputscrete_ettwo)
     private EditText screteEtTwo;
-    @ViewInject(R.id.registerinputscrete_btn)
-    private EditText et_invite;
+
     @ViewInject(R.id.et_invite)
+    private EditText et_invite;
+
+    @ViewInject(R.id.registerinputscrete_btn)
     private Button screteBtn;
     private String phoneNum;
 
@@ -43,13 +48,7 @@ public class RegisterInputScreteActivity extends SimpleActivity {
     }
 
     public void initBusiness() {
-        new TitleBar(activity) {
-            protected void backDoing() {
-                Intent intent = new Intent(RegisterInputScreteActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        }.setTitle("注册").back();
+        new TitleBar(activity).setTitle("注册").back();
         phoneNum = (String) getVo("0");
 
         screteBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,22 +63,16 @@ public class RegisterInputScreteActivity extends SimpleActivity {
                             params.put("verifyCode", (String) getVo("2"));
                             params.put("inviter_mobile", et_invite.getText().toString());
                             showDialog();
-                            HttpUtils.postJSONObject(RegisterInputScreteActivity.this, Const.Register, params, new RespJSONObjectListener(RegisterInputScreteActivity.this) {
+                            HttpUtils.postJSONObject(RegisterStep3Activity.this, Const.Register, params, new RespJSONObjectListener(RegisterStep3Activity.this) {
                                 @Override
                                 public void getResp(JSONObject jsonObject) {
                                     dismissDialog();
                                     RespVo<RegisterBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                                     if (respVo.isSuccess()) {
+                                        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+                                        sp.setValue(Const.PHONE,(String) getVo("0"));
                                         showCompleteDialog();
-//                                      new Thread(new Runnable() {
-//                                          public void run() {
-//                                              try {
-//                                                  // 调用sdk注册方法
-//                                                  EMChatManager.getInstance().createAccountOnServer((String)getVo("0"), (String)getVo("0"));
-//                                              } catch (final EaseMobException e) {
-//                                                  //注册失败
-//                                              }
-//                                          }}).start();
+                                        
                                     } else {
                                         toast(respVo.getMessage());
                                     }
@@ -109,15 +102,14 @@ public class RegisterInputScreteActivity extends SimpleActivity {
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
 
-        View view = LayoutInflater.from(this).inflate(R.layout.inflater_registerdialog, null);
+        View view = makeView(R.layout.inflater_registerdialog);
         alertDialog.setContentView(view);
         TextView skipTv = (TextView) view.findViewById(R.id.registerdialog_skip);
         skipTv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Intent intent = new Intent(RegisterInputScreteActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                EventBus.getDefault().post(new RegisterStep1Activity.FinishEvent());
+                finish();
             }
         });
 
@@ -125,10 +117,9 @@ public class RegisterInputScreteActivity extends SimpleActivity {
         goOnTv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Intent intent = new Intent(RegisterInputScreteActivity.this, FillInfosFirstActivity.class);
+                Intent intent = new Intent(RegisterStep3Activity.this, FillInfosFirstActivity.class);
                 startActivity(intent);
-                ((BbcatApp) getApplication()).finishAct("RegisterInputPhoneActivity");
-                ((BbcatApp) getApplication()).finishAct("RegisterInputVerifyCodeActivity");
+                EventBus.getDefault().post(new RegisterStep1Activity.FinishEvent());
                 finish();
             }
         });
@@ -136,9 +127,6 @@ public class RegisterInputScreteActivity extends SimpleActivity {
 
     @Override
     public void onBackPressed() {
-//        Intent intent = new Intent(RegisterInputScreteActivity.this, LoginActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
         finish();
     }
 }

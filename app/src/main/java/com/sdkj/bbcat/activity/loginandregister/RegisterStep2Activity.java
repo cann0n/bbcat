@@ -12,10 +12,12 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.widget.TitleBar;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Mr.Yuan on 2015/12/24 0024.
  */
-public class RegisterInputVerifyCodeActivity extends SimpleActivity {
+public class RegisterStep2Activity extends SimpleActivity {
     @ViewInject(R.id.registerinputverifycode_et)
     private EditText verifyCodeEt;
     @ViewInject(R.id.registerinputverifycode_btn)
@@ -28,6 +30,7 @@ public class RegisterInputVerifyCodeActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
+        EventBus.getDefault().register(this);
         new TitleBar(activity).setTitle("注册").back();
         verifyCodeEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -54,33 +57,18 @@ public class RegisterInputVerifyCodeActivity extends SimpleActivity {
 
         verifyCodeBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                skip(RegisterInputScreteActivity.class, getVo("0"), getVo("1"),verifyCodeEt.getText().toString());
-
-               /* PostParams params = new PostParams();
-                params.put("username",phoneNum);
-                params.put("verifyCode", verifyCodeEt.getText().toString());
-                params.put("sessionId", data.getSessionId());
-                params.bindUrl();
-                String url=Const.PostVerifyCode+"?"+params.bindUrl();
-
-                HttpUtils.getJSONObject(activity, url, new RespJSONObjectListener(activity)
-                {
-                    @Override
-                    public void getResp(JSONObject jsonObject) {
-                        baseBean bean = GsonTools.getVo(jsonObject.toString(), baseBean.class);
-                        if (bean.getReturnCode().equals("SUCCESS")) {
-                            skip(RegisterInputScreteActivity.class, phoneNum);
-                        } else {
-                            toast(bean.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void doFailed() {
-                        toast("链接服务器失败");
-                    }
-                });*/
+                skip(RegisterStep3Activity.class, getVo("0"), getVo("1"),verifyCodeEt.getText().toString());
             }
         });
+    }
+
+    public void onEventMainThread(RegisterStep1Activity.FinishEvent event) {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

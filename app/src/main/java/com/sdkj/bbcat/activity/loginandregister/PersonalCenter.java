@@ -136,7 +136,7 @@ public class PersonalCenter extends SimpleActivity implements View.OnClickListen
         } else if (v == mBack) {
             finish();
         } else if (v == mRegis) {
-            skip(RegisterInputPhoneActivity.class);
+            skip(RegisterStep1Activity.class);
         }
 
         /**积分*/

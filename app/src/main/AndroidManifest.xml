@@ -67,8 +67,6 @@
             android:screenOrientation="portrait">
         </activity>
 
-
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
@@ -79,16 +77,16 @@
             android:name=".activity.loginandregister.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.loginandregister.RegisterInputPhoneActivity"
+            android:name=".activity.loginandregister.RegisterStep1Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.loginandregister.RegisterInputVerifyCodeActivity"
+            android:name=".activity.loginandregister.RegisterStep2Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.loginandregister.FindScreteFirstStepActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.loginandregister.RegisterInputScreteActivity"
+            android:name=".activity.loginandregister.RegisterStep3Activity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -168,7 +166,10 @@
             android:process=":remote" />
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="Ha8MG82nP9OWfWprGL8hy7P1" />
+            android:value="TXsLoOzbW3Sni6wOADyqvTdt" />
+        
+        <!--正式：TXsLoOzbW3Sni6wOADyqvTdt-->
+        <!--公司测试：Ha8MG82nP9OWfWprGL8hy7P1-->
         <activity
             android:name=".activity.community.ChatActivity"
             android:launchMode="singleTop"
@@ -344,6 +345,9 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <!-- 友盟配置-->
+        <meta-data android:value="56a58dbce0f55a775d000a4d" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
     </application>
     
 </manifest>

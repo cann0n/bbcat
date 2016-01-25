@@ -105,6 +105,7 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="@color/default_black"
+                    android:maxLength="11"
                     android:textSize="15sp"/>
             </LinearLayout>
         </LinearLayout>

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <LinearLayout
+        android:id="@+id/ll_top1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -19,9 +20,9 @@
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/icon_news1"
             android:gravity="center_horizontal"
-            android:text="成长足迹"
             android:textColor="@color/color333"
-            android:textSize="@dimen/font14"/>
+            android:textSize="@dimen/font14"
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/tv_2"
@@ -31,9 +32,9 @@
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/icon_news2"
             android:gravity="center_horizontal"
-            android:text="育儿知识"
             android:textColor="@color/color333"
-            android:textSize="@dimen/font14"/>
+            android:textSize="@dimen/font14"
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/tv_3"
@@ -43,10 +44,10 @@
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/icon_news3"
             android:gravity="center_horizontal"
-            android:text="医疗在线"
             android:textColor="@color/color333"
             android:textSize="@dimen/font14"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+            />
 
         <TextView
             android:id="@+id/tv_4"
@@ -56,10 +57,68 @@
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/icon_news4"
             android:gravity="center_horizontal"
-            android:text="我的圈圈"
+            android:textColor="@color/color333"
+            android:textSize="@dimen/font14"
+            android:visibility="invisible"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_top2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/icon_news1"
+            android:gravity="center_horizontal"
             android:textColor="@color/color333"
             android:textSize="@dimen/font14"
             android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/tv_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/icon_news2"
+            android:gravity="center_horizontal"
+            android:textColor="@color/color333"
+            android:textSize="@dimen/font14"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/tv_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/icon_news3"
+            android:gravity="center_horizontal"
+            android:textColor="@color/color333"
+            android:textSize="@dimen/font14"
+            android:visibility="invisible"
+            />
+
+        <TextView
+            android:id="@+id/tv_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/icon_news4"
+            android:gravity="center_horizontal"
+            android:textColor="@color/color333"
+            android:textSize="@dimen/font14"
+            android:visibility="invisible"
+            />
     </LinearLayout>
     <View
         android:layout_width="fill_parent"

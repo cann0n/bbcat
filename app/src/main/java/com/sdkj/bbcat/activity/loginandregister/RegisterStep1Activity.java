@@ -25,11 +25,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Mr.Yuan on 2015/12/23 0023.
  */
-public class RegisterInputPhoneActivity extends SimpleActivity
-{
+public class RegisterStep1Activity extends SimpleActivity {
     @ViewInject(R.id.registerinputphone_et)
     private EditText phoneEt;
     @ViewInject(R.id.registerinputphone_btn)
@@ -38,100 +39,93 @@ public class RegisterInputPhoneActivity extends SimpleActivity
     private CheckBox agreeCb;
 
     @Override
-    public int setLayoutResID()
-    {
+    public int setLayoutResID() {
         return R.layout.activity_registerinputphone;
     }
 
     @Override
-    public void initBusiness()
-    {
+    public void initBusiness() {
+        EventBus.getDefault().register(this);
+        
         new TitleBar(activity).setTitle("注册").back();
-        phoneEt.addTextChangedListener(new TextWatcher()
-        {
+        phoneEt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if(Utils.isPhoneNum(s.toString().trim()))
-                {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Utils.isPhoneNum(s.toString().trim())) {
                     loginBtn.setEnabled(true);
                     loginBtn.setBackgroundResource(R.drawable.btn_orange);
-                }
-                else
-                {
+                } else {
                     loginBtn.setEnabled(false);
                     loginBtn.setBackgroundResource(R.drawable.btn_gray);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
 
             }
         });
 
-        loginBtn.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                if(agreeCb.isChecked())
-                {
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (agreeCb.isChecked()) {
                     showDialog();
-                    PostParams params= new PostParams();
-                    params.put("from","reg");
+                    PostParams params = new PostParams();
+                    params.put("from", "reg");
                     params.put("mobile", phoneEt.getText().toString().trim());
 
-                    HttpUtils.postJSONObject(RegisterInputPhoneActivity.this, Const.GetVerifyCode, params, new RespJSONObjectListener(RegisterInputPhoneActivity.this)
-                    {
+                    HttpUtils.postJSONObject(RegisterStep1Activity.this, Const.GetVerifyCode, params, new RespJSONObjectListener(RegisterStep1Activity.this) {
                         @Override
-                        public void getResp(JSONObject jsonObject)
-                        {
+                        public void getResp(JSONObject jsonObject) {
                             dismissDialog();
                             RespVo<VerifyBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                            if (respVo.isSuccess())
-                            {
-                                skip(RegisterInputVerifyCodeActivity.class, phoneEt.getText().toString().trim(), respVo.getData(jsonObject, VerifyBean.class).getVid());
-                            } else
-                            {
+                            if (respVo.isSuccess()) {
+                                skip(RegisterStep2Activity.class, phoneEt.getText().toString().trim(), respVo.getData(jsonObject, VerifyBean.class).getVid());
+                            } else {
                                 toast(respVo.getMessage());
                             }
                         }
 
                         @Override
-                        public void doFailed()
-                        {
+                        public void doFailed() {
                             dismissDialog();
                             toast("链接服务器失败");
                         }
                     });
-                }
-                else
-                {
+                } else {
                     toast("请勾选同意条款后再提交验证码");
                 }
             }
         });
     }
 
-    private final static String getCompleteUrl(String url, HashMap<String, String> params)
-    {
-        if (null != params && params.size() != 0)
-        {
+    public void onEventMainThread(FinishEvent event) {
+        finish();
+    }
+    
+    public static class FinishEvent{
+        
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    private final static String getCompleteUrl(String url, HashMap<String, String> params) {
+        if (null != params && params.size() != 0) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(url + "?");
-            for (Map.Entry<String, String> entry : params.entrySet())
-            {
+            for (Map.Entry<String, String> entry : params.entrySet()) {
                 stringBuffer.append(entry.getKey() + "=" + entry.getValue() + "&");
             }
             return stringBuffer.substring(0, stringBuffer.length() - 1);
-        } else
-            return url;
+        } else return url;
     }
 }
