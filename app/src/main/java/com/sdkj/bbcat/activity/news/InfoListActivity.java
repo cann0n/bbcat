@@ -1,8 +1,10 @@
 package com.sdkj.bbcat.activity.news;
 
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huaxi100.networkapp.network.HttpUtils;
@@ -45,11 +47,26 @@ public class InfoListActivity extends SimpleActivity {
     @ViewInject(R.id.tv_title)
     private TextView tv_title;
 
-    @ViewInject(R.id.hs_tabs)
-    HorizontalScrollView hs_tabs;
+    @ViewInject(R.id.ll_tabs)
+    LinearLayout ll_tabs;
 
     @Override
     public void initBusiness() {
+
+        for (int i = 0; i < 6; i++) {
+            final TextView text = (TextView) makeView(R.layout.item_tab);
+            text.setText("全部" + i);
+            if (i != 0) {
+                text.setTextColor(Color.parseColor("#E6E9E0"));
+            }
+            text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toast(text.getText().toString());
+                }
+            });
+            ll_tabs.addView(text);
+        }
 
         final String id = (String) getVo("0");
         tv_title.setText((String) getVo("1"));

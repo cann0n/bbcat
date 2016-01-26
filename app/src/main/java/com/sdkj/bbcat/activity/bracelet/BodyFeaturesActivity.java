@@ -76,6 +76,8 @@ public class BodyFeaturesActivity extends SimpleActivity implements View.OnClick
     private boolean isfirst = true;
     private GrowthVo.BobyState state;
 
+     AlertDialog alertDialog;
+
     public int setLayoutResID() {
         return R.layout.activity_bodyfeatures;
     }
@@ -141,7 +143,13 @@ public class BodyFeaturesActivity extends SimpleActivity implements View.OnClick
 //            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
             datePickerDialog.show();
         } else if (v == complete) {
-            final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+            if(alertDialog==null){
+                alertDialog = new AlertDialog.Builder(activity).create();
+            }
+            if(alertDialog.isShowing()){
+                return;
+            }
+            
             alertDialog.show();
             View view = LayoutInflater.from(activity).inflate(R.layout.inflater_babyinfos, null);
             alertDialog.setContentView(view);

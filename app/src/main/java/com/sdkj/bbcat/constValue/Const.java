@@ -55,6 +55,11 @@ public class Const
     public static final String CATEGORY_LIST=DOMAIN+"index/lists";
 
     /**
+     * 育儿知识首页
+     */
+    public static final String NEWS_LIST=DOMAIN+"child/index";
+
+    /**
      * 医院列表
      */
     public static final String HOSPITAL_LIST=DOMAIN+"/Hospital/index";
