@@ -2,6 +2,7 @@ package com.sdkj.bbcat.activity.news;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import com.huaxi100.networkapp.network.HttpUtils;
@@ -29,10 +30,10 @@ import java.util.List;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
- *
+ * 咨询列表
  */
 
-public class NewsListActivity extends SimpleActivity {
+public class InfoListActivity extends SimpleActivity {
 
     private int pageNum = 1;
 
@@ -40,20 +41,23 @@ public class NewsListActivity extends SimpleActivity {
     private CustomRecyclerView hospital_list;
 
     private NewsAdapter adapter;
-    
+
     @ViewInject(R.id.tv_title)
     private TextView tv_title;
 
+    @ViewInject(R.id.hs_tabs)
+    HorizontalScrollView hs_tabs;
+
     @Override
     public void initBusiness() {
-        
-        final String id= (String) getVo("0");
-        tv_title.setText((String)getVo("1"));
-        
+
+        final String id = (String) getVo("0");
+        tv_title.setText((String) getVo("1"));
+
         adapter = new NewsAdapter(activity, new ArrayList<NewsVo>());
         hospital_list.addFooter(adapter);
         hospital_list.setAdapter(adapter);
-        
+
         hospital_list.setRefreshHeaderMode(hospital_list.MODE_CLASSICDEFAULT_HEADER);
         hospital_list.setLayoutManager(new LinearLayoutManager(activity));
         hospital_list.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
@@ -123,12 +127,12 @@ public class NewsListActivity extends SimpleActivity {
     }
 
     @OnClick(R.id.iv_catdoctor)
-    void catdoctor(View view) {
+    void catDoctor(View view) {
         finish();
     }
 
     @Override
     public int setLayoutResID() {
-        return R.layout.activity_news_list;
+        return R.layout.activity_info_list;
     }
 }

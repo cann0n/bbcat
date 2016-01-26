@@ -18,6 +18,7 @@ import com.huaxi100.networkapp.widget.CustomRecyclerView;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.activity.news.InfoListActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.activity.news.NewsListActivity;
 import com.sdkj.bbcat.adapter.NewsAdapter;
@@ -197,7 +198,7 @@ public class NewsPage extends BaseFragment {
         tv_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.skip(NewsListActivity.class, subs.get(0).getId(), subs.get(0).getTitle());
+                activity.skip(InfoListActivity.class, subs.get(0).getId(), subs.get(0).getTitle());
             }
         });
 
@@ -206,7 +207,7 @@ public class NewsPage extends BaseFragment {
         tv_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.skip(NewsListActivity.class, subs.get(1).getId(), subs.get(1).getTitle());
+                activity.skip(InfoListActivity.class, subs.get(1).getId(), subs.get(1).getTitle());
             }
         });
 
@@ -215,7 +216,7 @@ public class NewsPage extends BaseFragment {
         tv_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.skip(NewsListActivity.class, subs.get(2).getId(), subs.get(2).getTitle());
+                activity.skip(InfoListActivity.class, subs.get(2).getId(), subs.get(2).getTitle());
             }
         });
 
@@ -224,7 +225,7 @@ public class NewsPage extends BaseFragment {
         tv_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.skip(NewsListActivity.class, subs.get(3).getId(), subs.get(3).getTitle());
+                activity.skip(InfoListActivity.class, subs.get(3).getId(), subs.get(3).getTitle());
             }
         });
 
@@ -233,7 +234,7 @@ public class NewsPage extends BaseFragment {
         tv_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.skip(NewsListActivity.class, subs.get(4).getId(), subs.get(4).getTitle());
+                activity.skip(InfoListActivity.class, subs.get(4).getId(), subs.get(4).getTitle());
             }
         });
 
@@ -242,7 +243,7 @@ public class NewsPage extends BaseFragment {
         tv_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.skip(NewsListActivity.class, subs.get(5).getId(), subs.get(5).getTitle());
+                activity.skip(InfoListActivity.class, subs.get(5).getId(), subs.get(5).getTitle());
             }
         });
 
@@ -252,7 +253,7 @@ public class NewsPage extends BaseFragment {
         tv_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.skip(NewsListActivity.class, subs.get(6).getId(), subs.get(6).getTitle());
+                activity.skip(InfoListActivity.class, subs.get(6).getId(), subs.get(6).getTitle());
             }
         });
 
@@ -262,7 +263,7 @@ public class NewsPage extends BaseFragment {
         tv_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.skip(NewsListActivity.class, subs.get(7).getId(), subs.get(7).getTitle());
+                activity.skip(InfoListActivity.class, subs.get(7).getId(), subs.get(7).getTitle());
             }
         });
 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_white"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@color/theme_orange_color"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <!-- 这个图标没有找到-->
+        <ImageView
+            android:id="@+id/iv_catdoctor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="@dimen/theme_margin"
+            android:src="@drawable/icon_back_w"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="医疗在线"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/textview_larger"/>
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp"
+            android:src="@drawable/icon_search"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_divide"/>
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/hs_tabs"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_divide"/>
+    <com.huaxi100.networkapp.widget.CustomRecyclerView
+        android:id="@+id/hospital_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
+</LinearLayout>

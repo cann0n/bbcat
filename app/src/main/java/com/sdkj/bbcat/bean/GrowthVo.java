@@ -84,13 +84,41 @@ public class GrowthVo implements  Serializable
         private String weight;
         private String head;
         private String create_time;
-        private String month;
+        private int month;
         private float min_height;
         private float max_height;
         private float min_weight;
         private float max_weight;
         private float min_head;
         private float max_head;
+        
+        private double avg_height;
+        private double avg_head;
+        private double avg_weight;
+
+        public double getAvg_height() {
+            return avg_height;
+        }
+
+        public void setAvg_height(double avg_height) {
+            this.avg_height = avg_height;
+        }
+
+        public double getAvg_head() {
+            return avg_head;
+        }
+
+        public void setAvg_head(double avg_head) {
+            this.avg_head = avg_head;
+        }
+
+        public double getAvg_weight() {
+            return avg_weight;
+        }
+
+        public void setAvg_weight(double avg_weight) {
+            this.avg_weight = avg_weight;
+        }
 
         public String getId()
         {
@@ -162,12 +190,12 @@ public class GrowthVo implements  Serializable
             this.create_time = create_time;
         }
 
-        public String getMonth()
+        public int getMonth()
         {
             return month;
         }
 
-        public void setMonth(String month)
+        public void setMonth(int month)
         {
             this.month = month;
         }

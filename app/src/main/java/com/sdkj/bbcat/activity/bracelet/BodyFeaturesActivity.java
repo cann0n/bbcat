@@ -34,6 +34,8 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Mr.Yuan on 2016/1/7 0007.
  */
@@ -136,93 +138,99 @@ public class BodyFeaturesActivity extends SimpleActivity implements View.OnClick
                 protected void onStop() {
                 }
             };
-            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+//            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
             datePickerDialog.show();
         } else if (v == complete) {
-            final PostParams params = new PostParams();
-            params.put("day", timeTv.getText().toString());
-            params.put("height", topHeight.getText().toString());
-            params.put("weight", topWeight.getText().toString());
-            params.put("head", topHead.getText().toString());
+            final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+            alertDialog.show();
+            View view = LayoutInflater.from(activity).inflate(R.layout.inflater_babyinfos, null);
+            alertDialog.setContentView(view);
+            ImageView sgimg = (ImageView) view.findViewById(R.id.sh_sgimg);
+            TextView sgtvup = (TextView) view.findViewById(R.id.sh_sgtvup);
+            TextView sgtvdown = (TextView) view.findViewById(R.id.sh_sgtvdown);
+            ImageView tzimg = (ImageView) view.findViewById(R.id.sh_tzimg);
+            TextView tztvup = (TextView) view.findViewById(R.id.sh_tztvup);
+            TextView tztvdown = (TextView) view.findViewById(R.id.sh_tztvdown);
+            ImageView twimg = (ImageView) view.findViewById(R.id.sh_twimg);
+            TextView twtvup = (TextView) view.findViewById(R.id.sh_twtvup);
+            TextView twtvdown = (TextView) view.findViewById(R.id.sh_twtvdown);
+            TextView btn = (TextView) view.findViewById(R.id.sh_btn);
 
-            HttpUtils.postJSONObject(activity, Const.SetBabyFeatureInfos, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
-                public void getResp(JSONObject jsonObject) {
-                    dismissDialog();
-                    RespVo<BabyVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                    if (respVo.isSuccess()) {
-                        final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-                        alertDialog.show();
-                        View view = LayoutInflater.from(activity).inflate(R.layout.inflater_babyinfos, null);
-                        alertDialog.setContentView(view);
+            btn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    showDialog();
+                    final PostParams params = new PostParams();
+                    params.put("day", timeTv.getText().toString());
+                    params.put("height", topHeight.getText().toString());
+                    params.put("weight", topWeight.getText().toString());
+                    params.put("head", topHead.getText().toString());
 
-                        ImageView sgimg = (ImageView) view.findViewById(R.id.sh_sgimg);
-                        TextView sgtvup = (TextView) view.findViewById(R.id.sh_sgtvup);
-                        TextView sgtvdown = (TextView) view.findViewById(R.id.sh_sgtvdown);
-                        ImageView tzimg = (ImageView) view.findViewById(R.id.sh_tzimg);
-                        TextView tztvup = (TextView) view.findViewById(R.id.sh_tztvup);
-                        TextView tztvdown = (TextView) view.findViewById(R.id.sh_tztvdown);
-                        ImageView twimg = (ImageView) view.findViewById(R.id.sh_twimg);
-                        TextView twtvup = (TextView) view.findViewById(R.id.sh_twtvup);
-                        TextView twtvdown = (TextView) view.findViewById(R.id.sh_twtvdown);
-                        TextView btn = (TextView) view.findViewById(R.id.sh_btn);
-
-                        btn.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View v) {
+                    HttpUtils.postJSONObject(activity, Const.SetBabyFeatureInfos, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+                        public void getResp(JSONObject jsonObject) {
+                            dismissDialog();
+                            RespVo<BabyVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                            if (respVo.isSuccess()) {
                                 alertDialog.dismiss();
+                                EventBus.getDefault().post(new FootPrintActivity.RefreshEvent());
+                                finish();
+                            } else {
+                                activity.toast(respVo.getMessage());
                             }
-                        });
-
-                        sgtvup.setText("身高:" + topHeight.getText().toString().trim() + "cm");
-                        if (Float.valueOf(topHead.getText().toString()) < Float.valueOf(state.getMin_height())) {
-                            sgimg.setBackgroundResource(R.drawable.zhuyi_orange);
-                            sgtvdown.setText("低于正常范围之内，请加强宝宝的饮食营养!");
-                        } else if (Float.valueOf(topHead.getText().toString()) > Float.valueOf(state.getMax_height())) {
-                            sgimg.setBackgroundResource(R.drawable.zhuyi_orange);
-                            sgtvdown.setText("高于正常范围之内，请减弱宝宝的饮食营养!");
-                        } else {
-                            sgimg.setBackgroundResource(R.drawable.zhengchang_green);
-                            sgtvdown.setText("在正常范围之内。");
                         }
 
-                        tztvup.setText("体重:" + topWeight.getText().toString().trim() + "kg");
-                        if (Float.valueOf(topWeight.getText().toString().trim()) < Float.valueOf(state.getMin_weight())) {
-                            tzimg.setBackgroundResource(R.drawable.zhuyi_orange);
-                            tztvdown.setText("低于正常范围之内，请加强宝宝的饮食营养!");
-                        } else if (Float.valueOf(topWeight.getText().toString().trim()) > Float.valueOf(state.getMax_weight())) {
-                            tzimg.setBackgroundResource(R.drawable.zhuyi_orange);
-                            tztvdown.setText("高于正常范围之内，请减弱宝宝的饮食营养!");
-                        } else {
-                            tzimg.setBackgroundResource(R.drawable.zhengchang_green);
-                            tztvdown.setText("在正常范围之内。");
+                        public void doFailed() {
+                            toast("提交资料失败");
+                            dismissDialog();
                         }
-
-                        twtvup.setText("头围:" + topHead.getText().toString().trim() + "cm");
-                        if (Float.valueOf(topHead.getText().toString().trim()) < Float.valueOf(state.getMin_head())) {
-                            twimg.setBackgroundResource(R.drawable.zhuyi_orange);
-                            twtvdown.setText("低于正常范围之内，请加强宝宝的饮食营养!");
-                        } else if (Float.valueOf(topHead.getText().toString().trim()) > Float.valueOf(state.getMax_head())) {
-                            twimg.setBackgroundResource(R.drawable.zhuyi_orange);
-                            twtvdown.setText("高于正常范围之内，请减弱宝宝的饮食营养!");
-                        } else {
-                            twimg.setBackgroundResource(R.drawable.zhengchang_green);
-                            twtvdown.setText("在正常范围之内。");
-                        }
-                        DisplayMetrics displayMetrics = new DisplayMetrics();
-                        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                        Window window = alertDialog.getWindow();
-                        window.setWindowAnimations(R.style.BabyInfosDialogAnim);
-                        WindowManager.LayoutParams params = alertDialog.getWindow().getAttributes();
-                        params.width = displayMetrics.widthPixels;
-                        params.height = alertDialog.getWindow().getAttributes().height;
-                        params.gravity = Gravity.BOTTOM;
-                        alertDialog.getWindow().setAttributes(params);
-                    } else activity.toast(respVo.getMessage());
-                }
-
-                public void doFailed() {
-                    toast("提交资料失败");
+                    });
                 }
             });
+
+            sgtvup.setText("身高:" + topHeight.getText().toString().trim() + "cm");
+            if (Float.valueOf(topHead.getText().toString()) < Float.valueOf(state.getMin_height())) {
+                sgimg.setBackgroundResource(R.drawable.zhuyi_orange);
+                sgtvdown.setText("低于正常范围之内，请加强宝宝的饮食营养!");
+            } else if (Float.valueOf(topHead.getText().toString()) > Float.valueOf(state.getMax_height())) {
+                sgimg.setBackgroundResource(R.drawable.zhuyi_orange);
+                sgtvdown.setText("高于正常范围之内，请减弱宝宝的饮食营养!");
+            } else {
+                sgimg.setBackgroundResource(R.drawable.zhengchang_green);
+                sgtvdown.setText("在正常范围之内。");
+            }
+
+            tztvup.setText("体重:" + topWeight.getText().toString().trim() + "kg");
+            if (Float.valueOf(topWeight.getText().toString().trim()) < Float.valueOf(state.getMin_weight())) {
+                tzimg.setBackgroundResource(R.drawable.zhuyi_orange);
+                tztvdown.setText("低于正常范围之内，请加强宝宝的饮食营养!");
+            } else if (Float.valueOf(topWeight.getText().toString().trim()) > Float.valueOf(state.getMax_weight())) {
+                tzimg.setBackgroundResource(R.drawable.zhuyi_orange);
+                tztvdown.setText("高于正常范围之内，请减弱宝宝的饮食营养!");
+            } else {
+                tzimg.setBackgroundResource(R.drawable.zhengchang_green);
+                tztvdown.setText("在正常范围之内。");
+            }
+
+            twtvup.setText("头围:" + topHead.getText().toString().trim() + "cm");
+            if (Float.valueOf(topHead.getText().toString().trim()) < Float.valueOf(state.getMin_head())) {
+                twimg.setBackgroundResource(R.drawable.zhuyi_orange);
+                twtvdown.setText("低于正常范围之内，请加强宝宝的饮食营养!");
+            } else if (Float.valueOf(topHead.getText().toString().trim()) > Float.valueOf(state.getMax_head())) {
+                twimg.setBackgroundResource(R.drawable.zhuyi_orange);
+                twtvdown.setText("高于正常范围之内，请减弱宝宝的饮食营养!");
+            } else {
+                twimg.setBackgroundResource(R.drawable.zhengchang_green);
+                twtvdown.setText("在正常范围之内。");
+            }
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            Window window = alertDialog.getWindow();
+            window.setWindowAnimations(R.style.BabyInfosDialogAnim);
+            WindowManager.LayoutParams params = alertDialog.getWindow().getAttributes();
+            params.width = displayMetrics.widthPixels;
+            params.height = alertDialog.getWindow().getAttributes().height;
+            params.gravity = Gravity.BOTTOM;
+            alertDialog.getWindow().setAttributes(params);
+
         } else if (v == topHeight) {
             height_all.setVisibility(View.VISIBLE);
             weight_all.setVisibility(View.GONE);

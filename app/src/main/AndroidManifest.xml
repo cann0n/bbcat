@@ -145,6 +145,9 @@
         <activity
             android:name=".activity.bracelet.FootPrintActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.news.InfoListActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 环信相关配置-->
         <meta-data android:name="EASEMOB_APPKEY"  android:value="maodu#bubumaochat" />
