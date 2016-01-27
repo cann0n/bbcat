@@ -35,6 +35,7 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.community.ChatActivity;
 import com.sdkj.bbcat.bean.GroupVo;
 import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.bean.RoomVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
 import com.sdkj.bbcat.constValue.SimpleUtils;
@@ -67,7 +68,7 @@ public class FragmentChatRoom extends BaseFragment {
     @Override
     protected void setListener() {
         listView = (ListView) rootView.findViewById(R.id.list);
-        adapter = new ChatRoomAdapter(activity, new ArrayList<GroupVo>());
+        adapter = new ChatRoomAdapter(activity, new ArrayList<RoomVo>());
         listView.setAdapter(adapter);
 //        chatRoomList = new ArrayList<EMChatRoom>();
 //        rooms = new ArrayList<EMChatRoom>();
@@ -122,10 +123,10 @@ public class FragmentChatRoom extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                final GroupVo room = adapter.getItem(position);
+                final RoomVo room = adapter.getItem(position);
                 SpUtil sp = new SpUtil(activity, Const.SP_NAME);
                 startActivity(new Intent(activity, ChatActivity.class).putExtra("chatType", 3).
-                        putExtra("userId", room.getGroupid()).putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR)).putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME)));
+                        putExtra("userId", room.getId()).putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR)).putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME)));
 
             }
         });
@@ -205,25 +206,35 @@ public class FragmentChatRoom extends BaseFragment {
     /**
      * adapter
      */
-    private class ChatRoomAdapter extends ArrayAdapter<GroupVo> {
+    private class ChatRoomAdapter extends ArrayAdapter<RoomVo> {
 
         private LayoutInflater inflater;
 
-        public ChatRoomAdapter(Context context, List<GroupVo> rooms) {
+        public ChatRoomAdapter(Context context, List<RoomVo> rooms) {
             super(context, 0, rooms);
             this.inflater = LayoutInflater.from(context);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            Holder holder=null;
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.em_row_group, null);
+                holder=new Holder();
+                holder.text= (TextView) convertView.findViewById(R.id.name);
+                convertView.setTag(holder);
+            }else{
+                holder= (Holder) convertView.getTag();
             }
 
-            ((TextView) convertView.findViewById(R.id.name)).setText(getItem(position).getGroupname());
+            holder.text.setText(getItem(position).getName());
 
             return convertView;
         }
+    }
+    
+    public static class Holder{
+        TextView text;
     }
 //    private class ChatRoomAdapter extends ArrayAdapter<EMChatRoom> {
 //
@@ -288,12 +299,12 @@ public class FragmentChatRoom extends BaseFragment {
 //    }
 
     public void getAllGroup() {
-        HttpUtils.postJSONObject(activity, Const.GET_GROUPS, SimpleUtils.buildUrl(activity, new PostParams()), new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.GET_ROOMS, SimpleUtils.buildUrl(activity, new PostParams()), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject jsonObject) {
-                RespVo<GroupVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                RespVo<RoomVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
-                    List<GroupVo> data = respVo.getListData(jsonObject, GroupVo.class);
+                    List<RoomVo> data = respVo.getListData(jsonObject, RoomVo.class);
                     adapter.addAll(data);
                 }
             }

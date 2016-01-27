@@ -23,6 +23,7 @@ import com.sdkj.bbcat.adapter.NewsAdapter;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.fragment.NewsPage;
 
 import org.json.JSONObject;
 
@@ -49,26 +50,16 @@ public class InfoListActivity extends SimpleActivity {
 
     @ViewInject(R.id.ll_tabs)
     LinearLayout ll_tabs;
+    @ViewInject(R.id.hs_container)
+    HorizontalScrollView hs_container;
+    String id;
+    String defaultId;
 
     @Override
     public void initBusiness() {
 
-        for (int i = 0; i < 6; i++) {
-            final TextView text = (TextView) makeView(R.layout.item_tab);
-            text.setText("全部" + i);
-            if (i != 0) {
-                text.setTextColor(Color.parseColor("#E6E9E0"));
-            }
-            text.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    toast(text.getText().toString());
-                }
-            });
-            ll_tabs.addView(text);
-        }
-
-        final String id = (String) getVo("0");
+        id = (String) getVo("0");
+        defaultId = (String) getVo("0");
         tv_title.setText((String) getVo("1"));
 
         adapter = new NewsAdapter(activity, new ArrayList<NewsVo>());
@@ -107,7 +98,38 @@ public class InfoListActivity extends SimpleActivity {
                 hospital_list.setRefreshing(false);
                 RespVo<NewsVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
-
+                    if (ll_tabs.getChildCount() == 0) {
+                        List<NewsPage.Sub> subs = GsonTools.getList(jsonObject.optJSONObject("data").optJSONObject("now_category").optJSONArray("sub"), NewsPage.Sub.class);
+                        if (Utils.isEmpty(subs)) {
+                            hs_container.setVisibility(View.GONE);
+                        } else {
+                            hs_container.setVisibility(View.VISIBLE);
+                            for (int i = 0; i < subs.size()+1; i++) {
+                                final TextView text = (TextView) makeView(R.layout.item_tab);
+                                if (i != 0) {
+                                    final NewsPage.Sub sub = subs.get(i-1);
+                                    text.setText(sub.getTitle());
+                                    text.setTextColor(Color.parseColor("#E6E9E0"));
+                                    text.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            pageNum = 1;
+                                            query(sub.getId()+"");
+                                        }
+                                    });
+                                } else {
+                                    text.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            pageNum = 1;
+                                            query(defaultId);
+                                        }
+                                    });
+                                }
+                                ll_tabs.addView(text);
+                            }
+                        }
+                    }
                     List<NewsVo> data = GsonTools.getList(jsonObject.optJSONObject("data").optJSONArray("list"), NewsVo.class);
                     if (pageNum == 1) {
                         adapter.removeAll();

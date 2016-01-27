@@ -234,6 +234,11 @@ public class Const
     public static final String GET_GROUPS = DOMAIN + "webim/getAllGroup";
 
     /**
+     * 获取所有聊天室
+     */
+    public static final String GET_ROOMS= DOMAIN + "webim/getAllChatroom";
+
+    /**
      * 获取宝宝日记
      */
     public static final String NOTE_LIST = DOMAIN + "circle/lists";

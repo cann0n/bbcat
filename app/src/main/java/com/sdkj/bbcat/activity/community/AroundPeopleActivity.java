@@ -49,12 +49,7 @@ public class AroundPeopleActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
-        new TitleBar(this).back().setTitle("附近的人").showRight("筛选", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-            }
-        });
+        new TitleBar(this).back().setTitle("附近的人");
         adapter = new AroundAdapter(activity, new ArrayList<AroundPeopleVo>());
         people_list.addFooter(adapter);
         people_list.setAdapter(adapter);
@@ -86,7 +81,7 @@ public class AroundPeopleActivity extends SimpleActivity {
 
     private void query() {
         final PostParams params = new PostParams();
-        params.put("km", pageNum + "");
+        params.put("km","30");
         params.put("page", pageNum + "");
         params.put("lng", lng + "");
         params.put("lat", lat + "");
