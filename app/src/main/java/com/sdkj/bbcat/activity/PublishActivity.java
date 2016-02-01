@@ -334,12 +334,14 @@ public class PublishActivity extends SimpleActivity {
         params.put("title", et_title.getText().toString());
         params.put("content", et_content.getText().toString());
         params.put("address", tv_address.getText().toString());
+        params.put("private", "0");//标签id
         if (tv_label.getTag(R.id.tag_two) != null) {
             params.put("category_id", tv_label.getTag(R.id.tag_two).toString());//标签id
         }
         if (tv_label.getTag(R.id.tag_first) != null) {
             params.put("type", tv_label.getTag(R.id.tag_first).toString());//标签id
             params.put("category_id", "2");//标签id
+            params.put("private", "1");//标签id
         }
 
         String pics = "";
