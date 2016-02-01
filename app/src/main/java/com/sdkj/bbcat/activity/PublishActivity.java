@@ -198,14 +198,14 @@ public class PublishActivity extends SimpleActivity {
             CircleTagVo tag1 = new CircleTagVo();
             tag1.setTitle("普通日记");
             tag1.setType("1");
-            CircleTagVo tag2 = new CircleTagVo();
-            tag2.setTitle("宝宝第一次");
-            tag2.setType("2");
+//            CircleTagVo tag2 = new CircleTagVo();
+//            tag2.setTitle("宝宝第一次");
+//            tag2.setType("2");
             CircleTagVo tag3 = new CircleTagVo();
             tag3.setTitle("疾病记录");
             tag3.setType("3");
             tags.add(tag1);
-            tags.add(tag2);
+//            tags.add(tag2);
             tags.add(tag3);
         }
 

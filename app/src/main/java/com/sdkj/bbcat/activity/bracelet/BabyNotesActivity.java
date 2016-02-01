@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -45,14 +46,13 @@ public class BabyNotesActivity extends SimpleActivity {
 
     private int currentType = 1;
 
-    private int preType = 1;
-
-
     public int setLayoutResID() {
         return R.layout.activity_babynotes;
     }
 
     public void initBusiness() {
+        EventBus.getDefault().register(this);
+        
         new TitleBar(activity).setTitle("宝宝日记").back().showRight("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,37 +83,35 @@ public class BabyNotesActivity extends SimpleActivity {
             }
         });
 
-        View header = activity.makeView(R.layout.view_note_header);
-        TextView tv_normal = (TextView) header.findViewById(R.id.tv_normal);
-        TextView tv_first = (TextView) header.findViewById(R.id.tv_first);
-        tv_normal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pageNum = 1;
-                currentType = 1;
-                preType = 1;
-                showDialog();
-                queryData("");
-            }
-        });
-        tv_first.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pageNum = 1;
-                currentType = 2;
-                preType = 2;
-                
-                showDialog();
-                queryData("");
-            }
-        });
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(AppUtils.getWidth(activity) + 10, LinearLayout.LayoutParams.WRAP_CONTENT);
-        header.setLayoutParams(lp);
-        lp.rightMargin = -5;
-        UltimateRecyclerView.CustomRelativeWrapper wrapper = new UltimateRecyclerView.CustomRelativeWrapper(activity);
-        wrapper.addView(header);
-        adapter.setCustomHeaderView(wrapper);
+//        View header = activity.makeView(R.layout.view_note_header);
+//        TextView tv_normal = (TextView) header.findViewById(R.id.tv_normal);
+//        TextView tv_first = (TextView) header.findViewById(R.id.tv_first);
+//        tv_normal.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                pageNum = 1;
+//                currentType = 1;
+//                showDialog();
+//                queryData("");
+//            }
+//        });
+//        tv_first.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                pageNum = 1;
+//                currentType = 2;
+//                
+//                showDialog();
+//                queryData("");
+//            }
+//        });
+//
+//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(AppUtils.getWidth(activity) + 10, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        header.setLayoutParams(lp);
+//        lp.rightMargin = -5;
+//        UltimateRecyclerView.CustomRelativeWrapper wrapper = new UltimateRecyclerView.CustomRelativeWrapper(activity);
+//        wrapper.addView(header);
+//        adapter.setCustomHeaderView(wrapper);
         showDialog();
         queryData("");
     }
@@ -156,5 +154,16 @@ public class BabyNotesActivity extends SimpleActivity {
                 dismissDialog();
             }
         });
+    }
+
+    public void onEventMainThread(DiseaseRecordActivity.RefreshEvent event) {
+        pageNum=1;
+        queryData("");
+    }
+    
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }
