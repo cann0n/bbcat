@@ -84,7 +84,7 @@ public class NewsPage extends BaseFragment {
 
     private void query() {
         final PostParams params = new PostParams();
-        HttpUtils.postJSONObject(activity, Const.NEWS_LIST, params, new RespJSONObjectListener(activity) {
+        HttpUtils.postJSONObject(activity, Const.NEWS_LIST, SimpleUtils.buildUrl(activity,params), new RespJSONObjectListener(activity) {
             @Override
             public void getResp(JSONObject jsonObject) {
                 RespVo<NewsVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);

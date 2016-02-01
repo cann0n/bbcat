@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.widget.CustomRecyclerView;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
@@ -24,11 +26,15 @@ import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.community.ChatActivity;
 import com.sdkj.bbcat.activity.doctor.OnlineQAActivity;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.adapter.HospitalAdapter;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.Constant;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 
 import org.json.JSONObject;
 
@@ -474,7 +480,20 @@ public class MedicalOnlineActivity extends SimpleActivity {
     
     @OnClick(R.id.iv_call)
     void makeCall(View view){
-        skip(OnlineQAActivity.class);
+//        skip(OnlineQAActivity.class);
+        if(SimpleUtils.isLogin(activity)){
+            String username = "admin";
+            // demo中直接进入聊天页面，实际一般是进入用户详情页
+            Intent intent = new Intent(activity, ChatActivity.class);
+            SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+
+            intent.putExtra(Constant.EXTRA_USER_ID, username);
+            intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+            intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
+            startActivity(intent);
+        }else{
+            skip(LoginActivity.class);
+        }
     }
     
     @Override

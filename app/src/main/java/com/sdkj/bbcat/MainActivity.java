@@ -11,6 +11,7 @@ import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.fragment.BraceletPage;
 import com.sdkj.bbcat.fragment.CommunityPage;
+import com.sdkj.bbcat.fragment.FragmentMine;
 import com.sdkj.bbcat.fragment.HomePage;
 import com.sdkj.bbcat.fragment.NewsPage;
 
@@ -27,6 +28,7 @@ public class MainActivity extends TabUiActivity {
         names.add("育儿知识");
         names.add("手环");
         names.add("我的圈圈");
+        names.add("个人中心");
         return names;
     }
 
@@ -37,6 +39,7 @@ public class MainActivity extends TabUiActivity {
         icons.add(R.drawable.icon_class_pressed);
         icons.add(R.drawable.icon_msg_pressed);
         icons.add(R.drawable.icon_myself_pressed);
+        icons.add(R.drawable.icon_myself_pressed);
         return icons;
     }
 
@@ -46,6 +49,7 @@ public class MainActivity extends TabUiActivity {
         icons.add(R.drawable.icon_home);
         icons.add(R.drawable.icon_class);
         icons.add(R.drawable.icon_msg);
+        icons.add(R.drawable.icon_myself);
         icons.add(R.drawable.icon_myself);
         return icons;
     }
@@ -82,7 +86,7 @@ public class MainActivity extends TabUiActivity {
 
     @Override
     public BaseFragment initPage5() {
-        return null;
+        return new FragmentMine();
     }
 
     @Override
