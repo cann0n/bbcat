@@ -18,6 +18,7 @@ import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
+import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.bean.RespVo;
@@ -77,7 +78,7 @@ public class FillInfosEndActivity extends SimpleActivity {
                                 sp_login.setValue("sex", sex + "");
                                 sp_login.setValue("birthday", timeStr);
                                 sp_login.setValue("baby_status", state + "");
-                                toast("恭喜注册完成,请登录");
+                                skip(MainActivity.class);
                                 finish();
                             } catch (Exception e) {
                                 e.printStackTrace();

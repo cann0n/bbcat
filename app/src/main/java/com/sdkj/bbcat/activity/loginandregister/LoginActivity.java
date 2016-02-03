@@ -40,6 +40,7 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Mr.Yuan on 2015/12/18 0018.
@@ -68,6 +69,7 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
 
     @Override
     public void initBusiness() {
+        EventBus.getDefault().register(this);
         TitleBar titleBar = new TitleBar(activity).setTitle("登录").back();
         titleBar.showRight("注册", new View.OnClickListener() {
             public void onClick(View v) {
@@ -314,11 +316,17 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
         });
     }
 
+    public void onEventMainThread(RegisterStep1Activity.FinishEvent event) {
+        finish();
+    }
+
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
         if (!Utils.isEmpty(getVo("0").toString())) {
             skip(MainActivity.class);
         }
+        
     }
 }

@@ -28,8 +28,11 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
 import com.sdkj.bbcat.activity.doctor.OnlineQAActivity;
+import com.sdkj.bbcat.activity.doctor.SelectAreaActivity;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
+import com.sdkj.bbcat.activity.loginandregister.RegisterStep1Activity;
 import com.sdkj.bbcat.adapter.HospitalAdapter;
+import com.sdkj.bbcat.bean.AreaVo;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
@@ -41,6 +44,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -105,6 +109,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
+        EventBus.getDefault().register(this);
         
         final String id = (String) getVo("0");
         adapter = new HospitalAdapter(activity, new ArrayList<NewsVo>());
@@ -477,6 +482,10 @@ public class MedicalOnlineActivity extends SimpleActivity {
             }
         }
     }
+    @OnClick(R.id.ll_name)
+    void selectArea(View view){
+        skip(SelectAreaActivity.class);
+    }
     
     @OnClick(R.id.iv_call)
     void makeCall(View view){
@@ -495,7 +504,31 @@ public class MedicalOnlineActivity extends SimpleActivity {
             skip(LoginActivity.class);
         }
     }
+
+
+    public void onEventMainThread(AreaEvent event) {
+      tv_city_name.setText(event.getAreaVo().getName());
+        
+    }
     
+    public static class AreaEvent{
+        private AreaVo areaVo;
+
+        public AreaVo getAreaVo() {
+            return areaVo;
+        }
+
+        public void setAreaVo(AreaVo areaVo) {
+            this.areaVo = areaVo;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
     @Override
     public int setLayoutResID() {
         return R.layout.activity_medicalonline;

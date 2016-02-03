@@ -5,12 +5,14 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChatManager;
 import com.huaxi100.networkapp.adapter.FragPagerAdapter;
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.fragment.FragmentVo;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,10 @@ public class FragmentMyFriend extends BaseFragment {
 
     @Override
     protected void setListener() {
+
+        if (!EMChatManager.getInstance().isConnected()) {
+            SimpleUtils.loginHx(activity);
+        }
         ArrayList<FragmentVo> pageVo = new ArrayList<FragmentVo>();
         pageVo.add(new FragmentVo(new HuiHuaFragment(), "会话"));
         pageVo.add(new FragmentVo(new GroupFragment(), "群组"));

@@ -16,11 +16,15 @@ import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.BbcatApp;
+import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.bean.LoginBean;
 import com.sdkj.bbcat.bean.RegisterBean;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.hx.PreferenceManager;
 import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
@@ -67,12 +71,38 @@ public class RegisterStep3Activity extends SimpleActivity {
                                 @Override
                                 public void getResp(JSONObject jsonObject) {
                                     dismissDialog();
-                                    RespVo<RegisterBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+//                                    RespVo<LoginBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+//                                    if (respVo.isSuccess()) {
+//                                        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+//                                        sp.setValue(Const.PHONE,(String) getVo("0"));
+//                                        showCompleteDialog();
+//                                    } else {
+//                                        toast(respVo.getMessage());
+//                                    }
+
+                                    RespVo<LoginBean> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+
                                     if (respVo.isSuccess()) {
-                                        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
-                                        sp.setValue(Const.PHONE,(String) getVo("0"));
+                                        LoginBean bean = respVo.getData(jsonObject, LoginBean.class);
+                                        ((BbcatApp) getApplication()).setmUser(bean);
+                                        SpUtil sp_login = new SpUtil(activity, Const.SP_NAME);
+                                        sp_login.setValue("sex", bean.getUserInfo().getSex());
+                                        sp_login.setValue("birthday", bean.getUserInfo().getBirthday());
+                                        sp_login.setValue("baby_status", bean.getUserInfo().getBaby_status());
+                                        sp_login.setValue(Const.TOKEN, bean.getToken());
+                                        sp_login.setValue(Const.UID, bean.getUid());
+                                        sp_login.setValue(Const.NICKNAME, bean.getUserInfo().getNickname());
+                                        sp_login.setValue(Const.AVATAR, bean.getUserInfo().getAvatar());
+                                        PreferenceManager.getInstance().setCurrentUserAvatar(SimpleUtils.getImageUrl(bean.getUserInfo().getAvatar()));
+                                        PreferenceManager.getInstance().setCurrentUserNick(bean.getUserInfo().getNickname());
+                                        sp_login.setValue(Const.PHONE, (String) getVo("0"));
+                                        SimpleUtils.loginHx(activity.getApplicationContext());
+//                                        Intent intent = new Intent();
+//                                        intent.putExtra("alreadymody", true);
+//                                        setResult(0, intent);
+//                                        toast("注册成功");
+//                                        finish();
                                         showCompleteDialog();
-                                        
                                     } else {
                                         toast(respVo.getMessage());
                                     }
@@ -109,6 +139,7 @@ public class RegisterStep3Activity extends SimpleActivity {
             public void onClick(View v) {
                 alertDialog.dismiss();
                 EventBus.getDefault().post(new RegisterStep1Activity.FinishEvent());
+                skip(MainActivity.class);
                 finish();
             }
         });

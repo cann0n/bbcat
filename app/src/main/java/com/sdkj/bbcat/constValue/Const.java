@@ -262,4 +262,9 @@ public class Const
      * 在线咨询
      */
     public static final String ONLINE_FAQ = DOMAIN + "index/questions";
+
+    /**
+     * 获取区域
+     */
+    public static final String GET_CITY = DOMAIN + "index/district";
 }

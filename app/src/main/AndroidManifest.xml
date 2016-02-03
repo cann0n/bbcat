@@ -69,7 +69,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".activity.loginandregister.FirstInstallActivity"
             android:screenOrientation="portrait" />
@@ -141,6 +142,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.doctor.DoctorActActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.doctor.SelectAreaActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.bracelet.FootPrintActivity"
