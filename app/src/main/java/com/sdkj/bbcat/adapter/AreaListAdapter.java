@@ -28,7 +28,6 @@ public class AreaListAdapter extends ExpandListViewCommonAdapter<AreaVo,AreaVo> 
         holder.tv_title.setText(item.getName());
         if(isExpanded){
             holder.tv_open.setText("收起");
-
             holder.tv_open.setCompoundDrawablesWithIntrinsicBounds(null, null, activity.getDrawableRes(R.drawable.icon_address_up), null);
         }else{
             holder.tv_open.setText("展开");
