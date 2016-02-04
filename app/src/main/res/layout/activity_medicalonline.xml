@@ -59,12 +59,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/theme_margin"
+                android:layout_marginLeft="5dp"
                 android:src="@drawable/icon_didian"/>
 
             <TextView
@@ -72,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="3dp"
                 android:gravity="center"
                 android:text="默认"
                 android:textColor="@color/color333"

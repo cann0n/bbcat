@@ -41,40 +41,63 @@ public class SelectAreaActivity extends SimpleActivity {
     private ExpandableListView lv_list;
 
     private AreaListAdapter adapter;
-
+    private   int  sign= - 1;
     @Override
     public void initBusiness() {
         new TitleBar(activity).back().setTitle("选择城市");
         adapter = new AreaListAdapter(activity, new ArrayList<AreaVo>());
-        lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                AreaVo vo = (AreaVo) adapterView.getAdapter().getItem(i);
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                AreaVo vo = (AreaVo) adapter.getChild(groupPosition, childPosition);
                 MedicalOnlineActivity.AreaEvent event = new MedicalOnlineActivity.AreaEvent();
                 event.setAreaVo(vo);
                 EventBus.getDefault().post(event);
                 finish();
+                return true;
             }
         });
 
         lv_list.setGroupIndicator(null);
         lv_list.setAdapter(adapter);
-
         lv_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(final int i) {
-                if (Utils.isEmpty(((ParentVo) adapter.getGroup(i)).getChild()) && !((AreaVo) adapter.getGroup(i)).isShown()) {
+                if (!((AreaVo) adapter.getGroup(i)).isShown()) {
                     showDialog();
-                    getCity(((AreaVo) adapter.getGroup(i)).getId(), i);
+                    getCity(((AreaVo) adapter.getGroup(i)).getId(), i, ((AreaVo) adapter.getGroup(i)));
                 }
-
             }
         });
-        getCity("", 0);
+
+        lv_list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if (sign == -1) {
+                    // 展开被选的group   
+                    lv_list.expandGroup(groupPosition);
+                    // 设置被选中的group置于顶端   
+                    lv_list.setSelectedGroup(groupPosition);
+                    sign = groupPosition;
+                } else if (sign == groupPosition) {
+                    lv_list.collapseGroup(sign);
+                    sign = -1;
+                } else {
+                    lv_list.collapseGroup(sign);
+                    // 展开被选的group   
+                    lv_list.expandGroup(groupPosition);
+                    // 设置被选中的group置于顶端   
+                    lv_list.setSelectedGroup(groupPosition);
+                    sign = groupPosition;
+                }
+                return true;
+            }
+        });
+        getCity("", 0,null);
     }
 
-    private void getCity(final String id, final int position) {
+    private void getCity(final String id, final int position, final AreaVo tempVo) {
         PostParams params = new PostParams();
         if (!Utils.isEmpty(id)) {
             params.put("id", id);
@@ -87,13 +110,18 @@ public class SelectAreaActivity extends SimpleActivity {
                 if (respVo.isSuccess()) {
                     AllCities cities = respVo.getData(obj, AllCities.class);
                     if (Utils.isEmpty(id)) {
-                        adapter.addParents(cities.getAllProvince());
+                        List<AreaVo> data = cities.getAllProvince();
+                        for (AreaVo vo : data) {
+                            vo.setChild(new ArrayList<AreaVo>());
+                        }
+                        adapter.addParents(data);
                     } else {
                         if (!Utils.isEmpty(cities.getAllProvince())) {
                             adapter.addChilds(position, cities.getAllProvince());
-                        } else {
-                            ((AreaVo) adapter.getGroup(position)).setIsShown(true);
+                        }else{
+                            adapter.addChild(position, tempVo);
                         }
+                        ((AreaVo) adapter.getGroup(position)).setIsShown(true);
                     }
                 }
             }

@@ -41,7 +41,6 @@ import java.util.List;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.OnekeyShareTheme;
-import cn.sharesdk.wechat.favorite.WechatFavorite;
 
 public class BabyFoodsActivity extends SimpleActivity {
 

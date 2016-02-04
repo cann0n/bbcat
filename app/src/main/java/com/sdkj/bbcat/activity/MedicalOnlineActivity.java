@@ -99,18 +99,18 @@ public class MedicalOnlineActivity extends SimpleActivity {
     private View popupViewStatus;
 
     private PopupWindow popupWindowStatus;
-    
-    private double lat=0;
-    private double lng=0;
-    private String order="level desc";
-    
-    private String classify="";
-    private String km="0.5";
+
+    private double lat = 0;
+    private double lng = 0;
+    private String order = "level desc";
+
+    private String classify = "";
+    private String km = "0.5";
 
     @Override
     public void initBusiness() {
         EventBus.getDefault().register(this);
-        
+
         final String id = (String) getVo("0");
         adapter = new HospitalAdapter(activity, new ArrayList<NewsVo>());
         hospital_list.addFooter(adapter);
@@ -139,13 +139,16 @@ public class MedicalOnlineActivity extends SimpleActivity {
 
     private void query(boolean isFirst) {
         final PostParams params = new PostParams();
-        params.put("lat", lat+"");
-        params.put("lng", lng+"");
+        params.put("lat", lat + "");
+        params.put("lng", lng + "");
         params.put("order", order);
         params.put("classify", classify);
         params.put("km", km);
         params.put("page", pageNum + "");
-        if(isFirst){
+        if (tv_city_name.getTag() != null) {
+            params.put("city_id", tv_city_name.getTag().toString());
+        }
+        if (isFirst) {
             showDialog();
         }
         HttpUtils.postJSONObject(activity, Const.HOSPITAL_LIST, params, new RespJSONObjectListener(activity) {
@@ -193,20 +196,21 @@ public class MedicalOnlineActivity extends SimpleActivity {
 
     @OnClick(R.id.iv_catdoctor)
     void catdoctor(View view) {
-       finish();
+        finish();
     }
 
     @OnClick(R.id.ll_location)
-    void selectLocation(View view){
+    void selectLocation(View view) {
         showLocationWindow();
     }
+
     @OnClick(R.id.ll_sort)
-    void selectSort(View view){
+    void selectSort(View view) {
         showDayWindow();
     }
 
     @OnClick(R.id.ll_type)
-    void selectType(View view){
+    void selectType(View view) {
         showStatusWindow();
     }
 
@@ -222,7 +226,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
             LinearLayout content = (LinearLayout) popupViewSort.findViewById(R.id.ll_content);
             TextView tv_all = (TextView) popupViewSort.findViewById(R.id.tv_all);
             TextView tv_day1 = (TextView) popupViewSort.findViewById(R.id.tv_day1);
-           
+
             tv_all.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -230,7 +234,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                     tv_sort.setText("信誉升");
                     tv_sort.setTag("");
                     pageNum = 1;
-                    order="level asc";
+                    order = "level asc";
                     query(true);
                 }
             });
@@ -242,11 +246,11 @@ public class MedicalOnlineActivity extends SimpleActivity {
                     tv_sort.setText("信誉降");
                     tv_sort.setTag("1");
                     pageNum = 1;
-                    order="level desc";
+                    order = "level desc";
                     query(true);
                 }
             });
-          
+
 
             window.setOnClickListener(new View.OnClickListener() {
 
@@ -291,7 +295,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_local.setText("500M内");
                     tv_local.setTag("");
-                    km="0.5";
+                    km = "0.5";
                     popupWindowLocal.dismiss();
                     pageNum = 1;
                     query(true);
@@ -304,7 +308,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                     tv_local.setTag("1");
                     popupWindowLocal.dismiss();
                     pageNum = 1;
-                    km="10";
+                    km = "10";
                     query(true);
                 }
             });
@@ -313,7 +317,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_local.setText(">10KM");
                     tv_local.setTag("2");
-                    km="100";
+                    km = "100";
                     popupWindowLocal.dismiss();
                     pageNum = 1;
                     query(true);
@@ -367,7 +371,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_type.setText("一级");
                     tv_type.setTag("1");
-                    classify="1";
+                    classify = "1";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -378,7 +382,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_type.setText("二级");
                     tv_type.setTag("2");
-                    classify="2";
+                    classify = "2";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -389,7 +393,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_type.setText("三级");
                     tv_type.setTag("3");
-                    classify="3";
+                    classify = "3";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -400,7 +404,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_type.setText("公立");
                     tv_type.setTag("4");
-                    classify="4";
+                    classify = "4";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -411,7 +415,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_type.setText("私立");
                     tv_type.setTag("5");
-                    classify="5";
+                    classify = "5";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -422,7 +426,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_type.setText("妇幼保健院");
                     tv_type.setTag("6");
-                    classify="6";
+                    classify = "6";
                     popupWindowStatus.dismiss();
                     pageNum = 1;
                     query(true);
@@ -451,7 +455,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
             popupWindowStatus.showAsDropDown(ll_container);
         }
     }
-   
+
     private void startBaiduLocation() {
         LocationClient mLocationClient = new LocationClient(activity.getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener(new MyLocationListener(mLocationClient));    //注册监听函数
@@ -476,21 +480,22 @@ public class MedicalOnlineActivity extends SimpleActivity {
             if (!Utils.isEmpty(location.getLatitude() + "") && !Utils.isEmpty(location.getLongitude() + "")) {
                 mLocationClient.stop();
                 tv_city_name.setText(location.getCity());
-                lat=location.getLatitude();
-                lng=location.getLongitude();
+                lat = location.getLatitude();
+                lng = location.getLongitude();
                 query(false);
             }
         }
     }
+
     @OnClick(R.id.ll_name)
-    void selectArea(View view){
+    void selectArea(View view) {
         skip(SelectAreaActivity.class);
     }
-    
+
     @OnClick(R.id.iv_call)
-    void makeCall(View view){
+    void makeCall(View view) {
 //        skip(OnlineQAActivity.class);
-        if(SimpleUtils.isLogin(activity)){
+        if (SimpleUtils.isLogin(activity)) {
             String username = "admin";
             // demo中直接进入聊天页面，实际一般是进入用户详情页
             Intent intent = new Intent(activity, ChatActivity.class);
@@ -500,18 +505,20 @@ public class MedicalOnlineActivity extends SimpleActivity {
             intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
             intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
             startActivity(intent);
-        }else{
+        } else {
             skip(LoginActivity.class);
         }
     }
 
 
     public void onEventMainThread(AreaEvent event) {
-      tv_city_name.setText(event.getAreaVo().getName());
-        
+        tv_city_name.setText(event.getAreaVo().getName());
+        tv_city_name.setTag(event.getAreaVo().getId());
+        lat = 0;
+        lng = 0;
     }
-    
-    public static class AreaEvent{
+
+    public static class AreaEvent {
         private AreaVo areaVo;
 
         public AreaVo getAreaVo() {
