@@ -39,7 +39,7 @@ public class MainActivity extends TabUiActivity {
         icons.add(R.drawable.icon_class_pressed);
         icons.add(R.drawable.icon_msg_pressed);
         icons.add(R.drawable.icon_myself_pressed);
-        icons.add(R.drawable.icon_myself_pressed);
+        icons.add(R.drawable.icon_info_press);
         return icons;
     }
 
@@ -50,7 +50,7 @@ public class MainActivity extends TabUiActivity {
         icons.add(R.drawable.icon_class);
         icons.add(R.drawable.icon_msg);
         icons.add(R.drawable.icon_myself);
-        icons.add(R.drawable.icon_myself);
+        icons.add(R.drawable.icon_people);
         return icons;
     }
 
