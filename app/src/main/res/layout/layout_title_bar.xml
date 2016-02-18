@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:background="@color/theme_orange_color"
-    android:layout_height="50dp">
+<RelativeLayout android:id="@+id/rl_title_bar"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@color/theme_orange_color">
 
     <TextView
         android:id="@+id/tv_bar_title"
@@ -12,19 +13,19 @@
         android:gravity="center"
         android:text=""
         android:textColor="@color/color_white"
-        android:textSize="@dimen/textview_larger" />
+        android:textSize="@dimen/textview_larger"/>
 
     <TextView
         android:id="@+id/tv_right"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
-        android:paddingRight="@dimen/theme_margin"
-        android:paddingLeft="@dimen/theme_margin"
         android:gravity="center"
+        android:paddingLeft="@dimen/theme_margin"
+        android:paddingRight="@dimen/theme_margin"
+        android:text=""
         android:textColor="@color/color_white"
         android:textSize="@dimen/textview_normal"
-        android:text=""
         android:visibility="gone"
         />
 
@@ -35,21 +36,21 @@
         android:layout_centerVertical="true"
         android:paddingLeft="@dimen/theme_margin"
         android:paddingRight="30dp"
-        android:src="@drawable/icon_back_w" />
+        android:src="@drawable/icon_back_w"/>
     <ImageView
         android:id="@+id/iv_right"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:paddingRight="@dimen/theme_padding"
-        android:paddingLeft="@dimen/theme_padding"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/theme_padding"
+        android:paddingRight="@dimen/theme_padding"
         android:visibility="gone"/>
-    
+
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"
         android:layout_alignParentBottom="true"
-        android:background="#cecece" />
+        android:background="#cecece"/>
 </RelativeLayout>

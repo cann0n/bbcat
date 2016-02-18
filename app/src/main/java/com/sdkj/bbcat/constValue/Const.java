@@ -244,6 +244,11 @@ public class Const
     public static final String NOTE_LIST = DOMAIN + "circle/lists";
 
     /**
+     * 疫苗记录
+     */
+    public static final String VACCINE_LIST = DOMAIN + "Baby/vac";
+
+    /**
      * 我的关注
      */
     public static final String MY_FOLLOWS = DOMAIN + "user/myFollows";

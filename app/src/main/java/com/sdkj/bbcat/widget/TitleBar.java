@@ -1,7 +1,9 @@
 package com.sdkj.bbcat.widget;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huaxi100.networkapp.activity.BaseActivity;
@@ -22,6 +24,8 @@ public class TitleBar {
     private TextView tv_title;
     
     private TextView tv_right;
+    
+    private RelativeLayout rl_title_bar;
 
     public TitleBar(BaseActivity activity) {
         this.activity = activity;
@@ -29,6 +33,7 @@ public class TitleBar {
         iv_right = (ImageView) activity.findViewById(R.id.iv_right);
         tv_title = (TextView) activity.findViewById(R.id.tv_bar_title);
         tv_right = (TextView) activity.findViewById(R.id.tv_right);
+        rl_title_bar= (RelativeLayout) activity.findViewById(R.id.rl_title_bar);
     }
 
     public TitleBar(BaseActivity activity,View rootView) {
@@ -76,6 +81,10 @@ public class TitleBar {
         return this;
     }
 
+    public TitleBar setBg(String color){
+        rl_title_bar.setBackgroundColor(Color.parseColor(color));
+        return  this;
+    }
     protected void backDoing()
     {
         activity.finish();
