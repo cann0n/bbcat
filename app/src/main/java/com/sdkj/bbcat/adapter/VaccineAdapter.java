@@ -2,6 +2,7 @@ package com.sdkj.bbcat.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -45,7 +46,12 @@ public class VaccineAdapter extends UltimatCommonAdapter<VaccineVo, VaccineAdapt
         if (h instanceof ViewHolder) {
             final ViewHolder holder = (ViewHolder) h;
             final VaccineVo vo = getItem(position);
-            holder.tv_mouth.setText(vo.getMonth());
+            holder.tv_mouth.setText(vo.getMonth_desc1()+"      "+vo.getMonth_desc2());
+            if("0".equals(vo.getMonth())){
+                holder.tv_mouth.setTextColor(Color.parseColor("#FF6469"));  
+            }else{
+                holder.tv_mouth.setTextColor(Color.parseColor("#333333"));  
+            }
             holder.ll_child_container.removeAllViews();
             if(!Utils.isEmpty(vo.getList())){
                 for(final VaccineVo.VaccineChildVo child:vo.getList()){

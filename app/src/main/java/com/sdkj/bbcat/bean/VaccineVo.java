@@ -9,6 +9,25 @@ import java.util.List;
 public class VaccineVo implements Serializable{
     private String month;
     
+    private String month_desc1;
+    private String month_desc2;
+
+    public String getMonth_desc1() {
+        return month_desc1;
+    }
+
+    public void setMonth_desc1(String month_desc1) {
+        this.month_desc1 = month_desc1;
+    }
+
+    public String getMonth_desc2() {
+        return month_desc2;
+    }
+
+    public void setMonth_desc2(String month_desc2) {
+        this.month_desc2 = month_desc2;
+    }
+
     private List<VaccineChildVo> list;
 
     public String getMonth() {
