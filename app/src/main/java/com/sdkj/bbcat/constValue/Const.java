@@ -272,4 +272,8 @@ public class Const
      * 获取区域
      */
     public static final String GET_CITY = DOMAIN + "index/district";
+    /**
+     * 设置疫苗是否已打
+     */
+    public static final String SET_VACCINE= DOMAIN + "Baby/vacLog";
 }
