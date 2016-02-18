@@ -12,7 +12,7 @@
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:background="@android:color/transparent"
-    android:button="@drawable/em_checkbox_bg_selector"
+    android:button="@drawable/vaccine_check_box"
     android:clickable="false"
     android:enabled="false"
     />
