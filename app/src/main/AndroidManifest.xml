@@ -24,6 +24,15 @@
                 android:protectionLevel="signature"/>
     <uses-permission android:name="com.sdkj.bbcat.permission.C2D_MESSAGE"/>
 
+
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false"/>/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <permission android:name="com.sdkj.bbcat.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.sdkj.bbcat.permission.C2D_MESSAGE" />
+    
     <application
         android:name=".BbcatApp"
         android:allowBackup="true"
@@ -357,6 +366,8 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
+			       <service android:name=".BluetoothBle.BleIn_BService"/>
+        <service android:name=".BluetoothBle.BleIn_DActionService"/>
         <!-- 友盟配置-->
         <meta-data android:name="UMENG_APPKEY" android:value="56a58dbce0f55a775d000a4d"></meta-data>
         <meta-data android:name="UMENG_CHANNEL" android:value="Channel ID"/>

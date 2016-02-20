@@ -20,4 +20,9 @@
         <item name="android:windowExitAnimation">@anim/dialoganim_exit</item>
     </style>
 
+    <style name="BlueToothOpenDialogAnim" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/in_onbt</item>
+        <item name="android:windowExitAnimation">@anim/out_onbt</item>
+    </style>
+
 </resources>
