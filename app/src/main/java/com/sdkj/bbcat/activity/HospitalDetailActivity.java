@@ -27,6 +27,7 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
 import com.sdkj.bbcat.activity.doctor.DoctorActActivity;
+import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.bean.HospitalDetailVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
@@ -164,6 +165,10 @@ public class HospitalDetailActivity extends SimpleActivity{
     @OnClick(R.id.rl_bida)
     void bida(View view){
 //        skip(AskActivity.class);
+        if(!SimpleUtils.isLogin(activity)){
+            skip(LoginActivity.class);
+            return;
+        }
         Intent intent = new Intent(getActivity(), ChatActivity.class);
 //        intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_CHATROOM);
         // it's single chat]

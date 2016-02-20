@@ -20,6 +20,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.MoreTagsActivity;
+import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.news.NewsListActivity;
 import com.sdkj.bbcat.adapter.CircleAdapter;
 import com.sdkj.bbcat.bean.CircleVo;
@@ -31,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import de.greenrobot.event.EventBus;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -51,6 +53,7 @@ public class FragmentMycircle extends BaseFragment {
     @Override
     protected void setListener() {
 
+        EventBus.getDefault().register(this);
         adapter=new CircleAdapter(activity,new ArrayList<CircleVo.ItemCircle>());
         list_circle.addFooter(adapter);
         list_circle.setAdapter(adapter);
@@ -94,6 +97,11 @@ public class FragmentMycircle extends BaseFragment {
 
     }
 
+    public void onEventMainThread(DiseaseRecordActivity.RefreshEvent event) {
+        pageNum=1;
+        query(false);
+    }
+    
     private void query(final boolean isFirst) {
 
         final PostParams params = new PostParams();
@@ -153,6 +161,12 @@ public class FragmentMycircle extends BaseFragment {
                 list_circle.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override

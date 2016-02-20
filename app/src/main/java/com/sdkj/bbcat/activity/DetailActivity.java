@@ -1,5 +1,7 @@
 package com.sdkj.bbcat.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
@@ -7,8 +9,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMContactManager;
+import com.easemob.easeui.widget.EaseAlertDialog;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -25,12 +31,17 @@ import com.sdkj.bbcat.bean.CommentVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.hx.DemoHelper;
 import com.sdkj.bbcat.widget.AutoScrollViewPager;
 import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
 
 import java.util.List;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.OnekeyShareTheme;
+import cn.sharesdk.wechat.favorite.WechatFavorite;
 
 public class DetailActivity extends SimpleActivity {
 
@@ -99,7 +110,14 @@ public class DetailActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
-        new TitleBar(activity).setTitle("详情").back();
+        new TitleBar(activity).setTitle("详情").back().showRight("加TA", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(newsVo!=null&&newsVo.getUser_info()!=null){
+                    addContact(newsVo.getUser_info().getMobile());
+                }
+            }
+        });
         ll_comment_bar.setVisibility(View.GONE);
         banner = new AutoScrollViewPager(activity);
 
@@ -273,16 +291,19 @@ public class DetailActivity extends SimpleActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-    }
 
     @OnClick(R.id.ll_zan_bottom)
     void zan(View view) {
         doLike(newsVo, iv_zan_bottom, tv_zan_bottom, tv_zan_add_bottom);
+    }
+    
+    @OnClick(R.id.ll_share_bottom)
+    void share(View view){
+        if(Utils.isEmpty(newsVo.getNews_info().getMulti_cover())){
+            showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(),"");
+        }else {
+            showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(), SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg()));
+        }
     }
 
     @Override
@@ -303,5 +324,74 @@ public class DetailActivity extends SimpleActivity {
                 }
             }
         }
+    }
+
+    public void showShare(Context context, String platformToShare, boolean showContentEdit,String title,String id,String cover) {
+        OnekeyShare oks = new OnekeyShare();
+        oks.setSilent(!showContentEdit);
+        if (platformToShare != null) {
+            oks.setPlatform(platformToShare);
+        }
+        //ShareSDK快捷分享提供两个界面第一个是九宫格 CLASSIC  第二个是SKYBLUE
+        oks.setTheme(OnekeyShareTheme.CLASSIC);
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+        // 在自动授权时可以禁用SSO方式
+        oks.disableSSOWhenAuthorize();
+        oks.addHiddenPlatform(WechatFavorite.NAME);
+        oks.setTitle(title);//分享标题
+        oks.setTitleUrl(Const.SHARE + id);//分享地址
+        oks.setText(title);//分享文本
+        if(!Utils.isEmpty(cover)){
+            oks.setImageUrl(SimpleUtils.getImageUrl(cover));//分享图片
+        }
+        oks.setUrl(Const.SHARE+id); //微信不绕过审核分享链接
+        oks.setComment("分享"); //我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供
+        oks.setSite("咘咘猫");  //QZone分享完之后返回应用时提示框上显示的名称
+        oks.setSiteUrl(Const.SHARE + id);//QZone分享参数
+        oks.setVenueName("咘咘猫");
+        oks.setVenueDescription(title);
+        oks.setShareFromQQAuthSupport(false);
+        oks.show(context);
+    }
+
+    public void addContact(final String mobile){
+        if(EMChatManager.getInstance().getCurrentUser().equals(mobile)){
+            new EaseAlertDialog(this, R.string.not_add_myself).show();
+            return;
+        }
+
+        if(DemoHelper.getInstance().getContactList().containsKey(mobile)){
+            //提示已在好友列表中(在黑名单列表里)，无需添加
+            if(EMContactManager.getInstance().getBlackListUsernames().contains(mobile)){
+                new EaseAlertDialog(this, R.string.user_already_in_contactlist).show();
+                return;
+            }
+            new EaseAlertDialog(this, R.string.This_user_is_already_your_friend).show();
+            return;
+        }
+
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    //demo写死了个reason，实际应该让用户手动填入
+                    String s = getResources().getString(R.string.Add_a_friend);
+                    EMContactManager.getInstance().addContact(mobile, s);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            String s1 = getResources().getString(R.string.send_successful);
+                            Toast.makeText(getApplicationContext(), s1, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (final Exception e) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            String s2 = getResources().getString(R.string.Request_add_buddy_failure);
+                            Toast.makeText(getApplicationContext(), s2 + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }

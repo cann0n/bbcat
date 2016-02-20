@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_info"
+            android:src="@drawable/icon_edit"
             android:layout_marginLeft="10dp"
             />
 
@@ -37,7 +37,7 @@
                 android:layout_marginLeft="1dp"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="我的圈"
+                android:text="妈妈圈"
                 android:textSize="@dimen/font18"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"/>
@@ -87,7 +87,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_edit"
+            android:src="@drawable/icon_new_group"
             android:layout_marginRight="10dp"
             />
     </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.sdkj.bbcat.adapter;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Handler;
 import android.text.Html;
 import android.util.DisplayMetrics;
@@ -34,10 +35,15 @@ import com.sdkj.bbcat.bean.CommentVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.widget.CircleImageView;
 
 import org.json.JSONObject;
 
 import java.util.List;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.OnekeyShareTheme;
+import cn.sharesdk.wechat.favorite.WechatFavorite;
 
 /**
  * Created by ${Rhino} on 2015/12/10 14:24
@@ -95,7 +101,11 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
             holder.ll_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.toast("分享");
+                    if(Utils.isEmpty(newsVo.getNews_info().getMulti_cover())){
+                        showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(),"");
+                    }else {
+                        showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(), SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg()));
+                    }
                 }
             });
 
@@ -220,7 +230,7 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
     public static class ViewHolder extends UltimateRecyclerviewViewHolder {
 
-        ImageView iv_avatar;
+        CircleImageView iv_avatar;
         ImageView iv_thumb;
         TextView tv_name;
         TextView tv_desc;
@@ -330,5 +340,34 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
             }
         });
+    }
+
+    public void showShare(Context context, String platformToShare, boolean showContentEdit,String title,String id,String cover) {
+        OnekeyShare oks = new OnekeyShare();
+        oks.setSilent(!showContentEdit);
+        if (platformToShare != null) {
+            oks.setPlatform(platformToShare);
+        }
+        //ShareSDK快捷分享提供两个界面第一个是九宫格 CLASSIC  第二个是SKYBLUE
+        oks.setTheme(OnekeyShareTheme.CLASSIC);
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+        // 在自动授权时可以禁用SSO方式
+        oks.disableSSOWhenAuthorize();
+        oks.addHiddenPlatform(WechatFavorite.NAME);
+        oks.setTitle(title);//分享标题
+        oks.setTitleUrl(Const.SHARE + id);//分享地址
+        oks.setText(title);//分享文本
+        if(!Utils.isEmpty(cover)){
+            oks.setImageUrl(SimpleUtils.getImageUrl(cover));//分享图片
+        }
+        oks.setUrl(Const.SHARE+id); //微信不绕过审核分享链接
+        oks.setComment("分享"); //我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供
+        oks.setSite("咘咘猫");  //QZone分享完之后返回应用时提示框上显示的名称
+        oks.setSiteUrl(Const.SHARE + id);//QZone分享参数
+        oks.setVenueName("咘咘猫");
+        oks.setVenueDescription(title);
+        oks.setShareFromQQAuthSupport(false);
+        oks.show(context);
     }
 }

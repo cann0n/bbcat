@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_white"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="10dp"
             android:paddingRight="@dimen/theme_margin"
-            android:src="@drawable/icon_back_w" />
+            android:src="@drawable/icon_back_w"/>
 
         <TextView
             android:id="@+id/tv_title"
@@ -30,7 +30,7 @@
             android:gravity="center"
             android:text="医疗在线"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/textview_larger" />
+            android:textSize="@dimen/textview_larger"/>
 
         <ImageView
             android:id="@+id/iv_search"
@@ -39,13 +39,13 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingRight="10dp"
-            android:src="@drawable/icon_search" />
+            android:src="@drawable/icon_search"/>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:background="@color/color_divide" />
+            android:background="@color/color_divide"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -59,24 +59,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/theme_margin"
-                android:src="@drawable/icon_didian" />
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/icon_didian"/>
 
             <TextView
                 android:id="@+id/tv_city_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="3dp"
                 android:gravity="center"
                 android:text="默认"
                 android:textColor="@color/color333"
-                android:textSize="@dimen/textview_min" />
+                android:textSize="@dimen/textview_min"/>
         </LinearLayout>
 
         <View
@@ -84,7 +85,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
-            android:background="#bbb9b6" />
+            android:background="#bbb9b6"/>
 
         <LinearLayout
             android:id="@+id/ll_location"
@@ -102,13 +103,13 @@
                 android:gravity="center"
                 android:text="位置"
                 android:textColor="@color/color333"
-                android:textSize="@dimen/textview_min" />
+                android:textSize="@dimen/textview_min"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/icon_xiala" />
+                android:src="@drawable/icon_xiala"/>
         </LinearLayout>
 
         <View
@@ -116,7 +117,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
-            android:background="#bbb9b6" />
+            android:background="#bbb9b6"/>
 
         <LinearLayout
             android:id="@+id/ll_sort"
@@ -134,13 +135,13 @@
                 android:gravity="center"
                 android:text="排序"
                 android:textColor="@color/color333"
-                android:textSize="@dimen/textview_min" />
+                android:textSize="@dimen/textview_min"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/icon_xiala" />
+                android:src="@drawable/icon_xiala"/>
         </LinearLayout>
 
         <View
@@ -148,7 +149,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
-            android:background="#bbb9b6" />
+            android:background="#bbb9b6"/>
 
         <LinearLayout
             android:id="@+id/ll_type"
@@ -166,13 +167,13 @@
                 android:gravity="center"
                 android:text="分类"
                 android:textColor="@color/color333"
-                android:textSize="@dimen/textview_min" />
+                android:textSize="@dimen/textview_min"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/icon_xiala" />
+                android:src="@drawable/icon_xiala"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -180,20 +181,34 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_divide" />
+        android:background="@color/color_divide"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#f0f0f0" />
+        android:background="#f0f0f0"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_divide" />
-    <com.huaxi100.networkapp.widget.CustomRecyclerView
-        android:id="@+id/hospital_list"
+        android:background="@color/color_divide"/>
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
+        android:layout_height="match_parent">
+        <com.huaxi100.networkapp.widget.CustomRecyclerView
+            android:id="@+id/hospital_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            />
+        <ImageView
+            android:id="@+id/iv_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="100dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/icon_online"
+            android:visibility="gone"/>
+    </FrameLayout>
+
 </LinearLayout>

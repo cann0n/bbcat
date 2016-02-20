@@ -23,10 +23,10 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:padding="12dp">
 
                     <TextView
                         android:id="@+id/sh_bodyfeatures"
@@ -77,6 +77,7 @@
                         android:textColor="@color/color333"
                         android:textSize="@dimen/font14"
                         android:visibility="visible"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -84,41 +85,47 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="12dp"
-                    android:visibility="gone">
+                    >
 
                     <TextView
+                        android:id="@+id/tv_record"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/sh_green"
+                        android:drawableTop="@drawable/sh_yufang"
                         android:gravity="center_horizontal"
-                        android:text="预防接种"
+                        android:text="疾病记录"
                         android:textColor="@color/color333"
-                        android:textSize="@dimen/font14"/>
+                        android:textSize="@dimen/font14"
+                        />
 
                     <TextView
+                        android:id="@+id/tv_foods"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/sh_blue"
+                        android:drawableTop="@drawable/sh_yufang"
                         android:gravity="center_horizontal"
-                        android:text="预防接种"
+                        android:text="宝宝辅食"
                         android:textColor="@color/color333"
-                        android:textSize="@dimen/font14"/>
+                        android:textSize="@dimen/font14"
+                        />
 
                     <TextView
+                        android:id="@+id/tv_vaccine"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawablePadding="10dp"
                         android:drawableTop="@drawable/sh_red"
                         android:gravity="center_horizontal"
-                        android:text="预防接种"
+                        android:text="疫苗记录"
                         android:textColor="@color/color333"
                         android:textSize="@dimen/font14"
-                        android:visibility="visible"/>
+                        android:visibility="gone"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -130,7 +137,7 @@
                         android:text="预防接种"
                         android:textColor="@color/color333"
                         android:textSize="@dimen/font14"
-                        android:visibility="visible"/>
+                        android:visibility="invisible"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -317,135 +324,135 @@
                 </LinearLayout>
             </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/sh_babynotequanall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="#F6F6F6"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/defaultbg_gray"/>
-
-            <TextView
-                android:id="@+id/sh_bbrj"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
-                android:drawableRight="@drawable/icon_more"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                android:text="宝宝日记"
-                android:textColor="@color/color_gray"
-                android:textSize="@dimen/font16"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/defaultbg_gray"/>
-
             <LinearLayout
-                android:id="@+id/sh_bbrjll"
+                android:id="@+id/sh_babynotequanall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_white"
-                android:orientation="vertical"/>
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:background="#F6F6F6"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/defaultbg_gray"/>
+
+                <TextView
+                    android:id="@+id/sh_bbrj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/icon_more"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:text="宝宝日记"
+                    android:textColor="@color/color_gray"
+                    android:textSize="@dimen/font16"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/defaultbg_gray"/>
+
+                <LinearLayout
+                    android:id="@+id/sh_bbrjll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_white"
+                    android:orientation="vertical"/>
 
             </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/sh_feednotequanall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="#F6F6F6"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/defaultbg_gray"/>
-
-            <TextView
-                android:id="@+id/sh_wyjl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
-                android:drawableRight="@drawable/icon_more"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                android:text="喂养记录"
-                android:textColor="@color/color_gray"
-                android:textSize="@dimen/font16"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/defaultbg_gray"/>
-
-
             <LinearLayout
-                android:id="@+id/sh_wyjlll"
+                android:id="@+id/sh_feednotequanall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_white"
-                android:orientation="vertical"/>
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:background="#F6F6F6"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/defaultbg_gray"/>
+
+                <TextView
+                    android:id="@+id/sh_wyjl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/icon_more"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:text="喂养记录"
+                    android:textColor="@color/color_gray"
+                    android:textSize="@dimen/font16"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/defaultbg_gray"/>
+
+
+                <LinearLayout
+                    android:id="@+id/sh_wyjlll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_white"
+                    android:orientation="vertical"/>
             </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/sh_inoculationquanall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="#F6F6F6"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/defaultbg_gray"/>
-
-            <TextView
-                android:id="@+id/sh_yfjz"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
-                android:drawableRight="@drawable/icon_more"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                android:text="预防接种"
-                android:textColor="@color/color_gray"
-                android:textSize="@dimen/font16"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/defaultbg_gray"/>
-
             <LinearLayout
-                android:id="@+id/sh_yfjzll"
+                android:id="@+id/sh_inoculationquanall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_white"
-                android:orientation="vertical"/>
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:background="#F6F6F6"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/defaultbg_gray"/>
+
+                <TextView
+                    android:id="@+id/sh_yfjz"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/icon_more"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:text="预防接种"
+                    android:textColor="@color/color_gray"
+                    android:textSize="@dimen/font16"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/defaultbg_gray"/>
+
+                <LinearLayout
+                    android:id="@+id/sh_yfjzll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_white"
+                    android:orientation="vertical"/>
             </LinearLayout>
 
             <View

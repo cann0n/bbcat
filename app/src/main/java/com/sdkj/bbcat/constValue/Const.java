@@ -55,6 +55,11 @@ public class Const
     public static final String CATEGORY_LIST=DOMAIN+"index/lists";
 
     /**
+     * 育儿知识首页
+     */
+    public static final String NEWS_LIST=DOMAIN+"child/index";
+
+    /**
      * 医院列表
      */
     public static final String HOSPITAL_LIST=DOMAIN+"/Hospital/index";
@@ -93,6 +98,11 @@ public class Const
      * 发布动态获取tag
      */
     public static final String GET_TAGS=DOMAIN+"/circle/getTags";
+
+    /**
+     * 热门标签
+     */
+    public static final String HOT_TAGS=DOMAIN+"/circle/hotTagsAll";
 
     /**
      * 点赞
@@ -203,4 +213,67 @@ public class Const
      * 搜索栏热门词语
      */
     public static final String SearchContent = DOMAIN + "index/search";
+
+    /**
+     * 第三方登录
+     */
+    public static final String THIRD_LOGIN = DOMAIN + "user/thirdLogin";
+
+    /**
+     * 获取用户统计数据
+     */
+    public static final String USER_INFO = DOMAIN + "user/getUserStat";
+    /**
+     * 分享
+     */
+    public static final String SHARE = DOMAIN + "circle/share/id/";
+
+    /**
+     * 获取所有群组
+     */
+    public static final String GET_GROUPS = DOMAIN + "webim/getAllGroup";
+
+    /**
+     * 获取所有聊天室
+     */
+    public static final String GET_ROOMS= DOMAIN + "webim/getAllChatroom";
+
+    /**
+     * 获取宝宝日记
+     */
+    public static final String NOTE_LIST = DOMAIN + "circle/lists";
+
+    /**
+     * 疫苗记录
+     */
+    public static final String VACCINE_LIST = DOMAIN + "Baby/vac";
+
+    /**
+     * 我的关注
+     */
+    public static final String MY_FOLLOWS = DOMAIN + "user/myFollows";
+
+    /**
+     * 我的收藏
+     */
+    public static final String MY_COLLECT = DOMAIN + "index/myCollections";
+
+    /**
+     * 宝宝辅食
+     */
+    public static final String BABY_FOODS = IMAGE_DOMAIN + "baby/food/index";
+
+    /**
+     * 在线咨询
+     */
+    public static final String ONLINE_FAQ = DOMAIN + "index/questions";
+
+    /**
+     * 获取区域
+     */
+    public static final String GET_CITY = DOMAIN + "index/district";
+    /**
+     * 设置疫苗是否已打
+     */
+    public static final String SET_VACCINE= DOMAIN + "Baby/vacLog";
 }

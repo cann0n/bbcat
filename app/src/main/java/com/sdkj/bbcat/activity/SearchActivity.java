@@ -19,6 +19,7 @@ import com.sdkj.bbcat.adapter.ArticleAdapter;
 import com.sdkj.bbcat.adapter.TagBaseAdapter;
 import com.sdkj.bbcat.bean.CircleTagVo;
 import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.bean.SearchTagVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.widget.TagCloudLayout;
@@ -30,62 +31,55 @@ import java.util.List;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
-public class SearchActivity extends SimpleActivity
-{
+public class SearchActivity extends SimpleActivity {
     @ViewInject(R.id.et_search)
-    private EditText  mEt;
+    private EditText mEt;
     @ViewInject(R.id.iv_search)
     private ImageView mSearch;
     @ViewInject(R.id.tagcontainer)
     private TagCloudLayout mTagLayout;
     private TagBaseAdapter mTagAdapter;
-    private List<String> mTagListData;
+    private List<SearchTagVo> mTagListData;
     @ViewInject(R.id.ultimate_recycler_view)
     private CustomRecyclerView listView;
-    private ArticleAdapter     adapter;
+    private ArticleAdapter adapter;
     private int pageNum = 1;
 
     @OnClick(R.id.iv_back)
-    void back(View view)
-    {
+    void back(View view) {
         finish();
     }
 
-    public int setLayoutResID()
-    {
+    public int setLayoutResID() {
         return R.layout.activity_search;
     }
 
-    public void initBusiness()
-    {
+    public void initBusiness() {
         mTagListData = new ArrayList<>();
-        mTagAdapter = new TagBaseAdapter(this,mTagListData);
+        mTagAdapter = new TagBaseAdapter(this, mTagListData);
         mTagLayout.setAdapter(mTagAdapter);
 
         /**请求热门词汇*/
         final PostParams params = new PostParams();
         params.put("category_id", "4");
 
-        HttpUtils.postJSONObject(activity, Const.GetHotChar,SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
-        {
-            public void getResp(JSONObject jsonObject)
-            {
+        HttpUtils.postJSONObject(activity, Const.GetHotChar, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+            public void getResp(JSONObject jsonObject) {
                 dismissDialog();
-                RespVo<String> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                if (respVo.isSuccess())
-                {
-                    List<String> hotCharList = respVo.getListData(jsonObject, String.class);
+                RespVo<SearchTagVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    List<SearchTagVo> hotCharList = respVo.getListData(jsonObject, SearchTagVo.class);
                     mTagListData.addAll(hotCharList);
-                    if(mTagListData.size() == 0)
-                        mTagListData.add(new String("暂无热门搜索标签"));
+                    if (mTagListData.size() == 0) {
+                        SearchTagVo vo = new SearchTagVo();
+                        vo.setKeyword("暂无热门搜索标签");
+                        mTagListData.add(vo);
+                    }
                     mTagAdapter.notifyDataSetChanged();
-                }
-                else
-                    activity.toast(respVo.getMessage());
+                } else activity.toast(respVo.getMessage());
             }
 
-            public void doFailed()
-            {
+            public void doFailed() {
                 dismissDialog();
                 activity.toast("链接服务器失败");
             }
@@ -97,21 +91,16 @@ public class SearchActivity extends SimpleActivity
         listView.setNoMoreData();
         listView.setRefreshHeaderMode(listView.MODE_CLASSICDEFAULT_HEADER);
         listView.setLayoutManager(new LinearLayoutManager(activity));
-        listView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener()
-        {
-            public void loadMore(int i, int i1)
-            {
-                if (listView.canLoadMore())
-                {
+        listView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+            public void loadMore(int i, int i1) {
+                if (listView.canLoadMore()) {
                     btnDoing();
                 }
             }
         });
 
-        listView.setOnCustomRefreshListener(new CustomRecyclerView.OnCustomRefreshListener()
-        {
-            public void OnCustomRefresh(PtrFrameLayout frame)
-            {
+        listView.setOnCustomRefreshListener(new CustomRecyclerView.OnCustomRefreshListener() {
+            public void OnCustomRefresh(PtrFrameLayout frame) {
                /* pageNum = 1;*/
                 btnDoing();
             }
@@ -119,42 +108,33 @@ public class SearchActivity extends SimpleActivity
 
         btnDoing();
 
-        mSearch.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 btnDoing();
             }
         });
 
-        mTagLayout.setItemClickListener(new TagCloudLayout.TagItemClickListener()
-        {
-            public void itemClick(int position)
-            {
-                if (! mTagListData.get(position).equals("暂无热门搜索标签"))
-                {
-                    mEt.setText(mTagListData.get(position));
+        mTagLayout.setItemClickListener(new TagCloudLayout.TagItemClickListener() {
+            public void itemClick(int position) {
+                if (!mTagListData.get(position).equals("暂无热门搜索标签")) {
+                    mEt.setText(mTagListData.get(position).getKeyword());
                     btnDoing();
                 }
             }
         });
     }
 
-    private void btnDoing()
-    {
+    private void btnDoing() {
         showDialog();
         PostParams params = new PostParams();
         params.put("category_id", "4");
-        params.put("keyword",mEt.getText().toString().trim());
+        params.put("keyword", mEt.getText().toString().trim());
 
-        HttpUtils.postJSONObject(activity, Const.SearchContent, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
-        {
-            public void getResp(JSONObject jsonObject)
-            {
+        HttpUtils.postJSONObject(activity, Const.SearchContent, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+            public void getResp(JSONObject jsonObject) {
                 dismissDialog();
                 RespVo<CircleTagVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                if (respVo.isSuccess())
-                {
+                if (respVo.isSuccess()) {
                     List<CircleTagVo> allData = respVo.getListData(jsonObject, CircleTagVo.class);
                     adapter.removeAll();
                     adapter.addItems(allData);
@@ -178,16 +158,12 @@ public class SearchActivity extends SimpleActivity
                         adapter.addItems(data);
                     }
                     pageNum++;*/
-                }
-
-                else
-                {
+                } else {
                     activity.toast(respVo.getMessage());
                 }
             }
 
-            public void doFailed()
-            {
+            public void doFailed() {
                 toast("查询失败");
                 dismissDialog();
                 listView.setRefreshing(false);

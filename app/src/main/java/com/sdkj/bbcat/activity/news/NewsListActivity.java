@@ -29,7 +29,7 @@ import java.util.List;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
- * 咨询列表
+ *
  */
 
 public class NewsListActivity extends SimpleActivity {

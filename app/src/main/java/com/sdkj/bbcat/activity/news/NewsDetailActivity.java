@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.activity.news;
 
+import android.content.Context;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -26,6 +27,10 @@ import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
 
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.OnekeyShareTheme;
+import cn.sharesdk.wechat.favorite.WechatFavorite;
+
 /**
  * Created by Administrator on 2015/12/26 0026.
  * 咨询详情
@@ -50,15 +55,15 @@ public class NewsDetailActivity extends SimpleActivity {
 
     public static String tempContent = null;
 
-    private NewsVo vo;
+    private String id;
+
+    NewsDetailVo vo;
 
     @Override
     public void initBusiness() {
         new TitleBar(activity).back().setTitle("详情");
         web_view.getSettings().setJavaScriptEnabled(true);
-//        web_view.getSettings().setUseWideViewPort(true);
-//        web_view.getSettings().setLoadWithOverviewMode(true);
-        
+
         web_view.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         web_view.setScrollContainer(true);
         web_view.setWebChromeClient(new WebChromeClient());
@@ -69,19 +74,14 @@ public class NewsDetailActivity extends SimpleActivity {
         } else {
             web_view.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
-   
-
         web_view.setWebViewClient(new WebViewClient() {
         });
 
-        vo = (NewsVo) getVo("0");
+        id = (String) getVo("0");
 
-        tv_count.setText(vo.getView());
-        tv_come_form.setText(vo.getCategory_name());
-        tv_title.setText(vo.getTitle());
         PostParams params = new PostParams();
-        params.put("news_id", vo.getId());
-        params.put("w", (AppUtils.getWidth(activity)-30)+"");
+        params.put("news_id", id);
+        params.put("w", (AppUtils.getWidth(activity) - 30) + "");
         showDialog();
         HttpUtils.postJSONObject(activity, Const.NEWS_DETAIL, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
             @Override
@@ -89,7 +89,10 @@ public class NewsDetailActivity extends SimpleActivity {
                 dismissDialog();
                 RespVo<NewsDetailVo> respVo = GsonTools.getVo(obj.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
-                    NewsDetailVo vo = respVo.getData(obj, NewsDetailVo.class);
+                     vo = respVo.getData(obj, NewsDetailVo.class);
+                    tv_count.setText(vo.getView());
+                    tv_come_form.setText(vo.getCategory_name());
+                    tv_title.setText(vo.getTitle());
                     web_view.loadDataWithBaseURL(null, String.format(tempContent, vo.getDetail()), "text/html", "utf-8", null);
                     if ("0".equals(vo.getIs_collected())) {
                         tv_collect.setText("收藏");
@@ -111,13 +114,13 @@ public class NewsDetailActivity extends SimpleActivity {
 
     @OnClick(R.id.ll_share)
     void share(View view) {
-        toast("分享");
+        showShare(activity,null,false);
     }
 
     @OnClick(R.id.ll_collect)
     void collect(View view) {
         if (SimpleUtils.isLogin(activity)) {
-            doLike(vo.getId());
+            doLike(id);
         } else {
             activity.skip(LoginActivity.class);
         }
@@ -151,6 +154,36 @@ public class NewsDetailActivity extends SimpleActivity {
         });
     }
 
+    public void showShare(Context context, String platformToShare, boolean showContentEdit) {
+        if(vo==null){
+            return;
+        }
+        OnekeyShare oks = new OnekeyShare();
+        oks.setSilent(!showContentEdit);
+        if (platformToShare != null) {
+            oks.setPlatform(platformToShare);
+        }
+        //ShareSDK快捷分享提供两个界面第一个是九宫格 CLASSIC  第二个是SKYBLUE
+        oks.setTheme(OnekeyShareTheme.CLASSIC);
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+        // 在自动授权时可以禁用SSO方式
+        oks.disableSSOWhenAuthorize();
+        oks.addHiddenPlatform(WechatFavorite.NAME);
+        oks.setTitle(vo.getTitle());//分享标题
+        oks.setTitleUrl(Const.SHARE+vo.getId());//分享地址
+        oks.setText(vo.getTitle());//分享文本
+        oks.setImageUrl(SimpleUtils.getImageUrl(vo.getCover()));//分享图片
+        oks.setUrl(Const.SHARE+vo.getId()); //微信不绕过审核分享链接
+        oks.setComment("分享"); //我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供
+        oks.setSite("咘咘猫");  //QZone分享完之后返回应用时提示框上显示的名称
+        oks.setSiteUrl(Const.SHARE+vo.getId());//QZone分享参数
+        oks.setVenueName("咘咘猫");
+        oks.setVenueDescription(vo.getTitle());
+        oks.setShareFromQQAuthSupport(false);
+        oks.show(context);
+    }
+    
     @Override
     public int setLayoutResID() {
         return R.layout.activity_news_detail;

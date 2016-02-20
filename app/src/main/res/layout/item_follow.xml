@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <!-- 自行换为圆形imageview-->
+       <com.sdkj.bbcat.widget.CircleImageView
+           android:id="@+id/iv_avatar"
+           android:layout_width="55dp"
+           android:layout_height="55dp"
+           android:layout_centerVertical="true"
+           android:layout_marginLeft="10dp"
+           android:layout_marginRight="10dp"
+           android:src="@drawable/icon_default_image"
+           />
+        <RelativeLayout
+            android:id="@+id/rl_main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:paddingTop="@dimen/theme_margin">
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textview_middle"
+                android:textColor="@color/color333"
+                android:layout_marginRight="10dp"
+                android:text="宝妈俱乐部"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+        <!-- 已加入background @drawable/bg_btn_yiguanzhu-->
+        <TextView
+            android:id="@+id/tv_jiaru"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/textview_xmin"
+            android:textColor="@color/color_green"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@drawable/bg_btn_guanzhu"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="取消关注"/>
+       
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_divide"/>
+    </RelativeLayout>
+</LinearLayout>

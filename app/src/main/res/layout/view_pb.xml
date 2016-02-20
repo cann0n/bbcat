@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rl_loading"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@android:color/transparent"
+    >
+
+    <ProgressBar
+        android:id="@+id/customProgressBar"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="false"
+        android:indeterminateDrawable="@anim/pb_anim"
+        android:oneshot="false"
+        />
+</RelativeLayout><!-- From: file:/E:/easyapp/networkapp/src/main/res/layout/view_loading.xml -->

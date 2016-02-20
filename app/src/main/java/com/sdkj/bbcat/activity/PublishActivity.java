@@ -30,6 +30,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.bean.CircleTagVo;
 import com.sdkj.bbcat.bean.RespVo;
@@ -76,6 +77,7 @@ import java.util.Set;
 import cn.finalteam.galleryfinal.GalleryConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
+import de.greenrobot.event.EventBus;
 
 public class PublishActivity extends SimpleActivity {
     @ViewInject(R.id.rl_label)
@@ -160,7 +162,7 @@ public class PublishActivity extends SimpleActivity {
                 RespVo<UploadFileVo> resp = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (resp.isSuccess()) {
                     UploadFileVo fileVo = resp.getData(jsonObject, UploadFileVo.class);
-                    ids.put(path, fileVo.getId() + "");
+                    ids.put(fileVo.getId() + "", fileVo.getId() + "");
                     int width = (AppUtils.getWidth(activity) - 80) / 3;
                     View view = makeView(R.layout.item_photo);
                     ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
@@ -169,7 +171,10 @@ public class PublishActivity extends SimpleActivity {
                     view.setLayoutParams(lp);
                     view.setTag(path);
                     iv_image.setImageBitmap(Utils.getLoacalBitmap(path));
-                    fl_pics.addView(view,0);
+                    fl_pics.addView(view, 0);
+                    if (fl_pics.getChildCount() == 4) {
+                        fl_pics.removeViewAt(3);
+                    }
                 } else {
                     toast("获取图片失败,请重试");
                 }
@@ -189,7 +194,21 @@ public class PublishActivity extends SimpleActivity {
         if (Utils.isEmpty(tags)) {
             queryLabel();
             return;
+        } else {
+            CircleTagVo tag1 = new CircleTagVo();
+            tag1.setTitle("普通日记");
+            tag1.setType("1");
+//            CircleTagVo tag2 = new CircleTagVo();
+//            tag2.setTitle("宝宝第一次");
+//            tag2.setType("2");
+            CircleTagVo tag3 = new CircleTagVo();
+            tag3.setTitle("疾病记录");
+            tag3.setType("3");
+            tags.add(tag1);
+//            tags.add(tag2);
+            tags.add(tag3);
         }
+
         if (popupView == null) {
             popupView = makeView(R.layout.pupopwindow_selectlabel);
             Rect rect = new Rect();
@@ -214,14 +233,18 @@ public class PublishActivity extends SimpleActivity {
                 }
             });
             tv_submit.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View arg0) {
                     tv_label.setText(tags.get(selectLabelIndex).getTitle());
-                    tv_label.setTag(tags.get(selectLabelIndex).getId());
+                    if (Utils.isEmpty(tags.get(selectLabelIndex).getId())) {
+                        tv_label.setTag(R.id.tag_first, tags.get(selectLabelIndex).getType());
+                    } else {
+                        tv_label.setTag(R.id.tag_two, tags.get(selectLabelIndex).getId());
+                    }
                     popupWindow.dismiss();
                 }
             });
+
             window.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -298,7 +321,7 @@ public class PublishActivity extends SimpleActivity {
             toast("请输入内容");
             return;
         }
-        if (tv_label.getTag() == null) {
+        if (tv_label.getTag(R.id.tag_first) == null && tv_label.getTag(R.id.tag_two) == null) {
             toast("请选择标签");
             return;
         }
@@ -311,7 +334,15 @@ public class PublishActivity extends SimpleActivity {
         params.put("title", et_title.getText().toString());
         params.put("content", et_content.getText().toString());
         params.put("address", tv_address.getText().toString());
-        params.put("category_id", tv_label.getTag().toString());//标签id
+        params.put("private", "0");//标签id
+        if (tv_label.getTag(R.id.tag_two) != null) {
+            params.put("category_id", tv_label.getTag(R.id.tag_two).toString());//标签id
+        }
+        if (tv_label.getTag(R.id.tag_first) != null) {
+            params.put("type", tv_label.getTag(R.id.tag_first).toString());//标签id
+            params.put("category_id", "2");//标签id
+            params.put("private", "1");//标签id
+        }
 
         String pics = "";
         Set keys = ids.keySet();
@@ -334,6 +365,7 @@ public class PublishActivity extends SimpleActivity {
                 RespVo respVo = GsonTools.getVo(obj.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
                     toast("动态已发布");
+                    EventBus.getDefault().post(new DiseaseRecordActivity.RefreshEvent());
                     finish();
                 } else {
                     toast(respVo.getMessage());

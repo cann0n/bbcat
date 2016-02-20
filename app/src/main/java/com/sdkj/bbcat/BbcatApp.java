@@ -3,6 +3,7 @@ package com.sdkj.bbcat;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.support.multidex.MultiDex;
 import android.widget.Toast;
 
 import com.easemob.EMCallBack;
@@ -33,6 +34,7 @@ public class BbcatApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
         int pid = android.os.Process.myPid();
         String processAppName = getAppName(pid);
         if (processAppName == null ||!processAppName.equalsIgnoreCase("com.sdkj.bbcat")) {

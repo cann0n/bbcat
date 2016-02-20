@@ -99,6 +99,16 @@ public class CircleVo {
             
             private String uid;
 
+            private String mobile;
+
+            public String getMobile() {
+                return mobile;
+            }
+
+            public void setMobile(String mobile) {
+                this.mobile = mobile;
+            }
+            
             public String getUid() {
                 return uid;
             }
@@ -151,7 +161,21 @@ public class CircleVo {
             private String color;
             private String category_name;
             
+            /**
+             * position = 4置顶,position = 2 精华
+             */
+            private String position;
+            
+            
             private List<Cover> multi_cover;
+
+            public String getPosition() {
+                return position;
+            }
+
+            public void setPosition(String position) {
+                this.position = position;
+            }
 
             public List<Cover> getMulti_cover() {
                 return multi_cover;

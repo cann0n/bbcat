@@ -309,4 +309,7 @@
     <string name="group_owner">群主：</string>
 
     <string name="tag_text">tag</string>
+
+    <item type="id" name="tag_first"></item>
+    <item type="id" name="tag_two"></item>
 </resources>

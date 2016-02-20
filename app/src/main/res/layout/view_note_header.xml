@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFF6F6F6"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+
+    <TextView
+        android:id="@+id/tv_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="6dp"
+        android:drawableTop="@drawable/babyputong"
+        android:gravity="center_horizontal"
+        android:text="普通日记"
+        android:textColor="@color/color333"
+        android:textSize="@dimen/font14"/>
+
+
+    <TextView
+        android:id="@+id/tv_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="6dp"
+        android:drawableTop="@drawable/babydiyici"
+        android:gravity="center_horizontal"
+        android:text="宝宝第一次"
+        android:textColor="@color/color333"
+        android:textSize="@dimen/font14"/>
+
+</LinearLayout>

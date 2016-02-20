@@ -1,6 +1,7 @@
 package com.sdkj.bbcat;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.utils.SpUtil;
@@ -10,6 +11,7 @@ import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.fragment.BraceletPage;
 import com.sdkj.bbcat.fragment.CommunityPage;
+import com.sdkj.bbcat.fragment.FragmentMine;
 import com.sdkj.bbcat.fragment.HomePage;
 import com.sdkj.bbcat.fragment.NewsPage;
 
@@ -26,6 +28,7 @@ public class MainActivity extends TabUiActivity {
         names.add("育儿知识");
         names.add("手环");
         names.add("我的圈圈");
+        names.add("个人中心");
         return names;
     }
 
@@ -36,6 +39,7 @@ public class MainActivity extends TabUiActivity {
         icons.add(R.drawable.icon_class_pressed);
         icons.add(R.drawable.icon_msg_pressed);
         icons.add(R.drawable.icon_myself_pressed);
+        icons.add(R.drawable.icon_info_press);
         return icons;
     }
 
@@ -46,6 +50,7 @@ public class MainActivity extends TabUiActivity {
         icons.add(R.drawable.icon_class);
         icons.add(R.drawable.icon_msg);
         icons.add(R.drawable.icon_myself);
+        icons.add(R.drawable.icon_people);
         return icons;
     }
 
@@ -81,17 +86,15 @@ public class MainActivity extends TabUiActivity {
 
     @Override
     public BaseFragment initPage5() {
-        return null;
+        return new FragmentMine();
     }
 
     @Override
-    public void initBusiness()
-    {
+    public void initBusiness() {
         super.initBusiness();
-        if(SimpleUtils.isLogin(activity))
-        {
+        if (SimpleUtils.isLogin(activity)) {
             UserInfosBean infosBean = new UserInfosBean();
-            SpUtil sp_login =  new SpUtil(activity,Const.SP_NAME);
+            SpUtil sp_login = new SpUtil(activity, Const.SP_NAME);
             infosBean.setBirthday(sp_login.getStringValue("birthday"));
             infosBean.setNickname(sp_login.getStringValue(Const.NICKNAME));
             infosBean.setSex(sp_login.getStringValue("sex"));
@@ -101,18 +104,42 @@ public class MainActivity extends TabUiActivity {
             bean.setUserInfo(infosBean);
             bean.setToken(sp_login.getStringValue(Const.TOKEN));
             bean.setUid(sp_login.getStringValue(Const.UID));
-            ((BbcatApp)getApplication()).setmUser(bean);
+            ((BbcatApp) getApplication()).setmUser(bean);
         }
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
+    protected void onSaveInstanceState(Bundle outState) {
 
     }
 
     @Override
     public void switchFragment(int viewId) {
         super.switchFragment(viewId);
+    }
+
+    private long firstTime = 0;
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                long secondTime = System.currentTimeMillis();
+                if (secondTime - firstTime > 2000) {
+                    toast("再按一次退出程序");
+                    firstTime = secondTime;
+                    return true;
+                } else {
+                    try {
+                        BbcatApp app = (BbcatApp) getApplication();
+                        app.finishAll();
+                        finish();
+                    } catch (Exception ex) {
+                    
+                    }
+                }
+                break;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }
