@@ -10,6 +10,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/sdkj/bbcat/BluetoothBle/BleOut_CResponseClass.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/sdkj/bbcat/BluetoothBle/BleOut_DConstructData.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/sdkj/bbcat/adapter/DeviceListAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/sdkj/bbcat/fragment/FragmentBracelet.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

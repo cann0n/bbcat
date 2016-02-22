@@ -81,8 +81,8 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
     protected void setListener()
     {
         EventBus.getDefault().register(this);
-        Intent sIntent= new Intent(activity,BleIn_BService.class);
-        activity.bindService(sIntent, mConnect, Context.BIND_AUTO_CREATE);
+//        Intent sIntent= new Intent(activity,BleIn_BService.class);
+//        activity.bindService(sIntent, mConnect, Context.BIND_AUTO_CREATE);
         queryData();
         mScanBraceletBtn.setOnClickListener(this);
     }
@@ -108,7 +108,7 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                             tv_count.setText(newsVo.getView() + "");
                             view.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View view) {
-                                    activity.skip(NewsDetailActivity.class, newsVo);
+                                    activity.skip(NewsDetailActivity.class, newsVo.getId());
                                 }
                             });
                             view.setBackgroundResource(R.color.color_white);
@@ -128,47 +128,47 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
     {
         if(v == mScanBraceletBtn)
         {
-            if (mScanBraceletBtn.getText().toString().trim().equals("É¨ÃèÊÖ»·"))
-                mBinder.startSearchDevices(activity, "…ù…ùÃ¨ÇëÇó´ò¿ªÀ¶ÑÀÉè±¸", null);
-            else if (mScanBraceletBtn.getText().toString().trim().equals("Í£Ö¹É¨Ãè"))
+            if (mScanBraceletBtn.getText().toString().trim().equals("æ‰«ææ‰‹ç¯"))
+                mBinder.startSearchDevices(activity, "å’˜å’˜çŒ«è¯·æ±‚æ‰“å¼€è“ç‰™è®¾å¤‡", null);
+            else if (mScanBraceletBtn.getText().toString().trim().equals("åœæ­¢æ‰«æ"))
                 mBinder.stopSearchDevices();
-            else if (mScanBraceletBtn.getText().toString().trim().equals("¶Ï¿ªÁ¬½Ó"))
+            else if (mScanBraceletBtn.getText().toString().trim().equals("æ–­å¼€è¿æ¥"))
                 mBinder.disConDevice();
-            else if (mScanBraceletBtn.getText().toString().trim().equals("Í£Ö¹ÖØÁ¬"))
+            else if (mScanBraceletBtn.getText().toString().trim().equals("åœæ­¢é‡è¿"))
             {
                 mBinder.stopReConDevice();
-                mScanBraceletState.setText("Î´Á¬½Ó");
-                mScanBraceletBtn.setText("É¨ÃèÊÖ»·");
+                mScanBraceletState.setText("æœªè¿æ¥");
+                mScanBraceletBtn.setText("æ‰«ææ‰‹ç¯");
             }
         }
     }
 
     public void onEventMainThread(BleOut_CResponseClass.BeginSearchBleBtClazz bsb)
     {
-        mScanBraceletState.setText("Î´Á¬½Ó");
-        mScanBraceletBtn.setText("Í£Ö¹É¨Ãè");
+        mScanBraceletState.setText("æœªè¿æ¥");
+        mScanBraceletBtn.setText("åœæ­¢æ‰«æ");
     }
 
     public void onEventMainThread(BleOut_CResponseClass.FinishSearchBleBtClazz fsb)
     {
-        mScanBraceletState.setText("Î´Á¬½Ó");
-        mScanBraceletBtn.setText("É¨ÃèÊÖ»·");
+        mScanBraceletState.setText("æœªè¿æ¥");
+        mScanBraceletBtn.setText("æ‰«ææ‰‹ç¯");
     }
 
     private Boolean isConnectingDevice;
     public void onEventMainThread(final BleOut_CResponseClass.CompleteSearchBleBtClazz csb)
     {
-        mScanBraceletState.setText("Î´Á¬½Ó");
+        mScanBraceletState.setText("æœªè¿æ¥");
         if(csb.getDeviceList().size() == 0)
         {
-            mScanBraceletBtn.setText("É¨ÃèÊÖ»·");
-            Toast.makeText(activity,"Ã»ÓĞÉ¨Ãèµ½ÈÎºÎÏà¹ØÉè±¸,ÇëÖØĞÂÉ¨Ãè£¡",Toast.LENGTH_LONG).show();
+            mScanBraceletBtn.setText("æ‰«ææ‰‹ç¯");
+            Toast.makeText(activity,"æ²¡æœ‰æ‰«æåˆ°ä»»ä½•ç›¸å…³è®¾å¤‡,è¯·é‡æ–°æ‰«æï¼",Toast.LENGTH_LONG).show();
         }
         else
         {
             isConnectingDevice= false;
-            mScanBraceletBtn.setText("É¨ÃèÍê³É");
-            Toast.makeText(activity,"ÇëÑ¡ÔñÒ»¿îÉ¨Ãè³öµÄÔ¶¶ËÉè±¸À´½øĞĞÁ¬½Ó£¡",Toast.LENGTH_LONG).show();
+            mScanBraceletBtn.setText("æ‰«æå®Œæˆ");
+            Toast.makeText(activity,"è¯·é€‰æ‹©ä¸€æ¬¾æ‰«æå‡ºçš„è¿œç«¯è®¾å¤‡æ¥è¿›è¡Œè¿æ¥ï¼",Toast.LENGTH_LONG).show();
             final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
             alertDialog.setCanceledOnTouchOutside(true);
             alertDialog.show();
@@ -203,7 +203,7 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                 public void onDismiss(DialogInterface dialog)
                 {
                     if(!isConnectingDevice)
-                        mScanBraceletBtn.setText("É¨ÃèÊÖ»·");
+                        mScanBraceletBtn.setText("æ‰«ææ‰‹ç¯");
                 }
             });
         }
@@ -211,44 +211,44 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
 
     public void onEventMainThread(BleOut_CResponseClass.ConnectingBleBtClazz cbb)
     {
-        mScanBraceletState.setText("Î´Á¬½Ó");
-        mScanBraceletBtn.setText("ÕıÔÚÁ¬½Ó");
+        mScanBraceletState.setText("æœªè¿æ¥");
+        mScanBraceletBtn.setText("æ­£åœ¨è¿æ¥");
     }
 
     public void onEventMainThread(BleOut_CResponseClass.ConnectedBleBtClazz cbb)
     {
-        mScanBraceletState.setText("ÒÑÁ¬½Ó");
-        mScanBraceletBtn.setText("¶Ï¿ªÁ¬½Ó");
+        mScanBraceletState.setText("å·²è¿æ¥");
+        mScanBraceletBtn.setText("æ–­å¼€è¿æ¥");
     }
 
     public void onEventMainThread(BleOut_CResponseClass.ConnectedFailBleBtClazz cfb)
     {
-        mScanBraceletState.setText("Î´Á¬½Ó");
-        mScanBraceletBtn.setText("É¨ÃèÊÖ»·");
+        mScanBraceletState.setText("æœªè¿æ¥");
+        mScanBraceletBtn.setText("æ‰«ææ‰‹ç¯");
     }
 
     public void onEventMainThread(BleOut_CResponseClass.DisConnectingBleBtClazz dcb)
     {
-        mScanBraceletState.setText("ÒÑÁ¬½Ó");
-        mScanBraceletBtn.setText("ÕıÔÚ¶Ï¿ª");
+        mScanBraceletState.setText("å·²è¿æ¥");
+        mScanBraceletBtn.setText("æ­£åœ¨æ–­å¼€");
     }
 
     public void onEventMainThread(BleOut_CResponseClass.DisConnectedBleBtClazz dcb)
     {
-        mScanBraceletState.setText("Î´Á¬½Ó");
-        mScanBraceletBtn.setText("É¨ÃèÊÖ»·");
+        mScanBraceletState.setText("æœªè¿æ¥");
+        mScanBraceletBtn.setText("æ‰«ææ‰‹ç¯");
     }
 
     public void onEventMainThread(BleOut_CResponseClass.DisConnectedFailBleBtClazz dcf)
     {
-        mScanBraceletState.setText("ÒÑÁ¬½Ó");
-        mScanBraceletBtn.setText("¶Ï¿ªÁ¬½Ó");
+        mScanBraceletState.setText("å·²è¿æ¥");
+        mScanBraceletBtn.setText("æ–­å¼€è¿æ¥");
     }
 
     public void onEventMainThread(BleOut_CResponseClass.ReConnectBleBtClazz rcb)
     {
-        mScanBraceletState.setText("Î´Á¬½Ó");
-        mScanBraceletBtn.setText("Í£Ö¹ÖØÁ¬");
+        mScanBraceletState.setText("æœªè¿æ¥");
+        mScanBraceletBtn.setText("åœæ­¢é‡è¿");
     }
 
     public void onDestroy()

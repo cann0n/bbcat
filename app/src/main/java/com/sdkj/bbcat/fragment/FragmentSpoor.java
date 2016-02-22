@@ -24,6 +24,7 @@ import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.bracelet.FeedNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.FootPrintActivity;
 import com.sdkj.bbcat.activity.bracelet.InoculationActivity;
+import com.sdkj.bbcat.activity.bracelet.NewFoodRecordActivity;
 import com.sdkj.bbcat.activity.bracelet.VaccineActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.FeedInoVo;
@@ -282,7 +283,8 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
         } else if (v == mBobyNotes || v == babyNote) {
             activity.skip(BabyNotesActivity.class);
         } else if (v == mFoodNotes || v == feedNote) {
-            activity.skip(FeedNotesActivity.class);
+//            activity.skip(FeedNotesActivity.class);
+            activity.skip(NewFoodRecordActivity.class);
         } else if (v == mInoculation || v == inoculation) {
 //            activity.skip(InoculationActivity.class);
             activity.skip(VaccineActivity.class);

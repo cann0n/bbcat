@@ -13,6 +13,7 @@ import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
+import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.bean.FeedInoVo;
@@ -34,14 +35,51 @@ public class AddFeedNotesActivity extends SimpleActivity implements View.OnClick
     private ImageView backImg;
     @ViewInject(R.id.afn_topbettwen)
     private TextView  timeTv;
+    
     @ViewInject(R.id.afn_topright)
     private TextView  complete;
+    
+    @ViewInject(R.id.tv_delete)
+    private TextView  tv_delete;
+    
+    
     @ViewInject(R.id.afn_name)
     private EditText mName;
     @ViewInject(R.id.afn_num)
     private EditText mNum;
+    
+    @ViewInject(R.id.iv_time)
+    private ImageView iv_time;
+    
+    @ViewInject(R.id.iv_input)
+    private ImageView iv_input;
 
 
+    @OnClick(R.id.iv_time)
+    void startTime(View view){
+        
+    }
+    @OnClick(R.id.iv_time)
+    void showInput(View view){
+        
+    }
+    
+    @OnClick(R.id.tv_delete)
+    void delete(View view){
+        if(!iv_time.isShown()){
+            iv_time.setVisibility(View.VISIBLE);
+        }
+        if(iv_input.isShown()){
+            iv_input.setVisibility(View.GONE);
+        }else{
+            if(iv_time.isShown()){
+                iv_time.setVisibility(View.GONE);
+                view.setVisibility(View.GONE);
+            }
+        }
+    }
+    
+    
     public int setLayoutResID()
     {
         return R.layout.activity_addfeednote;
