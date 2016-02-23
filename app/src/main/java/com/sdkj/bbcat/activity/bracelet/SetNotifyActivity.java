@@ -79,6 +79,7 @@ public class SetNotifyActivity extends SimpleActivity implements NumberPicker.Fo
     void ok(View view) {
         tv_time.setText(((EditText) valuepicker.getChildAt(0)).getText().toString() + ((EditText) hourPicker.getChildAt(0)).getText().toString() + ":" + ((EditText) minuteicker.getChildAt(0)).getText().toString());
         tv_finish.setVisibility(View.GONE);
+        ll_set_time.setVisibility(View.GONE);
     }
 
     private void init() {
