@@ -3,8 +3,7 @@ package com.sdkj.bbcat.constValue;
 /**
  * Created by Mr.Yuan on 2015/12/18 0018.
  */
-public class Const
-{
+public class Const {
     //SharePreference信息配置
     public static final String SP_NAME = "sp_bbcat";
 
@@ -13,17 +12,20 @@ public class Const
     public static final String AL_LOGIN = "alreadylogin";
 
 
-    public static  final String PHONE="bbcat_phone";
-    public static  final String AVATAR="bbcat_avatar";
-    public static  final String NICKNAME="bbcat_nickname";
+    public static final String PHONE = "bbcat_phone";
+    public static final String AVATAR = "bbcat_avatar";
+    public static final String NICKNAME = "bbcat_nickname";
 
 
     public static final String APK_VERSION = "0.1";
 
 
     public static final String CLIENT = "android";
-    public static final String UID    = "bbcat_uid";
-    public static final String TOKEN  = "bbcat_token";
+    public static final String UID = "bbcat_uid";
+    public static final String TOKEN = "bbcat_token";
+    public static final String NOTIFY = "bbcat_notify";
+    public static final String NOTIFY_TIME = "bbcat_notify_time";
+    public static final String NOTIFY_MSG = "bbcat_notify_msg";
 
 
     //网络请求信息配置
@@ -47,88 +49,88 @@ public class Const
     /**
      * 详情页
      */
-    public static final String NEWS_DETAIL=DOMAIN+"index/detail";
+    public static final String NEWS_DETAIL = DOMAIN + "index/detail";
 
     /**
      * 分类列表页
      */
-    public static final String CATEGORY_LIST=DOMAIN+"index/lists";
+    public static final String CATEGORY_LIST = DOMAIN + "index/lists";
 
     /**
      * 育儿知识首页
      */
-    public static final String NEWS_LIST=DOMAIN+"child/index";
+    public static final String NEWS_LIST = DOMAIN + "child/index";
 
     /**
      * 医院列表
      */
-    public static final String HOSPITAL_LIST=DOMAIN+"/Hospital/index";
+    public static final String HOSPITAL_LIST = DOMAIN + "/Hospital/index";
 
     /**
      * 医院详情
      */
-    public static final String HOSPITAL_detail=DOMAIN+"/Hospital/detail";
+    public static final String HOSPITAL_detail = DOMAIN + "/Hospital/detail";
 
     /**
      * 医院医生列表
      */
-    public static final String EXPERT_LIST=DOMAIN+"/Hospital/expert";
+    public static final String EXPERT_LIST = DOMAIN + "/Hospital/expert";
 
     /**
      * 我的圈首页
      */
-    public static final String MY_CIRCLE=DOMAIN+"/circle/index";
+    public static final String MY_CIRCLE = DOMAIN + "/circle/index";
 
     /**
      * 医院最新活动
      */
-    public static final String HOSPITAL_ACTIVITY=DOMAIN+"/Hospital/activity";
+    public static final String HOSPITAL_ACTIVITY = DOMAIN + "/Hospital/activity";
 
     /**
      * 圈圈详情
      */
-    public static final String CIRCLE_DETAIL=DOMAIN+"/circle/detail";
+    public static final String CIRCLE_DETAIL = DOMAIN + "/circle/detail";
 
     /**
      * 发布动态
      */
-    public static final String PUBLIC_CIRCLE=DOMAIN+"/circle/push";
+    public static final String PUBLIC_CIRCLE = DOMAIN + "/circle/push";
 
     /**
      * 发布动态获取tag
      */
-    public static final String GET_TAGS=DOMAIN+"/circle/getTags";
+    public static final String GET_TAGS = DOMAIN + "/circle/getTags";
 
     /**
      * 热门标签
      */
-    public static final String HOT_TAGS=DOMAIN+"/circle/hotTagsAll";
+    public static final String HOT_TAGS = DOMAIN + "/circle/hotTagsAll";
 
     /**
      * 点赞
      */
-    public static final String DO_LIKE=DOMAIN+"/circle/doCollection";
+    public static final String DO_LIKE = DOMAIN + "/circle/doCollection";
 
     /**
      * 上传图片
      */
-    public static final String UPLOAD_IMAGE=DOMAIN+"/index/uploadPicture";
+    public static final String UPLOAD_IMAGE = DOMAIN + "/index/uploadPicture";
 
     /**
      * 搜索用户
      */
-    public static final String FIND_FRIENDS=DOMAIN+"/user/search";
+    public static final String FIND_FRIENDS = DOMAIN + "/user/search";
 
 
     /**
      * 获取好友头像
      */
-    public static final String GET_AVATARS=DOMAIN+"/user/getUsersInfo";
+    public static final String GET_AVATARS = DOMAIN + "/user/getUsersInfo";
 
     /**
      * 关注
      */
-    public static final String DO_FOLLOW=DOMAIN+"/circle/follow";
+    public static final String DO_FOLLOW = DOMAIN + "/circle/follow";
 
     public static final String Schema = "http://120.26.212.241/";
 
@@ -169,6 +171,11 @@ public class Const
     public static final String GetFeedAndIno = DOMAIN + "Band/getFeedVacLogs";
 
     /**
+     * 获取喂养记录
+     */
+    public static final String FEED_RECORD = DOMAIN + "Band/getFeedLogs";
+
+    /**
      * 设置喂养和预防接种记录
      */
     public static final String SetFeedAndIno = DOMAIN + "Band/feedVacLog";
@@ -177,13 +184,13 @@ public class Const
      * 记录宝宝成长数据记录
      */
     public static final String SetBabyFeatureInfos = DOMAIN + "Band/babyBodyLog";
-    
+
 
     /**
      * 周围的人
      */
     public static final String AROUND_PEOPLE = DOMAIN + "user/nearby";
-    
+
     /**
      * 保存用户信息
      */
@@ -236,7 +243,7 @@ public class Const
     /**
      * 获取所有聊天室
      */
-    public static final String GET_ROOMS= DOMAIN + "webim/getAllChatroom";
+    public static final String GET_ROOMS = DOMAIN + "webim/getAllChatroom";
 
     /**
      * 获取宝宝日记
@@ -275,5 +282,10 @@ public class Const
     /**
      * 设置疫苗是否已打
      */
-    public static final String SET_VACCINE= DOMAIN + "Baby/vacLog";
+    public static final String SET_VACCINE = DOMAIN + "Baby/vacLog";
+
+    /**
+     * 设置设置是通知
+     */
+    public static final String SET_NOTIFY = DOMAIN + "Baby/setNoticeTime";
 }

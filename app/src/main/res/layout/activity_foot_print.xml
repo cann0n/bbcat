@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F6F6F6">
+    android:background="#F6F6F6"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,16 +17,16 @@
             android:layout_centerVertical="true"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:src="@drawable/icon_back_w" />
+            android:src="@drawable/icon_back_w"/>
         <ImageView
             android:id="@+id/iv_edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingLeft="@dimen/theme_margin"
             android:paddingRight="10dp"
-            android:src="@drawable/icon_add_status"
-            android:layout_alignParentRight="true"/>
+            android:src="@drawable/icon_add_status"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,20 +103,36 @@
                 android:visibility="invisible"/>
         </LinearLayout>
     </RelativeLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="成长曲线"
-        android:textColor="@color/color333"
-        android:textSize="@dimen/font18"
-        android:layout_gravity="center_horizontal"
-        />
-    <LinearLayout
-        android:id="@+id/ll_chart"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:orientation="horizontal" />
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="成长曲线"
+                android:textColor="@color/color333"
+                android:textSize="@dimen/font18"
+                />
+            <LinearLayout
+                android:id="@+id/ll_chart"
+                android:layout_width="fill_parent"
+                android:layout_height="440dp"
+                android:orientation="horizontal"/>
+            <LinearLayout
+                android:id="@+id/ll_news"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="-30dp"/>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

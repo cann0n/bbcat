@@ -45,7 +45,7 @@ public class VaccineActivity extends SimpleActivity {
         new TitleBar(activity).back().setTitle("预防接种").showRight("提醒", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                skip(SetNotifyActivity.class);
             }
         }).setBg("#FF6469");
         adapter = new VaccineAdapter(activity, new ArrayList<VaccineVo>());

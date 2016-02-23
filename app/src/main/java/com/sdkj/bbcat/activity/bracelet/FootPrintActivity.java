@@ -4,8 +4,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -14,8 +17,10 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.BodyFeaturesHistoryVo;
 import com.sdkj.bbcat.bean.GrowthVo;
+import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
@@ -44,6 +49,8 @@ public class FootPrintActivity extends SimpleActivity {
     @ViewInject(R.id.ll_chart)
     LinearLayout ll_chart;
 
+    @ViewInject(R.id.ll_news)
+    LinearLayout ll_news;
 
     @ViewInject(R.id.bra_vwselectorone)
     private View line1;
@@ -201,8 +208,32 @@ public class FootPrintActivity extends SimpleActivity {
                 RespVo<BodyFeaturesHistoryVo> resp = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (resp.isSuccess()) {
                     vo = resp.getData(jsonObject, BodyFeaturesHistoryVo.class);
-                    drawLine(0,vo);
-                }else{
+                    if (vo == null) {
+                        toast("查询数据失败,请重试");
+                        finish();
+                        return;
+                    }
+                    drawLine(0, vo);
+                    for (final NewsVo newsVo : vo.getNews()) {
+                        View view = activity.makeView(R.layout.item_recommend);
+                        ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
+                        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
+                        TextView tv_come_form = (TextView) view.findViewById(R.id.tv_come_form);
+                        TextView tv_count = (TextView) view.findViewById(R.id.tv_count);
+                        Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getCover())).into(iv_image);
+                        tv_title.setText(newsVo.getTitle());
+                        tv_come_form.setText(newsVo.getCategory_name());
+                        tv_count.setText(newsVo.getView() + "");
+                        view.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                activity.skip(NewsDetailActivity.class, newsVo.getId());
+                            }
+                        });
+                        ll_news.addView(view);
+                    }
+
+                } else {
                     toast(resp.getMessage());
                 }
             }
@@ -309,9 +340,9 @@ public class FootPrintActivity extends SimpleActivity {
     public void onEventMainThread(RefreshEvent event) {
         queryData();
     }
-    
-    public static class RefreshEvent{
-        
+
+    public static class RefreshEvent {
+
     }
 
     @Override

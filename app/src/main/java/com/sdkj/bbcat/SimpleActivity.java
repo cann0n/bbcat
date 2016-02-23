@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -46,6 +47,7 @@ public abstract class SimpleActivity extends BaseActivity {
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
+        SimpleUtils.showNotify(activity);
     }
 
     public boolean isLogin() {

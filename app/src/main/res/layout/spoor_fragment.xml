@@ -409,7 +409,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/color_white"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical"
+                    android:padding="10dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -452,7 +453,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/color_white"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical"
+                    android:padding="10dp"/>
             </LinearLayout>
 
             <View

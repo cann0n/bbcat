@@ -18,6 +18,16 @@ public class RespVo<T> implements Serializable {
     private String code;
 
     private String message;
+    
+    private String notice_message;
+
+    public String getNotice_message() {
+        return notice_message;
+    }
+
+    public void setNotice_message(String notice_message) {
+        this.notice_message = notice_message;
+    }
 
     public String getCode() {
         return code;

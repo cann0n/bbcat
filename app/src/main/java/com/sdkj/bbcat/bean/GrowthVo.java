@@ -12,8 +12,8 @@ public class GrowthVo implements  Serializable
     private BobyState     baby_status;
     //private List<BobyState>     baby_status;
     private List<NewsVo>    news;
-    private List<FeedInoVo> feed_log;
-    private List<FeedInoVo>    vac_log;
+    private List<FeedInoVo.FeedInfo> feed_log;
+    private List<VaccineVo.VaccineChildVo>    vac_log;
 
     public List<String> getNow_category()
     {
@@ -55,23 +55,19 @@ public class GrowthVo implements  Serializable
         this.news = news;
     }
 
-    public List<FeedInoVo> getFeed_log()
-    {
+    public List<FeedInoVo.FeedInfo> getFeed_log() {
         return feed_log;
     }
 
-    public void setFeed_log(List<FeedInoVo> feed_log)
-    {
+    public void setFeed_log(List<FeedInoVo.FeedInfo> feed_log) {
         this.feed_log = feed_log;
     }
 
-    public List<FeedInoVo> getVac_log()
-    {
+    public List<VaccineVo.VaccineChildVo> getVac_log() {
         return vac_log;
     }
 
-    public void setVac_log(List<FeedInoVo> vac_log)
-    {
+    public void setVac_log(List<VaccineVo.VaccineChildVo> vac_log) {
         this.vac_log = vac_log;
     }
 

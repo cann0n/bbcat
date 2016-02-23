@@ -24,8 +24,8 @@ public class InoAdapter extends UltimatCommonAdapter<FeedInoVo, FeedNotesAdapter
         {
             final ViewHolder holder = (ViewHolder) h;
             final FeedInoVo feedInoVo = getItem(position);
-            holder.ino_left.setText("【"+feedInoVo.getName()+"】");
-            holder.ino_bettwen.setText(feedInoVo.getNum());
+//            holder.ino_left.setText("【"+feedInoVo.getName()+"】");
+//            holder.ino_bettwen.setText(feedInoVo.getNum());
             String[] dayStr = feedInoVo.getDay().split("-");
             holder.ino_right.setText(dayStr[0]+"年"+dayStr[1]+"月"+dayStr[2]+"日");
         }

@@ -19,19 +19,19 @@ public class NewFoodRecordActivity extends SimpleActivity{
     
     @OnClick(R.id.tv_1)
     void clickTv1(View view){
-        
+        skip(AddFeedNotesActivity.class,1,"奶瓶母乳");
     }
     @OnClick(R.id.tv_2)
     void clickTv2(View view){
-        
+        skip(AddFeedNotesActivity.class,2,"奶粉");
     }
     @OnClick(R.id.tv_3)
     void clickTv3(View view){
-        
+        skip(AddFeedNotesActivity.class,3,"哺乳");
     }
     @OnClick(R.id.tv_4)
     void clickTv4(View view){
-        
+        skip(AddFeedNotesActivity.class,4,"辅食");
     }
     
     @Override

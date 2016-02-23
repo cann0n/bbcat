@@ -95,6 +95,9 @@
             android:name=".activity.loginandregister.RegisterStep2Activity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.bracelet.SetNotifyActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.loginandregister.FindScreteFirstStepActivity"
             android:screenOrientation="portrait"/>
         <activity

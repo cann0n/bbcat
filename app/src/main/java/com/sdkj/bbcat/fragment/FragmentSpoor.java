@@ -1,8 +1,10 @@
 package com.sdkj.bbcat.fragment;
 
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,18 +21,16 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.bracelet.AllBodyFeaActivity;
 import com.sdkj.bbcat.activity.bracelet.BabyFoodsActivity;
 import com.sdkj.bbcat.activity.bracelet.BabyNotesActivity;
-import com.sdkj.bbcat.activity.bracelet.BodyFeaturesActivity;
 import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.bracelet.FeedNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.FootPrintActivity;
-import com.sdkj.bbcat.activity.bracelet.InoculationActivity;
-import com.sdkj.bbcat.activity.bracelet.NewFoodRecordActivity;
 import com.sdkj.bbcat.activity.bracelet.VaccineActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.FeedInoVo;
 import com.sdkj.bbcat.bean.GrowthVo;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.bean.VaccineVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 
@@ -199,23 +199,27 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                         babynotequanall.setVisibility(View.GONE);
                     }
 
-
                     if (mGrowthVo != null && !Utils.isEmpty(mGrowthVo.getFeed_log())) {
-                        for (final FeedInoVo feedInoVo : mGrowthVo.getFeed_log()) {
-                            View view = activity.makeView(R.layout.inflater_feednote);
-                            TextView tv_left = (TextView) view.findViewById(R.id.feednote_left);
-                            TextView tv_bettwen = (TextView) view.findViewById(R.id.feednote_bettwen);
-                            TextView tv_right = (TextView) view.findViewById(R.id.feednote_right);
-                            tv_left.setText(feedInoVo.getName());
-                            tv_bettwen.setText(feedInoVo.getNum());
-                            String[] strSz = feedInoVo.getDay().split("-");
-                            tv_right.setText(strSz[0] + "年" + strSz[1] + "月" + strSz[2] + "日");
-                            view.setOnClickListener(new View.OnClickListener() {
-                                public void onClick(View view) {
-                                    /**点击某一项具体的喂养情况*/
-                                }
-                            });
-                            view.setBackgroundResource(R.color.color_white);
+                        for (final FeedInoVo.FeedInfo vo : mGrowthVo.getFeed_log()) {
+                            View view = activity.makeView(R.layout.item_feed_list);
+                            ImageView iv_type = (ImageView) view.findViewById(R.id.iv_type);
+                            TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+                            TextView tv_type = (TextView) view.findViewById(R.id.tv_type);
+                            TextView tv_long = (TextView) view.findViewById(R.id.tv_long);
+                            TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
+                            if (vo.getType() == 1) {
+                                iv_type.setImageResource(R.drawable.icon_naiping);
+                            } else if (vo.getType() == 2) {
+                                iv_type.setImageResource(R.drawable.icon_naifen);
+                            } else if (vo.getType() == 3) {
+                                iv_type.setImageResource(R.drawable.icon_muru);
+                            } else if (vo.getType() == 4) {
+                                iv_type.setImageResource(R.drawable.icon_fushi);
+                            }
+                            tv_name.setText(vo.getTime());
+                            tv_type.setText(vo.getName());
+                            tv_long.setText(vo.getNum());
+                            tv_desc.setText(vo.getDesc());
                             feedNotell.addView(view);
                         }
                     } else {
@@ -223,22 +227,30 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                     }
 
                     if (mGrowthVo != null && !Utils.isEmpty(mGrowthVo.getVac_log())) {
-                        for (final FeedInoVo feedInoVo : mGrowthVo.getVac_log()) {
-                            View view = activity.makeView(R.layout.inflater_inoculation);
-                            TextView tv_left = (TextView) view.findViewById(R.id.inoculation_left);
-                            TextView tv_bettwen = (TextView) view.findViewById(R.id.inoculation_bettwen);
-                            TextView tv_right = (TextView) view.findViewById(R.id.inoculation_right);
-                            tv_left.setText(feedInoVo.getName());
-                            tv_bettwen.setText(feedInoVo.getNum());
-                            String[] strSz = feedInoVo.getDay().split("-");
-                            tv_right.setText(strSz[0] + "年" + strSz[1] + "月" + strSz[2] + "日");
-                            view.setOnClickListener(new View.OnClickListener() {
-                                public void onClick(View view) {
-                                    /**点击某一项具体的预防接种情况*/
-                                }
-                            });
-                            view.setBackgroundResource(R.color.color_white);
-                            inoculationll.addView(view);
+                        for (final VaccineVo.VaccineChildVo child : mGrowthVo.getVac_log()) {
+                            View childView = activity.makeView(R.layout.item_vaccine_child);
+                            RelativeLayout rl_child_item = (RelativeLayout) childView.findViewById(R.id.rl_child_item);
+                            final CheckBox cb_select = (CheckBox) childView.findViewById(R.id.cb_select);
+                            if ("1".equals(child.getUser_vac_ed())) {
+                                cb_select.setChecked(true);
+                            } else {
+                                cb_select.setChecked(false);
+                            }
+                            TextView tv_title = (TextView) childView.findViewById(R.id.tv_title);
+                            tv_title.setText(child.getTitle());
+
+                            TextView tv_desc = (TextView) childView.findViewById(R.id.tv_desc);
+                            tv_desc.setText(child.getDesc());
+                            TextView tv_status = (TextView) childView.findViewById(R.id.tv_status);
+                            if ("1".equals(child.getMust())) {
+                                tv_status.setVisibility(View.VISIBLE);
+                                tv_status.setText("必打");
+                            } else {
+                                tv_status.setVisibility(View.INVISIBLE);
+                            }
+                            TextView tv_times = (TextView) childView.findViewById(R.id.tv_times);
+                            tv_times.setText(child.getTimes());
+                            inoculationll.addView(childView);
                         }
                     } else {
                         inoculationquanall.setVisibility(View.GONE);
@@ -283,8 +295,8 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
         } else if (v == mBobyNotes || v == babyNote) {
             activity.skip(BabyNotesActivity.class);
         } else if (v == mFoodNotes || v == feedNote) {
-//            activity.skip(FeedNotesActivity.class);
-            activity.skip(NewFoodRecordActivity.class);
+            activity.skip(FeedNotesActivity.class);
+//            activity.skip(NewFoodRecordActivity.class);
         } else if (v == mInoculation || v == inoculation) {
 //            activity.skip(InoculationActivity.class);
             activity.skip(VaccineActivity.class);
@@ -296,7 +308,7 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
         activity.skip(DiseaseRecordActivity.class);
     }
 
-    
+
     @OnClick(R.id.tv_foods)
     void showFoods(View view) {
         activity.skip(BabyFoodsActivity.class);

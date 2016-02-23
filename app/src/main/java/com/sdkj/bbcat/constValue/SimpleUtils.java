@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.constValue;
 
+import android.app.AlertDialog;
 import android.content.Context;
 
 import com.bumptech.glide.util.Util;
@@ -18,43 +19,43 @@ import java.io.InputStream;
  * Created by Administrator on 2015/12/26 0026.
  */
 public class SimpleUtils {
-    
-    public  static String buildUrl(BaseActivity activity,String url){
-        if(url.endsWith("?")){
-            url=url+"version="+Const.APK_VERSION+"&client="+Const.CLIENT;
-        }else{
-            url=url+"&version="+Const.APK_VERSION+"&client="+Const.CLIENT;
+
+    public static String buildUrl(BaseActivity activity, String url) {
+        if (url.endsWith("?")) {
+            url = url + "version=" + Const.APK_VERSION + "&client=" + Const.CLIENT;
+        } else {
+            url = url + "&version=" + Const.APK_VERSION + "&client=" + Const.CLIENT;
         }
-        if(isLogin(activity)){
-            SpUtil sp=new SpUtil(activity,Const.SP_NAME);
-            url=url+"&token="+sp.getStringValue(Const.TOKEN)+"&uid="+sp.getStringValue(Const.UID);
+        if (isLogin(activity)) {
+            SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+            url = url + "&token=" + sp.getStringValue(Const.TOKEN) + "&uid=" + sp.getStringValue(Const.UID);
         }
-        return  url;
+        return url;
     }
-    public  static PostParams buildUrl(BaseActivity activity,PostParams params){
-        params.put("version",Const.APK_VERSION);
-        params.put("client",Const.CLIENT);
-        if(isLogin(activity)){
-            SpUtil sp=new SpUtil(activity,Const.SP_NAME);
-            params.put("token",sp.getStringValue(Const.TOKEN));
-            params.put("uid",sp.getStringValue(Const.UID));
+
+    public static PostParams buildUrl(BaseActivity activity, PostParams params) {
+        params.put("version", Const.APK_VERSION);
+        params.put("client", Const.CLIENT);
+        if (isLogin(activity)) {
+            SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+            params.put("token", sp.getStringValue(Const.TOKEN));
+            params.put("uid", sp.getStringValue(Const.UID));
         }
-        return  params;
+        return params;
     }
-    
-    public  static boolean isLogin(BaseActivity activity){
-        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
-        if(Utils.isEmpty(sp.getStringValue(Const.TOKEN))){
-            return  false;
+
+    public static boolean isLogin(BaseActivity activity) {
+        SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+        if (Utils.isEmpty(sp.getStringValue(Const.TOKEN))) {
+            return false;
         }
-        return  true;
+        return true;
     }
-    
+
     public static String getImageUrl(String url) {
-        if(Utils.isEmpty(url)){
+        if (Utils.isEmpty(url)) {
             return "";
-        }else 
-        if (url.startsWith("http") || url.startsWith("https")) {
+        } else if (url.startsWith("http") || url.startsWith("https")) {
             return url;
         } else {
             return Const.IMAGE_DOMAIN + url;
@@ -91,9 +92,9 @@ public class SimpleUtils {
             }
         }
     }
-    
-    public static void loginOut(BaseActivity activity){
-        final SpUtil sp=new SpUtil(activity, Const.SP_NAME);
+
+    public static void loginOut(BaseActivity activity) {
+        final SpUtil sp = new SpUtil(activity, Const.SP_NAME);
         sp.remove(Const.PHONE);
         sp.remove(Const.AVATAR);
         sp.remove(Const.UID);
@@ -103,8 +104,8 @@ public class SimpleUtils {
         activity.skip(LoginActivity.class, "fromReconnect");
         activity.finish();
     }
-    
-    public static void loginOutHx(){
+
+    public static void loginOutHx() {
         EMChatManager.getInstance().logout(new EMCallBack() {
 
             @Override
@@ -123,14 +124,14 @@ public class SimpleUtils {
             }
         });
     }
-    
-    public static void loginHx(final Context context){
-        final SpUtil sp=new SpUtil(context, Const.SP_NAME);
-        if(!Utils.isEmpty(sp.getStringValue(Const.PHONE))){
-            EMChatManager.getInstance().login(sp.getStringValue(Const.PHONE),sp.getStringValue(Const.PHONE),new EMCallBack() {//回调
+
+    public static void loginHx(final Context context) {
+        final SpUtil sp = new SpUtil(context, Const.SP_NAME);
+        if (!Utils.isEmpty(sp.getStringValue(Const.PHONE))) {
+            EMChatManager.getInstance().login(sp.getStringValue(Const.PHONE), sp.getStringValue(Const.PHONE), new EMCallBack() {//回调
                 @Override
                 public void onSuccess() {
-                    System.out.println("sp = 登录环信成功" );
+                    System.out.println("sp = 登录环信成功");
                 }
 
                 @Override
@@ -149,10 +150,20 @@ public class SimpleUtils {
                             } catch (final EaseMobException e) {
                                 //注册失败
                             }
-                        }}).start();
+                        }
+                    }).start();
                 }
             });
         }
 
+    }
+
+    public static void showNotify(Context context) {
+        SpUtil sp = new SpUtil(context, Const.SP_NAME);
+        if (sp.getBoolValue(Const.NOTIFY)) {
+            if (sp.getStringValue(Const.NOTIFY_TIME).equals(Utils.formatHour(System.currentTimeMillis() + ""))) {
+                new AlertDialog.Builder(context).setMessage(sp.getStringValue(Const.NOTIFY_MSG)).setPositiveButton("确定", null).show();
+            }
+        }
     }
 }
