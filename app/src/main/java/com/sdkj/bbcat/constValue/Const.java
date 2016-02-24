@@ -288,4 +288,9 @@ public class Const {
      * 设置设置是通知
      */
     public static final String SET_NOTIFY = DOMAIN + "Baby/setNoticeTime";
+
+    /**
+     *删除我的动态
+     */
+    public static final String DELETE_NEWS = DOMAIN + "index/delNews";
 }

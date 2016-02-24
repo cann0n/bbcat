@@ -1,6 +1,5 @@
 package com.sdkj.bbcat.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -25,6 +24,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.bean.CircleVo;
 import com.sdkj.bbcat.bean.CommentVo;
@@ -42,6 +42,7 @@ import java.util.List;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.OnekeyShareTheme;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
+import de.greenrobot.event.EventBus;
 
 public class DetailActivity extends SimpleActivity {
 
@@ -110,18 +111,31 @@ public class DetailActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
-        new TitleBar(activity).setTitle("详情").back().showRight("加TA", new View.OnClickListener() {
+        newsVo = (CircleVo.ItemCircle) getVo("0");
+        String title = "";
+        SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+        if (newsVo.getUser_info().getUid().equals(sp.getStringValue(Const.UID))) {
+            title = "删除";
+            tv_guanzhu.setVisibility(View.GONE);
+        } else {
+            title = "加TA";
+        }
+        final String finalTitle = title;
+        new TitleBar(activity).setTitle("详情").back().showRight(title, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(newsVo!=null&&newsVo.getUser_info()!=null){
-                    addContact(newsVo.getUser_info().getMobile());
+                if (finalTitle.equals("删除")) {
+                    doDelete();
+                } else {
+                    if (newsVo != null && newsVo.getUser_info() != null) {
+                        addContact(newsVo.getUser_info().getMobile());
+                    }
                 }
             }
         });
         ll_comment_bar.setVisibility(View.GONE);
         banner = new AutoScrollViewPager(activity);
 
-        newsVo = (CircleVo.ItemCircle) getVo("0");
         if ("1".equals(newsVo.getNews_info().getIs_collected())) {
             iv_zan_bottom.setImageResource(R.drawable.icon_zan1);
         } else {
@@ -236,7 +250,8 @@ public class DetailActivity extends SimpleActivity {
                         follow.setText("关注");
                     }
 
-
+                    DiseaseRecordActivity.RefreshEvent event = new DiseaseRecordActivity.RefreshEvent();
+                    EventBus.getDefault().post(event);
                 } else if (respVo.isNeedLogin()) {
                     activity.skip(LoginActivity.class);
                 }
@@ -245,6 +260,31 @@ public class DetailActivity extends SimpleActivity {
             @Override
             public void doFailed() {
 
+            }
+        });
+    }
+
+    private void doDelete() {
+        showDialog();
+        PostParams param = new PostParams();
+        param.put("news_id", newsVo.getNews_info().getId());
+        HttpUtils.postJSONObject(activity, Const.DELETE_NEWS, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject jsonObject) {
+                dismissDialog();
+                RespVo respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    DiseaseRecordActivity.RefreshEvent event = new DiseaseRecordActivity.RefreshEvent();
+                    EventBus.getDefault().post(event);
+                    finish();
+                } else if (respVo.isNeedLogin()) {
+                    activity.skip(LoginActivity.class);
+                }
+            }
+
+            @Override
+            public void doFailed() {
+                dismissDialog();
             }
         });
     }
@@ -278,6 +318,8 @@ public class DetailActivity extends SimpleActivity {
                         newsVo.getNews_info().setCollection(like_num.getText().toString());
                     }
                     tv_zan_num.setText("赞" + like_num.getText().toString());
+                    DiseaseRecordActivity.RefreshEvent event = new DiseaseRecordActivity.RefreshEvent();
+                    EventBus.getDefault().post(event);
 
                 } else if (respVo.isNeedLogin()) {
                     activity.skip(LoginActivity.class);
@@ -296,12 +338,12 @@ public class DetailActivity extends SimpleActivity {
     void zan(View view) {
         doLike(newsVo, iv_zan_bottom, tv_zan_bottom, tv_zan_add_bottom);
     }
-    
+
     @OnClick(R.id.ll_share_bottom)
-    void share(View view){
-        if(Utils.isEmpty(newsVo.getNews_info().getMulti_cover())){
-            showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(),"");
-        }else {
+    void share(View view) {
+        if (Utils.isEmpty(newsVo.getNews_info().getMulti_cover())) {
+            showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(), "");
+        } else {
             showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(), SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg()));
         }
     }
@@ -326,7 +368,7 @@ public class DetailActivity extends SimpleActivity {
         }
     }
 
-    public void showShare(Context context, String platformToShare, boolean showContentEdit,String title,String id,String cover) {
+    public void showShare(Context context, String platformToShare, boolean showContentEdit, String title, String id, String cover) {
         OnekeyShare oks = new OnekeyShare();
         oks.setSilent(!showContentEdit);
         if (platformToShare != null) {
@@ -342,10 +384,10 @@ public class DetailActivity extends SimpleActivity {
         oks.setTitle(title);//分享标题
         oks.setTitleUrl(Const.SHARE + id);//分享地址
         oks.setText(title);//分享文本
-        if(!Utils.isEmpty(cover)){
+        if (!Utils.isEmpty(cover)) {
             oks.setImageUrl(SimpleUtils.getImageUrl(cover));//分享图片
         }
-        oks.setUrl(Const.SHARE+id); //微信不绕过审核分享链接
+        oks.setUrl(Const.SHARE + id); //微信不绕过审核分享链接
         oks.setComment("分享"); //我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供
         oks.setSite("咘咘猫");  //QZone分享完之后返回应用时提示框上显示的名称
         oks.setSiteUrl(Const.SHARE + id);//QZone分享参数
@@ -355,15 +397,15 @@ public class DetailActivity extends SimpleActivity {
         oks.show(context);
     }
 
-    public void addContact(final String mobile){
-        if(EMChatManager.getInstance().getCurrentUser().equals(mobile)){
+    public void addContact(final String mobile) {
+        if (EMChatManager.getInstance().getCurrentUser().equals(mobile)) {
             new EaseAlertDialog(this, R.string.not_add_myself).show();
             return;
         }
 
-        if(DemoHelper.getInstance().getContactList().containsKey(mobile)){
+        if (DemoHelper.getInstance().getContactList().containsKey(mobile)) {
             //提示已在好友列表中(在黑名单列表里)，无需添加
-            if(EMContactManager.getInstance().getBlackListUsernames().contains(mobile)){
+            if (EMContactManager.getInstance().getBlackListUsernames().contains(mobile)) {
                 new EaseAlertDialog(this, R.string.user_already_in_contactlist).show();
                 return;
             }
