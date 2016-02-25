@@ -44,7 +44,6 @@ public class HomePage extends BaseFragment {
     @ViewInject(R.id.tv_recommend_more)
     private TextView tv_recommend_more;
 
-
     @ViewInject(R.id.ll_diary)
     private LinearLayout ll_diary;
     @ViewInject(R.id.tv_diary_more)
@@ -289,7 +288,7 @@ public class HomePage extends BaseFragment {
     @OnClick(R.id.tv_circle)
     void tv_circle(View view) {
         if (SimpleUtils.isLogin(activity)) {
-            ((MainActivity) activity).switchFragment(R.id.tv_tab4);    
+            ((MainActivity) activity).switchFragment(R.id.tv_tab4);
         } else {
             activity.skip(LoginActivity.class);
         }
@@ -303,6 +302,7 @@ public class HomePage extends BaseFragment {
     @OnClick(R.id.tv_foot_mark)
     void mark(View view) {
         if (SimpleUtils.isLogin(activity)) {
+            MainActivity.Flag = 1;
             ((MainActivity) activity).switchFragment(R.id.tv_tab3);
         } else {
             activity.skip(LoginActivity.class);

@@ -195,10 +195,6 @@ public abstract class TabUiActivity extends SimpleActivity {
         switchContent(lastFragment, fragment);
     }
 
-    public void initSpecialPage() {
-        fragContainer.put(R.id.tv_tab3, initPage3());
-    }
-
     public void switchContent(Fragment pre, Fragment next) {
         if (lastFragment != next) {
             lastFragment = next;

@@ -201,7 +201,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/transparent"
                 android:button="@drawable/toggle_btn"
-                android:checked="false"
+                android:checked="true"
                 android:text=""
                 android:textOff=""
                 android:textOn=""

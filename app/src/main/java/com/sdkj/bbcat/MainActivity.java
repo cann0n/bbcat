@@ -22,6 +22,8 @@ import de.greenrobot.event.EventBus;
 
 
 public class MainActivity extends TabUiActivity {
+    
+    public static int Flag=0;
 
     @Override
     public List<String> initTabNames() {
@@ -108,7 +110,6 @@ public class MainActivity extends TabUiActivity {
             bean.setUid(sp_login.getStringValue(Const.UID));
             ((BbcatApp) getApplication()).setmUser(bean);
         }
-        initSpecialPage();
     }
 
     @Override
@@ -119,11 +120,11 @@ public class MainActivity extends TabUiActivity {
     @Override
     public void switchFragment(int viewId) {
         super.switchFragment(viewId);
-        if (viewId == R.id.tv_tab3) {
-            BraceletPage.ChangeEvent event = new BraceletPage.ChangeEvent();
-            event.setPosition(1);
-            EventBus.getDefault().post(event);
-        }
+//        if (viewId == R.id.tv_tab3) {
+//            BraceletPage.ChangeEvent event = new BraceletPage.ChangeEvent();
+//            event.setPosition(0);
+//            EventBus.getDefault().post(event);
+//        }
     }
 
     private long firstTime = 0;

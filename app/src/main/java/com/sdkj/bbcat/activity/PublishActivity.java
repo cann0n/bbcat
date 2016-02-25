@@ -83,6 +83,8 @@ import de.greenrobot.event.EventBus;
 public class PublishActivity extends SimpleActivity {
     @ViewInject(R.id.rl_label)
     private RelativeLayout rl_label;
+    @ViewInject(R.id.rl_time)
+    private RelativeLayout rl_time;
 
     @ViewInject(R.id.ll_publish)
     private LinearLayout ll_publish;
@@ -149,6 +151,8 @@ public class PublishActivity extends SimpleActivity {
         }else if("1".equals(type)){
             tv_label.setTag(R.id.tag_first,"3");
             rl_label.setVisibility(View.GONE);
+        }else {
+            rl_time.setVisibility(View.GONE);
         }
     }
 

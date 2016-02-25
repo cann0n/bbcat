@@ -9,6 +9,7 @@ import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.fragment.FragmentVo;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
+import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 
 import java.util.ArrayList;
@@ -62,6 +63,10 @@ public class BraceletPage extends BaseFragment {
             }
         });
         changeBtn(0);
+        if(MainActivity.Flag==1){
+            MainActivity.Flag=-1;
+            viewPager.setCurrentItem(1);
+        }
     }
 
     public void changeBtn(int position) {
