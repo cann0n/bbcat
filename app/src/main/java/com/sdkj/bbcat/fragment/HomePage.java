@@ -302,8 +302,16 @@ public class HomePage extends BaseFragment {
     @OnClick(R.id.tv_foot_mark)
     void mark(View view) {
         if (SimpleUtils.isLogin(activity)) {
-            MainActivity.Flag = 1;
-            ((MainActivity) activity).switchFragment(R.id.tv_tab3);
+            
+//            if(MainActivity.Flag ==-1){
+//                BraceletPage.ChangeEvent event = new BraceletPage.ChangeEvent();
+//                event.setPosition(1);
+//                EventBus.getDefault().post(event);
+//            }else{
+//            }
+            MainActivity.Flag =1;
+            ((MainActivity) activity).switchF(R.id.tv_tab3);
+            
         } else {
             activity.skip(LoginActivity.class);
         }
