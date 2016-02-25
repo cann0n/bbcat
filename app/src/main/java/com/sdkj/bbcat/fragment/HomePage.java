@@ -304,9 +304,6 @@ public class HomePage extends BaseFragment {
     void mark(View view) {
         if (SimpleUtils.isLogin(activity)) {
             ((MainActivity) activity).switchFragment(R.id.tv_tab3);
-            BraceletPage.ChangeEvent event=new BraceletPage.ChangeEvent();
-            event.setPosition(1);
-            EventBus.getDefault().post(event);
         } else {
             activity.skip(LoginActivity.class);
         }

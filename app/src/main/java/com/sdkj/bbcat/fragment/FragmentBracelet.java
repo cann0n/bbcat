@@ -48,8 +48,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Mr.Yuan on 2015/12/31 0031.
  */
-public class FragmentBracelet extends BaseFragment implements View.OnClickListener
-{
+public class FragmentBracelet extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.bra_bottomll)
     private LinearLayout bra_bottomll;
 
@@ -59,27 +58,22 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
     @ViewInject(R.id.bra_connectionstatebtn)
     private TextView mScanBraceletBtn;
 
-    private BleIn_BService.BleBinder  mBinder = null;
-    private ServiceConnection mConnect = new ServiceConnection()
-    {
-        public void onServiceConnected(ComponentName name, IBinder service)
-        {
-            mBinder = (BleIn_BService.BleBinder)service;
+    private BleIn_BService.BleBinder mBinder = null;
+    private ServiceConnection mConnect = new ServiceConnection() {
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBinder = (BleIn_BService.BleBinder) service;
         }
 
-        public void onServiceDisconnected(ComponentName name)
-        {
+        public void onServiceDisconnected(ComponentName name) {
             mBinder = null;
         }
     };
 
-    protected int setLayoutResID()
-    {
+    protected int setLayoutResID() {
         return R.layout.bracelet_fragment;
     }
 
-    protected void setListener()
-    {
+    protected void setListener() {
         EventBus.getDefault().register(this);
 //        Intent sIntent= new Intent(activity,BleIn_BService.class);
 //        activity.bindService(sIntent, mConnect, Context.BIND_AUTO_CREATE);
@@ -87,8 +81,7 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
         mScanBraceletBtn.setOnClickListener(this);
     }
 
-    private void queryData()
-    {
+    private void queryData() {
         HttpUtils.postJSONObject(activity, Const.GetBraBotDates, SimpleUtils.buildUrl(activity, new PostParams()), new RespJSONObjectListener(activity) {
             public void getResp(JSONObject obj) {
                 ((MainActivity) activity).dismissDialog();
@@ -124,65 +117,56 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
         });
     }
 
-    public void onClick(View v)
-    {
-        if(v == mScanBraceletBtn)
-        {
-            if (mScanBraceletBtn.getText().toString().trim().equals("扫描手环"))
-                mBinder.startSearchDevices(activity, "咘咘猫请求打开蓝牙设备", null);
-            else if (mScanBraceletBtn.getText().toString().trim().equals("停止扫描"))
-                mBinder.stopSearchDevices();
-            else if (mScanBraceletBtn.getText().toString().trim().equals("断开连接"))
-                mBinder.disConDevice();
-            else if (mScanBraceletBtn.getText().toString().trim().equals("停止重连"))
-            {
-                mBinder.stopReConDevice();
-                mScanBraceletState.setText("未连接");
-                mScanBraceletBtn.setText("扫描手环");
-            }
+    public void onClick(View v) {
+        if (v == mScanBraceletBtn) {
+            activity.toast("后台开发中~");
+//            if (mScanBraceletBtn.getText().toString().trim().equals("扫描手环"))
+//                mBinder.startSearchDevices(activity, "咘咘猫请求打开蓝牙设备", null);
+//            else if (mScanBraceletBtn.getText().toString().trim().equals("停止扫描"))
+//                mBinder.stopSearchDevices();
+//            else if (mScanBraceletBtn.getText().toString().trim().equals("断开连接"))
+//                mBinder.disConDevice();
+//            else if (mScanBraceletBtn.getText().toString().trim().equals("停止重连")) {
+//                mBinder.stopReConDevice();
+//                mScanBraceletState.setText("未连接");
+//                mScanBraceletBtn.setText("扫描手环");
+//            }
         }
     }
 
-    public void onEventMainThread(BleOut_CResponseClass.BeginSearchBleBtClazz bsb)
-    {
+    public void onEventMainThread(BleOut_CResponseClass.BeginSearchBleBtClazz bsb) {
         mScanBraceletState.setText("未连接");
         mScanBraceletBtn.setText("停止扫描");
     }
 
-    public void onEventMainThread(BleOut_CResponseClass.FinishSearchBleBtClazz fsb)
-    {
+    public void onEventMainThread(BleOut_CResponseClass.FinishSearchBleBtClazz fsb) {
         mScanBraceletState.setText("未连接");
         mScanBraceletBtn.setText("扫描手环");
     }
 
     private Boolean isConnectingDevice;
-    public void onEventMainThread(final BleOut_CResponseClass.CompleteSearchBleBtClazz csb)
-    {
+
+    public void onEventMainThread(final BleOut_CResponseClass.CompleteSearchBleBtClazz csb) {
         mScanBraceletState.setText("未连接");
-        if(csb.getDeviceList().size() == 0)
-        {
+        if (csb.getDeviceList().size() == 0) {
             mScanBraceletBtn.setText("扫描手环");
-            Toast.makeText(activity,"没有扫描到任何相关设备,请重新扫描！",Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            isConnectingDevice= false;
+            Toast.makeText(activity, "没有扫描到任何相关设备,请重新扫描！", Toast.LENGTH_LONG).show();
+        } else {
+            isConnectingDevice = false;
             mScanBraceletBtn.setText("扫描完成");
-            Toast.makeText(activity,"请选择一款扫描出的远端设备来进行连接！",Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "请选择一款扫描出的远端设备来进行连接！", Toast.LENGTH_LONG).show();
             final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
             alertDialog.setCanceledOnTouchOutside(true);
             alertDialog.show();
 
             View view = LayoutInflater.from(activity).inflate(R.layout.inflater_devicelist, null);
             alertDialog.setContentView(view);
-            ListView listView = (ListView)view.findViewById(R.id.devicelist_content);
+            ListView listView = (ListView) view.findViewById(R.id.devicelist_content);
             DeviceListAdapter adapter = DeviceListAdapter.getInstance(activity);
             adapter.setDeviceList(csb.getDeviceList());
             listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-            {
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-                {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     mBinder.conDevice(csb.getDeviceList().get(position).getmDeviceAddress(), BleOut_AUuidData.SERVICE_UUID);
                     isConnectingDevice = true;
                     alertDialog.dismiss();
@@ -198,61 +182,50 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
             params.height = displayMetrics.heightPixels / 5 * 3;
             params.gravity = Gravity.CENTER;
             alertDialog.getWindow().setAttributes(params);
-            alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener()
-            {
-                public void onDismiss(DialogInterface dialog)
-                {
-                    if(!isConnectingDevice)
-                        mScanBraceletBtn.setText("扫描手环");
+            alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                public void onDismiss(DialogInterface dialog) {
+                    if (!isConnectingDevice) mScanBraceletBtn.setText("扫描手环");
                 }
             });
         }
     }
 
-    public void onEventMainThread(BleOut_CResponseClass.ConnectingBleBtClazz cbb)
-    {
+    public void onEventMainThread(BleOut_CResponseClass.ConnectingBleBtClazz cbb) {
         mScanBraceletState.setText("未连接");
         mScanBraceletBtn.setText("正在连接");
     }
 
-    public void onEventMainThread(BleOut_CResponseClass.ConnectedBleBtClazz cbb)
-    {
+    public void onEventMainThread(BleOut_CResponseClass.ConnectedBleBtClazz cbb) {
         mScanBraceletState.setText("已连接");
         mScanBraceletBtn.setText("断开连接");
     }
 
-    public void onEventMainThread(BleOut_CResponseClass.ConnectedFailBleBtClazz cfb)
-    {
+    public void onEventMainThread(BleOut_CResponseClass.ConnectedFailBleBtClazz cfb) {
         mScanBraceletState.setText("未连接");
         mScanBraceletBtn.setText("扫描手环");
     }
 
-    public void onEventMainThread(BleOut_CResponseClass.DisConnectingBleBtClazz dcb)
-    {
+    public void onEventMainThread(BleOut_CResponseClass.DisConnectingBleBtClazz dcb) {
         mScanBraceletState.setText("已连接");
         mScanBraceletBtn.setText("正在断开");
     }
 
-    public void onEventMainThread(BleOut_CResponseClass.DisConnectedBleBtClazz dcb)
-    {
+    public void onEventMainThread(BleOut_CResponseClass.DisConnectedBleBtClazz dcb) {
         mScanBraceletState.setText("未连接");
         mScanBraceletBtn.setText("扫描手环");
     }
 
-    public void onEventMainThread(BleOut_CResponseClass.DisConnectedFailBleBtClazz dcf)
-    {
+    public void onEventMainThread(BleOut_CResponseClass.DisConnectedFailBleBtClazz dcf) {
         mScanBraceletState.setText("已连接");
         mScanBraceletBtn.setText("断开连接");
     }
 
-    public void onEventMainThread(BleOut_CResponseClass.ReConnectBleBtClazz rcb)
-    {
+    public void onEventMainThread(BleOut_CResponseClass.ReConnectBleBtClazz rcb) {
         mScanBraceletState.setText("未连接");
         mScanBraceletBtn.setText("停止重连");
     }
 
-    public void onDestroy()
-    {
+    public void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }

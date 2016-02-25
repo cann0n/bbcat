@@ -153,7 +153,7 @@ public abstract class TabUiActivity extends SimpleActivity {
 
 
     public void switchFragment(int viewId) {
-        if (viewId == R.id.tv_3 || viewId == R.id.tv_tab4|| viewId == R.id.tv_tab5) {
+        if (viewId == R.id.tv_3 || viewId == R.id.tv_tab4 || viewId == R.id.tv_tab5) {
             if (!SimpleUtils.isLogin(activity)) {
                 skip(LoginActivity.class);
                 return;
@@ -169,7 +169,7 @@ public abstract class TabUiActivity extends SimpleActivity {
             }
         } else if (viewId == R.id.tv_tab2) {
             fragment = fragContainer.get(viewId);
-            if (fragment == null) {
+             if (fragment == null) {
                 fragment = initPage2();
                 fragContainer.put(viewId, fragment);
             }
@@ -193,6 +193,10 @@ public abstract class TabUiActivity extends SimpleActivity {
             }
         }
         switchContent(lastFragment, fragment);
+    }
+
+    public void initSpecialPage() {
+        fragContainer.put(R.id.tv_tab3, initPage3());
     }
 
     public void switchContent(Fragment pre, Fragment next) {
@@ -248,7 +252,7 @@ public abstract class TabUiActivity extends SimpleActivity {
 //        } else {
 //            transaction.add(R.id.fl_content, fragment).commit();
 //        }
-        
+
         return fragment;
     }
 

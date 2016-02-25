@@ -53,7 +53,7 @@ public class DiseaseRecordActivity extends SimpleActivity {
         new TitleBar(activity).setTitle("疾病记录").back().showRight("添加", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(PublishActivity.class);
+                skip(PublishActivity.class,"1");
             }
         });
 

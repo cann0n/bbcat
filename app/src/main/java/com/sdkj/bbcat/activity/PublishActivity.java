@@ -12,6 +12,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -110,8 +111,15 @@ public class PublishActivity extends SimpleActivity {
 
     private Map<String, String> ids = new HashMap<>();
 
+    //0:PublishActivity普通日记，1疾病记录，2其他
+    private String type = "2";
+    
+    @ViewInject(R.id.tb_notify)
+    private ToggleButton tb_notify;
+    
     @Override
     public void initBusiness() {
+        type = (String) getVo("0");
         startBaiduLocation();
         int width = (AppUtils.getWidth(activity) - 80) / 3;
         View view = makeView(R.layout.item_photo);
@@ -135,6 +143,13 @@ public class PublishActivity extends SimpleActivity {
             }
         });
         fl_pics.addView(view);
+        if("0".equals(type)){
+            tv_label.setTag(R.id.tag_first,"1");
+            rl_label.setVisibility(View.GONE);
+        }else if("1".equals(type)){
+            tv_label.setTag(R.id.tag_first,"3");
+            rl_label.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -195,18 +210,23 @@ public class PublishActivity extends SimpleActivity {
             queryLabel();
             return;
         } else {
-            CircleTagVo tag1 = new CircleTagVo();
-            tag1.setTitle("普通日记");
-            tag1.setType("1");
-//            CircleTagVo tag2 = new CircleTagVo();
-//            tag2.setTitle("宝宝第一次");
-//            tag2.setType("2");
-            CircleTagVo tag3 = new CircleTagVo();
-            tag3.setTitle("疾病记录");
-            tag3.setType("3");
-            tags.add(tag1);
-//            tags.add(tag2);
-            tags.add(tag3);
+//            if(type.equals("0")){
+//                CircleTagVo tag1 = new CircleTagVo();
+//                tag1.setTitle("普通日记");
+//                tag1.setType("1");
+//            }else if(type.equals("1")){
+//                CircleTagVo tag3 = new CircleTagVo();
+//                tag3.setTitle("疾病记录");
+//                tag3.setType("3");
+//            }
+//            CircleTagVo tag1 = new CircleTagVo();
+//            tag1.setTitle("普通日记");
+//            tag1.setType("1");
+//            CircleTagVo tag3 = new CircleTagVo();
+//            tag3.setTitle("疾病记录");
+//            tag3.setType("3");
+//            tags.add(tag1);
+//            tags.add(tag3);
         }
 
         if (popupView == null) {
@@ -321,9 +341,11 @@ public class PublishActivity extends SimpleActivity {
             toast("请输入内容");
             return;
         }
-        if (tv_label.getTag(R.id.tag_first) == null && tv_label.getTag(R.id.tag_two) == null) {
-            toast("请选择标签");
-            return;
+        if (Utils.isEmpty(type)) {
+            if (tv_label.getTag(R.id.tag_first) == null && tv_label.getTag(R.id.tag_two) == null) {
+                toast("请选择标签");
+                return;
+            }
         }
         if (!SimpleUtils.isLogin(activity)) {
             skip(LoginActivity.class);
@@ -334,16 +356,18 @@ public class PublishActivity extends SimpleActivity {
         params.put("title", et_title.getText().toString());
         params.put("content", et_content.getText().toString());
         params.put("address", tv_address.getText().toString());
-        params.put("private", "0");//标签id
         if (tv_label.getTag(R.id.tag_two) != null) {
             params.put("category_id", tv_label.getTag(R.id.tag_two).toString());//标签id
         }
         if (tv_label.getTag(R.id.tag_first) != null) {
             params.put("type", tv_label.getTag(R.id.tag_first).toString());//标签id
             params.put("category_id", "2");//标签id
+        }
+        if(tb_notify.isChecked()){
+            params.put("private", "0");//标签id
+        }else{
             params.put("private", "1");//标签id
         }
-
         String pics = "";
         Set keys = ids.keySet();
         Iterator<String> it = keys.iterator();

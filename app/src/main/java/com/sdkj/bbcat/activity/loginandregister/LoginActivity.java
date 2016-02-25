@@ -259,6 +259,8 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                     if (plat.isAuthValid()) {
                         String userId = plat.getDb().getUserId();
                         login(userId, plat.getDb().getUserName(), plat.getDb().getUserIcon());
+                    }else{
+                        toast(plat.getName()+"平台未授权");
                     }
                 }
                 break;

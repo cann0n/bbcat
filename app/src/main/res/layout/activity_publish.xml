@@ -176,5 +176,36 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/color_divide" />
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_time"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:background="@color/color_white"
+          
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="公开"
+                android:textColor="@color/color333"
+                android:textSize="@dimen/font14"
+                android:paddingLeft="@dimen/theme_padding"
+                />
+            <ToggleButton
+                android:id="@+id/tb_notify"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                android:button="@drawable/toggle_btn"
+                android:checked="false"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                android:gravity="center"/>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

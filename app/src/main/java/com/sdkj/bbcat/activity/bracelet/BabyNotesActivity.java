@@ -56,7 +56,7 @@ public class BabyNotesActivity extends SimpleActivity {
         new TitleBar(activity).setTitle("宝宝日记").back().showRight("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(PublishActivity.class);
+                skip(PublishActivity.class,"0");
             }
         });
 

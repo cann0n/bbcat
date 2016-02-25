@@ -18,6 +18,8 @@ import com.sdkj.bbcat.fragment.NewsPage;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 
 public class MainActivity extends TabUiActivity {
 
@@ -106,6 +108,7 @@ public class MainActivity extends TabUiActivity {
             bean.setUid(sp_login.getStringValue(Const.UID));
             ((BbcatApp) getApplication()).setmUser(bean);
         }
+        initSpecialPage();
     }
 
     @Override
@@ -116,6 +119,11 @@ public class MainActivity extends TabUiActivity {
     @Override
     public void switchFragment(int viewId) {
         super.switchFragment(viewId);
+        if (viewId == R.id.tv_tab3) {
+            BraceletPage.ChangeEvent event = new BraceletPage.ChangeEvent();
+            event.setPosition(1);
+            EventBus.getDefault().post(event);
+        }
     }
 
     private long firstTime = 0;
@@ -135,7 +143,7 @@ public class MainActivity extends TabUiActivity {
                         app.finishAll();
                         finish();
                     } catch (Exception ex) {
-                    
+
                     }
                 }
                 break;

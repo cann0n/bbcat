@@ -193,7 +193,7 @@ public class CommunityPage extends BaseFragment {
 
     @OnClick(R.id.iv_left)
     void publish(View viewREAD_PHONE_STATE) {
-        activity.skip(PublishActivity.class);
+        activity.skip(PublishActivity.class,"");
     }
 
     @Override

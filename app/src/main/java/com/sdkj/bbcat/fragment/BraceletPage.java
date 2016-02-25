@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.fragment;
 
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -31,13 +32,19 @@ public class BraceletPage extends BaseFragment {
         return R.layout.fragment_bracelet;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this); 
+    }
+
     protected void setListener() {
-        EventBus.getDefault().register(this);
         ArrayList<FragmentVo> pageVo = new ArrayList<FragmentVo>();
         pageVo.add(new FragmentVo(new FragmentBracelet(), "智能手环"));
         pageVo.add(new FragmentVo(new FragmentSpoor(), "成长足迹"));
         FragPagerAdapter adapter = new FragPagerAdapter(activity.getSupportFragmentManager(), pageVo);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

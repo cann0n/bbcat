@@ -37,7 +37,6 @@ import cn.sharesdk.wechat.favorite.WechatFavorite;
  */
 public class NewsDetailActivity extends SimpleActivity {
 
-
     @ViewInject(R.id.web_view)
     private WebView web_view;
 
