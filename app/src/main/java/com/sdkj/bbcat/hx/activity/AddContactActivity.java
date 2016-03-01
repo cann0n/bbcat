@@ -116,7 +116,7 @@ public class AddContactActivity extends SimpleActivity {
 	 *  添加contact
 	 * @param view
 	 */
-	public void addContact(View view){
+	public void addContact(final View view){
 		if(EMChatManager.getInstance().getCurrentUser().equals(nameText.getText().toString())){
 			new EaseAlertDialog(this, R.string.not_add_myself).show();
 			return;
@@ -150,6 +150,9 @@ public class AddContactActivity extends SimpleActivity {
 							progressDialog.dismiss();
 							String s1 = getResources().getString(R.string.send_successful);
 							Toast.makeText(getApplicationContext(), s1, Toast.LENGTH_SHORT).show();
+							((Button)view).setText("待验证");
+							view.setClickable(false);
+							view.setEnabled(false);
 						}
 					});
 				} catch (final Exception e) {

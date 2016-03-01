@@ -14,6 +14,9 @@ import com.huaxi100.networkapp.utils.Utils;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2015/12/26 0026.
@@ -33,6 +36,34 @@ public class SimpleUtils {
         return url;
     }
 
+    /**
+     * 将时间字符串转化为时间戳
+     * PHP/1000
+     */
+    public static long getTimeStamp(String dateStr) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime() / 1000;
+    }
+    public static long getTimeMillion(String time) {
+//        Timestamp millionSeconds = Timestamp.valueOf(time + " 00:00:00");//毫秒
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        long lTime = System.currentTimeMillis();
+        Date dt2 = null;
+        try {
+            dt2 = sdf.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        lTime = dt2.getTime() / 1000;
+
+        return lTime;
+    }
     public static PostParams buildUrl(BaseActivity activity, PostParams params) {
         params.put("version", Const.APK_VERSION);
         params.put("client", Const.CLIENT);

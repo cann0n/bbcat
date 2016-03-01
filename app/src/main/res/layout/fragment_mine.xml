@@ -232,7 +232,44 @@
                 android:layout_marginTop="12dp"
                 android:background="#ffEAEAEA"
                 />
+            <RelativeLayout
+                android:id="@+id/rl_my_dynamic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="8dp"
+                >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="12dp"
+                    android:drawableLeft="@drawable/pc_dongtaiicon"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="我的动态"
+                    android:textColor="@color/default_black"
+                    android:textSize="20sp"/>
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="6dp"
+                    android:background="@drawable/intoicon"/>
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffEAEAEA"
+                />
             <RelativeLayout
                 android:id="@+id/pc_myfriendall"
                 android:layout_width="match_parent"

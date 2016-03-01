@@ -15,8 +15,10 @@ import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
+import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.BbcatApp;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.activity.MyDynamicActivity;
 import com.sdkj.bbcat.activity.loginandregister.BlacklistActivity;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.activity.loginandregister.MyCollectActivity;
@@ -148,6 +150,7 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
 
         /**好友动态*/
         else if (v == mFriendMsgRL) {
+
             activity.skip(MyFollowActivity.class);
         }
 
@@ -173,6 +176,11 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
         else if (v == mQitaRL) {
             SimpleUtils.loginOut(activity);
         }
+    }
+
+    @OnClick(R.id.rl_my_dynamic)
+    void showDynamic(View view) {
+        activity.skip(MyDynamicActivity.class);
     }
 
     @Override

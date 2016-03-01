@@ -3,6 +3,14 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
+    signingConfigs {
+        config {
+            keyAlias 'bbcat'
+            keyPassword 'bbcatbbcat'
+            storeFile file('bbcat.jks')
+            storePassword 'bbcatbbcat'
+        }
+    }
     defaultConfig {
         applicationId "com.sdkj.bbcat"
         minSdkVersion 14
@@ -12,13 +20,17 @@ android {
         multiDexEnabled true
     }
     dexOptions {
-        incremental true
+        incremental false
         preDexLibraries false
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {

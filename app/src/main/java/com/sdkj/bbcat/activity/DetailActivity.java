@@ -1,6 +1,8 @@
 package com.sdkj.bbcat.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
@@ -125,7 +127,7 @@ public class DetailActivity extends SimpleActivity {
             @Override
             public void onClick(View v) {
                 if (finalTitle.equals("删除")) {
-                    doDelete();
+                    showDeleteDialog();
                 } else {
                     if (newsVo != null && newsVo.getUser_info() != null) {
                         addContact(newsVo.getUser_info().getMobile());
@@ -264,7 +266,28 @@ public class DetailActivity extends SimpleActivity {
         });
     }
 
+    void showDeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage("确认删除吗?");
+        builder.setIcon(R.drawable.em_login_error_icon);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                doDelete();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
     private void doDelete() {
+
         showDialog();
         PostParams param = new PostParams();
         param.put("news_id", newsVo.getNews_info().getId());

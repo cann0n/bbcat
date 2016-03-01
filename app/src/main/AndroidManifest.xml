@@ -75,6 +75,10 @@
             android:name=".activity.PublishActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".activity.MyDynamicActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <activity
             android:name=".MainActivity"

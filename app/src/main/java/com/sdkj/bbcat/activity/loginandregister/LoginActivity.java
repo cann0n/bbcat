@@ -277,7 +277,7 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
         }
     };
 
-    private void login(String uuid, String nickname, String avatar) {
+    private void login(final String uuid, String nickname, String avatar) {
         showDialog();
         PostParams params = new PostParams();
         params.put("avatar", avatar);
@@ -301,7 +301,7 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                     sp_login.setValue(Const.AVATAR, bean.getUserInfo().getAvatar());
                     PreferenceManager.getInstance().setCurrentUserAvatar(SimpleUtils.getImageUrl(bean.getUserInfo().getAvatar()));
                     PreferenceManager.getInstance().setCurrentUserNick(bean.getUserInfo().getNickname());
-                    sp_login.setValue(Const.PHONE, mAccountEt.getText().toString().trim());
+                    sp_login.setValue(Const.PHONE, System.currentTimeMillis()/100+"");
                     SimpleUtils.loginHx(activity.getApplicationContext());
                     Intent intent = new Intent();
                     intent.putExtra("alreadymody", true);

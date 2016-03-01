@@ -267,15 +267,12 @@
                 android:layout_height="10dp"
                 android:background="#f0f0f0"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/color_divide"/>
 
             <RelativeLayout
                 android:id="@+id/rl_huodong"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="60dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_huodong"
@@ -317,7 +314,8 @@
             <RelativeLayout
                 android:id="@+id/rl_bida"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="60dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_bida"

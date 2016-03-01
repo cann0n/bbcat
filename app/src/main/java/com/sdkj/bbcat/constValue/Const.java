@@ -293,4 +293,9 @@ public class Const {
      *删除我的动态
      */
     public static final String DELETE_NEWS = DOMAIN + "index/delNews";
+
+    /**
+     *我的动态
+     */
+    public static final String MY_DYNAMIC = DOMAIN + "circle/lists";
 }

@@ -10,6 +10,16 @@ public class HospitalDetailVo {
     private Detail hospital_detail;
     
     private List<Expert> hospital_expert;
+    
+    private int hospital_activity;
+
+    public int getHospital_activity() {
+        return hospital_activity;
+    }
+
+    public void setHospital_activity(int hospital_activity) {
+        this.hospital_activity = hospital_activity;
+    }
 
     public Detail getHospital_detail() {
         return hospital_detail;
