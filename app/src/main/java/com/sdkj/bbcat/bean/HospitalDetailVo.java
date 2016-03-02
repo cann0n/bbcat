@@ -12,6 +12,15 @@ public class HospitalDetailVo {
     private List<Expert> hospital_expert;
     
     private int hospital_activity;
+    private int chat_open;
+
+    public int getChat_open() {
+        return chat_open;
+    }
+
+    public void setChat_open(int chat_open) {
+        this.chat_open = chat_open;
+    }
 
     public int getHospital_activity() {
         return hospital_activity;

@@ -93,6 +93,9 @@ public class HospitalDetailActivity extends SimpleActivity {
                     if (1 == detail.getHospital_activity()) {
                         rl_huodong.setVisibility(View.VISIBLE);
                     }
+                    if (1 == detail.getChat_open()) {
+                        rl_bida.setVisibility(View.VISIBLE);
+                    }
                     Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(detail.getHospital_detail().getCover())).into(iv_thumb);
                     tv_hospital_name.setText(detail.getHospital_detail().getTitle());
                     ratingBar.setRating(detail.getHospital_detail().getLevel());
