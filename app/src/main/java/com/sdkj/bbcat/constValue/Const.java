@@ -29,17 +29,17 @@ public class Const {
 
 
     //网络请求信息配置
-    public static final String DOMAIN = "http://120.26.212.241/api/";
+    public static final String DOMAIN = "http://120.27.146.227/api/";
 
     /**
      * 图片基地址
      */
-    public static final String IMAGE_DOMAIN = "http://120.26.212.241/";
+    public static final String IMAGE_DOMAIN = "http://120.27.146.227/";
 
     /**
      * 文档地址
      */
-    public static final String WIKI = "http://120.26.212.241:81/doku.php?id=wiki:oss";
+    public static final String WIKI = "http://120.27.146.227:81/doku.php?id=wiki:oss";
 
     /**
      * 获取首页信息

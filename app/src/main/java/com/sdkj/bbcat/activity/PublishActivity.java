@@ -151,6 +151,7 @@ public class PublishActivity extends SimpleActivity {
         }else if("1".equals(type)){
             tv_label.setTag(R.id.tag_first,"3");
             rl_label.setVisibility(View.GONE);
+            tb_notify.setChecked(false);
         }else {
             rl_time.setVisibility(View.GONE);
         }

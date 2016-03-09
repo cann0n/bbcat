@@ -268,10 +268,6 @@ public class FootPrintActivity extends SimpleActivity {
                 mRenderer.setXAxisMax(12);
                 mRenderer.setYAxisMin(0);
                 mRenderer.setYAxisMax(30);
-                mRenderer.setXAxisMin(0);
-                mRenderer.setXAxisMax(12);
-                mRenderer.setYAxisMin(0);
-                mRenderer.setYAxisMax(80);
                 mRenderer.setYTitle("单位(kg)");
                 for (GrowthVo.BobyState state : vo.getLogs()) {
                     A.add(state.getMonth(), state.getMax_weight());

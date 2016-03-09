@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.AppUtils;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
@@ -31,16 +33,26 @@ import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.activity.bracelet.BabyNotesActivity;
 import com.sdkj.bbcat.bean.LoginBean;
 import com.sdkj.bbcat.bean.RespVo;
+import com.sdkj.bbcat.bean.UploadFileVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.fragment.FragmentMine;
 import com.sdkj.bbcat.hx.PreferenceManager;
 import com.sdkj.bbcat.widget.CircleImageView;
+import com.sdkj.bbcat.widget.GlideImageLoader;
 import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.List;
+
+import cn.finalteam.galleryfinal.GalleryConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Mr.Yuan on 2016/1/13 0013.
@@ -107,9 +119,10 @@ public class PersonInfosActivity extends SimpleActivity implements View.OnClickL
                         toast("请选择宝宝的出生日期后再提交资料");
                         return;
                     }
-                    if (mAddress.getText().toString().trim().length() != 0)
-                        params.put("lat & lng", String.valueOf(mLatitude) + "&" + String.valueOf(mLoginBean));
-                    else {
+                    if (mAddress.getText().toString().trim().length() != 0) {
+                        params.put("lat", mLatitude + "");
+                        params.put("lng", mLongitude + "");
+                    } else {
                         toast("定位失败，请重新定位后再提交资料");
                         return;
                     }
@@ -150,6 +163,8 @@ public class PersonInfosActivity extends SimpleActivity implements View.OnClickL
                                 Intent intent = new Intent();
                                 intent.putExtra("alreadymody", true);
                                 setResult(0, intent);
+                                EventBus.getDefault().post(new FragmentMine.RefreshEvent());
+
                                 finish();
                                 /**在下面修改头像*/
                             } catch (Exception e) {
@@ -193,43 +208,51 @@ public class PersonInfosActivity extends SimpleActivity implements View.OnClickL
 
     public void onClick(View v) {
         if (v == mHeadall) {
-            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.show();
-
-            View view = LayoutInflater.from(this).inflate(R.layout.inflater_photocamera, null);
-            alertDialog.setContentView(view);
-            TextView localPhoto = (TextView) view.findViewById(R.id.photocamera_bendizhaopian);
-            TextView camera = (TextView) view.findViewById(R.id.photocamera_zhaoxiang);
-            TextView quxiao = (TextView) view.findViewById(R.id.photocamera_quxiao);
-            localPhoto.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    startPicLib();
-                    alertDialog.dismiss();
-                }
-            });
-
-            camera.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    startCamera();
-                    alertDialog.dismiss();
-                }
-            });
-
-            quxiao.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    alertDialog.dismiss();
-                }
-            });
-
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            Window window = alertDialog.getWindow();
-            window.setWindowAnimations(R.style.PhotoCameraDialogAnim);
-
-            WindowManager.LayoutParams params = alertDialog.getWindow().getAttributes();
-            params.width = displayMetrics.widthPixels;
-            params.gravity = Gravity.BOTTOM;
-            alertDialog.getWindow().setAttributes(params);
+//            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+//            alertDialog.show();
+//
+//            View view = LayoutInflater.from(this).inflate(R.layout.inflater_photocamera, null);
+//            alertDialog.setContentView(view);
+//            TextView localPhoto = (TextView) view.findViewById(R.id.photocamera_bendizhaopian);
+//            TextView camera = (TextView) view.findViewById(R.id.photocamera_zhaoxiang);
+//            TextView quxiao = (TextView) view.findViewById(R.id.photocamera_quxiao);
+//            localPhoto.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    startPicLib();
+//                    alertDialog.dismiss();
+//                }
+//            });
+//
+//            camera.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    startCamera();
+//                    alertDialog.dismiss();
+//                }
+//            });
+//
+//            quxiao.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    alertDialog.dismiss();
+//                }
+//            });
+//
+//            DisplayMetrics displayMetrics = new DisplayMetrics();
+//            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//            Window window = alertDialog.getWindow();
+//            window.setWindowAnimations(R.style.PhotoCameraDialogAnim);
+//
+//            WindowManager.LayoutParams params = alertDialog.getWindow().getAttributes();
+//            params.width = displayMetrics.widthPixels;
+//            params.gravity = Gravity.BOTTOM;
+//            alertDialog.getWindow().setAttributes(params);
+            GalleryConfig.Builder builder = new GalleryConfig.Builder(activity);
+            builder.imageloader(new GlideImageLoader());
+            builder.singleSelect();
+            builder.enableEdit();
+            builder.enableRotate();
+            builder.showCamera();
+            GalleryConfig config = builder.build();
+            GalleryFinal.open(config);
         } else if (v == mNickAll) {
             Intent intent = new Intent(this, NickNameActivity.class);
             intent.putExtra("nickname", mNick.getText().toString().trim());
@@ -311,6 +334,15 @@ public class PersonInfosActivity extends SimpleActivity implements View.OnClickL
                 break;
             }
         }
+        if (requestCode == GalleryFinal.GALLERY_REQUEST_CODE) {
+            if (resultCode == GalleryFinal.GALLERY_RESULT_SUCCESS) {
+                List<PhotoInfo> photoInfoList = (List<PhotoInfo>) data.getSerializableExtra(GalleryFinal.GALLERY_RESULT_LIST_DATA);
+                if (photoInfoList != null) {
+                    String photo = photoInfoList.get(0).getPhotoPath();
+                    uploadImage(photo);
+                }
+            }
+        }
     }
 
     private void startBaiduLocation() {
@@ -334,10 +366,37 @@ public class PersonInfosActivity extends SimpleActivity implements View.OnClickL
         public void onReceiveLocation(BDLocation location) {
             if (!Utils.isEmpty(location.getLatitude() + "") && !Utils.isEmpty(location.getLongitude() + "")) {
                 mLatitude = location.getLatitude();
-                mLatitude = location.getLongitude();
+                mLongitude = location.getLongitude();
                 mAddress.setText(location.getCity());
             }
             mLocationClient.stop();
         }
+    }
+
+
+    private void uploadImage(final String path) {
+        showDialog();
+        final PostParams params = new PostParams();
+        params.put("file", new File(path));
+        HttpUtils.postJSONObject(activity, Const.UpdateUserAvatar, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject jsonObject) {
+                dismissDialog();
+                RespVo resp = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                if (resp.isSuccess()) {
+                    SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+                    sp.setValue(Const.AVATAR, jsonObject.optJSONObject("data").optString("avatar128"));
+                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl((jsonObject.optJSONObject("data").optString("avatar128")))).into(mHead);
+                    EventBus.getDefault().post(new FragmentMine.RefreshEvent());
+                } else {
+                    toast("更新头像失败,请重试");
+                }
+            }
+
+            @Override
+            public void doFailed() {
+                dismissDialog();
+            }
+        });
     }
 }

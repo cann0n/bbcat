@@ -197,7 +197,14 @@ public class HospitalDetailActivity extends SimpleActivity {
     @OnClick(R.id.rl_huodong)
     void newAct(View view) {
         skip(DoctorActActivity.class, id);
+//        BNDemoGuideActivity
     }
+    
+    @OnClick(R.id.rl_address)
+    void showGuide(View view){
+//        skip(BNDemoGuideActivity.class);
+    }
+            
 
     @Override
     public int setLayoutResID() {

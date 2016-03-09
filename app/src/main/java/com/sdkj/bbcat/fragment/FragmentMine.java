@@ -34,6 +34,8 @@ import com.sdkj.bbcat.widget.CircleImageView;
 
 import org.json.JSONObject;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by ${Rhino} on 2016/2/1 17:10
  */
@@ -78,6 +80,7 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void setListener() {
+        EventBus.getDefault().register(this);
         initData();
         mLogin.setOnClickListener(this);
         mRegis.setOnClickListener(this);
@@ -176,6 +179,25 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
         else if (v == mQitaRL) {
             SimpleUtils.loginOut(activity);
         }
+    }
+    public void onEventMainThread(RefreshEvent event) {
+        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+        Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(sp.getStringValue(Const.AVATAR))).into(mHead);
+//        mUnLoginLL.setVisibility(View.GONE);
+//        mName.setVisibility(View.VISIBLE);
+        mName.setText(sp.getStringValue(Const.NICKNAME));
+//        getUserInfo();
+    }
+    
+    
+    public  static class RefreshEvent{
+        
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @OnClick(R.id.rl_my_dynamic)

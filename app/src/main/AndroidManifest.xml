@@ -48,6 +48,9 @@
         <activity
             android:name=".activity.SearchActivity"
             android:screenOrientation="portrait"/>
+        <!--<activity android:name=".activity.doctor.BNDemoGuideActivity"-->
+                  <!--android:screenOrientation="landscape"-->
+            <!--/>-->
         <activity
             android:name=".activity.MoreTagsActivity"
             android:screenOrientation="portrait"/>

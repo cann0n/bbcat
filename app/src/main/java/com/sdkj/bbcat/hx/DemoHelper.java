@@ -564,6 +564,8 @@ public class DemoHelper {
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
             EventBus.getDefault().post(new CommunityPage.ConnectEvent(4));
+            Toast.makeText(appContext, username + "请求加你为好友", Toast.LENGTH_SHORT).show();  
+            
         }
 
         @Override
@@ -582,12 +584,14 @@ public class DemoHelper {
             msg.setStatus(InviteMessage.InviteMesageStatus.BEAGREED);
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+            Toast.makeText(appContext,username + "同意了你的好友请求",Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onContactRefused(String username) {
             // 参考同意，被邀请实现此功能,demo未实现
             Log.d(username, username + "拒绝了你的好友请求");
+            Toast.makeText(appContext,username + "拒绝了你的好友请求",Toast.LENGTH_SHORT).show();
         }
 
     }
