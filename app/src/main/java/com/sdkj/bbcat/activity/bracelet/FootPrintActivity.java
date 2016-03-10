@@ -13,6 +13,7 @@ import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.GsonTools;
+import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
@@ -258,6 +259,7 @@ public class FootPrintActivity extends SimpleActivity {
                 mRenderer.setYAxisMax(80);
                 mRenderer.setYTitle("单位(cm)");
                 for (GrowthVo.BobyState state : vo.getLogs()) {
+                    double X= Double.parseDouble(Utils.formatTime(state.getCreate_time() + "000", "MM.dd"));
                     A.add(state.getMonth(), state.getMax_height());
                     B.add(state.getMonth(), Double.parseDouble(state.getHeight()));
                     C.add(state.getMonth(), state.getAvg_height());

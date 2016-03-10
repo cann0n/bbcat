@@ -12,6 +12,10 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
 import com.easemob.chat.EMConversation;
 import com.huaxi100.networkapp.activity.BaseActivity;
@@ -28,6 +32,7 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
 import com.sdkj.bbcat.activity.doctor.DoctorActActivity;
+import com.sdkj.bbcat.activity.doctor.MapActivity;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.bean.HospitalDetailVo;
 import com.sdkj.bbcat.bean.RespVo;
@@ -37,6 +42,8 @@ import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
+
+import java.util.Map;
 
 public class HospitalDetailActivity extends SimpleActivity {
 
@@ -162,6 +169,7 @@ public class HospitalDetailActivity extends SimpleActivity {
                 finish();
             }
         });
+        startBaiduLocation();
     }
 
 
@@ -199,12 +207,50 @@ public class HospitalDetailActivity extends SimpleActivity {
         skip(DoctorActActivity.class, id);
 //        BNDemoGuideActivity
     }
-    
+
     @OnClick(R.id.rl_address)
-    void showGuide(View view){
-//        skip(BNDemoGuideActivity.class);
+    void showGuide(View view) {
+        Map value = SimpleUtils.bd_decrypt(detail.getHospital_detail().getLat(), detail.getHospital_detail().getLng());
+        Map start = SimpleUtils.bd_decrypt(lat,lng);
+//        activity.skip(MapActivity.class, "http://m.amap.com/?mk=" + value.get("lat") + "," + value.get("long"));
+//        activity.skip(MapActivity.class, "http://m.amap.com/navi/?start=" + start.get("long") + "," + start.get("lat") + "&dest=" + value.get("long") + "," + value.get("lat") + "&destName=导航" + "&key=111386300d4f42d9263663b3b86cc86b&naviBy=car");
+        String url="http://m.amap.com/navi/?start="+ start.get("long")+"%2C"+start.get("lat")+"&dest="+value.get("long")+"%2C"+value.get("lat")+"&destName=导航&naviBy=car&key=29e26163bbcae70f9136cf2a073c819a";
+        activity.skip(MapActivity.class,url);
+
+
     }
-            
+
+    private double lat = 0;
+    private double lng = 0;
+
+    private void startBaiduLocation() {
+        LocationClient mLocationClient = new LocationClient(activity.getApplicationContext());     //声明LocationClient类
+        mLocationClient.registerLocationListener(new MyLocationListener(mLocationClient));    //注册监听函数
+        LocationClientOption option = new LocationClientOption();
+        option.setCoorType("bd09ll");
+        option.setScanSpan(0);
+        option.setIsNeedAddress(true);
+        mLocationClient.setLocOption(option);
+        mLocationClient.start();
+    }
+
+    private class MyLocationListener implements BDLocationListener {
+
+        LocationClient mLocationClient;
+
+        public MyLocationListener(LocationClient mLocationClient) {
+            this.mLocationClient = mLocationClient;
+        }
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (!Utils.isEmpty(location.getLatitude() + "") && !Utils.isEmpty(location.getLongitude() + "")) {
+                mLocationClient.stop();
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+            }
+        }
+    }
 
     @Override
     public int setLayoutResID() {

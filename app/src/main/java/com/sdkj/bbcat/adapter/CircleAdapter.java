@@ -22,6 +22,7 @@ import com.huaxi100.networkapp.adapter.UltimatCommonAdapter;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.AppUtils;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
@@ -49,8 +50,7 @@ import cn.sharesdk.wechat.favorite.WechatFavorite;
  * Created by ${Rhino} on 2015/12/10 14:24
  * 我的圈列表
  */
-public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, CircleAdapter.ViewHolder>
-{
+public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, CircleAdapter.ViewHolder> {
     public CircleAdapter(BaseActivity activity, List<CircleVo.ItemCircle> data) {
         super(activity, ViewHolder.class, R.id.class, data, R.layout.item_circle);
     }
@@ -66,10 +66,42 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
             holder.tv_name.setText(newsVo.getUser_info().getNickname());
             holder.tv_desc.setText(newsVo.getUser_info().getBirthday());
             if (Utils.isEmpty(newsVo.getNews_info().getMulti_cover())) {
-                holder.iv_thumb.setVisibility(View.GONE);
+                holder.ll_img_container.setVisibility(View.GONE);
             } else {
-                holder.iv_thumb.setVisibility(View.VISIBLE);
-                Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(holder.iv_thumb);
+                holder.ll_img_container.setVisibility(View.VISIBLE);
+                if (newsVo.getNews_info().getMulti_cover().size() == 1) {
+                    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,AppUtils.dip2px(activity,205));
+                    holder.iv_thumb1.setLayoutParams(lp);
+                    holder.iv_thumb2.setVisibility(View.GONE);
+                    holder.iv_thumb3.setVisibility(View.GONE);
+                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(holder.iv_thumb1);
+                } else if (newsVo.getNews_info().getMulti_cover().size() == 2) {
+                    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,AppUtils.dip2px(activity,205));
+                    holder.iv_thumb1.setLayoutParams(lp);
+                    holder.iv_thumb2.setVisibility(View.GONE);
+                    holder.iv_thumb3.setVisibility(View.GONE);
+                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(holder.iv_thumb1);
+                } else if (newsVo.getNews_info().getMulti_cover().size() == 3) {
+                    int w=AppUtils.getWidth(activity)/3-30;
+                    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(w,w);
+                    lp.weight=1;
+                    LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(w,w);
+                    lp2.leftMargin=10;
+                    lp2.weight=1;
+                    LinearLayout.LayoutParams lp3=new LinearLayout.LayoutParams(w,w);
+                    lp3.leftMargin=10;
+                    lp3.weight=1;
+                    holder.iv_thumb1.setLayoutParams(lp);
+                    holder.iv_thumb2.setLayoutParams(lp2);
+                    holder.iv_thumb3.setLayoutParams(lp3);
+                    
+                    holder.iv_thumb2.setVisibility(View.VISIBLE);
+                    holder.iv_thumb3.setVisibility(View.VISIBLE);
+                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(holder.iv_thumb1);
+                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(1).getImg())).into(holder.iv_thumb2);
+                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(2).getImg())).into(holder.iv_thumb3);
+                }
+
             }
             if (Utils.isEmpty(newsVo.getNews_info().getAddress())) {
                 holder.tv_address.setVisibility(View.GONE);
@@ -82,96 +114,77 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
             if (Utils.isEmpty(newsVo.getNews_info().getColor())) {
                 holder.tv_title.setText(newsVo.getNews_info().getTitle());
             } else {
-                String text = "<html><font color=\""+newsVo.getNews_info().getColor()+"\">" + "[" + newsVo.getNews_info().getCategory_name() + "]" + "</font></html>";
+                String text = "<html><font color=\"" + newsVo.getNews_info().getColor() + "\">" + "[" + newsVo.getNews_info().getCategory_name() + "]" + "</font></html>";
                 holder.tv_title.setText(Html.fromHtml(text + newsVo.getNews_info().getTitle()));
             }
-            
-            
+
+
             holder.tv_comment.setText(newsVo.getNews_info().getComment());
             holder.tv_zan.setText(newsVo.getNews_info().getCollection());
 
-            holder.ll_item.setOnClickListener(new View.OnClickListener()
-            {
+            holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view)
-                {
-                   activity.skip(DetailActivity.class,newsVo);
+                public void onClick(View view) {
+                    activity.skip(DetailActivity.class, newsVo);
                 }
             });
             holder.ll_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(Utils.isEmpty(newsVo.getNews_info().getMulti_cover())){
-                        showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(),"");
-                    }else {
+                    if (Utils.isEmpty(newsVo.getNews_info().getMulti_cover())) {
+                        showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(), "");
+                    } else {
                         showShare(activity, null, false, newsVo.getNews_info().getTitle(), newsVo.getNews_info().getId(), SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg()));
                     }
                 }
             });
 
-            holder.ll_comment.setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View v)
-                {
+            holder.ll_comment.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                     final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
                     alertDialog.setCanceledOnTouchOutside(true);
                     alertDialog.setView(new EditText(activity));
                     alertDialog.show();
 
-                    View view = LayoutInflater.from(activity).inflate(R.layout.inflater_comment,null);
+                    View view = LayoutInflater.from(activity).inflate(R.layout.inflater_comment, null);
                     alertDialog.setContentView(view);
-                    final EditText et = (EditText)view.findViewById(R.id.comment_et);
-                    final TextView btn = (TextView)view.findViewById(R.id.comment_btn);
+                    final EditText et = (EditText) view.findViewById(R.id.comment_et);
+                    final TextView btn = (TextView) view.findViewById(R.id.comment_btn);
 
-                    btn.setOnClickListener(new View.OnClickListener()
-                    {
-                        public void onClick(View v)
-                        {
-                            if(!Utils.isEmpty(et.getText().toString().trim()))
-                            {
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            if (!Utils.isEmpty(et.getText().toString().trim())) {
 
                                 final PostParams params = new PostParams();
-                                try
-                                {
+                                try {
                                     params.put("id", newsVo.getNews_info().getId());
-                                    params.put("content",et.getText().toString().trim());
-                                }
-                                catch(Exception e)
-                                {
+                                    params.put("content", et.getText().toString().trim());
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
 
-                                HttpUtils.postJSONObject(activity, Const.CommitComment, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity)
-                                {
-                                    public void getResp(JSONObject jsonObject)
-                                    {
+                                HttpUtils.postJSONObject(activity, Const.CommitComment, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+                                    public void getResp(JSONObject jsonObject) {
                                         ((SimpleActivity) activity).dismissDialog();
                                         RespVo<CommentVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                                        if (respVo.isSuccess())
-                                        {
+                                        if (respVo.isSuccess()) {
                                             CommentVo commentVo = respVo.getData(jsonObject, CommentVo.class);
-                                            holder.tv_comment.setText((Integer.valueOf(newsVo.getNews_info().getComment())+1)+"");
+                                            holder.tv_comment.setText((Integer.valueOf(newsVo.getNews_info().getComment()) + 1) + "");
                                             activity.toast("评论成功");
                                             alertDialog.dismiss();
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             activity.toast(respVo.getMessage());
                                         }
                                     }
 
-                                    public void doFailed()
-                                    {
+                                    public void doFailed() {
 
                                         ((SimpleActivity) activity).dismissDialog();
                                         activity.toast("评论失败");
                                         alertDialog.dismiss();
                                     }
                                 });
-                            }
-
-                            else
-                            {
+                            } else {
                                 activity.toast("请输入评论内容后再提交");
                             }
                         }
@@ -231,7 +244,9 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
     public static class ViewHolder extends UltimateRecyclerviewViewHolder {
 
         CircleImageView iv_avatar;
-        ImageView iv_thumb;
+        ImageView iv_thumb1;
+        ImageView iv_thumb2;
+        ImageView iv_thumb3;
         TextView tv_name;
         TextView tv_desc;
 
@@ -251,6 +266,7 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         LinearLayout ll_share;
         LinearLayout ll_zan;
         LinearLayout ll_comment;
+        LinearLayout ll_img_container;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -274,10 +290,8 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                         newsVo.getNews_info().setCollection(like_num.getText().toString());
                         anim.setVisibility(View.VISIBLE);
                         anim.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.applaud_animation));
-                        new Handler().postDelayed(new Runnable()
-                        {
-                            public void run()
-                            {
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
                                 anim.setVisibility(View.GONE);
                             }
                         }, 1000);
@@ -302,47 +316,40 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
     private void doLike(final CircleVo.ItemCircle newsVo, final TextView follow) {
         SpUtil sp = new SpUtil(activity, Const.SP_NAME);
-        if(sp.getStringValue(Const.UID).equals(newsVo.getUser_info().getUid())){
+        if (sp.getStringValue(Const.UID).equals(newsVo.getUser_info().getUid())) {
             activity.toast("不能对自己进行操作");
             return;
         }
         PostParams param = new PostParams();
         param.put("to_uid", newsVo.getUser_info().getUid());
         param.put("uid", sp.getStringValue(Const.UID));
-        HttpUtils.postJSONObject(activity, Const.DO_FOLLOW, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity)
-        {
+        HttpUtils.postJSONObject(activity, Const.DO_FOLLOW, SimpleUtils.buildUrl(activity, param), new RespJSONObjectListener(activity) {
             @Override
-            public void getResp(JSONObject jsonObject)
-            {
+            public void getResp(JSONObject jsonObject) {
                 RespVo<String> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
-                if (respVo.isSuccess())
-                {
-                    if ("0".equals(newsVo.getUser_info().getIs_following()))
-                    {
+                if (respVo.isSuccess()) {
+                    if ("0".equals(newsVo.getUser_info().getIs_following())) {
                         newsVo.getUser_info().setIs_following("1");
                         follow.setText("已关注");
-                    } else
-                    {
+                    } else {
                         newsVo.getUser_info().setIs_following("1");
                         follow.setText("关注");
                     }
 
 
-                } else if (respVo.isNeedLogin())
-                {
+                } else if (respVo.isNeedLogin()) {
                     activity.skip(LoginActivity.class);
                 }
             }
 
             @Override
-            public void doFailed()
-            {
+            public void doFailed() {
 
             }
         });
     }
 
-    public void showShare(Context context, String platformToShare, boolean showContentEdit,String title,String id,String cover) {
+    public void showShare(Context context, String platformToShare, boolean showContentEdit, String title, String id, String cover) {
         OnekeyShare oks = new OnekeyShare();
         oks.setSilent(!showContentEdit);
         if (platformToShare != null) {
@@ -358,10 +365,10 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         oks.setTitle(title);//分享标题
         oks.setTitleUrl(Const.SHARE + id);//分享地址
         oks.setText(title);//分享文本
-        if(!Utils.isEmpty(cover)){
+        if (!Utils.isEmpty(cover)) {
             oks.setImageUrl(SimpleUtils.getImageUrl(cover));//分享图片
         }
-        oks.setUrl(Const.SHARE+id); //微信不绕过审核分享链接
+        oks.setUrl(Const.SHARE + id); //微信不绕过审核分享链接
         oks.setComment("分享"); //我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供
         oks.setSite("咘咘猫");  //QZone分享完之后返回应用时提示框上显示的名称
         oks.setSiteUrl(Const.SHARE + id);//QZone分享参数

@@ -1,6 +1,7 @@
 package com.sdkj.bbcat.adapter;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,18 +37,21 @@ public class AroundAdapter extends UltimatCommonAdapter<AroundPeopleVo, AroundAd
 
             Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getAvatar())).into(holder.iv_avatar);
             holder.tv_desc.setText(newsVo.getDistance());
-
+            holder.tv_jiaru.setText("加TA");
             holder.tv_name.setText(newsVo.getNickname());
             holder.tv_jiaru.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addContact(newsVo.getMobile());
+                    if("待验证".equals(holder.tv_jiaru.getText().toString())){
+                        return;
+                    }
+                    addContact(newsVo.getMobile(),holder.tv_jiaru);
                 }
             });
         }
     }
 
-    public void addContact( final String mobile) {
+    public void addContact( final String mobile, final TextView tv_jiaru) {
         if (EMChatManager.getInstance().getCurrentUser().equals(mobile)) {
             new EaseAlertDialog(activity, R.string.not_add_myself).show();
             return;
@@ -81,6 +85,8 @@ public class AroundAdapter extends UltimatCommonAdapter<AroundPeopleVo, AroundAd
                             progressDialog.dismiss();
                             String s1 = activity.getResources().getString(R.string.send_successful);
                             activity.toast(s1);
+                            tv_jiaru.setText("待验证");
+                            tv_jiaru.setTextColor(Color.parseColor("#999999"));
                         }
                     });
                 } catch (final Exception e) {

@@ -56,6 +56,24 @@ public class HospitalDetailVo {
         private String detail;
         private String category_name;
         private String hxchat_id;
+        private double lat;
+        private double lng;
+
+        public double getLat() {
+            return lat;
+        }
+
+        public void setLat(double lat) {
+            this.lat = lat;
+        }
+
+        public double getLng() {
+            return lng;
+        }
+
+        public void setLng(double lng) {
+            this.lng = lng;
+        }
 
         public String getHxchat_id() {
             return hxchat_id;

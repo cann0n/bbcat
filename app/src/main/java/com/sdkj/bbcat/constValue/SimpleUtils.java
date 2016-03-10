@@ -14,9 +14,12 @@ import com.huaxi100.networkapp.utils.Utils;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/12/26 0026.
@@ -196,5 +199,24 @@ public class SimpleUtils {
                 new AlertDialog.Builder(context).setMessage(sp.getStringValue(Const.NOTIFY_MSG)).setPositiveButton("确定", null).show();
             }
         }
+    }
+
+
+    public static Map bd_decrypt(double bd_lat, double bd_lon) {
+         double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+        Map map = new HashMap();
+        double mgLat, mgLon;
+        double x = bd_lon - 0.0065, y = bd_lat - 0.006;
+        double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi);
+        double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);
+        mgLon = z * Math.cos(theta);
+        mgLat = z * Math.sin(theta);
+        DecimalFormat df   = new DecimalFormat("0.000000");
+        map.put("lat", mgLat);
+        map.put("long",mgLon );
+//        DecimalFormat df   = new DecimalFormat("0.000000");
+//        map.put("lat", df.format(mgLat));
+//        map.put("long",df.format(mgLon) );
+        return map;
     }
 }
