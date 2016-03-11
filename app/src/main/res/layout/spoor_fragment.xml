@@ -65,6 +65,14 @@
                         android:textSize="@dimen/font14"
                         android:visibility="visible"/>
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    >
                     <TextView
                         android:id="@+id/sh_inoculation"
                         android:layout_width="wrap_content"
@@ -77,23 +85,13 @@
                         android:textColor="@color/color333"
                         android:textSize="@dimen/font14"
                         android:visibility="visible"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    >
-
                     <TextView
                         android:id="@+id/tv_record"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/sh_yufang"
+                        android:drawableTop="@drawable/icon_jibinjilu"
                         android:gravity="center_horizontal"
                         android:text="疾病记录"
                         android:textColor="@color/color333"
@@ -106,38 +104,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/sh_yufang"
+                        android:drawableTop="@drawable/icon_baobaofushi"
                         android:gravity="center_horizontal"
                         android:text="宝宝辅食"
                         android:textColor="@color/color333"
                         android:textSize="@dimen/font14"
                         />
 
-                    <TextView
-                        android:id="@+id/tv_vaccine"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/sh_red"
-                        android:gravity="center_horizontal"
-                        android:text="疫苗记录"
-                        android:textColor="@color/color333"
-                        android:textSize="@dimen/font14"
-                        android:visibility="invisible"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/sh_orange"
-                        android:gravity="center_horizontal"
-                        android:text="预防接种"
-                        android:textColor="@color/color333"
-                        android:textSize="@dimen/font14"
-                        android:visibility="invisible"/>
                 </LinearLayout>
             </LinearLayout>
 

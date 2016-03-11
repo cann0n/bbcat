@@ -17,6 +17,7 @@ import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.bean.AroundPeopleVo;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.hx.DemoHelper;
+import com.sdkj.bbcat.widget.CircleImageView;
 
 import java.util.List;
 
@@ -104,7 +105,7 @@ public class AroundAdapter extends UltimatCommonAdapter<AroundPeopleVo, AroundAd
 
     public static class ViewHolder extends UltimateRecyclerviewViewHolder {
 
-        ImageView iv_avatar;
+        CircleImageView iv_avatar;
         TextView tv_name;
         TextView tv_desc;
         TextView tv_jiaru;

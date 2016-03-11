@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp">
         <!-- 自行换为圆形imageview-->
-       <ImageView
+       <com.sdkj.bbcat.widget.CircleImageView
            android:id="@+id/iv_avatar"
            android:layout_width="55dp"
            android:layout_height="55dp"
