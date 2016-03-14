@@ -287,10 +287,10 @@ public class AddFeedNotesActivity extends SimpleActivity {
             toast("请先计时");
             return;
         }
-        if (Utils.isEmpty(et_desc.getText().toString().trim())) {
-            toast("请输入喂养情况");
-            return;
-        }
+//        if (Utils.isEmpty(et_desc.getText().toString().trim())) {
+//            toast("请输入喂养情况");
+//            return;
+//        }
         final PostParams params = new PostParams();
         params.put("type", type + "");
         params.put("day", start_time.getText().toString());

@@ -80,7 +80,7 @@ public class GrowthVo implements  Serializable
         private String weight;
         private String head;
         private String create_time;
-        private int month;
+        private double month;
         private float min_height;
         private float max_height;
         private float min_weight;
@@ -186,12 +186,12 @@ public class GrowthVo implements  Serializable
             this.create_time = create_time;
         }
 
-        public int getMonth()
+        public double getMonth()
         {
             return month;
         }
 
-        public void setMonth(int month)
+        public void setMonth(double month)
         {
             this.month = month;
         }

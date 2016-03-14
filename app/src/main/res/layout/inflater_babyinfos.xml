@@ -35,7 +35,6 @@
                 android:id="@+id/sh_sgtvup"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="身高:40cm"
                 android:textColor="@color/default_black"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
@@ -45,7 +44,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="6dp"
-                android:text="低于正常范围之内，请加强宝宝的饮食营养!"
                 android:textColor="@color/color_gray"
                 android:textSize="15sp"/>
 
@@ -81,7 +79,6 @@
                 android:id="@+id/sh_tztvup"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="体重:3kg"
                 android:textColor="@color/default_black"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
@@ -91,7 +88,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="6dp"
-                android:text="在正常范围之内。"
                 android:textColor="@color/color_gray"
                 android:textSize="15sp"/>
 
@@ -127,7 +123,6 @@
                 android:id="@+id/sh_twtvup"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="头围:33cm"
                 android:textColor="@color/default_black"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
@@ -137,7 +132,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="6dp"
-                android:text="在正常范围之内。"
                 android:textColor="@color/color_gray"
                 android:textSize="15sp"/>
 
@@ -155,6 +149,6 @@
         android:gravity="center"
         android:text="确定"
         android:textSize="20sp"
-        android:textColor="@color/color_gray"
+        android:textColor="@color/default_black"
         android:background="#ffF0F0F0"/>
 </LinearLayout>

@@ -10,6 +10,7 @@ import com.huaxi100.networkapp.adapter.UltimatCommonAdapter;
 import com.huaxi100.networkapp.utils.Utils;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.activity.bracelet.RecordInfoActivity;
 import com.sdkj.bbcat.bean.FeedInoVo;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class FeedNotesAdapter extends UltimatCommonAdapter<FeedInoVo, FeedNotesA
             holder.tv_week.setText(feedInoVo.getWeek());
             holder.ll_container.removeAllViews();
             if (!Utils.isEmpty(feedInoVo.getList())) {
-                for (FeedInoVo.FeedInfo vo : feedInoVo.getList()) {
+                for (final FeedInoVo.FeedInfo vo : feedInoVo.getList()) {
                     View view = activity.makeView(R.layout.item_feed_list);
                     ImageView iv_type = (ImageView) view.findViewById(R.id.iv_type);
                     TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
@@ -50,6 +51,12 @@ public class FeedNotesAdapter extends UltimatCommonAdapter<FeedInoVo, FeedNotesA
                     tv_type.setText(vo.getName());
                     tv_long.setText(vo.getNum());
                     tv_desc.setText(vo.getDesc());
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            activity.skip(RecordInfoActivity.class,vo);
+                        }
+                    });
                     holder.ll_container.addView(view);
                 }
             }

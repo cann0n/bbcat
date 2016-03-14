@@ -82,6 +82,10 @@
             android:name=".activity.MyDynamicActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".activity.bracelet.RecordInfoActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <activity
             android:name=".MainActivity"

@@ -61,6 +61,10 @@ public class FootPrintActivity extends SimpleActivity {
 
     @ViewInject(R.id.bra_vwselectorthree)
     private View line3;
+    
+    
+    @ViewInject(R.id.tv_tips)
+    private TextView tv_tips;
 
     private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
     private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
@@ -95,14 +99,14 @@ public class FootPrintActivity extends SimpleActivity {
             r.setLineWidth(5);
             r.setFillPoints(true);
         }
-        setChartSettings(mRenderer, "", "月份", "", 0.5, 12.5, 0, 40, Color.parseColor("#666666"), Color.parseColor("#666666"));
+        setChartSettings(mRenderer, "", "月龄", "", 0.5, 12.5, 0, 40, Color.parseColor("#666666"), Color.parseColor("#666666"));
         mRenderer.setXLabels(12);
         mRenderer.setYLabels(20);
         mRenderer.setShowGrid(true);
         mRenderer.setXLabelsAlign(Paint.Align.CENTER);
         mRenderer.setYLabelsAlign(Paint.Align.RIGHT);
 
-        mRenderer.setPanLimits(new double[]{-10, 20, -10, 40});
+        mRenderer.setPanLimits(new double[]{0, 36, -10, 40});
         mRenderer.setZoomLimits(new double[]{-10, 20, -10, 40});
         mRenderer.setClickEnabled(false);
         mRenderer.setSelectableBuffer(10);
@@ -115,7 +119,7 @@ public class FootPrintActivity extends SimpleActivity {
         mChartView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return true;
+                return false;
             }
         });
         mChartView.setBackgroundColor(Color.parseColor("#F6F6F6"));
@@ -160,7 +164,7 @@ public class FootPrintActivity extends SimpleActivity {
         renderer.setAxesColor(axesColor);
         renderer.setLabelsColor(labelsColor);
 
-        renderer.setPanEnabled(false, false);
+        renderer.setPanEnabled(true, false);
         renderer.setZoomButtonsVisible(false);
         renderer.setZoomEnabled(false);
         renderer.setExternalZoomEnabled(false);
@@ -253,6 +257,7 @@ public class FootPrintActivity extends SimpleActivity {
             C.clear();
             D.clear();
             if (type == 0) {
+                tv_tips.setText("身高曲线");
                 mRenderer.setXAxisMin(0);
                 mRenderer.setXAxisMax(12);
                 mRenderer.setYAxisMin(0);
@@ -266,6 +271,7 @@ public class FootPrintActivity extends SimpleActivity {
                     D.add(state.getMonth(), state.getMin_height());
                 }
             } else if (type == 1) {
+                tv_tips.setText("体重曲线");
                 mRenderer.setXAxisMin(0);
                 mRenderer.setXAxisMax(12);
                 mRenderer.setYAxisMin(0);
@@ -278,6 +284,7 @@ public class FootPrintActivity extends SimpleActivity {
                     D.add(state.getMonth(), state.getMin_weight());
                 }
             } else {
+                tv_tips.setText("头围曲线");
                 mRenderer.setXAxisMin(0);
                 mRenderer.setXAxisMax(12);
                 mRenderer.setYAxisMin(0);

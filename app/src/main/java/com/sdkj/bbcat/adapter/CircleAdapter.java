@@ -60,29 +60,27 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         if (h instanceof ViewHolder) {
             final ViewHolder holder = (ViewHolder) h;
             final CircleVo.ItemCircle newsVo = getItem(position);
-
             Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getUser_info().getAvatar())).into(holder.iv_avatar);
-
             holder.tv_name.setText(newsVo.getUser_info().getNickname());
             holder.tv_desc.setText(newsVo.getUser_info().getBirthday());
             if (Utils.isEmpty(newsVo.getNews_info().getMulti_cover())) {
                 holder.ll_img_container.setVisibility(View.GONE);
             } else {
                 holder.ll_img_container.setVisibility(View.VISIBLE);
+                int w=AppUtils.getWidth(activity)/3-30;
                 if (newsVo.getNews_info().getMulti_cover().size() == 1) {
-                    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,AppUtils.dip2px(activity,205));
+                    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,w);
                     holder.iv_thumb1.setLayoutParams(lp);
                     holder.iv_thumb2.setVisibility(View.GONE);
                     holder.iv_thumb3.setVisibility(View.GONE);
-                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(holder.iv_thumb1);
+                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).fitCenter().into(holder.iv_thumb1);
                 } else if (newsVo.getNews_info().getMulti_cover().size() == 2) {
-                    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,AppUtils.dip2px(activity,205));
+                    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,w);
                     holder.iv_thumb1.setLayoutParams(lp);
                     holder.iv_thumb2.setVisibility(View.GONE);
                     holder.iv_thumb3.setVisibility(View.GONE);
-                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(holder.iv_thumb1);
+                    Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).fitCenter().into(holder.iv_thumb1);
                 } else if (newsVo.getNews_info().getMulti_cover().size() == 3) {
-                    int w=AppUtils.getWidth(activity)/3-30;
                     LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(w,w);
                     lp.weight=1;
                     LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(w,w);
