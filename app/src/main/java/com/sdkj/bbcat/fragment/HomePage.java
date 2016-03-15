@@ -107,6 +107,9 @@ public class HomePage extends BaseFragment {
                             TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
                             TextView tv_come_form = (TextView) view.findViewById(R.id.tv_come_form);
                             TextView tv_count = (TextView) view.findViewById(R.id.tv_count);
+                            if(Utils.isEmpty(newsVo.getCover())){
+                                iv_image.setVisibility(View.GONE);
+                            }
                             Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getCover())).into(iv_image);
                             tv_title.setText(newsVo.getTitle());
                             tv_come_form.setText(newsVo.getCategory_name());
@@ -135,6 +138,10 @@ public class HomePage extends BaseFragment {
                             TextView tv_count = (TextView) view.findViewById(R.id.tv_count);
                             Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getCover())).into(iv_image);
                             tv_title.setText(newsVo.getTitle());
+                            if(Utils.isEmpty(newsVo.getCover())){
+                                iv_image.setVisibility(View.GONE);
+                            }
+                            
                             tv_come_form.setText(Utils.formatTime(newsVo.getCreate_time() + "000", "yyyy-MM-dd"));
                             tv_count.setText(newsVo.getView() + "");
                             view.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +163,9 @@ public class HomePage extends BaseFragment {
                         for (final NewsVo newsVo : category2.getCategory_list()) {
                             View view = activity.makeView(R.layout.item_dedical_online);
                             ImageView iv_thumb = (ImageView) view.findViewById(R.id.iv_thumb);
+                            if(Utils.isEmpty(newsVo.getCover())){
+                                iv_thumb.setVisibility(View.GONE);
+                            }
                             TextView tv_hospital_name = (TextView) view.findViewById(R.id.tv_hospital_name);
                             RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
                             TextView tv_address = (TextView) view.findViewById(R.id.tv_address);
@@ -187,6 +197,9 @@ public class HomePage extends BaseFragment {
                         for (final NewsVo newsVo : category3.getCategory_list()) {
                             View view = activity.makeView(R.layout.item_recommend);
                             ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
+                            if(Utils.isEmpty(newsVo.getCover())){
+                                iv_image.setVisibility(View.GONE);
+                            }
                             TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
                             TextView tv_come_form = (TextView) view.findViewById(R.id.tv_come_form);
                             TextView tv_count = (TextView) view.findViewById(R.id.tv_count);
@@ -213,6 +226,9 @@ public class HomePage extends BaseFragment {
                         for (final NewsVo newsVo : category4.getCategory_list()) {
                             View view = activity.makeView(R.layout.item_recommend);
                             ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
+                            if(Utils.isEmpty(newsVo.getCover())){
+                                iv_image.setVisibility(View.GONE);
+                            }
                             TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
                             TextView tv_come_form = (TextView) view.findViewById(R.id.tv_come_form);
                             TextView tv_count = (TextView) view.findViewById(R.id.tv_count);
@@ -239,6 +255,9 @@ public class HomePage extends BaseFragment {
                         for (final NewsVo newsVo : category5.getCategory_list()) {
                             View view = activity.makeView(R.layout.item_recommend);
                             ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
+                            if(Utils.isEmpty(newsVo.getCover())){
+                                iv_image.setVisibility(View.GONE);
+                            }
                             TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
                             TextView tv_come_form = (TextView) view.findViewById(R.id.tv_come_form);
                             TextView tv_count = (TextView) view.findViewById(R.id.tv_count);

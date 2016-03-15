@@ -298,4 +298,9 @@ public class Const {
      *我的动态
      */
     public static final String MY_DYNAMIC = DOMAIN + "circle/lists";
+
+    /**
+     *删除喂养记录
+     */
+    public static final String DELETE_FEED_RECORD = DOMAIN + "Band/feedDel";
 }

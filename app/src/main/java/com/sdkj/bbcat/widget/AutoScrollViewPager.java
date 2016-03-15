@@ -60,7 +60,7 @@ public class AutoScrollViewPager {
     public void loadAutoScrollViewPager(View view, List<?> data) {
 
         int width = AppUtils.getWidth(activity);
-        int height = 2 * width / 3;
+        int height = 9 * width / 16;
         lpointGroup = (LinearLayout) view.findViewById(R.id.index_viewgroup);
         lpointGroup.removeAllViews();
         lADViewPgaer = (ViewPager) view.findViewById(R.id.index_viewpager);
@@ -79,9 +79,8 @@ public class AutoScrollViewPager {
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             params.width = width;
             params.height = height;
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(ads.getImg())).into(imageView);
+            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(ads.getImg())).centerCrop().into(imageView);
             imageView.setLayoutParams(params);
             ladImageView.add(imageView);
             // 添加指示小圆点
@@ -89,7 +88,9 @@ public class AutoScrollViewPager {
             LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            params2.rightMargin = 15;
+            if(len!=1){
+                params2.rightMargin = 15;
+            }
             params2.height = 24;
             params2.width = 24;
             point.setLayoutParams(params2);

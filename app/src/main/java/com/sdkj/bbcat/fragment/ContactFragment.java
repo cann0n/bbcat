@@ -129,6 +129,11 @@ public class ContactFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String username = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
                 // demo中直接进入聊天页面，实际一般是进入用户详情页
+                if (username.equals(EMChatManager.getInstance().getCurrentUser())) {
+                    Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 Intent intent = new Intent(activity, ChatActivity.class);
                 SpUtil sp = new SpUtil(activity, Const.SP_NAME);
 
@@ -181,7 +186,7 @@ public class ContactFragment extends BaseFragment {
             switch (v.getId()) {
                 case R.id.application_item:
                     // 进入申请与通知页面
-                    if(inviteMessgeDao==null){
+                    if (inviteMessgeDao == null) {
                         inviteMessgeDao = new InviteMessgeDao(getActivity());
                     }
                     inviteMessgeDao.saveUnreadMessageCount(0);
@@ -231,6 +236,7 @@ public class ContactFragment extends BaseFragment {
         }).start();
 
     }
+
     class ContactSyncListener implements DemoHelper.DataSyncListener {
         @Override
         public void onSyncComplete(final boolean success) {
@@ -299,8 +305,8 @@ public class ContactFragment extends BaseFragment {
         contactListLayout.refresh();
         showInviteMsg();
     }
-    
-    public void showInviteMsg(){
+
+    public void showInviteMsg() {
         if (inviteMessgeDao == null) {
             inviteMessgeDao = new InviteMessgeDao(getActivity());
         }
@@ -308,7 +314,7 @@ public class ContactFragment extends BaseFragment {
             applicationItem.showUnreadMsgView();
         } else {
             applicationItem.hideUnreadMsgView();
-        } 
+        }
     }
 
     /**
@@ -377,7 +383,7 @@ public class ContactFragment extends BaseFragment {
                 e.printStackTrace();
             }
             return true;
-        }else if(item.getItemId() == R.id.add_to_blacklist){
+        } else if (item.getItemId() == R.id.add_to_blacklist) {
             moveToBlacklist(toBeProcessUsername);
             return true;
         }
@@ -387,7 +393,7 @@ public class ContactFragment extends BaseFragment {
     /**
      * 把user移入到黑名单
      */
-    protected void moveToBlacklist(final String username){
+    protected void moveToBlacklist(final String username) {
         final ProgressDialog pd = new ProgressDialog(getActivity());
         String st1 = getResources().getString(com.easemob.easeui.R.string.Is_moved_into_blacklist);
         final String st2 = getResources().getString(com.easemob.easeui.R.string.Move_into_blacklist_success);
@@ -399,7 +405,7 @@ public class ContactFragment extends BaseFragment {
             public void run() {
                 try {
                     //加入到黑名单
-                    EMContactManager.getInstance().addUserToBlackList(username,false);
+                    EMContactManager.getInstance().addUserToBlackList(username, false);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             pd.dismiss();
@@ -422,7 +428,7 @@ public class ContactFragment extends BaseFragment {
     }
 
     public void onEventMainThread(CommunityPage.ConnectEvent event) {
-         if (event.getType() == 2||event.getType()==4) {
+        if (event.getType() == 2 || event.getType() == 4) {
             refresh();
         }
     }
@@ -437,6 +443,7 @@ public class ContactFragment extends BaseFragment {
     public void setContactsMap(Map<String, EaseUser> contactsMap) {
         this.contactsMap = contactsMap;
     }
+
     public interface EaseContactListItemClickListener {
         /**
          * 联系人listview item点击事件
@@ -455,9 +462,8 @@ public class ContactFragment extends BaseFragment {
     public void setContactListItemClickListener(EaseContactListItemClickListener listItemClickListener) {
         this.listItemClickListener = listItemClickListener;
     }
-    
-    
-    
+
+
     @Override
     protected int setLayoutResID() {
         return R.layout.fragment_contact_list;

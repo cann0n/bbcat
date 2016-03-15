@@ -527,6 +527,7 @@ public class DemoHelper {
                 toAddUsers.put(username, user);
             }
             localUsers.putAll(toAddUsers);
+            EventBus.getDefault().post(new CommunityPage.ConnectEvent(4));
             //发送好友变动广播
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
@@ -540,6 +541,7 @@ public class DemoHelper {
                 userDao.deleteContact(username);
                 inviteMessgeDao.deleteMessage(username);
             }
+            EventBus.getDefault().post(new CommunityPage.ConnectEvent(4));
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
 

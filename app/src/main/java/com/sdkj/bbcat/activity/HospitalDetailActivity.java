@@ -197,7 +197,7 @@ public class HospitalDetailActivity extends SimpleActivity {
         intent.putExtra(Constant.EXTRA_USER_ID, detail.getHospital_detail().getHxchat_id());
         SpUtil sp = new SpUtil(activity, Const.SP_NAME);
         intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
-        intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
+        intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
         intent.putExtra(Constant.TO_USER_NICKNAME, detail.getHospital_detail().getTitle());
         startActivity(intent);
     }

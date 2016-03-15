@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.easemob.EMCallBack;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
@@ -115,21 +117,23 @@ public abstract class EaseChatRow extends LinearLayout {
             }
         }
         //设置头像和nick
-        String nickName;
-        String avatar;
+        String nickName="";
+        String avatar = "";
         try {
-             nickName = message.getStringAttribute("avatar");
-             avatar = message.getStringAttribute("nickname");
-        } catch (EaseMobException e) {
-            e.printStackTrace();
+             nickName = message.getStringAttribute("userNickname","");
+             avatar = message.getStringAttribute("userAvatar","");
+        } catch (Exception e) {
         }
         if (message.direct == Direct.SEND) {
-            EaseUserUtils.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), userAvatarView);
+//            EaseUserUtils.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), userAvatarView);
             //发送方不显示nick
 //            UserUtils.setUserNick(EMChatManager.getInstance().getCurrentUser(), usernickView);
+            Glide.with(context).load(avatar).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ease_default_avatar).into(userAvatarView);
         } else {
-            EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
-            EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+            Glide.with(context).load(avatar).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ease_default_avatar).into(userAvatarView);
+//            EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
+//            EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+            usernickView.setText(nickName);
         }
 
         if (deliveredView != null) {
@@ -301,11 +305,11 @@ public abstract class EaseChatRow extends LinearLayout {
                 if (message.status == EMMessage.Status.FAIL) {
 
                     if (message.getError() == EMError.MESSAGE_SEND_INVALID_CONTENT) {
-                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_invalid_content), 0).show();
+                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_invalid_content), Toast.LENGTH_SHORT).show();
                     } else if (message.getError() == EMError.MESSAGE_SEND_NOT_IN_THE_GROUP) {
-                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_not_in_the_group), 0).show();
+                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_not_in_the_group), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0).show();
+                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT).show();
                     }
                 }
 

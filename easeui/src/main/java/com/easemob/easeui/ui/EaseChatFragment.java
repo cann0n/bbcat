@@ -689,8 +689,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
         }
         //发送消息
         
-//        message.setAttribute("avatar",avatar);
-//        message.setAttribute("nickname",nickName);
+        message.setAttribute("userAvatar",avatar);
+        message.setAttribute("userNickname",nickName);
         
         EMChatManager.getInstance().sendMessage(message, null);
         //刷新ui

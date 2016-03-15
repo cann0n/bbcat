@@ -24,6 +24,7 @@ import com.sdkj.bbcat.activity.bracelet.BabyNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.bracelet.FeedNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.FootPrintActivity;
+import com.sdkj.bbcat.activity.bracelet.RecordInfoActivity;
 import com.sdkj.bbcat.activity.bracelet.VaccineActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.FeedInoVo;
@@ -35,6 +36,8 @@ import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 
 import org.json.JSONObject;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Mr.Yuan on 2015/12/31 0031.
@@ -109,6 +112,7 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
     }
 
     protected void setListener() {
+        EventBus.getDefault().register(this);
         queryBodyFeatures();
         mBodyFeatures.setOnClickListener(this);
         bodyFeatures.setOnClickListener(this);
@@ -176,6 +180,7 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                     }
 
                     if (mGrowthVo != null && !Utils.isEmpty(mGrowthVo.getNews())) {
+                        babyNotell.removeAllViews();
                         for (final NewsVo newsVo : mGrowthVo.getNews()) {
                             View view = activity.makeView(R.layout.item_recommend);
                             ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
@@ -200,6 +205,7 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                     }
 
                     if (mGrowthVo != null && !Utils.isEmpty(mGrowthVo.getFeed_log())) {
+                        feedNotell.removeAllViews();
                         for (final FeedInoVo.FeedInfo vo : mGrowthVo.getFeed_log()) {
                             View view = activity.makeView(R.layout.item_feed_list);
                             ImageView iv_type = (ImageView) view.findViewById(R.id.iv_type);
@@ -220,6 +226,12 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                             tv_type.setText(vo.getName());
                             tv_long.setText(vo.getNum());
                             tv_desc.setText(vo.getDesc());
+                            view.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    activity.skip(RecordInfoActivity.class, vo);
+                                }
+                            });
                             feedNotell.addView(view);
                         }
                     } else {
@@ -227,6 +239,7 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                     }
 
                     if (mGrowthVo != null && !Utils.isEmpty(mGrowthVo.getVac_log())) {
+                        inoculationll.removeAllViews();
                         for (final VaccineVo.VaccineChildVo child : mGrowthVo.getVac_log()) {
                             View childView = activity.makeView(R.layout.item_vaccine_child);
                             RelativeLayout rl_child_item = (RelativeLayout) childView.findViewById(R.id.rl_child_item);
@@ -309,8 +322,18 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
     }
 
 
+    public void onEventMainThread(FeedNotesActivity.FreshEvent event) {
+        queryBodyFeatures();
+    }
+
     @OnClick(R.id.tv_foods)
     void showFoods(View view) {
         activity.skip(BabyFoodsActivity.class);
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }
