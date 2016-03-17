@@ -18,13 +18,13 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.activity.bracelet.AddFeedNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.AllBodyFeaActivity;
 import com.sdkj.bbcat.activity.bracelet.BabyFoodsActivity;
 import com.sdkj.bbcat.activity.bracelet.BabyNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.bracelet.FeedNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.FootPrintActivity;
-import com.sdkj.bbcat.activity.bracelet.RecordInfoActivity;
 import com.sdkj.bbcat.activity.bracelet.VaccineActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.FeedInoVo;
@@ -229,7 +229,7 @@ public class FragmentSpoor extends BaseFragment implements View.OnClickListener 
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    activity.skip(RecordInfoActivity.class, vo);
+                                    activity.skip(AddFeedNotesActivity.class,vo.getType(),vo.getName(),vo);
                                 }
                             });
                             feedNotell.addView(view);

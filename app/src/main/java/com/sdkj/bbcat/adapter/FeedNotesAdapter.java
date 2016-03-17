@@ -11,7 +11,6 @@ import com.huaxi100.networkapp.utils.Utils;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.bracelet.AddFeedNotesActivity;
-import com.sdkj.bbcat.activity.bracelet.RecordInfoActivity;
 import com.sdkj.bbcat.bean.FeedInoVo;
 
 import java.util.List;

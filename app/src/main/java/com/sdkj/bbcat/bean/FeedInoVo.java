@@ -47,6 +47,15 @@ public class FeedInoVo implements Serializable {
         private String desc;
         private int type;
         private String time;
+        private String count;
+
+        public String getCount() {
+            return count;
+        }
+
+        public void setCount(String count) {
+            this.count = count;
+        }
 
         public int getId() {
             return id;

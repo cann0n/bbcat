@@ -41,8 +41,7 @@ import de.greenrobot.event.EventBus;
  * Created by Mr.Yuan on 2016/1/12 0012.
  */
 public class AddFeedNotesActivity extends SimpleActivity {
-    @ViewInject(R.id.tv_time)
-    private TextView tv_time;
+    
     @ViewInject(R.id.tv_type)
     private TextView tv_type;
 
@@ -69,9 +68,6 @@ public class AddFeedNotesActivity extends SimpleActivity {
 
     @ViewInject(R.id.time_end)
     private ImageView time_end;
-
-    @ViewInject(R.id.rl_time)
-    RelativeLayout rl_time;
 
     @ViewInject(R.id.rl_desc)
     RelativeLayout rl_desc;
@@ -111,7 +107,7 @@ public class AddFeedNotesActivity extends SimpleActivity {
             //开始计时  
             ct_long.start();
             start_time.setText(Utils.formatTime(System.currentTimeMillis() + ""));
-            tv_time.setText("");
+            et_num.setText("");
         }
     }
 
@@ -123,9 +119,9 @@ public class AddFeedNotesActivity extends SimpleActivity {
             isStart = false;
             int temp = (int) (recordingTime / 1000);
             if (temp > 60) {
-                tv_time.setText(temp / 60 + "分钟" + temp % 60 + "秒");
+                et_num.setText(temp / 60 + "分钟" + temp % 60 + "秒");
             } else {
-                tv_time.setText(temp + "秒");
+                et_num.setText(temp + "秒");
             }
             ct_long.setVisibility(View.GONE);
             recordingTime = 0;
@@ -278,13 +274,7 @@ public class AddFeedNotesActivity extends SimpleActivity {
         start_time.setText(Utils.formatTime(System.currentTimeMillis() + ""));
         if(getVo("2")!=null){
             vo= (FeedInoVo.FeedInfo) getVo("2");
-            if(type==3){
-                rl_time.setVisibility(View.VISIBLE);
-                tv_time.setText(vo.getNum());
-            }else {
-                rl_time.setVisibility(View.GONE);
-                et_num.setText(vo.getNum());
-            }
+            et_num.setText(vo.getNum().replace("ml",""));
             start_time.setText(vo.getDay());
             tv_type.setText(vo.getName());
             et_desc.setText(vo.getDesc());
@@ -301,15 +291,13 @@ public class AddFeedNotesActivity extends SimpleActivity {
             et_num.setHint("请输入食物");
         }
         if(type==3){
-            rl_time.setVisibility(View.VISIBLE);
+            tv_num.setText("计时");
+            et_num.setHint("请计时");
+            et_num.setEnabled(false);
         }
     }
 
     public void save() {
-        if (Utils.isEmpty(tv_time.getText().toString().trim())) {
-            toast("请先计时");
-            return;
-        }
 //        if (Utils.isEmpty(et_desc.getText().toString().trim())) {
 //            toast("请输入喂养情况");
 //            return;
@@ -321,8 +309,9 @@ public class AddFeedNotesActivity extends SimpleActivity {
         params.put("type", type + "");
         params.put("day", start_time.getText().toString());
         params.put("name", name);
+        
         if (type == 3) {
-            params.put("num", tv_time.getText().toString());
+            params.put("num", et_num.getText().toString());
         } else {
             if (Utils.isEmpty(et_num.getText().toString())) {
                 if (type == 4) {
