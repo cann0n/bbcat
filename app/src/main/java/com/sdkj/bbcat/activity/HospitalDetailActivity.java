@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ActionMenuView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -17,12 +16,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
-import com.easemob.chat.EMConversation;
-import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
-import com.huaxi100.networkapp.utils.AppUtils;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
@@ -122,7 +118,7 @@ public class HospitalDetailActivity extends SimpleActivity {
                             TextView tv_name = (TextView) doctorView.findViewById(R.id.tv_name);
                             TextView tv_subject = (TextView) doctorView.findViewById(R.id.tv_subject);
                             TextView tv_job = (TextView) doctorView.findViewById(R.id.tv_job);
-                            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(expert.getAvatar())).into(iv_avatar);
+                            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(expert.getAvatar())).centerCrop().into(iv_avatar);
                             tv_name.setText(expert.getExport_name());
                             tv_subject.setText(expert.getExport_depart());
                             tv_job.setText(expert.getExport_position());
@@ -211,11 +207,11 @@ public class HospitalDetailActivity extends SimpleActivity {
     @OnClick(R.id.rl_address)
     void showGuide(View view) {
         Map value = SimpleUtils.bd_decrypt(detail.getHospital_detail().getLat(), detail.getHospital_detail().getLng());
-        Map start = SimpleUtils.bd_decrypt(lat,lng);
+        Map start = SimpleUtils.bd_decrypt(lat, lng);
 //        activity.skip(MapActivity.class, "http://m.amap.com/?mk=" + value.get("lat") + "," + value.get("long"));
 //        activity.skip(MapActivity.class, "http://m.amap.com/navi/?start=" + start.get("long") + "," + start.get("lat") + "&dest=" + value.get("long") + "," + value.get("lat") + "&destName=导航" + "&key=111386300d4f42d9263663b3b86cc86b&naviBy=car");
-        String url="http://m.amap.com/navi/?start="+ start.get("long")+"%2C"+start.get("lat")+"&dest="+value.get("long")+"%2C"+value.get("lat")+"&destName=导航&naviBy=car&key=29e26163bbcae70f9136cf2a073c819a";
-        activity.skip(MapActivity.class,url);
+        String url = "http://m.amap.com/navi/?start=" + start.get("long") + "%2C" + start.get("lat") + "&dest=" + value.get("long") + "%2C" + value.get("lat") + "&destName=导航&naviBy=car&key=29e26163bbcae70f9136cf2a073c819a";
+        activity.skip(MapActivity.class, url);
 
 
     }

@@ -10,6 +10,7 @@ import com.huaxi100.networkapp.adapter.UltimatCommonAdapter;
 import com.huaxi100.networkapp.utils.Utils;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.activity.bracelet.AddFeedNotesActivity;
 import com.sdkj.bbcat.activity.bracelet.RecordInfoActivity;
 import com.sdkj.bbcat.bean.FeedInoVo;
 
@@ -54,7 +55,8 @@ public class FeedNotesAdapter extends UltimatCommonAdapter<FeedInoVo, FeedNotesA
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            activity.skip(RecordInfoActivity.class,vo);
+                            activity.skip(AddFeedNotesActivity.class,vo.getType(),vo.getName(),vo);
+//                            activity.skip(RecordInfoActivity.class,vo);
                         }
                     });
                     holder.ll_container.addView(view);

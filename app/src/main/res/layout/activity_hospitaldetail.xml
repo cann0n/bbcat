@@ -26,7 +26,6 @@
                     android:id="@+id/iv_thumb"
                     android:layout_width="match_parent"
                     android:layout_height="135dp"
-                    android:src="@drawable/icon_hos_bg"
                     android:scaleType="fitXY"/>
                 <View
                     android:layout_width="fill_parent"

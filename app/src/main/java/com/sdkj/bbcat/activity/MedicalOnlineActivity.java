@@ -516,6 +516,8 @@ public class MedicalOnlineActivity extends SimpleActivity {
         tv_city_name.setTag(event.getAreaVo().getId());
         lat = 0;
         lng = 0;
+        pageNum = 1;
+        query(false);
     }
 
     public static class AreaEvent {

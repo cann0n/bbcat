@@ -48,12 +48,15 @@ public class AddFeedNotesActivity extends SimpleActivity {
 
     @ViewInject(R.id.start_time)
     private TextView start_time;
-    
+
     @ViewInject(R.id.rl_bottom)
     RelativeLayout rl_bottom;
 
     @ViewInject(R.id.tv_delete)
     private TextView tv_delete;
+
+    @ViewInject(R.id.tv_num)
+    private TextView tv_num;
 
     @ViewInject(R.id.et_desc)
     private EditText et_desc;
@@ -61,11 +64,11 @@ public class AddFeedNotesActivity extends SimpleActivity {
     @ViewInject(R.id.et_num)
     private EditText et_num;
 
-    @ViewInject(R.id.iv_time)
-    private ImageView iv_time;
+    @ViewInject(R.id.time_start)
+    private ImageView time_start;
 
-    @ViewInject(R.id.iv_input)
-    private ImageView iv_input;
+    @ViewInject(R.id.time_end)
+    private ImageView time_end;
 
     @ViewInject(R.id.rl_time)
     RelativeLayout rl_time;
@@ -85,7 +88,6 @@ public class AddFeedNotesActivity extends SimpleActivity {
     private int type = 0;
     String name = "";
 
-
     private View view;
     private Calendar calendar;
     private DatePicker dp_test;
@@ -96,60 +98,49 @@ public class AddFeedNotesActivity extends SimpleActivity {
     //选择时间与当前时间，用于判断用户选择的是否是以前的时间
     private int currentHour, currentMinute, currentDay, selectHour, selectMinute, selectDay;
 
-    private long time=0;
-    @OnClick(R.id.iv_time)
+    private long time = 0;
+
+    FeedInoVo.FeedInfo vo;
+
+    @OnClick(R.id.time_start)
     void startTime(View view) {
+        if (!isStart) {
+            isStart = true;
+            ct_long.setBase(SystemClock.elapsedRealtime());
+            ct_long.setVisibility(View.VISIBLE);
+            //开始计时  
+            ct_long.start();
+            start_time.setText(Utils.formatTime(System.currentTimeMillis() + ""));
+            tv_time.setText("");
+        }
+    }
+
+    @OnClick(R.id.time_end)
+    void endTime(View view) {
         if (isStart) {
             ct_long.stop();
             recordingTime = SystemClock.elapsedRealtime() - ct_long.getBase();
             isStart = false;
-            iv_time.setImageResource(R.drawable.icon_jishi);
-            rl_time.setVisibility(View.VISIBLE);
             int temp = (int) (recordingTime / 1000);
             if (temp > 60) {
                 tv_time.setText(temp / 60 + "分钟" + temp % 60 + "秒");
             } else {
                 tv_time.setText(temp + "秒");
             }
-            iv_time.setVisibility(View.GONE);
-            iv_input.setVisibility(View.VISIBLE);
             ct_long.setVisibility(View.GONE);
             recordingTime = 0;
-        } else {
-            isStart = true;
-            ct_long.setBase(SystemClock.elapsedRealtime());
-            ct_long.setVisibility(View.VISIBLE);
-            //开始计时  
-            ct_long.start();
-            iv_time.setImageResource(R.drawable.icon_end_time);
-            tv_delete.setVisibility(View.VISIBLE);
-            ct_long.setVisibility(View.VISIBLE);
-            start_time.setText(Utils.formatTime(System.currentTimeMillis() + ""));
-            iv_input.setVisibility(View.GONE);
-            tv_time.setText("");
         }
     }
 
-
-    @OnClick(R.id.iv_input)
-    void showInput(View view) {
-        iv_input.setVisibility(View.GONE);
-        iv_time.setVisibility(View.GONE);
-        rl_desc.setVisibility(View.VISIBLE);
-    }
-    
-    
     @OnClick(R.id.start_time)
-    void selectTime(View view){
+    void selectTime(View view) {
         showTimePopup();
     }
-
 
     private void showTimePopup() {
         calendar = Calendar.getInstance();
         view = makeView(R.layout.dialog_select_time);
-        selectDate = calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-"
-                + calendar.get(Calendar.DAY_OF_MONTH);
+        selectDate = calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
 //                + DatePicker.getDayOfWeekCN(calendar.get(Calendar.DAY_OF_WEEK));
         //选择时间与当前时间的初始化，用于判断用户选择的是否是以前的时间，如果是，弹出toss提示不能选择过去的时间
         selectDay = currentDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -195,7 +186,7 @@ public class AddFeedNotesActivity extends SimpleActivity {
 //                        return;
 //                    }
 //                }
-                time= SimpleUtils.getTimeStamp(selectDate + " " + selectTime);
+                time = SimpleUtils.getTimeStamp(selectDate + " " + selectTime);
 //                if (time<System.currentTimeMillis()/1000){
 //                    toast("不能选择过去的时间\n" +
 //                            "   请重新选择");
@@ -203,8 +194,8 @@ public class AddFeedNotesActivity extends SimpleActivity {
 //                    return;
 //                }
 //                start_time.setText(selectDate +" "+ selectTime);
-                start_time.setText(Utils.formatTime(time+"000"));
-                
+                start_time.setText(Utils.formatTime(time + "000"));
+
                 pw.dismiss();
             }
         });
@@ -217,6 +208,7 @@ public class AddFeedNotesActivity extends SimpleActivity {
             }
         });
     }
+
     //listeners
     DatePicker.OnChangeListener dp_onchanghelistener = new DatePicker.OnChangeListener() {
         @Override
@@ -234,23 +226,39 @@ public class AddFeedNotesActivity extends SimpleActivity {
             selectMinute = minute;
         }
     };
-    
-    
+
+
     @OnClick(R.id.tv_delete)
     void delete(View view) {
-        if (rl_desc.isShown()) {
-            rl_desc.setVisibility(View.GONE);
-            iv_input.setVisibility(View.VISIBLE);
-            et_desc.setText("");
-            return;
+        if (vo != null) {
+            delete();
+        } else {
+            finish();
         }
-        if (rl_time.isShown()) {
-            rl_time.setVisibility(View.GONE);
-            iv_time.setVisibility(View.VISIBLE);
-            tv_delete.setVisibility(View.GONE);
-            iv_input.setVisibility(View.GONE);
-            return;
-        }
+    }
+
+    private void delete() {
+        showDialog();
+        PostParams params = new PostParams();
+        params.put("id", vo.getId() + "");
+        HttpUtils.postJSONObject(activity, Const.DELETE_FEED_RECORD, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+            @Override
+            public void getResp(JSONObject jsonObject) {
+                dismissDialog();
+                RespVo respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    EventBus.getDefault().post(new FeedNotesActivity.FreshEvent());
+                    finish();
+                } else {
+                    toast(respVo.getMessage());
+                }
+            }
+
+            @Override
+            public void doFailed() {
+                dismissDialog();
+            }
+        });
     }
 
 
@@ -267,18 +275,33 @@ public class AddFeedNotesActivity extends SimpleActivity {
         });
         type = (int) getVo("0");
         name = (String) getVo("1");
-        tv_type.setText(name);
         start_time.setText(Utils.formatTime(System.currentTimeMillis() + ""));
-        if (type != 1) {
-            iv_input.setVisibility(View.GONE);
-            tv_delete.setVisibility(View.GONE);
-            iv_time.setVisibility(View.GONE);
-            rl_desc.setVisibility(View.VISIBLE);
-            rl_num.setVisibility(View.VISIBLE);
+        if(getVo("2")!=null){
+            vo= (FeedInoVo.FeedInfo) getVo("2");
+            if(type==3){
+                rl_time.setVisibility(View.VISIBLE);
+                tv_time.setText(vo.getNum());
+            }else {
+                rl_time.setVisibility(View.GONE);
+                et_num.setText(vo.getNum());
+            }
+            start_time.setText(vo.getDay());
+            tv_type.setText(vo.getName());
+            et_desc.setText(vo.getDesc());
+        }
+        tv_type.setText(name);
+        if (type != 3) {
+            ct_long.setVisibility(View.GONE);
+            time_start.setVisibility(View.GONE);
+            time_end.setVisibility(View.GONE);
         }
         if (type == 4) {
+            tv_num.setText("食物");
             et_num.setInputType(InputType.TYPE_CLASS_TEXT);
             et_num.setHint("请输入食物");
+        }
+        if(type==3){
+            rl_time.setVisibility(View.VISIBLE);
         }
     }
 
@@ -292,10 +315,13 @@ public class AddFeedNotesActivity extends SimpleActivity {
 //            return;
 //        }
         final PostParams params = new PostParams();
+        if(vo!=null){
+            params.put("id",vo.getId()+"");
+        }
         params.put("type", type + "");
         params.put("day", start_time.getText().toString());
         params.put("name", name);
-        if (type == 1) {
+        if (type == 3) {
             params.put("num", tv_time.getText().toString());
         } else {
             if (Utils.isEmpty(et_num.getText().toString())) {
