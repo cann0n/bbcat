@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +54,7 @@ public class SimpleUtils {
         }
         return date.getTime() / 1000;
     }
+
     public static long getTimeMillion(String time) {
 //        Timestamp millionSeconds = Timestamp.valueOf(time + " 00:00:00");//毫秒
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
@@ -67,6 +69,7 @@ public class SimpleUtils {
 
         return lTime;
     }
+
     public static PostParams buildUrl(BaseActivity activity, PostParams params) {
         params.put("version", Const.APK_VERSION);
         params.put("client", Const.CLIENT);
@@ -203,7 +206,7 @@ public class SimpleUtils {
 
 
     public static Map bd_decrypt(double bd_lat, double bd_lon) {
-         double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+        double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
         Map map = new HashMap();
         double mgLat, mgLon;
         double x = bd_lon - 0.0065, y = bd_lat - 0.006;
@@ -211,12 +214,30 @@ public class SimpleUtils {
         double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);
         mgLon = z * Math.cos(theta);
         mgLat = z * Math.sin(theta);
-        DecimalFormat df   = new DecimalFormat("0.000000");
+        DecimalFormat df = new DecimalFormat("0.000000");
         map.put("lat", mgLat);
-        map.put("long",mgLon );
+        map.put("long", mgLon);
 //        DecimalFormat df   = new DecimalFormat("0.000000");
 //        map.put("lat", df.format(mgLat));
 //        map.put("long",df.format(mgLon) );
         return map;
+    }
+
+    public static String getWeekDayString(String time) {
+        String weekString = "";
+        final String dayNames[] = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdw = new SimpleDateFormat("E");
+        Date date = null;
+        try {
+            date = sd.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        calendar.setTime(date);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        weekString = dayNames[dayOfWeek - 1];
+        return weekString;
     }
 }

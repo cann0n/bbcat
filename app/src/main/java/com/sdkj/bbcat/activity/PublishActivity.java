@@ -34,6 +34,7 @@ import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.activity.bracelet.DiseaseRecordActivity;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.bean.CircleTagVo;
+import com.sdkj.bbcat.bean.CircleVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.bean.UploadFileVo;
 import com.sdkj.bbcat.constValue.Const;
@@ -115,10 +116,10 @@ public class PublishActivity extends SimpleActivity {
 
     //0:PublishActivity普通日记，1疾病记录，2其他
     private String type = "2";
-    
+
     @ViewInject(R.id.tb_notify)
     private ToggleButton tb_notify;
-    
+
     @Override
     public void initBusiness() {
         type = (String) getVo("0");
@@ -145,14 +146,14 @@ public class PublishActivity extends SimpleActivity {
             }
         });
         fl_pics.addView(view);
-        if("0".equals(type)){
-            tv_label.setTag(R.id.tag_first,"1");
+        if ("0".equals(type)) {
+            tv_label.setTag(R.id.tag_first, "1");
             rl_label.setVisibility(View.GONE);
-        }else if("1".equals(type)){
-            tv_label.setTag(R.id.tag_first,"3");
+        } else if ("1".equals(type)) {
+            tv_label.setTag(R.id.tag_first, "3");
             rl_label.setVisibility(View.GONE);
             tb_notify.setChecked(false);
-        }else {
+        } else {
             rl_time.setVisibility(View.GONE);
         }
     }
@@ -183,14 +184,55 @@ public class PublishActivity extends SimpleActivity {
                 if (resp.isSuccess()) {
                     UploadFileVo fileVo = resp.getData(jsonObject, UploadFileVo.class);
                     ids.put(fileVo.getId() + "", fileVo.getId() + "");
-                    int width = (AppUtils.getWidth(activity) - 80) / 3;
-                    View view = makeView(R.layout.item_photo);
+                    final int width = (AppUtils.getWidth(activity) - 80) / 3;
+                    final View view = makeView(R.layout.item_photo);
                     ImageView iv_image = (ImageView) view.findViewById(R.id.iv_image);
+                    ImageView iv_delete = (ImageView) view.findViewById(R.id.iv_delete);
+                    iv_delete.setVisibility(View.VISIBLE);
+                    iv_delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            fl_pics.removeView(view);
+                            if (fl_pics.getChildCount() == 0) {
+                                View temp = makeView(R.layout.item_photo);
+                                ImageView iv_image = (ImageView) temp.findViewById(R.id.iv_image);
+                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, width);
+                                lp.leftMargin = 18;
+                                temp.setLayoutParams(lp);
+
+                                iv_image.setImageResource(R.drawable.icon_addzhaopian);
+                                temp.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        GalleryConfig.Builder builder = new GalleryConfig.Builder(activity);
+                                        builder.imageloader(new GlideImageLoader());
+                                        builder.singleSelect();
+                                        builder.enableEdit();
+                                        builder.enableRotate();
+                                        builder.showCamera();
+                                        GalleryConfig config = builder.build();
+                                        GalleryFinal.open(config);
+                                    }
+                                });
+                                fl_pics.addView(temp);
+                            }
+                        }
+                    });
+                    iv_image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ArrayList<CircleVo.ItemCircle.Cover> list = new ArrayList<CircleVo.ItemCircle.Cover>();
+                            CircleVo.ItemCircle.Cover cover = new CircleVo.ItemCircle.Cover();
+                            cover.setPath(path);
+                            list.add(cover);
+                            skip(PicScannerActivity.class, list);
+                        }
+                    });
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, width);
                     lp.leftMargin = 18;
                     view.setLayoutParams(lp);
                     view.setTag(path);
-                    iv_image.setImageBitmap(Utils.getLoacalBitmap(path));
+                    iv_image.setImageBitmap(Utils.getSmallBitmap(path));
                     fl_pics.addView(view, 0);
                     if (fl_pics.getChildCount() == 4) {
                         fl_pics.removeViewAt(3);
@@ -368,9 +410,9 @@ public class PublishActivity extends SimpleActivity {
             params.put("type", tv_label.getTag(R.id.tag_first).toString());//标签id
             params.put("category_id", "2");//标签id
         }
-        if(tb_notify.isChecked()){
+        if (tb_notify.isChecked()) {
             params.put("private", "0");//标签id
-        }else{
+        } else {
             params.put("private", "1");//标签id
         }
         String pics = "";

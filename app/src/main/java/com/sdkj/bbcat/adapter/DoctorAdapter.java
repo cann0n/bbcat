@@ -2,6 +2,7 @@ package com.sdkj.bbcat.adapter;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -9,6 +10,7 @@ import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.adapter.ListViewCommonAdapter;
 import com.huaxi100.networkapp.utils.Utils;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.activity.doctor.DoctorDetailActivity;
 import com.sdkj.bbcat.bean.HospitalDetailVo;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 
@@ -24,7 +26,7 @@ public class DoctorAdapter extends ListViewCommonAdapter<HospitalDetailVo.Expert
     }
 
     @Override
-    public void doExtra(View view, HospitalDetailVo.Expert newsVo, int position) {
+    public void doExtra(View view, final HospitalDetailVo.Expert newsVo, int position) {
         final ViewHolder h = (ViewHolder) holder;
         Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getAvatar())).into(h.iv_image);
         h.tv_title.setText(newsVo.getExport_name());
@@ -38,6 +40,12 @@ public class DoctorAdapter extends ListViewCommonAdapter<HospitalDetailVo.Expert
             h.tv_time.setVisibility(View.VISIBLE);
             h.tv_time.setText(newsVo.getExport_time());
         }
+        h.rl_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.skip(DoctorDetailActivity.class,newsVo);
+            }
+        });
     }
 
     public static class ViewHolder {
@@ -47,5 +55,6 @@ public class DoctorAdapter extends ListViewCommonAdapter<HospitalDetailVo.Expert
         TextView tv_desc;
         TextView tv_time;
         TextView tv_count;
+        RelativeLayout rl_item;
     }
 }

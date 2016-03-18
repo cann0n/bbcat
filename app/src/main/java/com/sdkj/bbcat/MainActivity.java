@@ -60,7 +60,7 @@ public class MainActivity extends TabUiActivity {
 
     @Override
     public String initCheckedTextColor() {
-        return "#ea5413";
+        return "#FF6469";
     }
 
     @Override

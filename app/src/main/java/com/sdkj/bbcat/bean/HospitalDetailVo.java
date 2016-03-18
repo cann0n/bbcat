@@ -1,5 +1,6 @@
 package com.sdkj.bbcat.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -148,7 +149,7 @@ public class HospitalDetailVo {
         }
     }
     
-    public  static  class Expert{
+    public  static  class Expert implements Serializable{
         private String uid;
         private String export_name;
         private String avatar;

@@ -64,6 +64,9 @@
             android:name=".activity.DoctorListActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.PicScannerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.AskActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -83,8 +86,9 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.bracelet.RecordInfoActivity"
+            android:name=".activity.doctor.DoctorDetailActivity"
             android:screenOrientation="portrait">
+            
         </activity>
 
         <activity

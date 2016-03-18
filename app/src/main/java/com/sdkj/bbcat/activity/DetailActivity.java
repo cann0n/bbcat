@@ -19,6 +19,7 @@ import com.easemob.easeui.widget.EaseAlertDialog;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.AppUtils;
 import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
@@ -39,6 +40,7 @@ import com.sdkj.bbcat.widget.TitleBar;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -50,6 +52,15 @@ public class DetailActivity extends SimpleActivity {
 
     @ViewInject(R.id.iv_avatar)
     ImageView iv_avatar;
+    
+    @ViewInject(R.id.iv_thumb1)
+    ImageView iv_thumb1;
+    
+    @ViewInject(R.id.iv_thumb2)
+    ImageView iv_thumb2;
+    
+    @ViewInject(R.id.iv_thumb3)
+    ImageView iv_thumb3;
 
     @ViewInject(R.id.tv_name)
     TextView tv_name;
@@ -104,12 +115,15 @@ public class DetailActivity extends SimpleActivity {
     @ViewInject(R.id.ll_comment_bottom)
     LinearLayout ll_comment_bottom;
 
+    @ViewInject(R.id.ll_img_container)
+    LinearLayout ll_img_container;
+
     private CircleVo.ItemCircle newsVo;
 
-    AutoScrollViewPager banner;
-
-    @ViewInject(R.id.ll_banner)
-    LinearLayout ll_banner;
+//    AutoScrollViewPager banner;
+//
+//    @ViewInject(R.id.ll_banner)
+//    LinearLayout ll_banner;
 
     @Override
     public void initBusiness() {
@@ -136,7 +150,7 @@ public class DetailActivity extends SimpleActivity {
             }
         });
         ll_comment_bar.setVisibility(View.GONE);
-        banner = new AutoScrollViewPager(activity);
+//        banner = new AutoScrollViewPager(activity);
 
         if ("1".equals(newsVo.getNews_info().getIs_collected())) {
             iv_zan_bottom.setImageResource(R.drawable.icon_zan1);
@@ -161,11 +175,57 @@ public class DetailActivity extends SimpleActivity {
                 }
             }
         });
-        banner.loadAutoScrollViewPager(ll_banner, newsVo.getNews_info().getMulti_cover());
+//        banner.loadAutoScrollViewPager(ll_banner, newsVo.getNews_info().getMulti_cover());
         if (Utils.isEmpty(newsVo.getNews_info().getMulti_cover())) {
-            ll_banner.setVisibility(View.GONE);
+            ll_img_container.setVisibility(View.GONE);
+//            ll_banner.setVisibility(View.GONE);
         } else {
-            ll_banner.setVisibility(View.VISIBLE);
+//            ll_banner.setVisibility(View.VISIBLE);
+            ll_img_container.setVisibility(View.VISIBLE);
+
+            int w= AppUtils.getWidth(activity)/3-30;
+            LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(w,w);
+            lp.weight=1;
+            LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(w,w);
+            lp2.leftMargin=10;
+            lp2.weight=1;
+            LinearLayout.LayoutParams lp3=new LinearLayout.LayoutParams(w,w);
+            lp3.leftMargin=10;
+            lp3.weight=1;
+            iv_thumb1.setLayoutParams(lp);
+            iv_thumb2.setLayoutParams(lp2);
+            iv_thumb3.setLayoutParams(lp3);
+            if (newsVo.getNews_info().getMulti_cover().size() == 1) {
+                iv_thumb2.setVisibility(View.INVISIBLE);
+                iv_thumb3.setVisibility(View.INVISIBLE);
+                Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).fitCenter().into(iv_thumb1);
+            } else if (newsVo.getNews_info().getMulti_cover().size() == 2) {
+                iv_thumb3.setVisibility(View.INVISIBLE);
+                Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).fitCenter().into(iv_thumb1);
+                Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(1).getImg())).fitCenter().into(iv_thumb2);
+            } else if (newsVo.getNews_info().getMulti_cover().size() == 3) {
+                Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(0).getImg())).into(iv_thumb1);
+                Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(1).getImg())).into(iv_thumb2);
+                Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getNews_info().getMulti_cover().get(2).getImg())).into(iv_thumb3);
+            }
+            iv_thumb1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    skip(PicScannerActivity.class,(ArrayList)newsVo.getNews_info().getMulti_cover(),0+"");
+                }
+            });
+            iv_thumb2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    skip(PicScannerActivity.class,(ArrayList)newsVo.getNews_info().getMulti_cover(),1+"");
+                }
+            });
+            iv_thumb3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    skip(PicScannerActivity.class,(ArrayList)newsVo.getNews_info().getMulti_cover(),2+"");
+                }
+            });
         }
 
         if (Utils.isEmpty(newsVo.getNews_info().getAddress())) {

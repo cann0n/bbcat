@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="theme_orange_color">#ea5413</color>
+    <color name="theme_orange_color">#ff6469</color>
     <color name="color_white">@android:color/white</color>
     <color name="transparent">#00000000</color>
 
@@ -22,7 +22,7 @@
     <color name="defaultbg_white">#FFFFFFFF</color>
     <color name="default_black">#FF000000</color>
     <color name="defaultline">#FFEEEEEE</color>
-    <color name="font_red">#ffEA5413</color>
+    <color name="font_red">#ff6469</color>
 
     <color name="common_top_bar_blue">#4ebcd3</color>
     <color name="btn_login_normal">#00acff</color>
@@ -37,7 +37,7 @@
     <color name="common_bg">#fcfcfc</color>
     <color name="btn_pressed_green_solid">#B6DA53</color>
     <color name="divider_list">#d4d4d4</color>
-    <color name="top_bar_normal_bg">#ea5413</color>
+    <color name="top_bar_normal_bg">#ff6469</color>
     <color name="error_item_color">#F6EBE6</color>
     <color name="bottom_bar_normal_bg">#2D2F31</color>
     <color name="bottom_text_color_normal">#ffffff</color>

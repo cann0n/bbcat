@@ -70,7 +70,7 @@ public class FragmentMyFriend extends BaseFragment {
 
     private void changeBtn(int position) {
         if (position == 0) {
-            tv_huihua.setTextColor(Color.parseColor("#ea5413"));
+            tv_huihua.setTextColor(Color.parseColor("#ff6469"));
             tv_qunzu.setTextColor(Color.parseColor("#333333"));
             tv_liaotianshi.setTextColor(Color.parseColor("#333333"));
             tv_heimingdan.setTextColor(Color.parseColor("#333333"));
@@ -80,7 +80,7 @@ public class FragmentMyFriend extends BaseFragment {
             tv_liaotianshi.setBackgroundColor(Color.parseColor("#00000000"));
             tv_heimingdan.setBackgroundColor(Color.parseColor("#00000000"));
         } else if (position == 1) {
-            tv_qunzu.setTextColor(Color.parseColor("#ea5413"));
+            tv_qunzu.setTextColor(Color.parseColor("#ff6469"));
             tv_huihua.setTextColor(Color.parseColor("#333333"));
             tv_liaotianshi.setTextColor(Color.parseColor("#333333"));
             tv_heimingdan.setTextColor(Color.parseColor("#333333"));
@@ -90,7 +90,7 @@ public class FragmentMyFriend extends BaseFragment {
             tv_liaotianshi.setBackgroundColor(Color.parseColor("#00000000"));
             tv_heimingdan.setBackgroundColor(Color.parseColor("#00000000"));
         } else if (position == 2) {
-            tv_liaotianshi.setTextColor(Color.parseColor("#ea5413"));
+            tv_liaotianshi.setTextColor(Color.parseColor("#ff6469"));
             tv_qunzu.setTextColor(Color.parseColor("#333333"));
             tv_huihua.setTextColor(Color.parseColor("#333333"));
             tv_heimingdan.setTextColor(Color.parseColor("#333333"));
@@ -100,7 +100,7 @@ public class FragmentMyFriend extends BaseFragment {
             tv_huihua.setBackgroundColor(Color.parseColor("#00000000"));
             tv_heimingdan.setBackgroundColor(Color.parseColor("#00000000"));
         } else {
-            tv_heimingdan.setTextColor(Color.parseColor("#ea5413"));
+            tv_heimingdan.setTextColor(Color.parseColor("#ff6469"));
             tv_qunzu.setTextColor(Color.parseColor("#333333"));
             tv_liaotianshi.setTextColor(Color.parseColor("#333333"));
             tv_huihua.setTextColor(Color.parseColor("#333333"));

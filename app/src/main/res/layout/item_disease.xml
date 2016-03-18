@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/white"
     >
 
     <LinearLayout
@@ -19,142 +20,88 @@
             android:layout_width="match_parent"
             android:layout_height="55dp">
 
-            <ImageView
+            <TextView
                 android:id="@+id/iv_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/icon_default_image"/>
+                android:background="@drawable/icon_date_bg"
+                android:gravity="center"
+                android:text="13\n01-2016"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/iv_avatar"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/iv_avatar"
                 android:paddingTop="2dp"
-                android:text="灯火阑珊"
-                android:textColor="@color/color333"
-                android:textSize="@dimen/textview_min"/>
-
-            <TextView
-                android:id="@+id/tv_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tv_name"
-                android:layout_below="@+id/tv_name"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="宝宝7个月20天"
-                android:textColor="@color/color_gray"
-                android:textSize="@dimen/textview_xxmin"/>
-
-            <!-- 已关注的backgroud：@drawable/bg_btn_yiguanzhu-->
-            <TextView
-                android:id="@+id/tv_guanzhu"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/bg_btn_guanzhu"
-                android:gravity="center"
-                android:paddingBottom="6dp"
-                android:paddingTop="6dp"
-                android:text="关注"
-                android:textColor="@color/color_green"
-                android:textSize="@dimen/textview_xxmin"/>
+                android:text="星期三，宝宝出生28天"
+                android:textColor="@color/colorred"
+                android:textSize="@dimen/font14"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignBottom="@id/iv_avatar"
+                android:layout_alignLeft="@id/tv_name"
+                android:background="@drawable/icon_disease_line"/>
         </RelativeLayout>
-
-        <!--<include layout="@layout/view_autoscrollviewpager"/>-->
         <LinearLayout
-            android:id="@+id/ll_img_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <ImageView
-                android:id="@+id/iv_thumb1"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                />
-            <ImageView
-                android:id="@+id/iv_thumb2"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                />
-            <ImageView
-                android:id="@+id/iv_thumb3"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                />
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="60dp"
+            android:background="@drawable/icon_disease_bg"
+            android:layout_marginBottom="10dp">
 
-            <TextView
-                android:id="@+id/tv_address"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/icon_didian"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:paddingRight="10dp"
-                android:text="北京市 海淀区"
-                android:textColor="@color/color_gray"
-                android:textSize="9sp"/>
-
-            <TextView
-                android:id="@+id/tv_liulan"
-                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingRight="10dp">
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="真的来了！！11111111"
+                    android:textColor="@color/color333"
+                    android:textSize="@dimen/font14"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_img_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/icon_liulan"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:text="236880"
-                android:textColor="@color/color_gray"
-                android:textSize="9sp"/>
-
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/tv_liulan"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/tv_liulan"
-                android:gravity="center"
-                android:text="2小时前"
-                android:textColor="@color/color_gray"
-                android:textSize="9sp"/>
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="10dp"
-            >
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="真的来了！！11111111"
-                android:textColor="@color/color333"
-                android:textSize="@dimen/textview_middle"
-                android:paddingTop="5dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+                <ImageView
+                    android:id="@+id/iv_thumb1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_hos_bg"/>
+                <ImageView
+                    android:id="@+id/iv_thumb2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_hos_bg"/>
+                <ImageView
+                    android:id="@+id/iv_thumb3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_hos_bg"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -162,7 +109,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/ll_comment"

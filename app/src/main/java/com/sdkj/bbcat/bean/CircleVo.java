@@ -1,5 +1,7 @@
 package com.sdkj.bbcat.bean;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -101,6 +103,25 @@ public class CircleVo {
 
             private String mobile;
 
+            private String birthday_day;
+            private String week;
+
+            public String getBirthday_day() {
+                return birthday_day;
+            }
+
+            public void setBirthday_day(String birthday_day) {
+                this.birthday_day = birthday_day;
+            }
+
+            public String getWeek() {
+                return week;
+            }
+
+            public void setWeek(String week) {
+                this.week = week;
+            }
+
             public String getMobile() {
                 return mobile;
             }
@@ -160,7 +181,16 @@ public class CircleVo {
             private  String uid;
             private String color;
             private String category_name;
-            
+            private String create_timestamp;
+
+            public String getCreate_timestamp() {
+                return create_timestamp;
+            }
+
+            public void setCreate_timestamp(String create_timestamp) {
+                this.create_timestamp = create_timestamp;
+            }
+
             /**
              * position = 4置顶,position = 2 精华
              */
@@ -279,6 +309,20 @@ public class CircleVo {
         
         public  static class Cover implements Serializable{
             private String img;
+
+            /**
+             * 本地图片路径
+             */
+            @Expose
+            private String path;
+
+            public String getPath() {
+                return path;
+            }
+
+            public void setPath(String path) {
+                this.path = path;
+            }
 
             public String getImg() {
                 return img;

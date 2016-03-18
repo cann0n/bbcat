@@ -50,9 +50,9 @@ import cn.sharesdk.wechat.favorite.WechatFavorite;
  * Created by ${Rhino} on 2015/12/10 14:24
  * 我的圈列表
  */
-public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, CircleAdapter.ViewHolder> {
-    public CircleAdapter(BaseActivity activity, List<CircleVo.ItemCircle> data) {
-        super(activity, ViewHolder.class, R.id.class, data, R.layout.item_circle);
+public class DiseaseRecordAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, DiseaseRecordAdapter.ViewHolder> {
+    public DiseaseRecordAdapter(BaseActivity activity, List<CircleVo.ItemCircle> data) {
+        super(activity, ViewHolder.class, R.id.class, data, R.layout.item_disease);
     }
 
     @Override
@@ -60,22 +60,24 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
         if (h instanceof ViewHolder) {
             final ViewHolder holder = (ViewHolder) h;
             final CircleVo.ItemCircle newsVo = getItem(position);
-            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(newsVo.getUser_info().getAvatar())).into(holder.iv_avatar);
-            holder.tv_name.setText(newsVo.getUser_info().getNickname());
-            holder.tv_desc.setText(newsVo.getUser_info().getBirthday());
+            String day = Utils.formatTime(newsVo.getNews_info().getCreate_timestamp() + "000", "dd");
+            String year = Utils.formatTime(newsVo.getNews_info().getCreate_timestamp() + "000", "MM-yyyy");
+
+            holder.iv_avatar.setText(day + "\n" + year);
+            holder.tv_name.setText(SimpleUtils.getWeekDayString(Utils.formatTime(newsVo.getNews_info().getCreate_timestamp() + "000", "yyyy-MM-dd")) + "," + "宝宝出生第" + newsVo.getUser_info().getBirthday_day() + "天");
             if (Utils.isEmpty(newsVo.getNews_info().getMulti_cover())) {
                 holder.ll_img_container.setVisibility(View.GONE);
             } else {
                 holder.ll_img_container.setVisibility(View.VISIBLE);
-                int w=AppUtils.getWidth(activity)/3-30;
-                LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(w,w);
-                lp.weight=1;
-                LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(w,w);
-                lp2.leftMargin=10;
-                lp2.weight=1;
-                LinearLayout.LayoutParams lp3=new LinearLayout.LayoutParams(w,w);
-                lp3.leftMargin=10;
-                lp3.weight=1;
+                int w = AppUtils.getWidth(activity) / 3 - 30;
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(w, w);
+                lp.weight = 1;
+                LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(w, w);
+                lp2.leftMargin = 10;
+                lp2.weight = 1;
+                LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(w, w);
+                lp3.leftMargin = 10;
+                lp3.weight = 1;
                 holder.iv_thumb1.setLayoutParams(lp);
                 holder.iv_thumb2.setLayoutParams(lp2);
                 holder.iv_thumb3.setLayoutParams(lp3);
@@ -97,21 +99,8 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
                 }
 
             }
-            if (Utils.isEmpty(newsVo.getNews_info().getAddress())) {
-                holder.tv_address.setVisibility(View.GONE);
-            } else {
-                holder.tv_address.setVisibility(View.VISIBLE);
-                holder.tv_address.setText(newsVo.getNews_info().getAddress());
-            }
-            holder.tv_liulan.setText(newsVo.getNews_info().getView() + "");
-            holder.tv_time.setText(newsVo.getNews_info().getCreate_time() + "");
-            if (Utils.isEmpty(newsVo.getNews_info().getColor())) {
-                holder.tv_title.setText(newsVo.getNews_info().getTitle());
-            } else {
-                String text = "<html><font color=\"" + newsVo.getNews_info().getColor() + "\">" + "[" + newsVo.getNews_info().getCategory_name() + "]" + "</font></html>";
-                holder.tv_title.setText(Html.fromHtml(text + newsVo.getNews_info().getTitle()));
-            }
-
+//            holder.tv_time.setText(newsVo.getNews_info().getCreate_time() + "");
+            holder.tv_title.setText(newsVo.getNews_info().getTitle());
 
             holder.tv_comment.setText(newsVo.getNews_info().getComment());
             holder.tv_zan.setText(newsVo.getNews_info().getCollection());
@@ -198,23 +187,6 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
 
             holder.tv_zan_add.setVisibility(View.INVISIBLE);
-            //已关注
-            if ("1".equals(newsVo.getUser_info().getIs_following())) {
-                holder.tv_guanzhu.setText("已关注");
-            } else {
-                holder.tv_guanzhu.setText("关注");
-            }
-
-            holder.tv_guanzhu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (SimpleUtils.isLogin(activity)) {
-                        doLike(newsVo, holder.tv_guanzhu);
-                    } else {
-                        activity.skip(LoginActivity.class);
-                    }
-                }
-            });
             if ("1".equals(newsVo.getNews_info().getIs_collected())) {
                 holder.iv_zan.setImageResource(R.drawable.icon_zan1);
             } else {
@@ -237,17 +209,15 @@ public class CircleAdapter extends UltimatCommonAdapter<CircleVo.ItemCircle, Cir
 
     public static class ViewHolder extends UltimateRecyclerviewViewHolder {
 
-        CircleImageView iv_avatar;
+        TextView iv_avatar;
         ImageView iv_thumb1;
         ImageView iv_thumb2;
         ImageView iv_thumb3;
         TextView tv_name;
-        TextView tv_desc;
 
-        TextView tv_guanzhu;
-        TextView tv_address;
-        TextView tv_liulan;
-        TextView tv_time;
+        //        TextView tv_address;
+//        TextView tv_liulan;
+//        TextView tv_time;
         TextView tv_title;
         TextView tv_comment;
         TextView tv_zan;

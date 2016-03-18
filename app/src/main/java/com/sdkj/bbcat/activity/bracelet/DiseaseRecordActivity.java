@@ -3,6 +3,7 @@ package com.sdkj.bbcat.activity.bracelet;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huaxi100.networkapp.network.HttpUtils;
@@ -16,8 +17,10 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.activity.MoreTagsActivity;
 import com.sdkj.bbcat.activity.PublishActivity;
 import com.sdkj.bbcat.adapter.CircleAdapter;
+import com.sdkj.bbcat.adapter.DiseaseRecordAdapter;
 import com.sdkj.bbcat.bean.CircleVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
@@ -40,7 +43,7 @@ public class DiseaseRecordActivity extends SimpleActivity {
     @ViewInject(R.id.note_list)
     private CustomRecyclerView list_view;
 
-    private CircleAdapter adapter;
+    private DiseaseRecordAdapter adapter;
     private int pageNum=1;
 
 
@@ -57,7 +60,7 @@ public class DiseaseRecordActivity extends SimpleActivity {
             }
         });
 
-        adapter = new CircleAdapter(activity, new ArrayList<CircleVo.ItemCircle>());
+        adapter = new DiseaseRecordAdapter(activity, new ArrayList<CircleVo.ItemCircle>());
 
         list_view.addFooter(adapter);
         list_view.setAdapter(adapter);
@@ -79,6 +82,15 @@ public class DiseaseRecordActivity extends SimpleActivity {
                 queryData("");
             }
         });
+
+        View header = activity.makeView(R.layout.view_disease_header);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(AppUtils.getWidth(activity) + 10, LinearLayout.LayoutParams.WRAP_CONTENT);
+        header.setLayoutParams(lp);
+        lp.rightMargin = -5;
+        UltimateRecyclerView.CustomRelativeWrapper wrapper = new UltimateRecyclerView.CustomRelativeWrapper(activity);
+        wrapper.addView(header);
+        adapter.setCustomHeaderView(wrapper);
 
         showDialog();
         queryData("");
