@@ -75,8 +75,8 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
 
     protected void setListener() {
         EventBus.getDefault().register(this);
-//        Intent sIntent= new Intent(activity,BleIn_BService.class);
-//        activity.bindService(sIntent, mConnect, Context.BIND_AUTO_CREATE);
+        Intent sIntent= new Intent(activity,BleIn_BService.class);
+        activity.bindService(sIntent, mConnect, Context.BIND_AUTO_CREATE);
         queryData();
         mScanBraceletBtn.setOnClickListener(this);
     }
@@ -119,18 +119,17 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
 
     public void onClick(View v) {
         if (v == mScanBraceletBtn) {
-            activity.toast("后台开发中~");
-//            if (mScanBraceletBtn.getText().toString().trim().equals("扫描手环"))
-//                mBinder.startSearchDevices(activity, "咘咘猫请求打开蓝牙设备", null);
-//            else if (mScanBraceletBtn.getText().toString().trim().equals("停止扫描"))
-//                mBinder.stopSearchDevices();
-//            else if (mScanBraceletBtn.getText().toString().trim().equals("断开连接"))
-//                mBinder.disConDevice();
-//            else if (mScanBraceletBtn.getText().toString().trim().equals("停止重连")) {
-//                mBinder.stopReConDevice();
-//                mScanBraceletState.setText("未连接");
-//                mScanBraceletBtn.setText("扫描手环");
-//            }
+            if (mScanBraceletBtn.getText().toString().trim().equals("扫描手环"))
+                mBinder.startSearchDevices(activity, "咘咘猫请求打开蓝牙设备", null);
+            else if (mScanBraceletBtn.getText().toString().trim().equals("停止扫描"))
+                mBinder.stopSearchDevices();
+            else if (mScanBraceletBtn.getText().toString().trim().equals("断开连接"))
+                mBinder.disConDevice();
+            else if (mScanBraceletBtn.getText().toString().trim().equals("停止重连")) {
+                mBinder.stopReConDevice();
+                mScanBraceletState.setText("未连接");
+                mScanBraceletBtn.setText("扫描手环");
+            }
         }
     }
 

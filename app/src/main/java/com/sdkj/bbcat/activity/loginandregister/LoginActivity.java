@@ -90,10 +90,10 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
 
                 if (etState[0] == true && etState[1] == true) {
                     mLoginBtn.setEnabled(true);
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_orange);
+                    mLoginBtn.setBackgroundResource(R.drawable.bg_btn_orange);
                 } else {
                     mLoginBtn.setEnabled(false);
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_gray);
+                    mLoginBtn.setBackgroundResource(R.drawable.bg_btn_gray);
                 }
             }
 
@@ -117,10 +117,10 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
 
                 if (etState[0] == true && etState[1] == true) {
                     mLoginBtn.setEnabled(true);
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_orange);
+                    mLoginBtn.setBackgroundResource(R.drawable.bg_btn_orange);
                 } else {
                     mLoginBtn.setEnabled(false);
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_gray);
+                    mLoginBtn.setBackgroundResource(R.drawable.bg_btn_gray);
                 }
             }
 
