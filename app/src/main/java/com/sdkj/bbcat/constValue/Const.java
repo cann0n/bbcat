@@ -30,10 +30,15 @@ public class Const {
 
     //网络请求信息配置
     public static final String DOMAIN = "http://120.27.146.227/api/";
+    
+    //原地址
+//    public static final String DOMAIN = "http://120.26.212.241/api/";
 
     /**
      * 图片基地址
      */
+    //原地址
+//    public static final String IMAGE_DOMAIN = "http://120.26.212.241/";
     public static final String IMAGE_DOMAIN = "http://120.27.146.227/";
 
     /**

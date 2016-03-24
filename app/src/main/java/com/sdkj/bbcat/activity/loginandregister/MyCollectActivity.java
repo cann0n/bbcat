@@ -42,7 +42,7 @@ public class MyCollectActivity extends SimpleActivity{
     @Override
     public void initBusiness() {
         new TitleBar(activity).back().setTitle("我的收藏");
-        adapter = new NewsAdapter(activity, new ArrayList<NewsVo>());
+        adapter = new NewsAdapter(activity, new ArrayList<NewsVo>(),0);
 
         follow_list.addFooter(adapter);
         follow_list.setAdapter(adapter);

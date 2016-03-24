@@ -62,7 +62,7 @@ public class InfoListActivity extends SimpleActivity {
         defaultId = (String) getVo("0");
         tv_title.setText((String) getVo("1"));
 
-        adapter = new NewsAdapter(activity, new ArrayList<NewsVo>());
+        adapter = new NewsAdapter(activity, new ArrayList<NewsVo>(),1);
         hospital_list.addFooter(adapter);
         hospital_list.setAdapter(adapter);
 

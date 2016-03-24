@@ -50,7 +50,7 @@ public class NewsListActivity extends SimpleActivity {
         final String id= (String) getVo("0");
         tv_title.setText((String)getVo("1"));
         
-        adapter = new NewsAdapter(activity, new ArrayList<NewsVo>());
+        adapter = new NewsAdapter(activity, new ArrayList<NewsVo>(),1);
         hospital_list.addFooter(adapter);
         hospital_list.setAdapter(adapter);
         
@@ -86,7 +86,6 @@ public class NewsListActivity extends SimpleActivity {
                 hospital_list.setRefreshing(false);
                 RespVo<NewsVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (respVo.isSuccess()) {
-
                     List<NewsVo> data = GsonTools.getList(jsonObject.optJSONObject("data").optJSONArray("list"), NewsVo.class);
                     if (pageNum == 1) {
                         adapter.removeAll();
