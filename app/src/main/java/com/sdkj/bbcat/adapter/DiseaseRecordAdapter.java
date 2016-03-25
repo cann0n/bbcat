@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -226,7 +227,7 @@ public class DiseaseRecordAdapter extends UltimatCommonAdapter<CircleVo.ItemCirc
         ImageView iv_zan;
 
 
-        LinearLayout ll_item;
+        RelativeLayout ll_item;
         LinearLayout ll_share;
         LinearLayout ll_zan;
         LinearLayout ll_comment;

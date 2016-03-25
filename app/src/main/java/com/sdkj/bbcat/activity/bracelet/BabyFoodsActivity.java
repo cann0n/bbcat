@@ -3,8 +3,10 @@ package com.sdkj.bbcat.activity.bracelet;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -49,7 +51,21 @@ public class BabyFoodsActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
-        new TitleBar(activity).setTitle("宝宝辅食").back();
+        TitleBar bar = new TitleBar(activity).setTitle("宝宝辅食");
+        bar.iv_back.setVisibility(View.VISIBLE);
+        bar.iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebBackForwardList hisList = web_view.copyBackForwardList();
+                if (hisList.getSize() == 1) {
+                    finish();
+                } else if (web_view.canGoBack()) {
+                    web_view.goBack();
+                } else {
+                    finish();
+                }
+            }
+        });
         web_view.getSettings().setJavaScriptEnabled(true);
 
         web_view.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -65,10 +81,25 @@ public class BabyFoodsActivity extends SimpleActivity {
         });
 
         web_view.loadUrl(Const.BABY_FOODS);
-        
+
     }
 
-   
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        WebBackForwardList hisList = web_view.copyBackForwardList();
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (hisList.getSize() == 1) {
+                finish();
+            } else if (web_view.canGoBack()) {
+                web_view.goBack();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     @Override
     public int setLayoutResID() {

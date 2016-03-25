@@ -43,6 +43,6 @@ public class WelcomeActivity extends Activity {
                 }
             }
         };
-        timer.schedule(timerTask, 2500);
+        timer.schedule(timerTask, 4000);
     }
 }

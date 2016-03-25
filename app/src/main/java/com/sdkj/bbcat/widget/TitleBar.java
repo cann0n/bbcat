@@ -18,13 +18,13 @@ public class TitleBar {
 
     private BaseActivity activity;
 
-    private ImageView iv_back;
+    public ImageView iv_back;
     private ImageView iv_right;
 
     private TextView tv_title;
-    
+
     private TextView tv_right;
-    
+
     private RelativeLayout rl_title_bar;
 
     public TitleBar(BaseActivity activity) {
@@ -33,27 +33,30 @@ public class TitleBar {
         iv_right = (ImageView) activity.findViewById(R.id.iv_right);
         tv_title = (TextView) activity.findViewById(R.id.tv_bar_title);
         tv_right = (TextView) activity.findViewById(R.id.tv_right);
-        rl_title_bar= (RelativeLayout) activity.findViewById(R.id.rl_title_bar);
+        rl_title_bar = (RelativeLayout) activity.findViewById(R.id.rl_title_bar);
     }
 
-    public TitleBar(BaseActivity activity,View rootView) {
+    public TitleBar(BaseActivity activity, View rootView) {
         this.activity = activity;
         iv_back = (ImageView) rootView.findViewById(R.id.iv_back);
         iv_right = (ImageView) rootView.findViewById(R.id.iv_right);
         tv_title = (TextView) rootView.findViewById(R.id.tv_bar_title);
         tv_right = (TextView) rootView.findViewById(R.id.tv_right);
     }
+
     public TitleBar setTitle(String title) {
         tv_title.setText(title);
         return this;
     }
-    public  TitleBar showRight(String text,View.OnClickListener listener){
+
+    public TitleBar showRight(String text, View.OnClickListener listener) {
         tv_right.setVisibility(View.VISIBLE);
         tv_right.setText(text);
         tv_right.setOnClickListener(listener);
         return this;
     }
-    public  TitleBar showShare(int resId,View.OnClickListener listener){
+
+    public TitleBar showShare(int resId, View.OnClickListener listener) {
         iv_right.setVisibility(View.VISIBLE);
         iv_right.setOnClickListener(listener);
         iv_right.setImageResource(resId);
@@ -81,12 +84,12 @@ public class TitleBar {
         return this;
     }
 
-    public TitleBar setBg(String color){
+    public TitleBar setBg(String color) {
         rl_title_bar.setBackgroundColor(Color.parseColor(color));
-        return  this;
+        return this;
     }
-    protected void backDoing()
-    {
+
+    public void backDoing() {
         activity.finish();
     }
 }

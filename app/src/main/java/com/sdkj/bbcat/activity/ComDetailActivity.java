@@ -50,7 +50,7 @@ public class ComDetailActivity extends SimpleActivity {
 
     public void initBusiness() {
         TitleBar titleBar = new TitleBar(activity) {
-            protected void backDoing() {
+            public void backDoing() {
                 if (IsMody) {
                     Intent intent = new Intent();
                     intent.putExtra("ismody", true);

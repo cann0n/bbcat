@@ -54,10 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:gravity="center"
-            android:text="10KM"
+            android:text=">10KM"
             android:textColor="#222222"
             android:textSize="14sp"
-            android:textStyle="bold"
             android:tag=""/>
         <View
             android:layout_width="match_parent"
