@@ -31,6 +31,7 @@ import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.BluetoothBle.BleIn_BService;
 import com.sdkj.bbcat.BluetoothBle.BleOut_AUuidData;
 import com.sdkj.bbcat.BluetoothBle.BleOut_CResponseClass;
+import com.sdkj.bbcat.BluetoothBle.SearchBluetoothActivity;
 import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
@@ -75,9 +76,9 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
 
     protected void setListener() {
         EventBus.getDefault().register(this);
-        Intent sIntent= new Intent(activity,BleIn_BService.class);
-        activity.bindService(sIntent, mConnect, Context.BIND_AUTO_CREATE);
         queryData();
+//        Intent sIntent = new Intent(activity, BleIn_BService.class);
+//        activity.bindService(sIntent, mConnect, Context.BIND_AUTO_CREATE);
         mScanBraceletBtn.setOnClickListener(this);
     }
 
@@ -119,23 +120,25 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
 
     public void onClick(View v) {
         if (v == mScanBraceletBtn) {
-            if (mScanBraceletBtn.getText().toString().trim().equals("扫描手环"))
-                mBinder.startSearchDevices(activity, "咘咘猫请求打开蓝牙设备", null);
-            else if (mScanBraceletBtn.getText().toString().trim().equals("停止扫描"))
-                mBinder.stopSearchDevices();
-            else if (mScanBraceletBtn.getText().toString().trim().equals("断开连接"))
-                mBinder.disConDevice();
-            else if (mScanBraceletBtn.getText().toString().trim().equals("停止重连")) {
-                mBinder.stopReConDevice();
-                mScanBraceletState.setText("未连接");
-                mScanBraceletBtn.setText("扫描手环");
-            }
+//            if (mScanBraceletBtn.getText().toString().trim().equals("扫描手环"))
+//                mBinder.startSearchDevices(activity, "咘咘猫请求打开蓝牙设备", null);
+//            else if (mScanBraceletBtn.getText().toString().trim().equals("停止扫描"))
+//                mBinder.stopSearchDevices();
+//            else if (mScanBraceletBtn.getText().toString().trim().equals("断开连接"))
+//                mBinder.disConDevice();
+//            else if (mScanBraceletBtn.getText().toString().trim().equals("停止重连")) {
+//                mBinder.stopReConDevice();
+//                mScanBraceletState.setText("未连接");
+//                mScanBraceletBtn.setText("扫描手环");
+//            }
+            activity.skip(SearchBluetoothActivity.class);
         }
     }
 
     public void onEventMainThread(BleOut_CResponseClass.BeginSearchBleBtClazz bsb) {
         mScanBraceletState.setText("未连接");
         mScanBraceletBtn.setText("停止扫描");
+//        activity.skip(SearchBluetoothActivity.class);
     }
 
     public void onEventMainThread(BleOut_CResponseClass.FinishSearchBleBtClazz fsb) {
@@ -205,8 +208,8 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
     }
 
     public void onEventMainThread(BleOut_CResponseClass.DisConnectingBleBtClazz dcb) {
-        mScanBraceletState.setText("已连接");
-        mScanBraceletBtn.setText("正在断开");
+        mScanBraceletState.setText("未连接");
+        mScanBraceletBtn.setText("扫描手环");
     }
 
     public void onEventMainThread(BleOut_CResponseClass.DisConnectedBleBtClazz dcb) {
@@ -226,6 +229,9 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
 
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        if (mConnect != null) {
+            activity.unbindService(mConnect);
+        }
         super.onDestroy();
     }
 }

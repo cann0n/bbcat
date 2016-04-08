@@ -61,13 +61,12 @@
             android:layout_height="60dp"
             android:duplicateParentState="true" >
 
-            <ImageView
+            <com.sdkj.bbcat.widget.CircleImageView
                 android:id="@+id/avatar"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="11dp"
-                android:scaleType="fitXY"
                 android:src="@drawable/em_default_avatar" />
 
             <TextView

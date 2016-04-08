@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
 import com.easemob.easeui.widget.EaseAlertDialog;
@@ -35,6 +36,7 @@ import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.bean.FriendVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.hx.DemoHelper;
@@ -56,15 +58,18 @@ import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.hx.DemoHelper;
+import com.sdkj.bbcat.widget.CircleImageView;
 
 import org.json.JSONArray;
+
+import java.util.List;
 
 public class AddContactActivity extends SimpleActivity {
 	private EditText editText;
 	private LinearLayout searchedUserLayout;
 	private TextView nameText,mTextView;
 	private Button searchBtn;
-	private ImageView avatar;
+	private CircleImageView avatar;
 	private InputMethodManager inputMethodManager;
 	private String toAddUsername;
 	private ProgressDialog progressDialog;
@@ -81,7 +86,7 @@ public class AddContactActivity extends SimpleActivity {
 		searchedUserLayout = (LinearLayout) findViewById(R.id.ll_user);
 		nameText = (TextView) findViewById(R.id.name);
 		searchBtn = (Button) findViewById(R.id.search);
-		avatar = (ImageView) findViewById(R.id.avatar);
+		avatar = (CircleImageView) findViewById(R.id.avatar);
 		inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 	}
 
@@ -117,14 +122,14 @@ public class AddContactActivity extends SimpleActivity {
 	 * @param view
 	 */
 	public void addContact(final View view){
-		if(EMChatManager.getInstance().getCurrentUser().equals(nameText.getText().toString())){
+		if(EMChatManager.getInstance().getCurrentUser().equals(searchBtn.getText().toString())){
 			new EaseAlertDialog(this, R.string.not_add_myself).show();
 			return;
 		}
 		
-		if(DemoHelper.getInstance().getContactList().containsKey(nameText.getText().toString())){
+		if(DemoHelper.getInstance().getContactList().containsKey(searchBtn.getText().toString())){
 		    //提示已在好友列表中(在黑名单列表里)，无需添加
-		    if(EMContactManager.getInstance().getBlackListUsernames().contains(nameText.getText().toString())){
+		    if(EMContactManager.getInstance().getBlackListUsernames().contains(searchBtn.getText().toString())){
 		        new EaseAlertDialog(this, R.string.user_already_in_contactlist).show();
 		        return;
 		    }
@@ -176,8 +181,14 @@ public class AddContactActivity extends SimpleActivity {
 			@Override
 			public void getResp(JSONObject jsonObject) {
 				dismissDialog();
-				searchedUserLayout.setVisibility(View.VISIBLE);
-				nameText.setText(phone);
+				RespVo<FriendVo> respVo=GsonTools.getVo(jsonObject.toString(),RespVo.class);
+				if(respVo.isSuccess()){
+					searchedUserLayout.setVisibility(View.VISIBLE);
+					List<FriendVo> friendVo=respVo.getListData(jsonObject, FriendVo.class);
+					nameText.setText(friendVo.get(0).getNickname());
+					Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(friendVo.get(0).getAvatar())).into(avatar);
+				}
+				
 			}
 
 			@Override

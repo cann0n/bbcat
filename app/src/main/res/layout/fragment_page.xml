@@ -16,16 +16,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_info"
             android:paddingLeft="10dp"
+            android:src="@drawable/icon_info"
             android:visibility="gone"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/icon_home_title"
             android:layout_centerInParent="true"
+            android:drawableLeft="@drawable/icon_home_title"
             android:text=""
             />
 
@@ -35,8 +35,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_search"
             android:paddingRight="10dp"
+            android:src="@drawable/icon_search"
             />
     </RelativeLayout>
 
@@ -51,13 +51,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-            <ImageView
-                android:id="@+id/iv_banner"
-                android:layout_width="fill_parent"
-                android:layout_height="150dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/icon_banner"/>
+            <include layout="@layout/view_autoscrollviewpager"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"

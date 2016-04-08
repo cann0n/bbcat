@@ -24,13 +24,18 @@ import com.sdkj.bbcat.activity.loginandregister.PersonalCenter;
 import com.sdkj.bbcat.activity.news.DiaryListActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.activity.news.NewsListActivity;
+import com.sdkj.bbcat.bean.CircleVo;
 import com.sdkj.bbcat.bean.HomeVo;
 import com.sdkj.bbcat.bean.NewsVo;
 import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
+import com.sdkj.bbcat.widget.AutoScrollViewPager;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -69,12 +74,14 @@ public class HomePage extends BaseFragment {
     @ViewInject(R.id.tv_guess)
     private TextView tv_guess;
 
-    @ViewInject(R.id.iv_banner)
-    private ImageView iv_banner;
+    AutoScrollViewPager banner;
 
+        @ViewInject(R.id.ll_banner)
+    LinearLayout ll_banner;
     @Override
     protected void setListener() {
         ((MainActivity) activity).showDialog();
+        banner = new AutoScrollViewPager(activity);
         queryData();
     }
 
@@ -87,10 +94,17 @@ public class HomePage extends BaseFragment {
                 if (respVo.isSuccess()) {
                     HomeVo homeVo = respVo.getData(obj, HomeVo.class);
                     if (!Utils.isEmpty(homeVo.getSlider())) {
-                        HomeVo.Banner banner = homeVo.getSlider().get(0);
-                        Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(banner.getThumb())).into(iv_banner);
+//                        HomeVo.Banner banner = homeVo.getSlider().get(0);
+//                        Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(banner.getThumb())).into(iv_banner);
+                        List<CircleVo.ItemCircle.Cover> data=new ArrayList<>();
+                        for( HomeVo.Banner tempData:homeVo.getSlider()){
+                            CircleVo.ItemCircle.Cover cover=new CircleVo.ItemCircle.Cover();
+                            cover.setImg(tempData.getThumb());
+                            data.add(cover);
+                        }
+                        banner.loadAutoScrollViewPager(ll_banner,data );
                     } else {
-                        iv_banner.setVisibility(View.GONE);
+                        ll_banner.setVisibility(View.GONE);
                     }
 
                     if (!Utils.isEmpty(homeVo.getNews())) {

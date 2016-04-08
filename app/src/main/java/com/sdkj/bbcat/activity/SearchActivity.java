@@ -61,7 +61,7 @@ public class SearchActivity extends SimpleActivity {
 
         /**请求热门词汇*/
         final PostParams params = new PostParams();
-        params.put("category_id", "4");
+        params.put("category_id", "3");
 
         HttpUtils.postJSONObject(activity, Const.GetHotChar, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
             public void getResp(JSONObject jsonObject) {
@@ -81,7 +81,6 @@ public class SearchActivity extends SimpleActivity {
 
             public void doFailed() {
                 dismissDialog();
-                activity.toast("链接服务器失败");
             }
         });
 
@@ -127,7 +126,7 @@ public class SearchActivity extends SimpleActivity {
     private void btnDoing() {
         showDialog();
         PostParams params = new PostParams();
-        params.put("category_id", "4");
+        params.put("category_id", "3");
         params.put("keyword", mEt.getText().toString().trim());
 
         HttpUtils.postJSONObject(activity, Const.SearchContent, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {

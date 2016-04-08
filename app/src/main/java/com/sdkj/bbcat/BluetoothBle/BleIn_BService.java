@@ -101,126 +101,127 @@ public class BleIn_BService extends Service {
         if (mBtAdapter == null) {
             mBtAvailable = false;
             quickToast("亲，无法使用BLE蓝牙功能！\n因为当前手机没有可用的蓝牙设备哟！");
-        }
 
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2 || !getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            mBleAvailable = false;
-            quickToast("亲，无法使用BLE蓝牙功能！\n因为当前手机的蓝牙设备不支持BLE通讯协议哟！");
-        }
 
-        if (mBtAvailable && mBleAvailable) {
-            mBtAdapterCallback = new BluetoothAdapter.LeScanCallback() {
-                public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-                    mScanDeviceMap.put(device.getAddress(), device);
-                    mScanDeviceSet.add(new BleIn_ADeviceBean(device.getName(), device.getAddress()));
-                }
-            };
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2 || !getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+                mBleAvailable = false;
+                quickToast("亲，无法使用BLE蓝牙功能！\n因为当前手机的蓝牙设备不支持BLE通讯协议哟！");
+            }
 
-            mBtGattCallback = new BluetoothGattCallback() {
-                public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                    super.onConnectionStateChange(gatt, status, newState);
-                    /***表示成功的执行了一次GATT行为，至于执行了什么则需要自行判断才可得知***/
-                    if (BluetoothGatt.GATT_SUCCESS == status) {
-                        /**********表示手机与从端BLE设备正式连接********/
-                        if (BluetoothProfile.STATE_CONNECTED == newState) {
-                            try {
-                                Thread.sleep(800);
-                                mConedDevice = true;
-                                mBtGatt.discoverServices();
-                                mCurConedDeviceAddress = mRequestDeviceAddress;
-                                mReConDeviceHandler.removeCallbacks(mReConDeviceRunnable);
+            if (mBtAvailable && mBleAvailable) {
+                mBtAdapterCallback = new BluetoothAdapter.LeScanCallback() {
+                    public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+                        mScanDeviceMap.put(device.getAddress(), device);
+                        mScanDeviceSet.add(new BleIn_ADeviceBean(device.getName(), device.getAddress()));
+                    }
+                };
+
+                mBtGattCallback = new BluetoothGattCallback() {
+                    public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+                        super.onConnectionStateChange(gatt, status, newState);
+                        /***表示成功的执行了一次GATT行为，至于执行了什么则需要自行判断才可得知***/
+                        if (BluetoothGatt.GATT_SUCCESS == status) {
+                            /**********表示手机与从端BLE设备正式连接********/
+                            if (BluetoothProfile.STATE_CONNECTED == newState) {
+                                try {
+                                    Thread.sleep(800);
+                                    mConedDevice = true;
+                                    mBtGatt.discoverServices();
+                                    mCurConedDeviceAddress = mRequestDeviceAddress;
+                                    mReConDeviceHandler.removeCallbacks(mReConDeviceRunnable);
+                                    Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
+                                    intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_CONNECTEDBLEBT);
+                                    startService(intent);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            /**********表示手机与从端BLE设备正式断开********/
+                            else if (BluetoothProfile.STATE_DISCONNECTED == newState) {
+                                try {
+                                    Thread.sleep(800);
+                                    mConedDevice = false;
+                                    mDisConDeviceHandler.sendEmptyMessage(0);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            /**********表示手机与从端BLE设备连接失败********/
+                            if (BluetoothProfile.STATE_CONNECTED == newState) {
+                                if (!mIsReConnect) {
+                                    Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
+                                    intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_CONNECTEDFAILBLEBT);
+                                    startService(intent);
+                                    quickToast("亲，连接指定的BLE蓝牙设备失败了哟！");
+                                } else {
+                                    quickToast("亲，重新连接BLE蓝牙设备失败了哟！马上为您再次连接......");
+                                }
+                            }
+                            /**********表示手机与从端BLE设备断开失败********/
+                            else if (BluetoothProfile.STATE_DISCONNECTED == newState) {
                                 Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
-                                intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_CONNECTEDBLEBT);
+                                intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_DISCONNECTEDFAILBLEBT);
                                 startService(intent);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                quickToast("亲，断开指定的BLE蓝牙设备失败了哟！");
                             }
-                        }
-                        /**********表示手机与从端BLE设备正式断开********/
-                        else if (BluetoothProfile.STATE_DISCONNECTED == newState) {
-                            try {
-                                Thread.sleep(800);
-                                mConedDevice = false;
-                                mDisConDeviceHandler.sendEmptyMessage(0);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    } else {
-                        /**********表示手机与从端BLE设备连接失败********/
-                        if (BluetoothProfile.STATE_CONNECTED == newState) {
-                            if (!mIsReConnect) {
-                                Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
-                                intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_CONNECTEDFAILBLEBT);
-                                startService(intent);
-                                quickToast("亲，连接指定的BLE蓝牙设备失败了哟！");
-                            } else {
-                                quickToast("亲，重新连接BLE蓝牙设备失败了哟！马上为您再次连接......");
-                            }
-                        }
-                        /**********表示手机与从端BLE设备断开失败********/
-                        else if (BluetoothProfile.STATE_DISCONNECTED == newState) {
-                            Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
-                            intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_DISCONNECTEDFAILBLEBT);
-                            startService(intent);
-                            quickToast("亲，断开指定的BLE蓝牙设备失败了哟！");
                         }
                     }
-                }
 
-                public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-                    super.onServicesDiscovered(gatt, status);
-                    if (BluetoothGatt.GATT_SUCCESS == status) {
-                        if (mServiceUUID != null) {
-                            if (mBtGatt.getService(mServiceUUID) != null) {
-                                mBtGattService = mBtGatt.getService(mServiceUUID);
-                                List<BluetoothGattCharacteristic> BtGattCharacteristics = mBtGattService.getCharacteristics();
-                                if (BtGattCharacteristics != null) {
-                                    for (BluetoothGattCharacteristic characteristic : BtGattCharacteristics) {
-                                        if (!setCharacteristicNotification(characteristic, true)) {
-                                            quickToast("亲,UUid为：" + characteristic.getUuid() + "的特征属性，为其设置监听特征数据变化的功能失败了哟！");
+                    public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+                        super.onServicesDiscovered(gatt, status);
+                        if (BluetoothGatt.GATT_SUCCESS == status) {
+                            if (mServiceUUID != null) {
+                                if (mBtGatt.getService(mServiceUUID) != null) {
+                                    mBtGattService = mBtGatt.getService(mServiceUUID);
+                                    List<BluetoothGattCharacteristic> BtGattCharacteristics = mBtGattService.getCharacteristics();
+                                    if (BtGattCharacteristics != null) {
+                                        for (BluetoothGattCharacteristic characteristic : BtGattCharacteristics) {
+                                            if (!setCharacteristicNotification(characteristic, true)) {
+                                                quickToast("亲,UUid为：" + characteristic.getUuid() + "的特征属性，为其设置监听特征数据变化的功能失败了哟！");
+                                            }
                                         }
-                                    }
-                                } else quickToast("亲,当前连接的BLE设备没有任何的特征数据哟！");
-                            } else quickToast("亲，指定的BLE设备没有相关的Service哟！");
-                        } else quickToast("亲，没有指明所要查找BLE设备中特定的Service哟！");
-                    } else quickToast("亲，查找指定BLE设备的所有Service失败了哟！");
-                }
+                                    } else quickToast("亲,当前连接的BLE设备没有任何的特征数据哟！");
+                                } else quickToast("亲，指定的BLE设备没有相关的Service哟！");
+                            } else quickToast("亲，没有指明所要查找BLE设备中特定的Service哟！");
+                        } else quickToast("亲，查找指定BLE设备的所有Service失败了哟！");
+                    }
 
-                public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                    super.onCharacteristicChanged(gatt, characteristic);
-                    Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
-                    intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_READEDBLEBTCHANGEDATA);
-                    startService(intent);
-                }
-
-                public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                    super.onCharacteristicRead(gatt, characteristic, status);
-                    if (BluetoothGatt.GATT_SUCCESS == status) {
+                    public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+                        super.onCharacteristicChanged(gatt, characteristic);
                         Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
-                        intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_READEDBLEBTDATA);
+                        intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_READEDBLEBTCHANGEDATA);
                         startService(intent);
-                    } else quickToast("亲，读取远端BLE设备发送给手机数据的操作失败了哟！");
-                }
+                    }
 
-                public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                    super.onCharacteristicWrite(gatt, characteristic, status);
-                    if (BluetoothGatt.GATT_SUCCESS == status) {
-                        Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
-                        intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_WRITEDBLEBTDATA);
-                        startService(intent);
-                    } else quickToast("亲，发送命令给远端BLE设备的操作失败了哟！");
-                }
+                    public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                        super.onCharacteristicRead(gatt, characteristic, status);
+                        if (BluetoothGatt.GATT_SUCCESS == status) {
+                            Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
+                            intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_READEDBLEBTDATA);
+                            startService(intent);
+                        } else quickToast("亲，读取远端BLE设备发送给手机数据的操作失败了哟！");
+                    }
 
-                public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-                    super.onReadRemoteRssi(gatt, rssi, status);
-                    if (BluetoothGatt.GATT_SUCCESS == status) {
-                        Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
-                        intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_READEDBLEBTRSSI);
-                        startService(intent);
-                    } else quickToast("亲，获取手机与BLE设备相隔距离的操作失败了哟！");
-                }
-            };
+                    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                        super.onCharacteristicWrite(gatt, characteristic, status);
+                        if (BluetoothGatt.GATT_SUCCESS == status) {
+                            Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
+                            intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_WRITEDBLEBTDATA);
+                            startService(intent);
+                        } else quickToast("亲，发送命令给远端BLE设备的操作失败了哟！");
+                    }
+
+                    public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+                        super.onReadRemoteRssi(gatt, rssi, status);
+                        if (BluetoothGatt.GATT_SUCCESS == status) {
+                            Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
+                            intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_READEDBLEBTRSSI);
+                            startService(intent);
+                        } else quickToast("亲，获取手机与BLE设备相隔距离的操作失败了哟！");
+                    }
+                };
+            }
         }
     }
 
@@ -428,7 +429,9 @@ public class BleIn_BService extends Service {
             Intent intent = new Intent(BleIn_BService.this, BleIn_DActionService.class);
             intent.putExtra("ActionFlag", BleIn_DActionService.ACTION_DISCONNECTINGBLEBT);
             startService(intent);
-        } else quickToast("亲，当前手机没有连接任何BLE设备，无需断开连接哟！");
+        } else {
+            quickToast("亲，当前手机没有连接任何BLE设备，无需断开连接哟！");
+        }
     }
 
     private Boolean setCharacteristicNotification(BluetoothGattCharacteristic characteristic, Boolean enable) {
@@ -512,8 +515,11 @@ public class BleIn_BService extends Service {
     public class BleBinder extends Binder {
         public void startSearchDevices(final Activity activity, final String notifyStr, final UUID[] uuids) {
             if (baseIsAvailable()) {
-                if (mBtAdapter.isEnabled()) beginSearchBleBt(uuids);
-                else openLocalBt(activity, notifyStr, uuids);
+                if (mBtAdapter.isEnabled()) {
+                    beginSearchBleBt(uuids);
+                } else {
+                    openLocalBt(activity, notifyStr, uuids);
+                }
             }
         }
 

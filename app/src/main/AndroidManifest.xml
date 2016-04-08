@@ -26,6 +26,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"/>
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
@@ -55,6 +56,9 @@
             android:name=".activity.MoreTagsActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".BluetoothBle.SearchBluetoothActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.MedicalOnlineActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -68,6 +72,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.AskActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".BluetoothBle.SearchBluetoothResultActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.CatDortorActivity"
@@ -88,7 +95,7 @@
         <activity
             android:name=".activity.doctor.DoctorDetailActivity"
             android:screenOrientation="portrait">
-            
+
         </activity>
 
         <activity
@@ -356,6 +363,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.bracelet.DiseaseRecordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".BluetoothBle.BluetoothConnectActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.doctor.OnlineQAActivity"

@@ -106,7 +106,6 @@ public class HospitalDetailActivity extends SimpleActivity {
                     tv_address.setText(detail.getHospital_detail().getAddress());
                     tv_tel.setText(detail.getHospital_detail().getContact_phone());
                     phoneno = detail.getHospital_detail().getContact_phone();
-//                    int width= (AppUtils.getWidth(activity)-80)/3;
                     if (!Utils.isEmpty(detail.getHospital_expert())) {
                         for (int i = 0; i < detail.getHospital_expert().size(); i++) {
                             HospitalDetailVo.Expert expert = detail.getHospital_expert().get(i);
@@ -182,14 +181,11 @@ public class HospitalDetailActivity extends SimpleActivity {
 
     @OnClick(R.id.rl_bida)
     void bida(View view) {
-//        skip(AskActivity.class);
         if (!SimpleUtils.isLogin(activity)) {
             skip(LoginActivity.class);
             return;
         }
         Intent intent = new Intent(getActivity(), ChatActivity.class);
-//        intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_CHATROOM);
-        // it's single chat]
         intent.putExtra(Constant.EXTRA_USER_ID, detail.getHospital_detail().getHxchat_id());
         SpUtil sp = new SpUtil(activity, Const.SP_NAME);
         intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
@@ -201,15 +197,12 @@ public class HospitalDetailActivity extends SimpleActivity {
     @OnClick(R.id.rl_huodong)
     void newAct(View view) {
         skip(DoctorActActivity.class, id);
-//        BNDemoGuideActivity
     }
 
     @OnClick(R.id.rl_address)
     void showGuide(View view) {
         Map value = SimpleUtils.bd_decrypt(detail.getHospital_detail().getLat(), detail.getHospital_detail().getLng());
         Map start = SimpleUtils.bd_decrypt(lat, lng);
-//        activity.skip(MapActivity.class, "http://m.amap.com/?mk=" + value.get("lat") + "," + value.get("long"));
-//        activity.skip(MapActivity.class, "http://m.amap.com/navi/?start=" + start.get("long") + "," + start.get("lat") + "&dest=" + value.get("long") + "," + value.get("lat") + "&destName=导航" + "&key=111386300d4f42d9263663b3b86cc86b&naviBy=car");
         String url = "http://m.amap.com/navi/?start=" + start.get("long") + "%2C" + start.get("lat") + "&dest=" + value.get("long") + "%2C" + value.get("lat") + "&destName=导航&naviBy=car&key=29e26163bbcae70f9136cf2a073c819a";
         activity.skip(MapActivity.class, url);
 
