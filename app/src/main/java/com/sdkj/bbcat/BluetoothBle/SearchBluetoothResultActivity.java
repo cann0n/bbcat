@@ -3,22 +3,30 @@ package com.sdkj.bbcat.BluetoothBle;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
+import com.sdkj.bbcat.constValue.Const;
+import com.sdkj.bbcat.fragment.FragmentBracelet;
 import com.sdkj.bbcat.widget.TitleBar;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
+import de.greenrobot.event.EventBus;
 
 public class SearchBluetoothResultActivity extends SimpleActivity {
 
@@ -27,9 +35,11 @@ public class SearchBluetoothResultActivity extends SimpleActivity {
 
     private HashMap<String, BluetoothDevice> listDevice;
     private HashMap<String, Integer> signals;
+    private String lastName = "";
 
     @Override
     public void initBusiness() {
+        EventBus.getDefault().register(this);
         new TitleBar(activity).back().setTitle("扫描结果");
         Intent intent = getIntent();
         listDevice = (HashMap<String, BluetoothDevice>) intent.getSerializableExtra("0");
@@ -53,24 +63,70 @@ public class SearchBluetoothResultActivity extends SimpleActivity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    MD_
+                    if (!device.getName().startsWith("Baby")) {
+                        toast("请选择手环设备进行链接");
+                        return;
+                    }
+                    if (lastName.equals(device.getName())) {
+                        if (Tools.device != null && !Tools.device.isConnected()) {
+                            Tools.device.reConnected();
+                        } else {
+                            toast("已经链接");
+                        }
+                        return;
+                    } else {
+                        if (Tools.device != null) {
+                            Tools.device.disconnectedDevice();
+                        }
+                        Tools.device = null;
+                    }
                     final EditText et = new EditText(activity);
                     final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                    builder.setTitle("请输入密码").setIcon(android.R.drawable.ic_dialog_info).
+                    builder.setTitle("请输入密码").
                             setView(et).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            toast(et.getText().toString());
-                            Intent intent = new Intent();
-                            intent.putExtra("0", device);
-                            intent.putExtra("1", et.getText().toString());
-                            intent.setClass(activity, BluetoothConnectActivity.class);
-                            startActivity(intent);
+                            FragmentBracelet.BlueStatusChange change = new FragmentBracelet.BlueStatusChange();
+                            lastName = device.getName();
+                            change.passWord = "123456";
+                            change.device = device;
+                            SpUtil sp=new SpUtil(activity, Const.SP_NAME);
+                            sp.setValue(Const.BLUE_PASS,"123456");
+                            EventBus.getDefault().post(change);
                         }
                     }).setNegativeButton("取消", null).show();
                 }
             });
             ll_container.addView(view);
         }
+    }
+
+    public void onEventMainThread(ConnectSuccess status) {
+        if (status.passRight) {
+            toast("已链接手环");
+            if (Tools.device != null && Tools.device.isConnected()) {
+                //链接上设置自动温度和活动量检测使能
+                Tools.device.sendUpdate(CommandUtil.setCaryRd());
+            }
+            finish();
+        } else {
+            toast("密码错误,请重试");
+            if (Tools.device != null && Tools.device.isConnected()) {
+                Tools.device.disconnectedDevice();
+                Tools.device = null;
+            }
+        }
+    }
+
+    public static class ConnectSuccess {
+        public boolean passRight;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

@@ -15,6 +15,7 @@ public class Const {
     public static final String PHONE = "bbcat_phone";
     public static final String AVATAR = "bbcat_avatar";
     public static final String NICKNAME = "bbcat_nickname";
+    public static final String BLUE_PASS = "bbcat_blue_pass";
 
 
     public static final String APK_VERSION = "0.1";

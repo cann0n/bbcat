@@ -6,6 +6,7 @@
     android:background="@color/theme_orange_color"
     android:orientation="vertical">
     <ImageView
+        android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -27,6 +28,24 @@
         android:text="请将智能手环佩戴到宝宝脚腕上,并靠近手机"
         android:textColor="@color/white"
         android:textSize="@dimen/font14"/>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/infoOperating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:src="@drawable/icon_b_op"
+            android:layout_gravity="center">
+        </ImageView>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_b"/>
+    </FrameLayout>
     <TextView
         android:id="@+id/tv_tips"
         android:layout_width="wrap_content"
@@ -37,11 +56,4 @@
         android:text="先暂不绑定"
         android:textColor="@color/white"
         android:textSize="@dimen/font16"/>
-    <ProgressBar
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:indeterminateDrawable="@drawable/progress_small"/>
 </RelativeLayout>

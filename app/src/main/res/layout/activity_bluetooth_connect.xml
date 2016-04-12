@@ -5,27 +5,52 @@
     android:layout_height="match_parent"
     android:background="@color/theme_orange_color"
     android:orientation="vertical">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:src="@drawable/icon_back_w"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:text="步步猫智能育儿环"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font18"/>
-    <TextView
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@drawable/icon_back_w"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="步步猫智能育儿环"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font18"
+            />
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fl_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="90dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_power"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="90%"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font18"/>
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tv_electricity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:text="手环电量正常"
         android:textColor="@color/white"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/fl_layout"
         android:textSize="@dimen/font14"/>
     <TextView
         android:id="@+id/tv_tips"
@@ -37,11 +62,5 @@
         android:text="了解更多手环知识"
         android:textColor="@color/white"
         android:textSize="@dimen/font16"/>
-    <ProgressBar
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:indeterminateDrawable="@drawable/progress_small"/>
+
 </RelativeLayout>
