@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="200dp"
     android:layout_height="50dp"
-    android:background="@drawable/abc_popup_background_mtrl_mult"
+    android:background="@drawable/em_input_bar_bg_active"
     android:padding="5dp"
     android:textSize="@dimen/font16"
     android:maxLength="6"
