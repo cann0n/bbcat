@@ -55,18 +55,36 @@
             android:paddingTop="3dp"
             android:textSize="13sp"
             />
-
-        <TextView
-            android:id="@+id/tv_tab4"
+       
+        <FrameLayout
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:drawablePadding="3dp"
-            android:gravity="center_horizontal"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:textSize="13sp"
-            />
+            android:layout_height="fill_parent">
+            <TextView
+                android:id="@+id/tv_tab4"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+               
+                android:drawablePadding="3dp"
+                android:gravity="center_horizontal"
+                android:paddingBottom="3dp"
+                android:paddingTop="3dp"
+                android:textSize="13sp"
+                />
+            <TextView
+                android:id="@+id/tv_unread_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ease_unread_dot"
+                android:gravity="center"
+                android:text="11"
+                android:textColor="@color/color_white"
+                android:textSize="10sp"
+                android:visibility="gone"
+                />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_tab5"

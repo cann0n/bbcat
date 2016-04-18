@@ -68,31 +68,24 @@ public class SearchBluetoothResultActivity extends SimpleActivity {
                         toast("请选择手环设备进行链接");
                         return;
                     }
-                    if (lastName.equals(device.getName())) {
-                        if (Tools.device != null && !Tools.device.isConnected()) {
-                            Tools.device.reConnected();
-                        } else {
-                            toast("已经链接");
-                        }
-                        return;
-                    } else {
-                        if (Tools.device != null) {
-                            Tools.device.disconnectedDevice();
-                        }
+                    if (Tools.device != null) {
+                        Tools.device.disconnectedDevice();
                         Tools.device = null;
                     }
-                    final EditText et = new EditText(activity);
+                    final EditText et = (EditText) makeView(R.layout.view_blue_pass);
                     final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     builder.setTitle("请输入密码").
                             setView(et).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            if (et.getText().toString().length() < 6) {
+                                toast("请输入6位密码");
+                                return;
+                            }
                             FragmentBracelet.BlueStatusChange change = new FragmentBracelet.BlueStatusChange();
                             lastName = device.getName();
-                            change.passWord = "123456";
+                            change.passWord = et.getText().toString();
                             change.device = device;
-                            SpUtil sp=new SpUtil(activity, Const.SP_NAME);
-                            sp.setValue(Const.BLUE_PASS,"123456");
                             EventBus.getDefault().post(change);
                         }
                     }).setNegativeButton("取消", null).show();
@@ -105,10 +98,6 @@ public class SearchBluetoothResultActivity extends SimpleActivity {
     public void onEventMainThread(ConnectSuccess status) {
         if (status.passRight) {
             toast("已链接手环");
-            if (Tools.device != null && Tools.device.isConnected()) {
-                //链接上设置自动温度和活动量检测使能
-                Tools.device.sendUpdate(CommandUtil.setCaryRd());
-            }
             finish();
         } else {
             toast("密码错误,请重试");

@@ -1,6 +1,7 @@
 package com.sdkj.bbcat.BluetoothBle;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.Charset;
 
 import android.util.Log;
 
@@ -80,7 +81,7 @@ public class StringHexUtils {
 		for (int i = 0; i < bytes.length(); i += 2)
 			baos.write((hexString.indexOf(bytes.charAt(i)) << 4 | hexString
 					.indexOf(bytes.charAt(i + 1))));
-		return new String(baos.toByteArray());
+		return new String(baos.toByteArray(), Charset.forName("utf-8"));
 	}
 
 	public static String Bytes2HexString(byte[] b) {

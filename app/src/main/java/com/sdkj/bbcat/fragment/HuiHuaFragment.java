@@ -29,6 +29,7 @@ import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.TabUiActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
@@ -105,6 +106,9 @@ public class HuiHuaFragment extends BaseFragment{
                     intent.putExtra(Constant.EXTRA_USER_AVATAR, sp.getStringValue(Const.AVATAR));
                     intent.putExtra(Constant.EXTRA_USER_NICKNAME, sp.getStringValue(Const.NICKNAME));
                     startActivity(intent);
+                    TabUiActivity.MainEvent mainEvent = new TabUiActivity.MainEvent();
+                    mainEvent.setType(3);
+                    EventBus.getDefault().post(mainEvent);
                 }
             }
         });

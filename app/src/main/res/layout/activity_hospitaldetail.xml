@@ -219,6 +219,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -260,6 +261,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
+                android:visibility="gone"
                 android:background="#f0f0f0"/>
 
 

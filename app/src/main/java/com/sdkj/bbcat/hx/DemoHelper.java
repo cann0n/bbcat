@@ -44,6 +44,7 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.MainActivity;
+import com.sdkj.bbcat.TabUiActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
@@ -671,6 +672,9 @@ public class DemoHelper {
                     //应用在后台，不需要刷新UI,通知栏提示新消息
                     if(!easeUI.hasForegroundActivies()){
                         getNotifier().onNewMsg(message);
+                        TabUiActivity.MainEvent mainEvent = new TabUiActivity.MainEvent();
+                        mainEvent.setType(3);
+                        EventBus.getDefault().post(mainEvent);
                     }
                     break;
                 case EventOfflineMessage:

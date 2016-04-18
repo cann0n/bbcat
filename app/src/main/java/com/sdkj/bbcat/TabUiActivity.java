@@ -1,23 +1,37 @@
 package com.sdkj.bbcat;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.utils.Utils;
+import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.activity.loginandregister.LoginActivity;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Hashtable;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 public abstract class TabUiActivity extends SimpleActivity {
@@ -31,6 +45,8 @@ public abstract class TabUiActivity extends SimpleActivity {
     private TextView tv_tab4;
 
     private TextView tv_tab5;
+
+    private TextView tv_unread_count;
 
     private SparseArray<Fragment> fragContainer = new SparseArray<Fragment>();
 
@@ -56,12 +72,13 @@ public abstract class TabUiActivity extends SimpleActivity {
 
     @Override
     public void initBusiness() {
+        EventBus.getDefault().register(this);
         tv_tab1 = (TextView) findViewById(R.id.tv_tab1);
         tv_tab2 = (TextView) findViewById(R.id.tv_tab2);
         tv_tab3 = (TextView) findViewById(R.id.tv_tab3);
         tv_tab4 = (TextView) findViewById(R.id.tv_tab4);
         tv_tab5 = (TextView) findViewById(R.id.tv_tab5);
-
+        tv_unread_count = (TextView) findViewById(R.id.tv_unread_count);
         tv_tab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,8 +134,17 @@ public abstract class TabUiActivity extends SimpleActivity {
         fragmentTransaction.commit();
 
         switchFragment(R.id.tv_tab1);
+        startUploadLocal();
     }
 
+    private void startUploadLocal() {
+        Intent intent = new Intent(Const.ACTION_UPLOAD_CAR_LOCAL);
+        PendingIntent sendIntent = PendingIntent.getBroadcast(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        am.cancel(sendIntent);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5 * 1000, sendIntent);
+    }
+    
     private void initTabs(int tabsSize) {
 
         tv_tab1.setText(tabNames.get(0));
@@ -169,7 +195,7 @@ public abstract class TabUiActivity extends SimpleActivity {
             }
         } else if (viewId == R.id.tv_tab2) {
             fragment = fragContainer.get(viewId);
-             if (fragment == null) {
+            if (fragment == null) {
                 fragment = initPage2();
                 fragContainer.put(viewId, fragment);
             }
@@ -208,7 +234,29 @@ public abstract class TabUiActivity extends SimpleActivity {
         }
     }
 
+    public void onEventMainThread(MainEvent event) {
+        if (event.getType() == 3) {
+            showUnreadCount();
+        } 
+    }
+
+    public static class MainEvent {
+        /* * 3:显示是否有未读消息
+         * 4:隐藏是否有未读消息
+         */
+        private int type;
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+    }
+
     public Fragment getFragment(int viewId) {
+        showUnreadCount();
         Fragment fragment = null;
         if (viewId == R.id.tv_tab1) {
             fragment = fragContainer.get(viewId);
@@ -339,5 +387,86 @@ public abstract class TabUiActivity extends SimpleActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
+    }
+
+
+    void showUnreadCount() {
+        List<EMConversation> list = loadConversationList();
+
+        int temp = 0;
+        if (Utils.isEmpty(list)) {
+            temp = 0;
+        } else {
+            temp = list.get(0).getUnreadMsgCount();
+        }
+
+        hideCount(temp);
+
+    }
+
+    void hideCount(int temp) {
+        if (temp > 0) {
+            tv_unread_count.setVisibility(View.VISIBLE);
+            tv_unread_count.setText(temp + "");
+        } else {
+            tv_unread_count.setVisibility(View.GONE);
+            tv_unread_count.setText("");
+        }
+    }
+
+    protected List<EMConversation> loadConversationList() {
+        // 获取所有会话，包括陌生人
+        Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
+        // 过滤掉messages size为0的conversation
+        /**
+         * 如果在排序过程中有新消息收到，lastMsgTime会发生变化
+         * 影响排序过程，Collection.sort会产生异常
+         * 保证Conversation在Sort过程中最后一条消息的时间不变 
+         * 避免并发问题
+         */
+        List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
+        synchronized (conversations) {
+            for (EMConversation conversation : conversations.values()) {
+                if (conversation.getAllMessages().size() != 0) {
+                    //if(conversation.getType() != EMConversationType.ChatRoom){
+                    sortList.add(new Pair<Long, EMConversation>(conversation.getLastMessage().getMsgTime(), conversation));
+                    //}
+                }
+            }
+        }
+        try {
+            // Internal is TimSort algorithm, has bug
+            sortConversationByLastChatTime(sortList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<EMConversation> list = new ArrayList<EMConversation>();
+        for (Pair<Long, EMConversation> sortItem : sortList) {
+            list.add(sortItem.second);
+        }
+        return list;
+    }
+
+    private void sortConversationByLastChatTime(List<Pair<Long, EMConversation>> conversationList) {
+        Collections.sort(conversationList, new Comparator<Pair<Long, EMConversation>>() {
+            @Override
+            public int compare(final Pair<Long, EMConversation> con1, final Pair<Long, EMConversation> con2) {
+
+                if (con1.first == con2.first) {
+                    return 0;
+                } else if (con2.first > con1.first) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

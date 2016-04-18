@@ -16,8 +16,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/icon_date_bg"
             android:gravity="center"
             android:text="13\n01-2016"
@@ -42,16 +42,22 @@
             android:background="@drawable/icon_disease_line"/>
     </RelativeLayout>
     <FrameLayout
-        android:layout_below="@id/rl_header"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="match_parent"
         android:layout_alignBottom="@id/rl_bottom"
+        android:layout_below="@id/rl_header"
         >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/icon_disease_vertical_line"
-            android:layout_marginLeft="25dp"/>
+            android:layout_gravity="center_horizontal"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/icon_disease_vertical_circle"/>
     </FrameLayout>
 
     <LinearLayout

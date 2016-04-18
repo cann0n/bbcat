@@ -81,7 +81,7 @@ public class SimpleUtils {
         return params;
     }
 
-    public static boolean isLogin(BaseActivity activity) {
+    public static boolean isLogin(Context activity) {
         SpUtil sp = new SpUtil(activity, Const.SP_NAME);
         if (Utils.isEmpty(sp.getStringValue(Const.TOKEN))) {
             return false;

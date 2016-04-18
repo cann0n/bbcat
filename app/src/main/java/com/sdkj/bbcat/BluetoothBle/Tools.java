@@ -95,10 +95,6 @@ public class Tools {
 		}
 		return CRC_Checkout;
 	}
-	public static int dip2px(Context context, float dpValue) {  
-        final float scale = context.getResources().getDisplayMetrics().density;  
-        return (int) (dpValue * scale + 0.5f);  
-    }  
 
 	public static byte[] getSystemTime() {
 		byte[] cal = new byte[7];

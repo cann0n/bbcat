@@ -74,6 +74,9 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
     private RelativeLayout mPersonRL;
     @ViewInject(R.id.pc_qitaall)
     private RelativeLayout mQitaRL;
+    
+    @ViewInject(R.id.tv_version)
+    private TextView tv_version;
 
     public static final int MLOGIN = 0X0001;
     public static final int MMDOY = 0X0002;
@@ -91,6 +94,7 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
         mRingRL.setOnClickListener(this);
         mPersonRL.setOnClickListener(this);
         mQitaRL.setOnClickListener(this);
+        tv_version.setText("当前版本:"+Const.APK_VERSION);
     }
 
     private void initData() {

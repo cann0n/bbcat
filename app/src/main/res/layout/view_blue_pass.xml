@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:background="@drawable/abc_popup_background_mtrl_mult"
+    android:padding="5dp"
+    android:textSize="@dimen/font16"
+    android:maxLength="6"
+    android:inputType="number"
+    android:textColor="@color/color333"
+    android:hint="请输入6位手环密码"
+    android:textColorHint="@color/gray_normal">
+
+</EditText>

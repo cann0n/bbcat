@@ -27,6 +27,7 @@ public class Const {
     public static final String NOTIFY = "bbcat_notify";
     public static final String NOTIFY_TIME = "bbcat_notify_time";
     public static final String NOTIFY_MSG = "bbcat_notify_msg";
+    public static final String ACTION_UPLOAD_CAR_LOCAL = "bbcat_send_data";
 
 
     //网络请求信息配置

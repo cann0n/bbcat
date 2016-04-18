@@ -182,7 +182,7 @@ public class PublishActivity extends SimpleActivity {
                 dismissDialog();
                 RespVo<UploadFileVo> resp = GsonTools.getVo(jsonObject.toString(), RespVo.class);
                 if (resp.isSuccess()) {
-                    UploadFileVo fileVo = resp.getData(jsonObject, UploadFileVo.class);
+                    final UploadFileVo fileVo = resp.getData(jsonObject, UploadFileVo.class);
                     ids.put(fileVo.getId() + "", fileVo.getId() + "");
                     final int width = (AppUtils.getWidth(activity) - 80) / 3;
                     final View view = makeView(R.layout.item_photo);
@@ -193,7 +193,8 @@ public class PublishActivity extends SimpleActivity {
                         @Override
                         public void onClick(View v) {
                             fl_pics.removeView(view);
-                            if (fl_pics.getChildCount() == 0) {
+                            ids.remove(fileVo.getId() + "");
+                            if (fl_pics.getChildCount() <3) {
                                 View temp = makeView(R.layout.item_photo);
                                 ImageView iv_image = (ImageView) temp.findViewById(R.id.iv_image);
                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, width);

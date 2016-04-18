@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import com.huaxi100.networkapp.utils.Utils;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.R;
@@ -70,11 +71,16 @@ public class SearchBluetoothActivity extends SimpleActivity {
                 public void run() {
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                     mScanning = false;
-                    Intent intent = new Intent();
-                    intent.setClass(activity, SearchBluetoothResultActivity.class);
-                    intent.putExtra("0", listDevice);
-                    intent.putExtra("1", signals);
-                    startActivity(intent);
+                    if (listDevice.size() == 0) {
+                        toast("没有搜索到手环设备,请重试");
+                    } else {
+                        Intent intent = new Intent();
+                        intent.setClass(activity, SearchBluetoothResultActivity.class);
+                        intent.putExtra("0", listDevice);
+                        intent.putExtra("1", signals);
+                        startActivity(intent);
+                    }
+
                     finish();
                 }
             }, TIME_OUT_SCAN);
