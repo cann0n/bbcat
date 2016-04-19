@@ -64,7 +64,7 @@ public class SearchBluetoothResultActivity extends SimpleActivity {
                 @Override
                 public void onClick(View v) {
 //                    MD_
-                    if (!device.getName().startsWith("Baby")) {
+                    if (!Utils.isEmpty(device.getName())&&!device.getName().startsWith("Baby")) {
                         toast("请选择手环设备进行链接");
                         return;
                     }

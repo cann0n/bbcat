@@ -102,17 +102,46 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 
         if (conversation.getType() == EMConversationType.GroupChat) {
             // 群聊消息，显示群聊头像
+            EMMessage lastMessage = conversation.getLastMessage();
             holder.avatar.setImageResource(R.drawable.ease_group_icon);
             EMGroup group = EMGroupManager.getInstance().getGroup(username);
             holder.name.setText(group != null ? group.getGroupName() : username);
+            holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))), BufferType.SPANNABLE);
         } else if (conversation.getType() == EMConversationType.ChatRoom) {
+            EMMessage lastMessage = conversation.getLastMessage();
+            holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))), BufferType.SPANNABLE);
             holder.avatar.setImageResource(R.drawable.ease_group_icon);
             EMChatRoom room = EMChatManager.getInstance().getChatRoom(username);
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
+            holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))), BufferType.SPANNABLE);
         } else {
-            EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
+//            EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
+//            EaseUserUtils.setUserNick(username, holder.name);
+            if (conversation.getMsgCount() != 0) {
+                // 把最后一条消息的内容作为item的message内容
+                EMMessage lastMessage = conversation.getLastMessage();
+                holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))), BufferType.SPANNABLE);
 
-            EaseUserUtils.setUserNick(username, holder.name);
+                holder.time.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
+                if (lastMessage.direct == EMMessage.Direct.SEND && lastMessage.status == EMMessage.Status.FAIL) {
+                    holder.msgState.setVisibility(View.VISIBLE);
+                } else {
+                    holder.msgState.setVisibility(View.GONE);
+                }
+                //设置头像和nick
+                String nickName = "";
+                String avatar = "";
+                try {
+                    if (Utils.isEmpty(nickName)) {
+                        nickName = lastMessage.getStringAttribute("userNickname", "");
+                        avatar = lastMessage.getStringAttribute("userAvatar", "");
+                        Glide.with(getContext()).load(avatar).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ease_default_avatar).into(holder.avatar);
+                        holder.name.setText(nickName);
+                    }
+                } catch (Exception e) {
+                }
+            }
+
         }
 
 
@@ -124,30 +153,6 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
             holder.unreadLabel.setVisibility(View.INVISIBLE);
         }
 
-        if (conversation.getMsgCount() != 0) {
-            // 把最后一条消息的内容作为item的message内容
-            EMMessage lastMessage = conversation.getLastMessage();
-            holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))), BufferType.SPANNABLE);
-
-            holder.time.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
-            if (lastMessage.direct == EMMessage.Direct.SEND && lastMessage.status == EMMessage.Status.FAIL) {
-                holder.msgState.setVisibility(View.VISIBLE);
-            } else {
-                holder.msgState.setVisibility(View.GONE);
-            }
-            //设置头像和nick
-            String nickName = "";
-            String avatar = "";
-            try {
-                if(Utils.isEmpty(nickName)){
-                    nickName = lastMessage.getStringAttribute("userNickname", "");
-                    avatar = lastMessage.getStringAttribute("userAvatar", "");
-                    Glide.with(getContext()).load(avatar).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ease_default_avatar).into(holder.avatar);
-                    holder.name.setText(nickName);
-                }
-            } catch (Exception e) {
-            }
-        }
 
         //设置自定义属性
         holder.name.setTextColor(primaryColor);

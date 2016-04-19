@@ -74,14 +74,14 @@ public class AutoScrollViewPager {
         for (int i = 0, len = data.size(); i < len; i++) {
             CircleVo.ItemCircle.Cover ads= (CircleVo.ItemCircle.Cover) data.get(i);
             ImageView imageView = new ImageView(activity);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             params.width = width;
             params.height = height;
 
-            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(ads.getImg())).into(imageView);
+            Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(ads.getImg())).fitCenter().into(imageView);
             imageView.setLayoutParams(params);
             ladImageView.add(imageView);
             // 添加指示小圆点

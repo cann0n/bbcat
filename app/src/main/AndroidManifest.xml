@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
 
     <permission android:name="com.sdkj.bbcat.permission.C2D_MESSAGE"
@@ -153,9 +154,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.LiaotianshiActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.AddFriendsActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.AroundActivity"

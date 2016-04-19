@@ -14,6 +14,14 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
@@ -105,12 +113,12 @@ public class MedicalOnlineActivity extends SimpleActivity {
     private String order = "level desc";
 
     private String classify = "";
-    private String km = "0.5";
+    private String km = "5";
 
     @Override
     public void initBusiness() {
         EventBus.getDefault().register(this);
-
+        SDKInitializer.initialize(getApplicationContext());
         final String id = (String) getVo("0");
         adapter = new HospitalAdapter(activity, new ArrayList<NewsVo>());
         hospital_list.addFooter(adapter);
@@ -514,10 +522,9 @@ public class MedicalOnlineActivity extends SimpleActivity {
     public void onEventMainThread(AreaEvent event) {
         tv_city_name.setText(event.getAreaVo().getName());
         tv_city_name.setTag(event.getAreaVo().getId());
-        lat = 0;
-        lng = 0;
-        pageNum = 1;
-        query(false);
+//        lat = 0;
+//        lng = 0;
+        getLocal(event.getAreaVo().getName());
     }
 
     public static class AreaEvent {
@@ -530,6 +537,44 @@ public class MedicalOnlineActivity extends SimpleActivity {
         public void setAreaVo(AreaVo areaVo) {
             this.areaVo = areaVo;
         }
+    }
+
+    private void getLocal(String city) {
+        showDialog();
+        GeoCoder geoCoder = GeoCoder.newInstance();
+        //
+        OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
+            // 反地理编码查询结果回调函数
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                }
+            }
+
+            // 地理编码查询结果回调函数
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult result) {
+                dismissDialog();
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    // 没有检测到结果
+                    toast("获取地理位置失败");
+                    return;
+                }
+                lng = result.getLocation().longitude;
+                lat = result.getLocation().latitude;
+                pageNum = 1;
+                query(false);
+
+            }
+        };
+        // 设置地理编码检索监听者
+        geoCoder.setOnGetGeoCodeResultListener(listener);
+        geoCoder.geocode(new GeoCodeOption().city(city).address(city));
+        //
+//        geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
+//        geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
+        // 释放地理编码检索实例
+        // geoCoder.destroy();
     }
 
     @Override
