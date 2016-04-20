@@ -325,7 +325,7 @@ public class MedicalOnlineActivity extends SimpleActivity {
                 public void onClick(View view) {
                     tv_local.setText(">10KM");
                     tv_local.setTag("2");
-                    km = "100";
+                    km = "20";
                     popupWindowLocal.dismiss();
                     pageNum = 1;
                     query(true);

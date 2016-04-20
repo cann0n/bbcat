@@ -201,50 +201,6 @@ public class CommunityPage extends BaseFragment {
         return R.layout.fragment_community;
     }
 
-    
-    private void queryFriends(){
-        final UserDao dao = new UserDao(activity);
-        List<EaseUser> data = new ArrayList<EaseUser>(dao.getContactList().values());
-        if(Utils.isEmpty(data)){
-            return;
-        }
-
-        StringBuilder builder=new StringBuilder();
-        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
-        builder.append(sp.getStringValue(Const.PHONE));
-        for (EaseUser user : data) {
-            builder.append(","+user.getUsername());
-        }
-        PostParams params=new PostParams();
-        params.put("phones",builder.toString());
-        HttpUtils.postJSONObject(activity, Const.GET_AVATARS, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
-            @Override
-            public void getResp(JSONObject obj) {
-                RespVo<FriendVo> respVo = GsonTools.getVo(obj.toString(), RespVo.class);
-                if (respVo.isSuccess()) {
-                    List<FriendVo> data = respVo.getListData(obj, FriendVo.class);
-                    if (!Utils.isEmpty(data)) {
-                        for (FriendVo vo : data) {
-                            if (Utils.isEmpty(vo.getMobile())) {
-                                return;
-                            }
-                            EaseUser friend = dao.getFriend(vo.getMobile());
-                            friend.setAvatar(SimpleUtils.getImageUrl(vo.getAvatar()));
-                            friend.setNick(vo.getNickname());
-                            dao.saveContact(friend);
-                        }
-                        EventBus.getDefault().post(new ConnectEvent(2));
-                    }
-                }
-            }
-
-            @Override
-            public void doFailed() {
-
-            }
-        });
-    }
-
 
     protected EMConnectionListener connectionListener = new EMConnectionListener() {
 
@@ -293,7 +249,6 @@ public class CommunityPage extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        queryFriends();
     }
 
     @Override

@@ -63,6 +63,14 @@ public abstract class Bledevice {
         bleService.initBluetoothDevice(device, context);
     }
 
+    public void getSingle() {
+        if (bleService == null) return;
+        if (device == null) {
+            return;
+        }
+        bleService.readRssi(device);
+    }
+
     public void readValue(BluetoothGattCharacteristic characteristic) {
         if (characteristic == null) {
         } else {

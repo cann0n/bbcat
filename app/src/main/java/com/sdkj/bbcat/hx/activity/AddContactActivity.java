@@ -34,6 +34,7 @@ import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.SpUtil;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.bean.FriendVo;
@@ -148,8 +149,8 @@ public class AddContactActivity extends SimpleActivity {
 				
 				try {
 					//demo写死了个reason，实际应该让用户手动填入
-					String s = getResources().getString(R.string.Add_a_friend);
-					EMContactManager.getInstance().addContact(toAddUsername, s);
+					SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+					EMContactManager.getInstance().addContact(toAddUsername, "你好,我是"+sp.getStringValue(Const.NICKNAME)+"加个好友呗~");
 					runOnUiThread(new Runnable() {
 						public void run() {
 							progressDialog.dismiss();

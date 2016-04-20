@@ -42,7 +42,7 @@ import com.easemob.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
-import com.huaxi100.networkapp.utils.SpUtil;
+import com.huaxi100.networkapp.utils.*;
 import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.TabUiActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
@@ -1008,7 +1008,11 @@ public class DemoHelper {
            public void run(){
                List<String> usernames = null;
                try {
+                   UserDao dao = new UserDao(appContext);
                    usernames = EMContactManager.getInstance().getContactUserNames();
+                   if(com.huaxi100.networkapp.utils.Utils.isEmpty(usernames)){
+                       DemoDBManager.getInstance().clerAllUses();
+                   }
                    // in case that logout already before server returns, we should return immediately
                    if(!EMChat.getInstance().isLoggedIn()){
                        return;
@@ -1024,7 +1028,7 @@ public class DemoHelper {
                    getContactList().clear();
                    getContactList().putAll(userlist);
                     // 存入db
-                   UserDao dao = new UserDao(appContext);
+                
                    List<EaseUser> users = new ArrayList<EaseUser>(userlist.values());
                    dao.saveContactList(users);
                    demoModel.setContactSynced(true);
@@ -1038,7 +1042,6 @@ public class DemoHelper {
                    if(isGroupsSyncedWithServer()){
                        notifyForRecevingEvents();
                    }
-                   
                    
                    getUserProfileManager().asyncFetchContactInfosFromServer(usernames,new EMValueCallBack<List<EaseUser>>() {
 

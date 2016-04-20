@@ -1,10 +1,14 @@
 package com.sdkj.bbcat.fragment;
 
+import android.annotation.TargetApi;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -52,13 +56,17 @@ import com.sdkj.bbcat.constValue.SimpleUtils;
 import org.json.JSONObject;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by Mr.Yuan on 2015/12/31 0031.
  */
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class FragmentBracelet extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.bra_bottomll)
     private LinearLayout bra_bottomll;
@@ -74,6 +82,9 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
 
     @ViewInject(R.id.bra_burncalories)
     private TextView bra_burncalories;
+
+    @ViewInject(R.id.bra_datasjilu)
+    private ImageView bra_datasjilu;
 
     private BroastRecevice recevicer;
 
@@ -219,10 +230,10 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
         if (isConnected) {
             Tools.device.disconnectedDevice();
         }
-        if(receiver!=null){
+        if (receiver != null) {
             activity.unregisterReceiver(receiver);
         }
-        if(recevicer!=null){
+        if (recevicer != null) {
             activity.unregisterReceiver(recevicer);
         }
     }
@@ -255,7 +266,7 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                         //链接成功发送指令集
                         sendCommands();
                     } else if (result == 2) {
-                        
+
                     } else if (result == 3) {
                         String tempData = StringHexUtils.Bytes2HexString(value);
 
@@ -263,6 +274,17 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                         double j = Double.parseDouble(new BigInteger(tempData.substring(21, 25), 16).toString()) / 10;
                         bra_temperature.setText(t + "");
                         bra_burncalories.setText(j + "");
+
+                        Tools.device.getSingle();
+//                        if (sin < 20) {
+//                            image.setImageResource(R.drawable.icon_signal_4);
+//                        } else if (sin > 20 && sin < 50) {
+//                            image.setImageResource(R.drawable.icon_signal_3);
+//                        } else {
+//                            image.setImageResource(R.drawable.icon_signal_2);
+//                        }
+                        activity.toast("获取了信号");
+
                     }
                 }
             } else if (action.equals(LightBLEService.ACTION_GATT_CONNECTED)) {
@@ -313,10 +335,49 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
             if (Const.ACTION_UPLOAD_CAR_LOCAL.equals(action)) {
                 if (SimpleUtils.isLogin(context)) {
                     init(context);
+                    scanLeDevice();
                 }
             }
 
         }
-
     }
+
+    Map<String, Integer> signals = new HashMap<>();
+
+    private void scanLeDevice() {
+        if (Tools.device == null) {
+            return;
+        }
+        BluetoothManager bluetoothManager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
+        final BluetoothAdapter mBluetoothAdapter = bluetoothManager.getAdapter();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                if (signals.size() > 0) {
+                    int sin = signals.get(Tools.device.deviceMac) + 100;
+                    if (sin < 20) {
+                        bra_datasjilu.setImageResource(R.drawable.icon_signal_4);
+                    } else if (sin > 20 && sin < 50) {
+                        bra_datasjilu.setImageResource(R.drawable.icon_signal_3);
+                    } else {
+                        bra_datasjilu.setImageResource(R.drawable.icon_signal_2);
+                    }
+                }
+            }
+        }, 5);
+        List<UUID> uuids = Tools.parseUuids(Tools.device.device.getUuids().toString().getBytes());
+        mBluetoothAdapter.startLeScan(new UUID[]{uuids.get(0)}, mLeScanCallback);
+    }
+
+    private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+
+        @Override
+        public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+            signals.put(device.getAddress(), rssi);
+        }
+    };
+
 }
