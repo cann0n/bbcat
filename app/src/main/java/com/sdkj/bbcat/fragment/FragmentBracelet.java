@@ -275,7 +275,6 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                         bra_temperature.setText(t + "");
                         bra_burncalories.setText(j + "");
 
-                        Tools.device.getSingle();
 //                        if (sin < 20) {
 //                            image.setImageResource(R.drawable.icon_signal_4);
 //                        } else if (sin > 20 && sin < 50) {
@@ -283,8 +282,6 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
 //                        } else {
 //                            image.setImageResource(R.drawable.icon_signal_2);
 //                        }
-                        activity.toast("获取了信号");
-
                     }
                 }
             } else if (action.equals(LightBLEService.ACTION_GATT_CONNECTED)) {
@@ -367,9 +364,8 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                     }
                 }
             }
-        }, 5);
-        List<UUID> uuids = Tools.parseUuids(Tools.device.device.getUuids().toString().getBytes());
-        mBluetoothAdapter.startLeScan(new UUID[]{uuids.get(0)}, mLeScanCallback);
+        }, 3);
+        mBluetoothAdapter.startLeScan(mLeScanCallback);
     }
 
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {

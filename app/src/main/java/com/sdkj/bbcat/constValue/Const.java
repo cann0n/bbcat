@@ -135,6 +135,19 @@ public class Const {
     public static final String GET_AVATARS = DOMAIN + "/user/getUsersInfo";
 
     /**
+     * 保存好友
+     */
+    public static final String SAVE_FRIENDS = DOMAIN + "/user/addFriend";
+    /**
+     *查询通讯录
+     */
+    public static final String GET_FRIENDS = DOMAIN + "/user/getFriends";
+    /**
+     *删除好友
+     */
+    public static final String DELETE_FRIENDS = DOMAIN + "/user/deleteFriend";
+
+    /**
      * 关注
      */
     public static final String DO_FOLLOW = DOMAIN + "/circle/follow";

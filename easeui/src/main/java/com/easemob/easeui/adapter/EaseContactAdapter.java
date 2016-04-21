@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.easemob.easeui.R;
 import com.easemob.easeui.domain.EaseUser;
 import com.easemob.easeui.utils.EaseUserUtils;
@@ -87,7 +89,6 @@ public class EaseContactAdapter extends ArrayAdapter<EaseUser> implements Sectio
         holder.nameView.setText(user.getNick());
         //设置头像
         EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
-        
        
         if(primaryColor != 0)
             holder.nameView.setTextColor(primaryColor);

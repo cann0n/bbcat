@@ -35,6 +35,7 @@ import com.huaxi100.networkapp.network.HttpUtils;
 import com.huaxi100.networkapp.network.PostParams;
 import com.huaxi100.networkapp.network.RespJSONObjectListener;
 import com.huaxi100.networkapp.utils.SpUtil;
+import com.huaxi100.networkapp.utils.Utils;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.SimpleActivity;
 import com.sdkj.bbcat.bean.FriendVo;
@@ -184,10 +185,12 @@ public class AddContactActivity extends SimpleActivity {
 				dismissDialog();
 				RespVo<FriendVo> respVo=GsonTools.getVo(jsonObject.toString(),RespVo.class);
 				if(respVo.isSuccess()){
-					searchedUserLayout.setVisibility(View.VISIBLE);
 					List<FriendVo> friendVo=respVo.getListData(jsonObject, FriendVo.class);
-					nameText.setText(friendVo.get(0).getNickname());
-					Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(friendVo.get(0).getAvatar())).into(avatar);
+					if(!Utils.isEmpty(friendVo)){
+						searchedUserLayout.setVisibility(View.VISIBLE);
+						nameText.setText(friendVo.get(0).getNickname());
+						Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(friendVo.get(0).getAvatar())).into(avatar);
+					}
 				}
 				
 			}

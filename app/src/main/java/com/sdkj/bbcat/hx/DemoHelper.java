@@ -561,8 +561,6 @@ public class DemoHelper {
             msg.setFrom(username);
             msg.setTime(System.currentTimeMillis());
             msg.setReason(reason);
-            Log.d(TAG, username + "请求加你为好友,reason: " + reason);
-            // 设置相应status
             msg.setStatus(InviteMessage.InviteMesageStatus.BEINVITEED);
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
@@ -588,12 +586,12 @@ public class DemoHelper {
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
             Toast.makeText(appContext,username + "同意了你的好友请求",Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post(new CommunityPage.ConnectEvent(4));
         }
 
         @Override
         public void onContactRefused(String username) {
             // 参考同意，被邀请实现此功能,demo未实现
-            Log.d(username, username + "拒绝了你的好友请求");
             Toast.makeText(appContext,username + "拒绝了你的好友请求",Toast.LENGTH_SHORT).show();
         }
 
@@ -815,6 +813,15 @@ public class DemoHelper {
     }
     
     /**
+     * 设置当前用户的环信id
+     * @param username
+     */
+    public void setCurrentUserName(String username){
+    	this.username = username;
+    	demoModel.setCurrentUserName(username);
+    }
+
+    /**
      * 获取好友list
      *
      * @return
@@ -823,17 +830,8 @@ public class DemoHelper {
         if (isLoggedIn() && contactList == null) {
             contactList = demoModel.getContactList();
         }
-        
+
         return contactList;
-    }
-    
-    /**
-     * 设置当前用户的环信id
-     * @param username
-     */
-    public void setCurrentUserName(String username){
-    	this.username = username;
-    	demoModel.setCurrentUserName(username);
     }
     
     /**

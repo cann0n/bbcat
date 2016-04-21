@@ -1,50 +1,50 @@
 package com.sdkj.bbcat.fragment;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
-import com.easemob.easeui.EaseConstant;
+import com.easemob.easeui.adapter.EaseContactAdapter;
 import com.easemob.easeui.domain.EaseUser;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.easeui.widget.EaseContactList;
+import com.easemob.easeui.widget.EaseSidebar;
 import com.easemob.exceptions.EaseMobException;
-import com.easemob.util.EMLog;
-import com.easemob.util.NetUtils;
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.SpUtil;
+import com.huaxi100.networkapp.utils.Utils;
+import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.TabUiActivity;
 import com.sdkj.bbcat.activity.community.ChatActivity;
+import com.sdkj.bbcat.bean.FriendVo;
+import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.Constant;
+import com.sdkj.bbcat.constValue.SimpleUtils;
 import com.sdkj.bbcat.hx.DemoHelper;
 import com.sdkj.bbcat.hx.InviteMessgeDao;
 import com.sdkj.bbcat.hx.UserDao;
-import com.sdkj.bbcat.hx.activity.GroupsActivity;
 import com.sdkj.bbcat.hx.activity.NewFriendsMsgActivity;
 import com.sdkj.bbcat.widget.ContactItemView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,33 +61,66 @@ import de.greenrobot.event.EventBus;
  */
 public class ContactFragment extends BaseFragment {
 
-    private ContactSyncListener contactSyncListener;
-    private BlackListSyncListener blackListSyncListener;
-    private ContactInfoSyncListener contactInfoSyncListener;
-    private View loadingView;
+    //    private ContactSyncListener contactSyncListener;
+//    private BlackListSyncListener blackListSyncListener;
+//    private ContactInfoSyncListener contactInfoSyncListener;
+//    private View loadingView;
     private ContactItemView applicationItem;
 
     private InviteMessgeDao inviteMessgeDao;
     protected List<EaseUser> contactList;
+
+    @ViewInject(R.id.list)
     protected ListView listView;
+
+    @ViewInject(R.id.sidebar)
+    private EaseSidebar sideBar;
+
+    @ViewInject(R.id.floating_header)
+    private TextView floating_header;
+
+    protected EaseContactAdapter adapter;
     protected List<String> blackList;
     protected Handler handler = new Handler();
     protected EaseUser toBeProcessUser;
+    private int position;
     protected String toBeProcessUsername;
     protected EaseContactList contactListLayout;
 
     protected FrameLayout contentContainer;
 
-
     private Map<String, EaseUser> contactsMap;
+
+    protected int primaryColor;
+    protected int primarySize;
+    protected boolean showSiderBar;
+    protected Drawable initialLetterBg;
+    protected int initialLetterColor;
+
 
     @Override
     protected void setListener() {
         EventBus.getDefault().register(this);
+
+//        TypedArray ta = activity.obtainStyledAttributes(attrs, com.easemob.easeui.R.styleable.EaseContactList);
+//        primaryColor = ta.getColor(com.easemob.easeui.R.styleable.EaseContactList_ctsListPrimaryTextColor, 0);
+//        primarySize = ta.getDimensionPixelSize(com.easemob.easeui.R.styleable.EaseContactList_ctsListPrimaryTextSize, 0);
+//        showSiderBar = ta.getBoolean(com.easemob.easeui.R.styleable.EaseContactList_ctsListShowSiderBar, true);
+//        initialLetterBg = ta.getDrawable(com.easemob.easeui.R.styleable.EaseContactList_ctsListInitialLetterBg);
+//        initialLetterColor = ta.getColor(com.easemob.easeui.R.styleable.EaseContactList_ctsListInitialLetterColor, 0);
+//        ta.recycle();
+        contactList = new ArrayList<>();
+        adapter = new EaseContactAdapter(activity, 0, contactList);
+        adapter.setPrimaryColor(primaryColor).setPrimarySize(primarySize).setInitialLetterBg(initialLetterBg).setInitialLetterColor(initialLetterColor);
+        listView.setAdapter(adapter);
+
+        sideBar.setListView(listView);
+
+
         contentContainer = (FrameLayout) rootView.findViewById(R.id.content_container);
 
         contactListLayout = (EaseContactList) rootView.findViewById(R.id.contact_list);
-        listView = contactListLayout.getListView();
+//        listView = contactListLayout.getListView();
 
 
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.em_contacts_header, null);
@@ -97,25 +130,41 @@ public class ContactFragment extends BaseFragment {
         //添加headerview
         listView.addHeaderView(headerView);
         //添加正在加载数据提示的loading view
-        loadingView = LayoutInflater.from(getActivity()).inflate(R.layout.em_layout_loading_data, null);
-        contentContainer.addView(loadingView);
+//        loadingView = LayoutInflater.from(getActivity()).inflate(R.layout.em_layout_loading_data, null);
+//        contentContainer.addView(loadingView);
         //注册上下文菜单
         registerForContextMenu(listView);
 
         //设置联系人数据
-        setContactsMap(DemoHelper.getInstance().getContactList());
+//        setContactsMap(DemoHelper.getInstance().getContactList());
 
         //黑名单列表
-        blackList = EMContactManager.getInstance().getBlackListUsernames();
-        contactList = new ArrayList<EaseUser>();
+//        blackList = EMContactManager.getInstance().getBlackListUsernames();
+//        contactList = new ArrayList<EaseUser>();
         // 获取设置contactlist
-        getContactList();
-        //init list
-        contactListLayout.init(contactList);
+//        agree();
+        refresh();
+
+//        getContactList();
+
+//        contactSyncListener = new ContactSyncListener();
+//        DemoHelper.getInstance().addSyncContactListener(contactSyncListener);
+
+//        blackListSyncListener = new BlackListSyncListener();
+//        DemoHelper.getInstance().addSyncBlackListListener(blackListSyncListener);
+//
+//        contactInfoSyncListener = new ContactInfoSyncListener();
+//        DemoHelper.getInstance().getUserProfileManager().addSyncContactInfoListener(contactInfoSyncListener);
+
+//        if (!DemoHelper.getInstance().isContactsSyncedWithServer()) {
+//            loadingView.setVisibility(View.VISIBLE);
+//        } else {
+//            loadingView.setVisibility(View.GONE);
+//        }
+
 
         if (listItemClickListener != null) {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     EaseUser user = (EaseUser) listView.getItemAtPosition(position);
@@ -148,39 +197,25 @@ public class ContactFragment extends BaseFragment {
                 EventBus.getDefault().post(mainEvent);
             }
         });
-
-        contactSyncListener = new ContactSyncListener();
-        DemoHelper.getInstance().addSyncContactListener(contactSyncListener);
-
-        blackListSyncListener = new BlackListSyncListener();
-        DemoHelper.getInstance().addSyncBlackListListener(blackListSyncListener);
-
-        contactInfoSyncListener = new ContactInfoSyncListener();
-        DemoHelper.getInstance().getUserProfileManager().addSyncContactInfoListener(contactInfoSyncListener);
-
-        if (!DemoHelper.getInstance().isContactsSyncedWithServer()) {
-            loadingView.setVisibility(View.VISIBLE);
-        } else {
-            loadingView.setVisibility(View.GONE);
-        }
+        refresh();
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (contactSyncListener != null) {
-            DemoHelper.getInstance().removeSyncContactListener(contactSyncListener);
-            contactSyncListener = null;
-        }
-
-        if (blackListSyncListener != null) {
-            DemoHelper.getInstance().removeSyncBlackListListener(blackListSyncListener);
-        }
-
-        if (contactInfoSyncListener != null) {
-            DemoHelper.getInstance().getUserProfileManager().removeSyncContactInfoListener(contactInfoSyncListener);
-        }
+//        if (contactSyncListener != null) {
+//            DemoHelper.getInstance().removeSyncContactListener(contactSyncListener);
+//            contactSyncListener = null;
+//        }
+//
+//        if (blackListSyncListener != null) {
+//            DemoHelper.getInstance().removeSyncBlackListListener(blackListSyncListener);
+//        }
+//
+//        if (contactInfoSyncListener != null) {
+//            DemoHelper.getInstance().getUserProfileManager().removeSyncContactInfoListener(contactInfoSyncListener);
+//        }
         EventBus.getDefault().unregister(this);
     }
 
@@ -207,10 +242,10 @@ public class ContactFragment extends BaseFragment {
     public void deleteContact(final EaseUser tobeDeleteUser) {
         String st1 = getResources().getString(R.string.deleting);
         final String st2 = getResources().getString(R.string.Delete_failed);
-        final ProgressDialog pd = new ProgressDialog(getActivity());
-        pd.setMessage(st1);
-        pd.setCanceledOnTouchOutside(false);
-        pd.show();
+//        final ProgressDialog pd = new ProgressDialog(getActivity());
+//        pd.setMessage(st1);
+//        pd.setCanceledOnTouchOutside(false);
+//        pd.show();
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -221,16 +256,16 @@ public class ContactFragment extends BaseFragment {
                     DemoHelper.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            pd.dismiss();
+                            adapter.notifyDataSetChanged();
                             contactList.remove(tobeDeleteUser);
-                            contactListLayout.refresh();
 
                         }
                     });
+
                 } catch (final Exception e) {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            pd.dismiss();
+//                            pd.dismiss();
                             Toast.makeText(getActivity(), st2 + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -242,73 +277,74 @@ public class ContactFragment extends BaseFragment {
 
     }
 
-    class ContactSyncListener implements DemoHelper.DataSyncListener {
-        @Override
-        public void onSyncComplete(final boolean success) {
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    getActivity().runOnUiThread(new Runnable() {
+//    class ContactSyncListener implements DemoHelper.DataSyncListener {
+//        @Override
+//        public void onSyncComplete(final boolean success) {
+//            getActivity().runOnUiThread(new Runnable() {
+//                public void run() {
+//                    getActivity().runOnUiThread(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            if (success) {
+//                                loadingView.setVisibility(View.GONE);
+//                                refresh();
+//                            } else {
+//                                String s1 = getResources().getString(R.string.get_failed_please_check);
+//                                Toast.makeText(getActivity(), s1, Toast.LENGTH_SHORT).show();
+//                                loadingView.setVisibility(View.GONE);
+//                            }
+//                        }
+//
+//                    });
+//                }
+//            });
+//        }
+//
+//    }
 
-                        @Override
-                        public void run() {
-                            if (success) {
-                                loadingView.setVisibility(View.GONE);
-                                refresh();
-                            } else {
-                                String s1 = getResources().getString(R.string.get_failed_please_check);
-                                Toast.makeText(getActivity(), s1, Toast.LENGTH_SHORT).show();
-                                loadingView.setVisibility(View.GONE);
-                            }
-                        }
-
-                    });
-                }
-            });
-        }
-
-    }
-
-    class BlackListSyncListener implements DemoHelper.DataSyncListener {
-
-        @Override
-        public void onSyncComplete(boolean success) {
-            getActivity().runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    blackList = EMContactManager.getInstance().getBlackListUsernames();
-                    refresh();
-                }
-
-            });
-        }
-
-    }
+//    class BlackListSyncListener implements DemoHelper.DataSyncListener {
+//
+//        @Override
+//        public void onSyncComplete(boolean success) {
+//            getActivity().runOnUiThread(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    blackList = EMContactManager.getInstance().getBlackListUsernames();
+//                    refresh();
+//                }
+//
+//            });
+//        }
+//
+//    }
 
     ;
-
-    class ContactInfoSyncListener implements DemoHelper.DataSyncListener {
-
-        @Override
-        public void onSyncComplete(final boolean success) {
-            getActivity().runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    loadingView.setVisibility(View.GONE);
-                    if (success) {
-                        refresh();
-                    }
-                }
-            });
-        }
-
-    }
+//
+//    class ContactInfoSyncListener implements DemoHelper.DataSyncListener {
+//
+//        @Override
+//        public void onSyncComplete(final boolean success) {
+//            getActivity().runOnUiThread(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    loadingView.setVisibility(View.GONE);
+//                    if (success) {
+//                        refresh();
+//                    }
+//                }
+//            });
+//        }
+//
+//    }
 
     public void refresh() {
-        getContactList();
-        contactListLayout.refresh();
+//        getContactList();
+//        contactListLayout.refresh();
         showInviteMsg();
+        agree();
     }
 
     public void showInviteMsg() {
@@ -367,11 +403,77 @@ public class ContactFragment extends BaseFragment {
 
     }
 
+    private void agree() {
+        HttpUtils.getJSONObject(activity, SimpleUtils.buildUrl(activity, Const.GET_FRIENDS), new RespJSONObjectListener(activity) {
+            public void getResp(JSONObject jsonObject) {
+                RespVo<FriendVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                if (respVo.isSuccess()) {
+                    List<FriendVo> data = respVo.getListData(jsonObject, FriendVo.class);
+                    if (!Utils.isEmpty(data)) {
+                        contactList.clear();
+                        for (FriendVo friendVo : data) {
+                            EaseUser user = new EaseUser(friendVo.getMobile());
+                            user.setAvatar(friendVo.getAvatar());
+                            user.setNick(friendVo.getNickname());
+                            EaseCommonUtils.setUserInitialLetter(user);
+                            contactList.add(user);
+                        }
+
+                        Collections.sort(contactList, new Comparator<EaseUser>() {
+
+                            @Override
+                            public int compare(EaseUser lhs, EaseUser rhs) {
+                                if (lhs.getInitialLetter().equals(rhs.getInitialLetter())) {
+                                    return lhs.getNick().compareTo(rhs.getNick());
+                                } else {
+                                    if ("#".equals(lhs.getInitialLetter())) {
+                                        return 1;
+                                    } else if ("#".equals(rhs.getInitialLetter())) {
+                                        return -1;
+                                    }
+                                    return lhs.getInitialLetter().compareTo(rhs.getInitialLetter());
+                                }
+
+                            }
+                        });
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void doFailed() {
+            }
+        });
+    }
+
+    private void delete(final EaseUser tobeDeleteUser, final int position) {
+        PostParams params = new PostParams();
+        params.put("phone", tobeDeleteUser.getUsername());
+        HttpUtils.postJSONObject(activity, Const.DELETE_FRIENDS, SimpleUtils.buildUrl(activity, params), new RespJSONObjectListener(activity) {
+                    public void getResp(JSONObject jsonObject) {
+                        RespVo<FriendVo> respVo = GsonTools.getVo(jsonObject.toString(), RespVo.class);
+                        if (respVo.isSuccess()) {
+                            deleteContact(tobeDeleteUser);
+                        }
+                    }
+
+                    @Override
+                    public void doFailed() {
+                    }
+                }
+
+        );
+    }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         toBeProcessUser = (EaseUser) listView.getItemAtPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
         toBeProcessUsername = toBeProcessUser.getUsername();
+        this.position = position;
         getActivity().getMenuInflater().inflate(R.menu.em_context_contact_list, menu);
     }
 
@@ -380,10 +482,12 @@ public class ContactFragment extends BaseFragment {
         if (item.getItemId() == R.id.delete_contact) {
             try {
                 // 删除此联系人
-                deleteContact(toBeProcessUser);
+//                deleteContact(toBeProcessUser);
                 // 删除相关的邀请消息
-                InviteMessgeDao dao = new InviteMessgeDao(getActivity());
-                dao.deleteMessage(toBeProcessUser.getUsername());
+//                InviteMessgeDao dao = new InviteMessgeDao(getActivity());
+//                dao.deleteMessage(toBeProcessUser.getUsername());
+                delete(toBeProcessUser, position);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -433,7 +537,7 @@ public class ContactFragment extends BaseFragment {
     }
 
     public void onEventMainThread(CommunityPage.ConnectEvent event) {
-        if (event.getType() == 2 || event.getType() == 4) {
+        if ( event.getType() == 4) {
             refresh();
         }
     }
@@ -443,11 +547,11 @@ public class ContactFragment extends BaseFragment {
     /**
      * 设置需要显示的数据map，key为环信用户id
      *
-     * @param contactsMap
+     * @param
      */
-    public void setContactsMap(Map<String, EaseUser> contactsMap) {
-        this.contactsMap = contactsMap;
-    }
+//    public void setContactsMap(Map<String, EaseUser> contactsMap) {
+//        this.contactsMap = contactsMap;
+//    }
 
     public interface EaseContactListItemClickListener {
         /**
