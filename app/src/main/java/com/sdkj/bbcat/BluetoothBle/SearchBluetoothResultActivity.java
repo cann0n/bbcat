@@ -69,8 +69,8 @@ public class SearchBluetoothResultActivity extends SimpleActivity {
                         return;
                     }
                     if (Tools.device != null) {
-                        Tools.device.disconnectedDevice();
-                        Tools.device = null;
+//                        Tools.device.disconnectedDevice();
+//                        Tools.device = null;
                     }
                     final EditText et = (EditText) makeView(R.layout.view_blue_pass);
                     final AlertDialog.Builder builder = new AlertDialog.Builder(activity);

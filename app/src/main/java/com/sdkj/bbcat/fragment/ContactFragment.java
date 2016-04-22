@@ -258,7 +258,6 @@ public class ContactFragment extends BaseFragment {
                         public void run() {
                             adapter.notifyDataSetChanged();
                             contactList.remove(tobeDeleteUser);
-
                         }
                     });
 
