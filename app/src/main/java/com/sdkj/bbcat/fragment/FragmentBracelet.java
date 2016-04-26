@@ -92,17 +92,12 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
 
     private static BluetoothDevice selectDevice;
 
-    private static String tempPass = "";
-
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             new Thread() {
                 public void run() {
-//                    Tools.device = new RFLampDevice(activity, selectDevice);
-//                    Tools.device.reConnected();
-                            if(Tools.device!=null){
-                                Tools.device.reConnected();
-                            }
+                    if (Tools.device == null) return;
+                    Tools.device.reConnected();
                 }
             }.start();
         }
@@ -186,16 +181,12 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
         if (v == mScanBraceletBtn) {
             if ("扫描手环".equals(mScanBraceletBtn.getText().toString())) {
                 activity.skip(SearchBluetoothActivity.class);
-            } else if ("断开连接".equals(mScanBraceletBtn.getText().toString())) {
-                if (Tools.device != null && Tools.device.isConnected()) {
-                    Tools.device.disconnectedDevice();
-                }
-                mScanBraceletBtn.setText("重新连接");
-            } else if ("重新连接".equals(mScanBraceletBtn.getText().toString())) {
+            }  else if ("重新连接".equals(mScanBraceletBtn.getText().toString())) {
                 Message msg = handler.obtainMessage();
                 handler.sendMessage(msg);
+                mScanBraceletState.setText("正在重连");
                 mScanBraceletBtn.setText("正在重连");
-            }
+            } 
         }
     }
 
@@ -205,12 +196,13 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
             mScanBraceletState.setText(status.getStatus());
         }
         if (!Utils.isEmpty(status.passWord)) {
-            tempPass = status.passWord;
             selectDevice = status.device;
-            if(Tools.device==null){
+            if (Tools.device == null) {
                 Tools.device = new RFLampDevice(activity, status.device);
             }
-            Tools.device.sendUpdate(CommandUtil.inputPass(tempPass));
+            if (!Tools.device.isConnected()) {
+                Tools.device.reConnected();
+            }
         }
     }
 
@@ -264,8 +256,6 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                         evnent.passRight = false;
                         EventBus.getDefault().post(evnent);
                     } else if (result == 1) {
-                        SpUtil sp = new SpUtil(activity, Const.SP_NAME);
-                        sp.setValue(Const.BLUE_PASS, tempPass);
                         SearchBluetoothResultActivity.ConnectSuccess evnent = new SearchBluetoothResultActivity.ConnectSuccess();
                         evnent.passRight = true;
                         EventBus.getDefault().post(evnent);
@@ -278,36 +268,35 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                         String tempData = StringHexUtils.Bytes2HexString(value);
 
                         double t = Double.parseDouble(new BigInteger(tempData.substring(16, 20), 16).toString()) / 10;
+                        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+                        float lastTemp=sp.getFloatValue(Const.NOTIFY_value);
+                        int standard=sp.getIntegerValue(Const.NOTIFY_1_interval);
+                        if(lastTemp!=0){
+                            if(Math.abs(t-lastTemp)>standard){
+                                activity.toast("踢被子了");
+                            }
+                        }
+                        sp.setValue(Const.NOTIFY_value, (float) t);
                         double j = Double.parseDouble(new BigInteger(tempData.substring(21, 25), 16).toString()) / 10;
                         bra_temperature.setText(t + "");
                         bra_burncalories.setText(j + "");
-
-//                        if (sin < 20) {
-//                            image.setImageResource(R.drawable.icon_signal_4);
-//                        } else if (sin > 20 && sin < 50) {
-//                            image.setImageResource(R.drawable.icon_signal_3);
-//                        } else {
-//                            image.setImageResource(R.drawable.icon_signal_2);
-//                        }
                     }
                 }
             } else if (action.equals(LightBLEService.ACTION_GATT_CONNECTED)) {
-                mScanBraceletState.setText("已连接");
-                mScanBraceletBtn.setText("断开连接");
-                SpUtil sp = new SpUtil(activity, Const.SP_NAME);
-                if (!Utils.isEmpty(sp.getStringValue(Const.BLUE_PASS))) {
-                    Tools.device.sendUpdate(CommandUtil.inputPass(tempPass));
-                }
+//                mScanBraceletBtn.setText("已连接");
+//                mScanBraceletState.setText("已连接");
             } else if (action.equals(LightBLEService.ACTION_GATT_DISCONNECTED)) {
                 mScanBraceletState.setText("已经断开连接");
                 mScanBraceletBtn.setText("重新连接");
                 isConnected = false;
             } else if (action.equals("onDescriptorWrite")) {
                 isConnected = true;
-//                if (!Utils.isEmpty(tempPass)) {
-//                    Tools.device.sendUpdate(CommandUtil.inputPass(tempPass));
-//                }
-                mScanBraceletState.setText("开启通知");
+                mScanBraceletBtn.setText("已连接");
+                mScanBraceletState.setText("已连接");
+                SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+                if (!Utils.isEmpty(sp.getStringValue(Const.BLUE_PASS))&&Tools.device!=null&&Tools.device.isConnected()) {
+                    Tools.device.sendUpdate(CommandUtil.inputPass(sp.getStringValue(Const.BLUE_PASS)));
+                }
             } else if (action.equals(LightBLEService.ACTION_GATT_SERVICES_DISCOVERED)) {
                 System.out.println("正在搜索服务");
             } else if (action.equals("正在连接")) {
@@ -320,18 +309,24 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
     private void sendCommands() {
 
         //设置自动温度和活动量检测使能
-        Tools.device.sendUpdate(CommandUtil.setCaryRd());
-        //获取温度和活动量
-        Tools.device.sendUpdate(CommandUtil.getTemperature());
-        Tools.device.sendUpdate(CommandUtil.getCaryRd());
-        
+        if(Tools.device!=null){
+            Tools.device.sendUpdate(CommandUtil.setCaryRd());
+            //获取温度和活动量
+            Tools.device.sendUpdate(CommandUtil.getTemperature());
+            Tools.device.sendUpdate(CommandUtil.getCaryRd());
+        }
+
     }
 
     class UploadLocalReceiver extends BroadcastReceiver {
 
         private void init(final Context context) {
             if (Tools.device != null) {
-                sendCommands();
+                if (Tools.device.isConnected()) {
+                    sendCommands();
+                } else {
+                    Tools.device.reConnected();
+                }
             }
         }
 
@@ -340,7 +335,7 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
             String action = intent.getAction();
             if (Const.ACTION_UPLOAD_CAR_LOCAL.equals(action)) {
                 if (SimpleUtils.isLogin(context)) {
-//                    init(context);
+                    init(context);
 //                    scanLeDevice();
                 }
             }

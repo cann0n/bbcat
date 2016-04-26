@@ -60,6 +60,9 @@
             android:name=".BluetoothBle.SearchBluetoothActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".BluetoothBle.BlueSettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.MedicalOnlineActivity"
             android:screenOrientation="portrait"/>
         <activity

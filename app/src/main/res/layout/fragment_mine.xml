@@ -428,7 +428,7 @@
                     android:drawablePadding="8dp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="黑名单"
+                    android:text="手环设置"
                     android:textColor="@color/default_black"
                     android:textSize="20sp"/>
 

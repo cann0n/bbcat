@@ -97,8 +97,10 @@ public class SearchBluetoothActivity extends SimpleActivity {
 
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
-            listDevice.put(device.getAddress(), device);
-            signals.put(device.getAddress(), rssi);
+            if(!Utils.isEmpty(device.getName())){
+                listDevice.put(device.getAddress(), device);
+                signals.put(device.getAddress(), rssi);
+            }
         }
     };
 

@@ -17,6 +17,7 @@ import com.huaxi100.networkapp.utils.SpUtil;
 import com.huaxi100.networkapp.xutils.view.annotation.ViewInject;
 import com.huaxi100.networkapp.xutils.view.annotation.event.OnClick;
 import com.sdkj.bbcat.BbcatApp;
+import com.sdkj.bbcat.BluetoothBle.BlueSettingsActivity;
 import com.sdkj.bbcat.R;
 import com.sdkj.bbcat.activity.MyDynamicActivity;
 import com.sdkj.bbcat.activity.loginandregister.BlacklistActivity;
@@ -74,7 +75,7 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
     private RelativeLayout mPersonRL;
     @ViewInject(R.id.pc_qitaall)
     private RelativeLayout mQitaRL;
-    
+
     @ViewInject(R.id.tv_version)
     private TextView tv_version;
 
@@ -94,7 +95,7 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
         mRingRL.setOnClickListener(this);
         mPersonRL.setOnClickListener(this);
         mQitaRL.setOnClickListener(this);
-        tv_version.setText("当前版本:"+Const.APK_VERSION);
+        tv_version.setText("当前版本:" + Const.APK_VERSION);
     }
 
     private void initData() {
@@ -163,7 +164,8 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
 
         /**成长足迹*/
         else if (v == mZuJiRL) {
-            activity.skip(BlacklistActivity.class);
+//            activity.skip(BlacklistActivity.class);
+            activity.skip(BlueSettingsActivity.class);
         }
 
         /**我的圈圈*/
@@ -184,18 +186,19 @@ public class FragmentMine extends BaseFragment implements View.OnClickListener {
             SimpleUtils.loginOut(activity);
         }
     }
+
     public void onEventMainThread(RefreshEvent event) {
-        SpUtil sp=new SpUtil(activity,Const.SP_NAME);
+        SpUtil sp = new SpUtil(activity, Const.SP_NAME);
         Glide.with(activity.getApplicationContext()).load(SimpleUtils.getImageUrl(sp.getStringValue(Const.AVATAR))).into(mHead);
 //        mUnLoginLL.setVisibility(View.GONE);
 //        mName.setVisibility(View.VISIBLE);
         mName.setText(sp.getStringValue(Const.NICKNAME));
 //        getUserInfo();
     }
-    
-    
-    public  static class RefreshEvent{
-        
+
+
+    public static class RefreshEvent {
+
     }
 
     @Override

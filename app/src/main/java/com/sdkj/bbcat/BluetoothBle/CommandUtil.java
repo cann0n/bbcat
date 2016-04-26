@@ -2,6 +2,8 @@ package com.sdkj.bbcat.BluetoothBle;
 
 import android.text.TextUtils;
 
+import com.huaxi100.networkapp.utils.Utils;
+
 /**
  * Created by ${Rhino} on 2016/4/12 11:44
  */

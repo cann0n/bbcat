@@ -142,7 +142,7 @@ public abstract class TabUiActivity extends SimpleActivity {
         PendingIntent sendIntent = PendingIntent.getBroadcast(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         am.cancel(sendIntent);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5 * 1000, sendIntent);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10 * 1000, sendIntent);
     }
     
     private void initTabs(int tabsSize) {

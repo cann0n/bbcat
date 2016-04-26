@@ -18,7 +18,7 @@ public class Const {
     public static final String BLUE_PASS = "bbcat_blue_pass";
 
 
-    public static final String APK_VERSION = "0.1";
+    public static final String APK_VERSION = "0.2";
 
 
     public static final String CLIENT = "android";
@@ -27,12 +27,35 @@ public class Const {
     public static final String NOTIFY = "bbcat_notify";
     public static final String NOTIFY_TIME = "bbcat_notify_time";
     public static final String NOTIFY_MSG = "bbcat_notify_msg";
-    public static final String ACTION_UPLOAD_CAR_LOCAL = "bbcat_send_data";
+    public static final String ACTION_UPLOAD_CAR_LOCAL = "bbcat_upload_car_local";
+    /**
+     * 踢被子提醒
+     */
+    public static final String NOTIFY_1 = "bbcat_notify_1";
+    public static final String NOTIFY_1_TEMP = "bbcat_notify1_temp";
+    public static final String NOTIFY_1_interval = "bbcat_notify1_interval";
+    public static final String NOTIFY_value = "bbcat_notify_value";
+    /**
+     * 发热提醒
+     */
+    public static final String NOTIFY_2 = "bbcat_notify_2";
+    public static final String NOTIFY_2_TEMP = "bbcat_notify2_temp";
+    public static final String NOTIFY_2_interval = "bbcat_notify2_interval";
+    /**
+     * 睡眠提醒
+     */
+    public static final String NOTIFY_3 = "bbcat_notify_3";
+    public static final String NOTIFY_3_TEMP = "bbcat_notify3_temp";
+    public static final String NOTIFY_3_interval = "bbcat_notify3_interval";
+    /**
+     * 蓝牙防丢提醒
+     */
+    public static final String NOTIFY_4 = "bbcat_notify_4";
 
 
     //网络请求信息配置
     public static final String DOMAIN = "http://120.27.146.227/api/";
-    
+
     //原地址
 //    public static final String DOMAIN = "http://120.26.212.241/api/";
 
@@ -89,6 +112,11 @@ public class Const {
     public static final String MY_CIRCLE = DOMAIN + "/circle/index";
 
     /**
+     * 手环标准
+     */
+    public static final String RING_RULE = DOMAIN + "/band/standard";
+
+    /**
      * 医院最新活动
      */
     public static final String HOSPITAL_ACTIVITY = DOMAIN + "/Hospital/activity";
@@ -139,11 +167,11 @@ public class Const {
      */
     public static final String SAVE_FRIENDS = DOMAIN + "/user/addFriend";
     /**
-     *查询通讯录
+     * 查询通讯录
      */
     public static final String GET_FRIENDS = DOMAIN + "/user/getFriends";
     /**
-     *删除好友
+     * 删除好友
      */
     public static final String DELETE_FRIENDS = DOMAIN + "/user/deleteFriend";
 
@@ -310,17 +338,17 @@ public class Const {
     public static final String SET_NOTIFY = DOMAIN + "Baby/setNoticeTime";
 
     /**
-     *删除我的动态
+     * 删除我的动态
      */
     public static final String DELETE_NEWS = DOMAIN + "index/delNews";
 
     /**
-     *我的动态
+     * 我的动态
      */
     public static final String MY_DYNAMIC = DOMAIN + "circle/lists";
 
     /**
-     *删除喂养记录
+     * 删除喂养记录
      */
     public static final String DELETE_FEED_RECORD = DOMAIN + "Band/feedDel";
 }

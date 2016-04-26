@@ -68,10 +68,6 @@ public class SearchBluetoothResultActivity extends SimpleActivity {
                         toast("请选择手环设备进行链接");
                         return;
                     }
-                    if (Tools.device != null) {
-//                        Tools.device.disconnectedDevice();
-//                        Tools.device = null;
-                    }
                     final EditText et = (EditText) makeView(R.layout.view_blue_pass);
                     final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     builder.setTitle("请输入密码").
@@ -87,6 +83,8 @@ public class SearchBluetoothResultActivity extends SimpleActivity {
                             change.passWord = et.getText().toString();
                             change.device = device;
                             EventBus.getDefault().post(change);
+                            SpUtil sp = new SpUtil(activity, Const.SP_NAME);
+                            sp.setValue(Const.BLUE_PASS, et.getText().toString());
                         }
                     }).setNegativeButton("取消", null).show();
                 }
@@ -101,10 +99,6 @@ public class SearchBluetoothResultActivity extends SimpleActivity {
             finish();
         } else {
             toast("密码错误,请重试");
-            if (Tools.device != null && Tools.device.isConnected()) {
-                Tools.device.disconnectedDevice();
-                Tools.device = null;
-            }
         }
     }
 

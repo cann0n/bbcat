@@ -2,10 +2,21 @@ package com.sdkj.bbcat;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huaxi100.networkapp.fragment.BaseFragment;
+import com.huaxi100.networkapp.network.HttpUtils;
+import com.huaxi100.networkapp.network.PostParams;
+import com.huaxi100.networkapp.network.RespJSONObjectListener;
+import com.huaxi100.networkapp.utils.GsonTools;
 import com.huaxi100.networkapp.utils.SpUtil;
+import com.huaxi100.networkapp.utils.Utils;
+import com.sdkj.bbcat.bean.CommentVo;
 import com.sdkj.bbcat.bean.LoginBean;
+import com.sdkj.bbcat.bean.RespVo;
 import com.sdkj.bbcat.bean.UserInfosBean;
 import com.sdkj.bbcat.constValue.Const;
 import com.sdkj.bbcat.constValue.SimpleUtils;
@@ -14,6 +25,8 @@ import com.sdkj.bbcat.fragment.CommunityPage;
 import com.sdkj.bbcat.fragment.FragmentMine;
 import com.sdkj.bbcat.fragment.HomePage;
 import com.sdkj.bbcat.fragment.NewsPage;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,4 +171,5 @@ public class MainActivity extends TabUiActivity {
         }
         return super.onKeyUp(keyCode, event);
     }
+            
 }
