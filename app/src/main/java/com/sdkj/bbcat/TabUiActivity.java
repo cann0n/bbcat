@@ -5,17 +5,26 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Pair;
 import android.util.SparseArray;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
 import com.huaxi100.networkapp.activity.BaseActivity;
 import com.huaxi100.networkapp.fragment.BaseFragment;
 import com.huaxi100.networkapp.utils.SpUtil;
@@ -144,7 +153,7 @@ public abstract class TabUiActivity extends SimpleActivity {
         am.cancel(sendIntent);
         am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10 * 1000, sendIntent);
     }
-    
+
     private void initTabs(int tabsSize) {
 
         tv_tab1.setText(tabNames.get(0));
@@ -179,7 +188,7 @@ public abstract class TabUiActivity extends SimpleActivity {
 
 
     public void switchFragment(int viewId) {
-        if (viewId == R.id.tv_3 || viewId == R.id.tv_tab4 || viewId == R.id.tv_tab5) {
+        if (viewId == R.id.tv_tab3 || viewId == R.id.tv_tab4 || viewId == R.id.tv_tab5) {
             if (!SimpleUtils.isLogin(activity)) {
                 skip(LoginActivity.class);
                 return;
@@ -237,7 +246,12 @@ public abstract class TabUiActivity extends SimpleActivity {
     public void onEventMainThread(MainEvent event) {
         if (event.getType() == 3) {
             showUnreadCount();
-        } 
+        }
+        if (event.getResId() != 0) {
+            if(!show){
+                showCusPopUp(event.getResId(), event.getTitle());
+            }
+        }
     }
 
     public static class MainEvent {
@@ -245,6 +259,25 @@ public abstract class TabUiActivity extends SimpleActivity {
          * 4:隐藏是否有未读消息
          */
         private int type;
+
+        private int resId;
+        private String title;
+
+        public int getResId() {
+            return resId;
+        }
+
+        public void setResId(int resId) {
+            this.resId = resId;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
         public int getType() {
             return type;
@@ -462,6 +495,40 @@ public abstract class TabUiActivity extends SimpleActivity {
             }
 
         });
+    }
+
+    boolean show=false;
+    private void showCusPopUp(int resID, String title) {
+        show=true;
+        View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_dialog_nitify, null);
+        final PopupWindow window = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, 800);
+        TextView tv_title = (TextView) popupView.findViewById(R.id.tv_title);
+        tv_title.setText(title);
+
+
+        ImageView iv_image = (ImageView) popupView.findViewById(R.id.iv_image);
+        iv_image.setImageResource(resID);
+        TextView tv_cancel = (TextView) popupView.findViewById(R.id.tv_cancel);
+        TextView tv_know = (TextView) popupView.findViewById(R.id.tv_know);
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                window.dismiss();
+                show=false;
+            }
+        });
+        tv_know.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                window.dismiss();
+                show=false;
+            }
+        });
+        window.setFocusable(true);
+        window.setBackgroundDrawable(new BitmapDrawable());
+        window.update();
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER_VERTICAL, 0, 0);
     }
 
     @Override

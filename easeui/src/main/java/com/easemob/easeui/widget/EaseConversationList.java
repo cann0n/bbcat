@@ -113,13 +113,7 @@ public class EaseConversationList extends ListView {
         }
     };
     
-
-    /**
-     * 获取所有会话
-     * 
-     * @param context
-     * @return
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        +    */
+   
     private List<EMConversation> loadConversationsWithRecentChat() {
         // 获取所有会话，包括陌生人
         Map<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
@@ -154,7 +148,7 @@ public class EaseConversationList extends ListView {
     /**
      * 根据最后一条消息的时间排序
      * 
-     * @param usernames
+     * @param 
      */
     private void sortConversationByLastChatTime(List<Pair<Long, EMConversation>> conversationList) {
         Collections.sort(conversationList, new Comparator<Pair<Long, EMConversation>>() {

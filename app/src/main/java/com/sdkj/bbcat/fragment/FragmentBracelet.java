@@ -46,6 +46,7 @@ import com.sdkj.bbcat.BluetoothBle.StringHexUtils;
 import com.sdkj.bbcat.BluetoothBle.Tools;
 import com.sdkj.bbcat.MainActivity;
 import com.sdkj.bbcat.R;
+import com.sdkj.bbcat.TabUiActivity;
 import com.sdkj.bbcat.activity.news.NewsDetailActivity;
 import com.sdkj.bbcat.bean.BraceletBotVo;
 import com.sdkj.bbcat.bean.NewsVo;
@@ -140,7 +141,7 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
         activity.registerReceiver(receiver, filter2);
 
     }
-
+    
     private void queryData() {
         HttpUtils.postJSONObject(activity, Const.GetBraBotDates, SimpleUtils.buildUrl(activity, new PostParams()), new RespJSONObjectListener(activity) {
             public void getResp(JSONObject obj) {
@@ -264,22 +265,31 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                     } else if (result == 2) {
                         String tempData = StringHexUtils.Bytes2HexString(value);
                         System.out.println("tempData = " + tempData);
-                    } else if (result == 3) {
+                    } else if (result == 4) {
                         String tempData = StringHexUtils.Bytes2HexString(value);
 
-                        double t = Double.parseDouble(new BigInteger(tempData.substring(16, 20), 16).toString()) / 10;
+//                        double t = Double.parseDouble(new BigInteger(tempData.substring(16, 20), 16).toString()) / 10;
+//                        double j = Double.parseDouble(new BigInteger(tempData.substring(21, 25), 16).toString()) / 10;
+
+                        double t = Double.parseDouble(new BigInteger(tempData.substring(2, 6), 16).toString()) / 10;
+                        bra_temperature.setText(t + "");
+//                        bra_burncalories.setText(j + "");
+                        
                         SpUtil sp=new SpUtil(activity,Const.SP_NAME);
                         float lastTemp=sp.getFloatValue(Const.NOTIFY_value);
-                        int standard=sp.getIntegerValue(Const.NOTIFY_1_interval);
+                        int standard=sp.getIntegerValue(Const.NOTIFY_1_TEMP);
+                        
                         if(lastTemp!=0){
                             if(Math.abs(t-lastTemp)>standard){
-                                activity.toast("踢被子了");
+                                TabUiActivity.MainEvent event=new TabUiActivity.MainEvent();
+                                event.setTitle("亲爱的妈妈，你的宝贝可能\n踢被子,请注意");
+                                event.setResId(R.drawable.icon_tibeizi);
+                                EventBus.getDefault().post(event);
                             }
                         }
-                        sp.setValue(Const.NOTIFY_value, (float) t);
-                        double j = Double.parseDouble(new BigInteger(tempData.substring(21, 25), 16).toString()) / 10;
-                        bra_temperature.setText(t + "");
-                        bra_burncalories.setText(j + "");
+                        if(t>0){
+                            sp.setValue(Const.NOTIFY_value, (float) t);
+                        }
                     }
                 }
             } else if (action.equals(LightBLEService.ACTION_GATT_CONNECTED)) {
@@ -301,7 +311,6 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
                 System.out.println("正在搜索服务");
             } else if (action.equals("正在连接")) {
                 mScanBraceletState.setText("正在连接");
-
             }
         }
     }
@@ -312,7 +321,8 @@ public class FragmentBracelet extends BaseFragment implements View.OnClickListen
         if(Tools.device!=null){
             Tools.device.sendUpdate(CommandUtil.setCaryRd());
             //获取温度和活动量
-            Tools.device.sendUpdate(CommandUtil.getTemperature());
+            Tools.device.sendUpdate(CommandUtil.startGetTemperature());
+            Tools.device.sendUpdate(CommandUtil.stopGetTemperature());
             Tools.device.sendUpdate(CommandUtil.getCaryRd());
         }
 

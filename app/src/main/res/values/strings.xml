@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bbcat</string>
+    <string name="app_name">步步猫</string>
 
     <string name="text_ack_msg">已读</string>
     <string name="text_delivered_msg">送达</string>

@@ -84,9 +84,58 @@ public class CommandUtil {
         return value;
     }
 
-    public static byte[] getTemperature(){
+//    public static byte[] getTemperature(){
+//        byte[] value = new byte[16];
+//        value[0] = getByte("09");
+//        value[1] = getByte("00");
+//        value[2] = getByte("00");
+//        value[3] = getByte("00");
+//        value[4] = getByte("00");
+//        value[5] = getByte("00");
+//        value[6] = getByte("00");
+//        value[7] = getByte("00");
+//        value[8] = getByte("00");
+//        value[9] = getByte("00");
+//        value[10] = getByte("00");
+//        value[11] = getByte("00");
+//        value[12] = getByte("00");
+//        value[13] = getByte("00");
+//        value[14] = getByte("00");
+//        int s = 0;
+//        for (int i = 0; i < 15; i++) {
+//            s += value[i];
+//        }
+//        value[15] = (byte) s;
+//        return value; 
+//    }
+
+    public static byte[] startGetTemperature(){
         byte[] value = new byte[16];
-        value[0] = getByte("09");
+        value[0] = getByte("5b");
+        value[1] = getByte("01");
+        value[2] = getByte("00");
+        value[3] = getByte("00");
+        value[4] = getByte("00");
+        value[5] = getByte("00");
+        value[6] = getByte("00");
+        value[7] = getByte("00");
+        value[8] = getByte("00");
+        value[9] = getByte("00");
+        value[10] = getByte("00");
+        value[11] = getByte("00");
+        value[12] = getByte("00");
+        value[13] = getByte("00");
+        value[14] = getByte("00");
+        int s = 0;
+        for (int i = 0; i < 15; i++) {
+            s += value[i];
+        }
+        value[15] = (byte) s;
+        return value;
+    }
+    public static byte[] stopGetTemperature(){
+        byte[] value = new byte[16];
+        value[0] = getByte("5b");
         value[1] = getByte("00");
         value[2] = getByte("00");
         value[3] = getByte("00");
@@ -106,7 +155,7 @@ public class CommandUtil {
             s += value[i];
         }
         value[15] = (byte) s;
-        return value; 
+        return value;
     }
     
     public static byte getByte(String trim) {
@@ -130,6 +179,8 @@ public class CommandUtil {
         }else if(command.equals("09")){
             //正确获取到活动量.电池电量.温度
             return  3;
+        }else if(command.equals("5B")){
+            return  4;
         }
         return -1;
     }

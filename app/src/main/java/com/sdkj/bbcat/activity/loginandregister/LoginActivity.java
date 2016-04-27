@@ -161,7 +161,13 @@ public class LoginActivity extends SimpleActivity implements View.OnClickListene
                         PreferenceManager.getInstance().setCurrentUserAvatar(SimpleUtils.getImageUrl(bean.getUserInfo().getAvatar()));
                         PreferenceManager.getInstance().setCurrentUserNick(bean.getUserInfo().getNickname());
                         sp_login.setValue(Const.PHONE, mAccountEt.getText().toString().trim());
-                        sp_login.setValue(Const.NOTIFY_MSG,respVo.getNotice_message());
+                        sp_login.setValue(Const.NOTIFY_MSG, respVo.getNotice_message());
+                        sp_login.setValue(Const.NOTIFY_1_interval, bean.getStandard().getQuilt().getInterval());
+                        sp_login.setValue(Const.NOTIFY_1_TEMP,bean.getStandard().getQuilt().getTemp());
+                        sp_login.setValue(Const.NOTIFY_2_interval,bean.getStandard().getFaver().getInterval());
+                        sp_login.setValue(Const.NOTIFY_2_TEMP,bean.getStandard().getFaver().getTemp());
+                        toast("温度差："+bean.getStandard().getQuilt().getTemp());
+                        
                         SimpleUtils.loginHx(activity.getApplicationContext());
                         Intent intent = new Intent();
                         intent.putExtra("alreadymody", true);

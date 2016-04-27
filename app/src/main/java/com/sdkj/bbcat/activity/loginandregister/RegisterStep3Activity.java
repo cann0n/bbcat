@@ -96,6 +96,11 @@ public class RegisterStep3Activity extends SimpleActivity {
                                         PreferenceManager.getInstance().setCurrentUserAvatar(SimpleUtils.getImageUrl(bean.getUserInfo().getAvatar()));
                                         PreferenceManager.getInstance().setCurrentUserNick(bean.getUserInfo().getNickname());
                                         sp_login.setValue(Const.PHONE, (String) getVo("0"));
+
+                                        sp_login.setValue(Const.NOTIFY_1_interval, bean.getStandard().getQuilt().getInterval());
+                                        sp_login.setValue(Const.NOTIFY_1_TEMP, bean.getStandard().getQuilt().getTemp());
+                                        sp_login.setValue(Const.NOTIFY_2_interval, bean.getStandard().getFaver().getInterval());
+                                        sp_login.setValue(Const.NOTIFY_2_TEMP,bean.getStandard().getFaver().getTemp());
                                         SimpleUtils.loginHx(activity.getApplicationContext());
 //                                        Intent intent = new Intent();
 //                                        intent.putExtra("alreadymody", true);
