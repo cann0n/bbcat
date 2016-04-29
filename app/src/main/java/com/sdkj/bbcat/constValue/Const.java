@@ -18,7 +18,7 @@ public class Const {
     public static final String BLUE_PASS = "bbcat_blue_pass";
 
 
-    public static final String APK_VERSION = "0.2";
+    public static final String APK_VERSION = "0.3";
 
 
     public static final String CLIENT = "android";

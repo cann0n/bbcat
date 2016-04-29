@@ -60,7 +60,7 @@ public class AutoScrollViewPager {
     public void loadAutoScrollViewPager(View view, List<?> data) {
 
         int width = AppUtils.getWidth(activity);
-        int height = 480;
+        int height = 460;
 //        int height = 9 * width / 16;
         lpointGroup = (LinearLayout) view.findViewById(R.id.index_viewgroup);
         lpointGroup.removeAllViews();
